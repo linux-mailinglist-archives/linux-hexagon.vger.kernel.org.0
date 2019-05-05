@@ -2,157 +2,129 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C7460131FF
-	for <lists+linux-hexagon@lfdr.de>; Fri,  3 May 2019 18:18:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F99713DAF
+	for <lists+linux-hexagon@lfdr.de>; Sun,  5 May 2019 08:15:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727652AbfECQSa (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 3 May 2019 12:18:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726267AbfECQSa (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 3 May 2019 12:18:30 -0400
-Received: from guoren-Inspiron-7460 (23.83.240.247.16clouds.com [23.83.240.247])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1DE0020651;
-        Fri,  3 May 2019 16:18:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1556900308;
-        bh=1gc+88gGR8xs/HHG6j+3eKyXyw0MdhLPFZmbxDlan0s=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ORHT3+AoYShsuuQO5PFoH4MN9lIuD27v03opdUhE7D6MhJ3ZFlrne2bcwdb1S/99e
-         JNCnsuMLUbfOQundyleyVhRpdJdwc193k7lyiJTj+1sl9zI38iCZlnHNebbBFtS/8d
-         UBobcwP26APlYC3LB4Vq9ec4UDgXUUcThKhfVnBY=
-Date:   Sat, 4 May 2019 00:18:08 +0800
-From:   Guo Ren <guoren@kernel.org>
-To:     Mike Rapoport <rppt@linux.ibm.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
+        id S1727174AbfEEGPn (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 5 May 2019 02:15:43 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51582 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726800AbfEEGPm (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Sun, 5 May 2019 02:15:42 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x4566Oxl038603
+        for <linux-hexagon@vger.kernel.org>; Sun, 5 May 2019 02:15:41 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 2s9qmnmmdu-1
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+        for <linux-hexagon@vger.kernel.org>; Sun, 05 May 2019 02:15:41 -0400
+Received: from localhost
+        by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
+        for <linux-hexagon@vger.kernel.org> from <rppt@linux.ibm.com>;
+        Sun, 5 May 2019 07:15:38 +0100
+Received: from b06cxnps3074.portsmouth.uk.ibm.com (9.149.109.194)
+        by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
+        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+        Sun, 5 May 2019 07:15:31 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+        by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x456FUUd61079648
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Sun, 5 May 2019 06:15:30 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EB15F42042;
+        Sun,  5 May 2019 06:15:29 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id BE8ED42047;
+        Sun,  5 May 2019 06:15:27 +0000 (GMT)
+Received: from rapoport-lnx (unknown [9.148.8.112])
+        by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+        Sun,  5 May 2019 06:15:27 +0000 (GMT)
+Date:   Sun, 5 May 2019 09:15:26 +0300
+From:   Mike Rapoport <rppt@linux.ibm.com>
+To:     Paul Burton <paul.burton@mips.com>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
         Catalin Marinas <catalin.marinas@arm.com>,
-        Palmer Dabbelt <palmer@sifive.com>, linux-mips@vger.kernel.org,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        linux-hexagon@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-arch@vger.kernel.org, Richard Weinberger <richard@nod.at>,
-        Helge Deller <deller@gmx.de>, x86@kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Sam Creasey <sammy@sammy.net>, Arnd Bergmann <arnd@arndb.de>,
-        linux-um@lists.infradead.org, linux-m68k@lists.linux-m68k.org,
         Greentime Hu <green.hu@gmail.com>,
-        nios2-dev@lists.rocketboards.org, Guan Xuetao <gxt@pku.edu.cn>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Richard Kuo <rkuo@codeaurora.org>,
-        Paul Burton <paul.burton@mips.com>,
-        linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 05/15] csky: switch to generic version of pte allocation
-Message-ID: <20190503161808.GA11596@guoren-Inspiron-7460>
+        Guan Xuetao <gxt@pku.edu.cn>, Guo Ren <guoren@kernel.org>,
+        Helge Deller <deller@gmx.de>, Ley Foon Tan <lftan@altera.com>,
+        Matthew Wilcox <willy@infradead.org>,
+        Matt Turner <mattst88@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Hocko <mhocko@suse.com>,
+        Palmer Dabbelt <palmer@sifive.com>,
+        Richard Kuo <rkuo@codeaurora.org>,
+        Richard Weinberger <richard@nod.at>,
+        Russell King <linux@armlinux.org.uk>,
+        Sam Creasey <sammy@sammy.net>,
+        "x86@kernel.org" <x86@kernel.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
+        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
+        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
+        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
+        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+        "nios2-dev@lists.rocketboards.org" <nios2-dev@lists.rocketboards.org>
+Subject: Re: [PATCH 01/15] asm-generic, x86: introduce generic
+ pte_{alloc,free}_one[_kernel]
 References: <1556810922-20248-1-git-send-email-rppt@linux.ibm.com>
- <1556810922-20248-6-git-send-email-rppt@linux.ibm.com>
- <20190503160348.GA9526@guoren-Inspiron-7460>
+ <1556810922-20248-2-git-send-email-rppt@linux.ibm.com>
+ <20190502190310.voenw3pwgpelmdgw@pburton-laptop>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190503160348.GA9526@guoren-Inspiron-7460>
+In-Reply-To: <20190502190310.voenw3pwgpelmdgw@pburton-laptop>
 User-Agent: Mutt/1.5.24 (2015-08-30)
+X-TM-AS-GCONF: 00
+x-cbid: 19050506-0028-0000-0000-0000036A7624
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19050506-0029-0000-0000-00002429E811
+Message-Id: <20190505061525.GC15755@rapoport-lnx>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-05_04:,,
+ signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ mlxlogscore=831 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.0.1-1810050000 definitions=main-1905050056
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Sat, May 04, 2019 at 12:03:48AM +0800, Guo Ren wrote:
+On Thu, May 02, 2019 at 07:03:11PM +0000, Paul Burton wrote:
 > Hi Mike,
 > 
-> Acked-by: Guo Ren <ren_guo@c-sky.com>
+> On Thu, May 02, 2019 at 06:28:28PM +0300, Mike Rapoport wrote:
+> > +/**
+> > + * pte_free_kernel - free PTE-level user page table page
+> > + * @mm: the mm_struct of the current context
+> > + * @pte_page: the `struct page` representing the page table
+> > + */
+> > +static inline void pte_free(struct mm_struct *mm, struct page *pte_page)
+> > +{
+> > +	pgtable_page_dtor(pte_page);
+> > +	__free_page(pte_page);
+> > +}
 > 
-> On Thu, May 02, 2019 at 06:28:32PM +0300, Mike Rapoport wrote:
-> > The csky implementation pte_alloc_one(), pte_free_kernel() and pte_free()
-> > is identical to the generic except of lack of __GFP_ACCOUNT for the user
-> > PTEs allocation.
-> > 
-> > Switch csky to use generic version of these functions.
-> Ok.
+> Nit: the comment names the wrong function (s/pte_free_kernel/pte_free/).
+
+Argh, evil copy-paste :)
+Thanks!
+ 
+> Thanks,
+>     Paul
 > 
-> > 
-> > The csky implementation of pte_alloc_one_kernel() is not replaced because
-> > it does not clear the allocated page but rather sets each PTE in it to a
-> > non-zero value.
-> Yes, we must set each PTE to _PAGE_GLOBAL because hardware refill the
-> MMU TLB entry with two PTEs and it use the result of pte0.global | pte1.global.
-                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
-                                              correct: pte0.global & pte1.global
-> If pte0 is valid and pte1 is invalid, we must set _PAGE_GLOBAL in
-> invalid pte entry. Fortunately, there is no performance issue.
-> 
-> > 
-> > The pte_free_kernel() and pte_free() versions on csky are identical to the
-> > generic ones and can be simply dropped.
-> Ok.
-> 
-> Best Regards
->  Guo Ren
-> 
-> > 
-> > Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> > ---
-> >  arch/csky/include/asm/pgalloc.h | 30 +++---------------------------
-> >  1 file changed, 3 insertions(+), 27 deletions(-)
-> > 
-> > diff --git a/arch/csky/include/asm/pgalloc.h b/arch/csky/include/asm/pgalloc.h
-> > index d213bb4..98c571670 100644
-> > --- a/arch/csky/include/asm/pgalloc.h
-> > +++ b/arch/csky/include/asm/pgalloc.h
-> > @@ -8,6 +8,9 @@
-> >  #include <linux/mm.h>
-> >  #include <linux/sched.h>
-> >  
-> > +#define __HAVE_ARCH_PTE_ALLOC_ONE_KERNEL
-> > +#include <asm-generic/pgalloc.h>	/* for pte_{alloc,free}_one */
-> > +
-> >  static inline void pmd_populate_kernel(struct mm_struct *mm, pmd_t *pmd,
-> >  					pte_t *pte)
-> >  {
-> > @@ -39,33 +42,6 @@ static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
-> >  	return pte;
-> >  }
-> >  
-> > -static inline struct page *pte_alloc_one(struct mm_struct *mm)
-> > -{
-> > -	struct page *pte;
-> > -
-> > -	pte = alloc_pages(GFP_KERNEL | __GFP_ZERO, 0);
-> > -	if (!pte)
-> > -		return NULL;
-> > -
-> > -	if (!pgtable_page_ctor(pte)) {
-> > -		__free_page(pte);
-> > -		return NULL;
-> > -	}
-> > -
-> > -	return pte;
-> > -}
-> > -
-> > -static inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
-> > -{
-> > -	free_pages((unsigned long)pte, PTE_ORDER);
-> > -}
-> > -
-> > -static inline void pte_free(struct mm_struct *mm, pgtable_t pte)
-> > -{
-> > -	pgtable_page_dtor(pte);
-> > -	__free_pages(pte, PTE_ORDER);
-> > -}
-> > -
-> >  static inline void pgd_free(struct mm_struct *mm, pgd_t *pgd)
-> >  {
-> >  	free_pages((unsigned long)pgd, PGD_ORDER);
-> > -- 
-> > 2.7.4
-> > 
-> 
-> _______________________________________________
-> linux-riscv mailing list
-> linux-riscv@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-riscv
+
+-- 
+Sincerely yours,
+Mike.
+
