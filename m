@@ -2,173 +2,143 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 818BE13DDF
-	for <lists+linux-hexagon@lfdr.de>; Sun,  5 May 2019 08:23:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D48115392
+	for <lists+linux-hexagon@lfdr.de>; Mon,  6 May 2019 20:25:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727353AbfEEGX4 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 5 May 2019 02:23:56 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42626 "EHLO
-        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727427AbfEEGX4 (ORCPT
+        id S1726470AbfEFSZy (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 6 May 2019 14:25:54 -0400
+Received: from mail-pf1-f195.google.com ([209.85.210.195]:37602 "EHLO
+        mail-pf1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726370AbfEFSZy (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 5 May 2019 02:23:56 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-        by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id x456LO2g106775
-        for <linux-hexagon@vger.kernel.org>; Sun, 5 May 2019 02:23:54 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-        by mx0a-001b2d01.pphosted.com with ESMTP id 2s9pe36vdw-1
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-        for <linux-hexagon@vger.kernel.org>; Sun, 05 May 2019 02:23:54 -0400
-Received: from localhost
-        by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted
-        for <linux-hexagon@vger.kernel.org> from <rppt@linux.ibm.com>;
-        Sun, 5 May 2019 07:23:51 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-        by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway: Authorized Use Only! Violators will be prosecuted;
-        (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-        Sun, 5 May 2019 07:23:44 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com [9.149.105.58])
-        by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id x456Nh9r52560040
-        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Sun, 5 May 2019 06:23:43 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 40EC84C046;
-        Sun,  5 May 2019 06:23:43 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-        by IMSVA (Postfix) with ESMTP id 1D4414C040;
-        Sun,  5 May 2019 06:23:41 +0000 (GMT)
-Received: from rapoport-lnx (unknown [9.148.8.112])
-        by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
-        Sun,  5 May 2019 06:23:41 +0000 (GMT)
-Date:   Sun, 5 May 2019 09:23:39 +0300
-From:   Mike Rapoport <rppt@linux.ibm.com>
-To:     Christophe Leroy <christophe.leroy@c-s.fr>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Michal Hocko <mhocko@suse.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Palmer Dabbelt <palmer@sifive.com>, linux-mips@vger.kernel.org,
-        Guo Ren <guoren@kernel.org>, linux-hexagon@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
-        Helge Deller <deller@gmx.de>, x86@kernel.org,
-        Russell King <linux@armlinux.org.uk>,
-        Matthew Wilcox <willy@infradead.org>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Matt Turner <mattst88@gmail.com>,
-        Sam Creasey <sammy@sammy.net>, Arnd Bergmann <arnd@arndb.de>,
-        linux-um@lists.infradead.org, Richard Weinberger <richard@nod.at>,
-        linux-m68k@lists.linux-m68k.org, Greentime Hu <green.hu@gmail.com>,
-        nios2-dev@lists.rocketboards.org, Guan Xuetao <gxt@pku.edu.cn>,
-        linux-arm-kernel@lists.infradead.org, linux-parisc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Richard Kuo <rkuo@codeaurora.org>,
-        Paul Burton <paul.burton@mips.com>,
-        linux-alpha@vger.kernel.org, Ley Foon Tan <lftan@altera.com>,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH 12/15] powerpc/nohash/64: switch to generic version of
- pte allocation
-References: <1556810922-20248-1-git-send-email-rppt@linux.ibm.com>
- <1556810922-20248-13-git-send-email-rppt@linux.ibm.com>
- <adcb6ae6-48d9-5ba9-2732-a0ab1d96667c@c-s.fr>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+        Mon, 6 May 2019 14:25:54 -0400
+Received: by mail-pf1-f195.google.com with SMTP id g3so7205333pfi.4
+        for <linux-hexagon@vger.kernel.org>; Mon, 06 May 2019 11:25:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sifive.com; s=google;
+        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NXCCd9DEwpVv+CkVk+97oddxbHXiAPPbrF6iGBSrYgc=;
+        b=NKrWKCiGbzmza35fOtOMvL+ftXETfh3uUcp/GkaCXcI8/XzVP8qVDBZioaj7yzgwas
+         2tQRRTKTuRAtOwQhT+kcUBv2qp2jRZVnznAovTkgFRvmAuuaShMFB+Nx1bbVUNa9A7OX
+         8BLulEh57QbYge20tVCIr34v+fwMGVGOSH1ehzMLel+zcPUV1nVeQpw7cWLe4F7TLSOw
+         ++VBDFOhS3lKU6/bS8dLLIX6A8ANpsIH1DryjqnbCnoWXwVNSYR3C7RBe/CPhV/P7ncT
+         Cg2Mr2IcrlFerHMT/L21aU76jEgkMtiGDQAE6F2Y4uyRJKfpkAmDpf2MCdenO33CvIPF
+         KysQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+         :mime-version:content-transfer-encoding;
+        bh=NXCCd9DEwpVv+CkVk+97oddxbHXiAPPbrF6iGBSrYgc=;
+        b=p6f1aofc1MLIzIlM/pe6PYVDLhFntSP6WIMcTB05VPuaOmwnS0lG8/HJFKssh0LEDF
+         3RmfBj3yxpwuHHiRlyKRtNqPDM5+kNVv5IOhvTz+lQcgjTcaKs43IP5ZlLQBjskwRLmg
+         rlwmjZd3W+iBQwRPD4KghZPj8QXE3n55oFEQQ39CI2VQQVa1BtEfFusLIkHMIgpAdIFI
+         gfGuZwisxGQe51Y7kCxLe6GSBtVRxHwF5uQUa1s9Pr2+UZGlefRoqUeeIpvccRcoONd7
+         mV4qbcIhRI5BhRSI6zy22z4lZR4NUoNxW/dlH2nPIBdskL1NfnWEXvchYYH+bHHSMr9o
+         o/qA==
+X-Gm-Message-State: APjAAAVbIqGM5JpuPbq7sZr8BjQ2qYpVeMrNdnOxUDmI3iZlBc2S4s9+
+        10SiTwXntN7FhHES2YSYQIQ43w==
+X-Google-Smtp-Source: APXvYqz/rXdpBxODnklgvIEL8bDQcS0bWQdd3xgt2Ribpt+WuSOewfTAdZg7WDT5L829vlRrQKqfdA==
+X-Received: by 2002:a62:121c:: with SMTP id a28mr34935323pfj.58.1557167153191;
+        Mon, 06 May 2019 11:25:53 -0700 (PDT)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id x66sm15776570pfb.78.2019.05.06.11.25.51
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Mon, 06 May 2019 11:25:52 -0700 (PDT)
+Date:   Mon, 06 May 2019 11:25:52 -0700 (PDT)
+X-Google-Original-Date: Mon, 06 May 2019 11:25:42 PDT (-0700)
+Subject:     Re: [PATCH 13/15] riscv: switch to generic version of pte allocation
+In-Reply-To: <1556810922-20248-14-git-send-email-rppt@linux.ibm.com>
+CC:     akpm@linux-foundation.org, Arnd Bergmann <arnd@arndb.de>,
+        catalin.marinas@arm.com, geert@linux-m68k.org, green.hu@gmail.com,
+        gxt@pku.edu.cn, guoren@kernel.org, deller@gmx.de, lftan@altera.com,
+        willy@infradead.org, mattst88@gmail.com, mpe@ellerman.id.au,
+        mhocko@suse.com, paul.burton@mips.com, rkuo@codeaurora.org,
+        richard@nod.at, linux@armlinux.org.uk, sammy@sammy.net,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-um@lists.infradead.org,
+        nios2-dev@lists.rocketboards.org, rppt@linux.ibm.com
+From:   Palmer Dabbelt <palmer@sifive.com>
+To:     rppt@linux.ibm.com
+Message-ID: <mhng-c23d2e8b-1dc0-48db-a4cf-d6964ca650c0@palmer-si-x1e>
+Mime-Version: 1.0 (MHng)
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <adcb6ae6-48d9-5ba9-2732-a0ab1d96667c@c-s.fr>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-TM-AS-GCONF: 00
-x-cbid: 19050506-0020-0000-0000-000003397072
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19050506-0021-0000-0000-0000218C0137
-Message-Id: <20190505062339.GF15755@rapoport-lnx>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:,, definitions=2019-05-05_04:,,
- signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
- clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.0.1-1810050000 definitions=main-1905050057
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Thu, May 02, 2019 at 06:56:07PM +0200, Christophe Leroy wrote:
-> 
-> 
-> Le 02/05/2019 à 17:28, Mike Rapoport a écrit :
-> >The 64-bit book-E powerpc implements pte_alloc_one(),
-> >pte_alloc_one_kernel(), pte_free_kernel() and pte_free() the same way as
-> >the generic version.
-> 
-> Will soon be converted to the same as the 3 other PPC subarches, see
-> https://patchwork.ozlabs.org/patch/1091590/
- 
-Thanks for the heads up. I'll drop this from the next re-spin.
+On Thu, 02 May 2019 08:28:40 PDT (-0700), rppt@linux.ibm.com wrote:
+> The only difference between the generic and RISC-V implementation of PTE
+> allocation is the usage of __GFP_RETRY_MAYFAIL for both kernel and user
+> PTEs and the absence of __GFP_ACCOUNT for the user PTEs.
+>
+> The conversion to the generic version removes the __GFP_RETRY_MAYFAIL and
+> ensures that GFP_ACCOUNT is used for the user PTE allocations.
 
-> Christophe
-> 
-> >
-> >Switch it to the generic version that does exactly the same thing.
-> >
-> >Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> >---
-> >  arch/powerpc/include/asm/nohash/64/pgalloc.h | 35 ++--------------------------
-> >  1 file changed, 2 insertions(+), 33 deletions(-)
-> >
-> >diff --git a/arch/powerpc/include/asm/nohash/64/pgalloc.h b/arch/powerpc/include/asm/nohash/64/pgalloc.h
-> >index 66d086f..bfb53a0 100644
-> >--- a/arch/powerpc/include/asm/nohash/64/pgalloc.h
-> >+++ b/arch/powerpc/include/asm/nohash/64/pgalloc.h
-> >@@ -11,6 +11,8 @@
-> >  #include <linux/cpumask.h>
-> >  #include <linux/percpu.h>
-> >+#include <asm-generic/pgalloc.h>	/* for pte_{alloc,free}_one */
-> >+
-> >  struct vmemmap_backing {
-> >  	struct vmemmap_backing *list;
-> >  	unsigned long phys;
-> >@@ -92,39 +94,6 @@ static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
-> >  	kmem_cache_free(PGT_CACHE(PMD_CACHE_INDEX), pmd);
-> >  }
-> >-
-> >-static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
-> >-{
-> >-	return (pte_t *)__get_free_page(GFP_KERNEL | __GFP_ZERO);
-> >-}
-> >-
-> >-static inline pgtable_t pte_alloc_one(struct mm_struct *mm)
-> >-{
-> >-	struct page *page;
-> >-	pte_t *pte;
-> >-
-> >-	pte = (pte_t *)__get_free_page(GFP_KERNEL | __GFP_ZERO | __GFP_ACCOUNT);
-> >-	if (!pte)
-> >-		return NULL;
-> >-	page = virt_to_page(pte);
-> >-	if (!pgtable_page_ctor(page)) {
-> >-		__free_page(page);
-> >-		return NULL;
-> >-	}
-> >-	return page;
-> >-}
-> >-
-> >-static inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
-> >-{
-> >-	free_page((unsigned long)pte);
-> >-}
-> >-
-> >-static inline void pte_free(struct mm_struct *mm, pgtable_t ptepage)
-> >-{
-> >-	pgtable_page_dtor(ptepage);
-> >-	__free_page(ptepage);
-> >-}
-> >-
-> >  static inline void pgtable_free(void *table, int shift)
-> >  {
-> >  	if (!shift) {
-> >
-> 
+Reviewed-by: Palmer Dabbelt <palmer@sifive.com>
 
--- 
-Sincerely yours,
-Mike.
+I'm assuming this is going in along with the rest of the patches, so I'm not
+going to add it to my tree.
 
+>
+> The pte_free() and pte_free_kernel() versions are identical to the generic
+> ones and can be simply dropped.
+>
+> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+> ---
+>  arch/riscv/include/asm/pgalloc.h | 29 ++---------------------------
+>  1 file changed, 2 insertions(+), 27 deletions(-)
+>
+> diff --git a/arch/riscv/include/asm/pgalloc.h b/arch/riscv/include/asm/pgalloc.h
+> index 94043cf..48f28bb 100644
+> --- a/arch/riscv/include/asm/pgalloc.h
+> +++ b/arch/riscv/include/asm/pgalloc.h
+> @@ -18,6 +18,8 @@
+>  #include <linux/mm.h>
+>  #include <asm/tlb.h>
+>
+> +#include <asm-generic/pgalloc.h>	/* for pte_{alloc,free}_one */
+> +
+>  static inline void pmd_populate_kernel(struct mm_struct *mm,
+>  	pmd_t *pmd, pte_t *pte)
+>  {
+> @@ -82,33 +84,6 @@ static inline void pmd_free(struct mm_struct *mm, pmd_t *pmd)
+>
+>  #endif /* __PAGETABLE_PMD_FOLDED */
+>
+> -static inline pte_t *pte_alloc_one_kernel(struct mm_struct *mm)
+> -{
+> -	return (pte_t *)__get_free_page(
+> -		GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_ZERO);
+> -}
+> -
+> -static inline struct page *pte_alloc_one(struct mm_struct *mm)
+> -{
+> -	struct page *pte;
+> -
+> -	pte = alloc_page(GFP_KERNEL | __GFP_RETRY_MAYFAIL | __GFP_ZERO);
+> -	if (likely(pte != NULL))
+> -		pgtable_page_ctor(pte);
+> -	return pte;
+> -}
+> -
+> -static inline void pte_free_kernel(struct mm_struct *mm, pte_t *pte)
+> -{
+> -	free_page((unsigned long)pte);
+> -}
+> -
+> -static inline void pte_free(struct mm_struct *mm, pgtable_t pte)
+> -{
+> -	pgtable_page_dtor(pte);
+> -	__free_page(pte);
+> -}
+> -
+>  #define __pte_free_tlb(tlb, pte, buf)   \
+>  do {                                    \
+>  	pgtable_page_dtor(pte);         \
