@@ -2,68 +2,74 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C74EC340D2
-	for <lists+linux-hexagon@lfdr.de>; Tue,  4 Jun 2019 09:55:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DEF3F340ED
+	for <lists+linux-hexagon@lfdr.de>; Tue,  4 Jun 2019 09:58:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726789AbfFDHzs (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 4 Jun 2019 03:55:48 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52070 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726786AbfFDHzs (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 4 Jun 2019 03:55:48 -0400
-Received: from PC-kkoz.proceq.com (unknown [213.160.61.66])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 6C02A2423F;
-        Tue,  4 Jun 2019 07:55:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1559634947;
-        bh=NZG+kgsujmO3Jg394X+zVaDLzGta+dFs9SolrOcNGaA=;
-        h=From:To:Cc:Subject:Date:From;
-        b=IdAxSeq+8r9Y0+WaaICWoVtKQ5e99WB+5azOWgbQG0l2WiSdXhZJubd8jzvPwsXF5
-         Ln4tAGzRI3jw9CIcCXxU7fOv4AcbooAcEwQhZNB3E0fuFShhUpirKdSbX+MufUpvf3
-         YZ4kORtmMNG9HOMFJAmPMPy4DTRQuD/oiEa+UKfk=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Richard Kuo <rkuo@codeaurora.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Geert Uytterhoeven <geert+renesas@glider.be>
-Subject: [PATCH] hexagon: configs: Remove useless UEVENT_HELPER_PATH
-Date:   Tue,  4 Jun 2019 09:55:42 +0200
-Message-Id: <1559634942-20369-1-git-send-email-krzk@kernel.org>
-X-Mailer: git-send-email 2.7.4
+        id S1726972AbfFDH6z (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 4 Jun 2019 03:58:55 -0400
+Received: from mail-lj1-f194.google.com ([209.85.208.194]:35465 "EHLO
+        mail-lj1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726805AbfFDH6z (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Tue, 4 Jun 2019 03:58:55 -0400
+Received: by mail-lj1-f194.google.com with SMTP id h11so18776700ljb.2;
+        Tue, 04 Jun 2019 00:58:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=PvzPUYqH9nK8SbQWAc82SWJDMQ3U5uh7URsnw55J3C4=;
+        b=XCfqSX7E47qfh3NPqnaMv3sdIYsvMjhJBMW+800OQocC7pmZSfhmXsVNtQvoSkqS5S
+         lIxs0yYnBDHo/UJ48ltoXnMeULl8Um3cUW6LviAg/FFmivIuVjnkVKZ3vwQyaDdmSRqh
+         QqjdGLlvfyX/Bsz1hg9BJjsplgHKCMG//yJ0aN7NRxQnUy+izKFYMsKiMEdZesJYb3Y+
+         EE/yJsXfyNC/hhOzmtVQNeZvgdgDSupECZITED9+mdm3xcp5hdBQsjlDgBpSHI7SKPaI
+         wolIOxdWcnyXpl///pKD+eaXqEos+dSbatMZ83ppZPdBSwlbvBtT/BkYf7IIU69tbgJt
+         x3gw==
+X-Gm-Message-State: APjAAAWRR9V2pEHcahWTbIKFfvH3umCRK8qs4ffw6vGOTncgLlgXeGJH
+        Ftw8qoJekM5aDaiM9ylOGeprWj7eEu6OggktIfY=
+X-Google-Smtp-Source: APXvYqzKBinWmJaGzacGbRhOnLvFa8CQvWOwWKrZ6+Cuc2VOa4+eYgk+VggacDzU6eH0s8dlyt2BbGyoYynEOThpl6w=
+X-Received: by 2002:a2e:6e01:: with SMTP id j1mr15810116ljc.135.1559635132892;
+ Tue, 04 Jun 2019 00:58:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <1559634942-20369-1-git-send-email-krzk@kernel.org>
+In-Reply-To: <1559634942-20369-1-git-send-email-krzk@kernel.org>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 4 Jun 2019 09:58:41 +0200
+Message-ID: <CAMuHMdUMZ6bf-dj0YtgGqc_smcdYbMs3H82ZjyVtCwnjOiCXgA@mail.gmail.com>
+Subject: Re: [PATCH] hexagon: configs: Remove useless UEVENT_HELPER_PATH
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Richard Kuo <rkuo@codeaurora.org>,
+        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Remove the CONFIG_UEVENT_HELPER_PATH because:
-1. It is disabled since commit 1be01d4a5714 ("driver: base: Disable
-   CONFIG_UEVENT_HELPER by default") as its dependency (UEVENT_HELPER) was
-   made default to 'n',
-2. It is not recommended (help message: "This should not be used today
-   [...] creates a high system load") and was kept only for ancient
-   userland,
-3. Certain userland specifically requests it to be disabled (systemd
-   README: "Legacy hotplug slows down the system and confuses udev").
+On Tue, Jun 4, 2019 at 9:55 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> Remove the CONFIG_UEVENT_HELPER_PATH because:
+> 1. It is disabled since commit 1be01d4a5714 ("driver: base: Disable
+>    CONFIG_UEVENT_HELPER by default") as its dependency (UEVENT_HELPER) was
+>    made default to 'n',
+> 2. It is not recommended (help message: "This should not be used today
+>    [...] creates a high system load") and was kept only for ancient
+>    userland,
+> 3. Certain userland specifically requests it to be disabled (systemd
+>    README: "Legacy hotplug slows down the system and confuses udev").
+>
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
----
- arch/hexagon/configs/comet_defconfig | 1 -
- 1 file changed, 1 deletion(-)
+Acked-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-diff --git a/arch/hexagon/configs/comet_defconfig b/arch/hexagon/configs/comet_defconfig
-index e324f65f41e7..d4320ebdb4b9 100644
---- a/arch/hexagon/configs/comet_defconfig
-+++ b/arch/hexagon/configs/comet_defconfig
-@@ -18,7 +18,6 @@ CONFIG_BLK_DEV_INITRD=y
- CONFIG_EMBEDDED=y
- # CONFIG_VM_EVENT_COUNTERS is not set
- # CONFIG_BLK_DEV_BSG is not set
--CONFIG_UEVENT_HELPER_PATH="/sbin/hotplug"
- # CONFIG_STANDALONE is not set
- CONFIG_CONNECTOR=y
- CONFIG_BLK_DEV_LOOP=y
+Gr{oetje,eeting}s,
+
+                        Geert
+
 -- 
-2.7.4
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
