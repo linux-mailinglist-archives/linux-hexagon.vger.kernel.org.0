@@ -2,91 +2,58 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 6413B384CD
-	for <lists+linux-hexagon@lfdr.de>; Fri,  7 Jun 2019 09:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97EB945B8F
+	for <lists+linux-hexagon@lfdr.de>; Fri, 14 Jun 2019 13:37:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727379AbfFGHQR (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 7 Jun 2019 03:16:17 -0400
-Received: from smtp1.iitb.ac.in ([103.21.127.13]:48872 "EHLO smtp1.iitb.ac.in"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727066AbfFGHQR (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 7 Jun 2019 03:16:17 -0400
-Received: from ldns2.iitb.ac.in (ldns2.iitb.ac.in [10.200.12.2])
-        by smtp1.iitb.ac.in (Postfix) with SMTP id 64245105CCCF
-        for <linux-hexagon@vger.kernel.org>; Fri,  7 Jun 2019 12:02:11 +0530 (IST)
-Received: (qmail 32253 invoked by uid 510); 7 Jun 2019 12:02:06 +0530
-X-Qmail-Scanner-Diagnostics: from 10.200.1.25 by ldns2 (envelope-from <rws@aero.iitb.ac.in>, uid 501) with qmail-scanner-2.11
- spamassassin: 3.4.1. mhr: 1.0. {clamdscan: 0.100.0/25472} 
- Clear:RC:1(10.200.1.25):SA:0(1.5/7.0):. Processed in 3.223095 secs; 07 Jun 2019 12:02:06 +0530
-X-Spam-Checker-Version: SpamAssassin 3.4.1 (2015-04-28) on ldns2.iitb.ac.in
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=7.0 tests=BAYES_50,IITB_ORIG,
-        MISSING_HEADERS,PROPER_IITB_MSGID autolearn=disabled version=3.4.1
-X-Spam-Pyzor: Reported 1 times.
-X-Envelope-From: rws@aero.iitb.ac.in
-X-Qmail-Scanner-Mime-Attachments: |
-X-Qmail-Scanner-Zip-Files: |
-Received: from unknown (HELO ldns2.iitb.ac.in) (10.200.1.25)
-  by ldns2.iitb.ac.in with SMTP; 7 Jun 2019 12:02:03 +0530
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by ldns2.iitb.ac.in (Postfix) with ESMTP id E507834194A;
-        Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id C66148902E548;
-        Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Dsp2o8aWBuLF; Fri,  7 Jun 2019 12:01:54 +0530 (IST)
-Received: from localhost (localhost [127.0.0.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id CBA298902E540;
-        Fri,  7 Jun 2019 12:01:53 +0530 (IST)
-X-Virus-Scanned: amavisd-new at aero.iitb.ac.in
-Received: from vayu.aero.iitb.ac.in ([127.0.0.1])
-        by localhost (vayu.aero.iitb.ac.in [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id XJzHEtFw4Nf5; Fri,  7 Jun 2019 12:01:53 +0530 (IST)
-Received: from vayu.aero.iitb.ac.in (vayu.aero.iitb.ac.in [10.101.1.1])
-        by vayu.aero.iitb.ac.in (Postfix) with ESMTP id 752AD8902E537;
-        Fri,  7 Jun 2019 12:01:49 +0530 (IST)
-Date:   Fri, 7 Jun 2019 12:01:49 +0530 (IST)
-From:   Martins Henry <rws@aero.iitb.ac.in>
-Message-ID: <630023291.60470.1559889109394.JavaMail.zimbra@aero.iitb.ac.in>
-Subject: Thanks and I wait for your answer
+        id S1727164AbfFNLhl (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 14 Jun 2019 07:37:41 -0400
+Received: from qf-corp.com ([43.252.215.172]:49880 "EHLO server1.qf-corp.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1727054AbfFNLhk (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 14 Jun 2019 07:37:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=qf-corp.com
+        ; s=default; h=Message-ID:Reply-To:Subject:To:From:Date:
+        Content-Transfer-Encoding:Content-Type:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=x+wk2oDUMoo/hQHPqS9UCKstzOaLw+EthDvW07j7+BE=; b=UB7ckDXlAh5fbGUNfBvyqsBU/3
+        uHEqdkO53RN7f4JmE98K7Ni8nfYKlGx1exvZB9yb6bk/wpmjJiqDlOCAKFwDluE1pCjy3kx5Cpiwd
+        IUUFWAPijxUqz1RHJiWtU4qi1Z969W/VwaFwO3edQcYrFcJE3XoL+jADp8vNCq9SHpC395amjFxjC
+        yPI+9Fsn63wS9Vf6rJHmmZlQz+91REw2StmI9qJ6BN8KLopdX8BYfCCzOHalBQGbDlvD6Z2/XXehS
+        5azoLS+nQwh6sFg6MLTSWjLpRPSKVuFiB7zkEmc5OYbyGhXJlnbs0IUQ9R0yQbS6idjLz0NIKiq8T
+        rQ4Rg3yg==;
+Received: from [::1] (port=58436 helo=server1.qf-corp.com)
+        by server1.qf-corp.com with esmtpa (Exim 4.92)
+        (envelope-from <admin@qf-corp.com>)
+        id 1hbkTp-0007Vq-LN; Fri, 14 Jun 2019 19:34:49 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.101.1.5]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF11 (Win)/8.8.12_GA_3794)
-Thread-Index: Z4di5DXkV78PrTTCqXhStc9XBmMYjg==
-Thread-Topic: Thanks and I wait for your answer
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Fri, 14 Jun 2019 19:34:49 +0800
+From:   Herr David Williams <admin@qf-corp.com>
+To:     undisclosed-recipients:;
+Subject: dringender Kredit
+Reply-To: davidloaninvestment12@gmail.com
+Mail-Reply-To: davidloaninvestment12@gmail.com
+Message-ID: <944c37090ecc5f871d1f005ddf7d7f05@qf-corp.com>
+X-Sender: admin@qf-corp.com
+User-Agent: Roundcube Webmail/1.3.8
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - server1.qf-corp.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - qf-corp.com
+X-Get-Message-Sender-Via: server1.qf-corp.com: authenticated_id: admin@qf-corp.com
+X-Authenticated-Sender: server1.qf-corp.com: admin@qf-corp.com
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello,
 
-I am Martin Henry, An American Citizen; I am the personal secretary to
-Mr. Donald Railton, the controller of a Lottery Company. Please I am
-having big problem now, I have a 6yrs old daughter who has leukemia, a
-disease of the blood, and she needs a bone marrow transplant or she
-will die.
 
-Please I am only asking for your help and you will benefit from it
-also. As an insider with Lottery Firm, working as the personal
-secretary to the controller, I want you to send me your name to play,
-I have some numbers that are going to win, stored in his secret data
-system in the office. The Lottery is an online entry with credit card
-anywhere with a name and address. All I want you to do is to send your
-name to play it and I will send confirmation to you.
-
-I will play with my card on your name and the Prize will be shared
-equally between us. Immediately the results are released they will
-contact you for payment as the oversea winner. The lotto can be played
-with 9.00 dollars, or 50 dollars but the prize will be Millions.
-Remember that I am playing on your name with my card; I just want to
-front you for this, because I need this money to save the life of my
-little daughter.
-
-Thanks and I wait for your answer
-Martin Henry.
+-- 
+Benötigen Sie dringend einen Kredit? Wenn ja, antworten Sie für weitere 
+Details
