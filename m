@@ -2,73 +2,65 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BE21A47AE0
-	for <lists+linux-hexagon@lfdr.de>; Mon, 17 Jun 2019 09:28:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 848EB4F6D1
+	for <lists+linux-hexagon@lfdr.de>; Sat, 22 Jun 2019 18:28:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726540AbfFQH2n (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 17 Jun 2019 03:28:43 -0400
-Received: from slot0.nejknio.cf ([89.32.41.233]:42895 "EHLO slot0.nejknio.cf"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726521AbfFQH2m (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 17 Jun 2019 03:28:42 -0400
-DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=nejknio.cf;
- h=Content-Type:MIME-Version:Content-Transfer-Encoding:Content-Description:Subject:To:From:Date:Reply-To:Message-ID; i=trade1@nejknio.cf;
- bh=73Xs4LxjK+lP+h5mKCyFyWTpkoQ=;
- b=bz6AUubReUe/pY95wFwP6TmqTKUm8aUwuOpKwaqdW8wOnbzorlDXEi6uVQVmsBQ7JAwF5cnk8ibb
-   AU98+mX6AEkSa5Fqjl/0ykfB2Hl6xmquFW/rDsu2WBuC1tEBORggPzW/OLBy3CtkSbXAYPhS13ad
-   IP4lyaGdCR0PKTO84bM44Cu5eoYtYv6KBSvOBvx7eEUBU/JTHqFu95uNjrpm8oQn2+i18HqwAxbz
-   fJjrh38cTy8W8fN3/jC4BRzKTI2XFvAUnXkT3B/HlhrleOoXhs1wuxoS1adfwToZod9hgmsoZc0D
-   0zrT9A9d9s41VlndiDZhpInw0EEN6Guamqq/yw==
-DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=nejknio.cf;
- b=JQuDsp110/etVbvDFn6NK5koG0eIogcqteosLZsQae3Rt0Cu2nTA4rxnIua95MEUFd/eb8MLjjk+
-   rU44YLZVFhEwSe+aBqWVFYcCXQGCbuJ5i1X9c/Ubs9y+O7H6LbawJeQQ5MdA60LdazE9BJ2CkYrH
-   4FVKDkMEWKmlHAWbsLzJ4O/FnXFrvGklGtF/eoGRzMSsXeGg4QbBARgtExoAtF3rz8Z11Cy2cbNc
-   8pCsEgi1AO5mnrM8q8RRUlhin6awJMZXIsCzeNqSkL9Ld3Aertn1hUevI2pySAmVF3DyGG7JZ57L
-   f7+RPYL9bpomvfJs2vjWgjlfUcSVTGzgAtWwLw==;
-Content-Type: text/plain; charset="iso-8859-1"
+        id S1726420AbfFVQ2u (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 22 Jun 2019 12:28:50 -0400
+Received: from sonic301-3.consmr.mail.bf2.yahoo.com ([74.6.129.42]:44819 "EHLO
+        sonic301-3.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726382AbfFVQ2u (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Sat, 22 Jun 2019 12:28:50 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1561220929; bh=3fXYToOZXvh5MOJ1JSawYDThjnynC/Ekt2gucIg6zZg=; h=Date:From:Reply-To:Subject:From:Subject; b=FwrBLUl7u665XwQeVPTq5hUQ4Ptv5qPcwgE0MfCyAxPjQW66W+sBKlTITy95Xiak8M/9mL3k87XvuhuNYmdzjOXFqAsXXJ7ZeR0tr0xQhaR4qpp9+I79zHB4JVXDeOtUnrv/ni1DEn3m49tSMIml9+1SbDvUcui/xLYzcB7mOtvlwJJC6bBkcbOwJW8drH7WnSKYQVlUvO9PRg8+IWYABo4m/HoTrmg3JSd7+tfq1bmdsTjreC9G6uwJClVG1p8XyGEOijmNqXv9Ivunj8UzUvxVldTIg/taTAKdSlSG3i+xbnz28LKLpxSK2+M63p52Vf+hNJ0OycyVj1TkO+H8OQ==
+X-YMail-OSG: BClZlNgVM1mJa1pSUAMlnjmDwJQUKDn0osVKNVIeZ6AC0JZQ8NzrV_.P2vPToBw
+ lk4l1yMYy0P1wu9iKWHPF1vwWtED.NCcY6jE.jXdELnZdUngnDzcX.f1Ik7TcPjN._6dUftCNvSG
+ 0ilPDIIh6JKut3rld3EDzfXqVTEprJFL10dLfXEmdNXy8_9HzWnLN9Uxxh6FWr8nj4DbExyF48M8
+ b8CzHn8AtWzh0fDjJqMRXb5UR1L1fHF.mq4wk_41bl8VHLLREhO8D9AiMB_Iou.TvP.xektI4Uzf
+ lBotEg54S8nbe5a5a2eamKaLSiD6XaCIzSQkrGwkgk9qzk7J4361PG1C2lAWhSULJjGYH.uKi9SH
+ 8omXh8MvwuZmVU7umqXbA4eIFWV8ruRR3qRFWtA.2B0Eer.D49EbNovsAu.wRPm8yYyL6YMdaoys
+ 3vYAkjype1yPgR0gHAH3zObnNPMrtMzQfsTzcaha59dNYsVWPRo5EvcFgAIKXVIUqnKnooWuODru
+ O4SgrdrM8PGEZGs5dJS.h.dJB3gwQ.0I1wf1Q_CLgJhbPMrumaMiWl3ifhN9G_CCxrGhRPRltqdB
+ RyAvAXGENXKEJswzM.sYWHkLQyblOWaGX5TLKzeDGaJCZVu7CtZvQ0aNcyWtqrf4SAtE7MK9SqUH
+ 7phABBxeBrGdyDkvdUQOX_EPh25.Hb3SncDKllMEIHjvEdwbQcMGmqMEDVCI8Jh0nfgpjh259ODl
+ q.bGW_sz63_QvjPWXygjUQ4RzfXiei1bHIkvbkPAHc04dS.Qr8LP1Jyxp2QD0wtNtJgo5RScK99X
+ P5NPqcNAR8eez8YgXpk3cKLQCR9JSylhL6QyUVACODhQSLMO_l73eEDpWzNQUeEQLrEwA53TFUO9
+ BXx4lR26gADp4OeWMANR3pTNDn8J7Oc5G1l.tF8AqVFtdsoB5vgCdw0tzoX9_22cJzNNteihaN9H
+ ktOSXaCeUY26x9DWNkYi7HTOCc9F4vHnioRwelB9Lv.KGDeGPUJBBPmfcn0xXC8MB2YTlUFeVHzN
+ FJsHhvFz9eJx.VwEAdhJs3DHW6xmbj9a_RSOf.BoLPiAvMAdoBe_1sVY8nFOqhuBwpkbj17TOzIW
+ ts0JEWafkyantIFw8kEnIr0AHDEAK4aB1fgOVS8TQpbEaj2tB4pKHPa4OOjXszQAPBozr7PYVj2f
+ 6AcwHFYhcmsrFfliX20p43dgFMRY8GMXgvUWeegBAeAuOTxCoUC9WvAdL
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic301.consmr.mail.bf2.yahoo.com with HTTP; Sat, 22 Jun 2019 16:28:49 +0000
+Date:   Sat, 22 Jun 2019 16:28:46 +0000 (UTC)
+From:   "Miss.Fatima Yusuf" <fatimayusuf5@outlook.fr>
+Reply-To: miss.fmayusuf11@gmail.com
+Message-ID: <270302503.296556.1561220926635@mail.yahoo.com>
+Subject: From:Miss: Fatima Yusuf.
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: PRODUCT INQUIRY FOR EXPORT SHIPMENT
-To:     Recipients <trade1@nejknio.cf>
-From:   "Mark Maths" <trade1@nejknio.cf>
-Date:   Mon, 17 Jun 2019 10:09:09 +0300
-Reply-To: purchase_m.maths@aol.com
-Message-ID: <0.0.1.496.1D524DB8475C014.0@slot0.nejknio.cf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Dear Sales team,
- =
-
-In furtherance to our market research, we have reviewed all your products t=
-ypes and we have finally interested in your product for our market here in =
 
 
-United State for your production. We introduce ourselves as Emilxa Tram SRL=
-, A general group of company located in the United State. =
+From:Miss: Fatima Yusuf.
 
+For sure this mail would definitely come to you as a surprise, but do take your good time to go through it, My name is Ms. Fatima Yusuf,i am from Ivory Coast.
 
-We are sourcing for new suppliers from your location =
+I lost my parents a year and couple of months ago. My father was a serving director of the Agro-exporting board until his death. He was assassinated by his business partners.Before his death, he made a deposit of US$9.7 Million Dollars here in Cote d'ivoire which was for the purchase of cocoa processing machine and development of another factory before his untimely death.
 
+Being that this part of the world experiences political and crises time without number, there is no guarantee of lives and properties. I cannot invest this money here any long, despite the fact it had been my late father's industrial plans.
 
-Kindly advice us if you accept new purchase orders, I will forward our PO f=
-or urgent order.
+I want you to do me a favor to receive this funds into your country or any safer place as the beneficiary, I have plans to invest this money in continuation with the investment vision of my late father, but not in this place again rather in your country. I have the vision of going into real estate and industrial production or any profitable business venture.
 
-Waiting for your response to send order. Reply to ( purchase_m.maths@aol.co=
-m)
+I will be ready to compensate you with 20% of the total Amount, now all my hope is banked on you and i really wants to invest this money in your country, where there is stability of Government, political and economic welfare.
 
-Best regards.
-Mark Maths
-Company Address:
-Emilxa Tram SRL Company Limited
-P.O. Box 978
-Road Town
-Tortola
-British Virgin Islands
-Contact information:
-Tel: +1 (284) 493 7235
-Email: purchase_m.maths@aol.com
-https://meridianbvi.com/contact-us/
+My greatest worry now is how to move out of this country because my uncle is threatening to kill me as he killed my father,Please do not let anybody hear about this, it is between me and you alone because of my security reason.
+
+I am waiting to hear from you.
+Yours Sincerely,
+Miss.Fatima Yusuf.
