@@ -2,94 +2,53 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A81AB890C
-	for <lists+linux-hexagon@lfdr.de>; Fri, 20 Sep 2019 04:04:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C287B9793
+	for <lists+linux-hexagon@lfdr.de>; Fri, 20 Sep 2019 21:10:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390833AbfITCEd (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 19 Sep 2019 22:04:33 -0400
-Received: from smtp.codeaurora.org ([198.145.29.96]:36192 "EHLO
-        smtp.codeaurora.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390810AbfITCEd (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 19 Sep 2019 22:04:33 -0400
-Received: by smtp.codeaurora.org (Postfix, from userid 1000)
-        id EC7876122D; Fri, 20 Sep 2019 02:04:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1568945071;
-        bh=7VRyQrCrEIg2B5dbxsKJsZB0FNxfrVA48YSIi9y+2Os=;
-        h=Date:From:To:Cc:Subject:From;
-        b=FShJKSPW0XfZJeo5I3gGmXH9lqzOX8YyBeciOR4R2NCet5ripR+7Sx4zbJCQQtCh+
-         /kkkS3txf3eqf755Owz4k33d56jKQurmFiGl2quw4cE0qWW5GZS/xsbFYNo5TSVoBe
-         2JHJeQYUp1ruSspcgibSieRUr/RUtEwxsICKUwnM=
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        pdx-caf-mail.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.7 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        DKIM_INVALID,DKIM_SIGNED,SPF_NONE autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from codeaurora.org (i-global254.qualcomm.com [199.106.103.254])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rkuo@smtp.codeaurora.org)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id ECF5460850;
-        Fri, 20 Sep 2019 02:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=codeaurora.org;
-        s=default; t=1568945071;
-        bh=7VRyQrCrEIg2B5dbxsKJsZB0FNxfrVA48YSIi9y+2Os=;
-        h=Date:From:To:Cc:Subject:From;
-        b=FShJKSPW0XfZJeo5I3gGmXH9lqzOX8YyBeciOR4R2NCet5ripR+7Sx4zbJCQQtCh+
-         /kkkS3txf3eqf755Owz4k33d56jKQurmFiGl2quw4cE0qWW5GZS/xsbFYNo5TSVoBe
-         2JHJeQYUp1ruSspcgibSieRUr/RUtEwxsICKUwnM=
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org ECF5460850
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: pdx-caf-mail.web.codeaurora.org; spf=none smtp.mailfrom=rkuo@codeaurora.org
-Date:   Thu, 19 Sep 2019 21:04:27 -0500
-From:   Richard Kuo <rkuo@codeaurora.org>
-To:     torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
-        linux-hexagon@vger.kernel.org
-Cc:     bcain@codeaurora.org
-Subject: [GIT PULL] Hexagon arch maintainer change
-Message-ID: <20190920020427.GA7719@codeaurora.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.24 (2015-08-30)
+        id S2406793AbfITTK2 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 20 Sep 2019 15:10:28 -0400
+Received: from mail.kernel.org ([198.145.29.99]:46316 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2406842AbfITTK1 (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 20 Sep 2019 15:10:27 -0400
+Subject: Re: [GIT PULL] Hexagon arch maintainer change
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1569006626;
+        bh=TGXgCr5SzF0uiSfCQafY5H/T+5sJuBCo6ogXQMYyJ8M=;
+        h=From:In-Reply-To:References:Date:To:Cc:From;
+        b=yIZG6d9/WRVTBMpvlF4SrDyeUDWOBEyTPJvNrU3RyP0vsyNcEQHLvirbq+i8fGR7c
+         SYuUrF8mt3aEQKRNciWDj2ej6GZNpdoPuIxSGQg/Hxb6SivMsNq0qGyC53zonJ8uDO
+         Hhwi8H3JFV3fY3urbf5JUozPZ7jlGp4P//o9yUPU=
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <20190920020427.GA7719@codeaurora.org>
+References: <20190920020427.GA7719@codeaurora.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <20190920020427.GA7719@codeaurora.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/rkuo/linux-hexagon-kernel.git
+ for-linus
+X-PR-Tracked-Commit-Id: 18dd1793a340f8216e22c9295c0c7b95cdae1783
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: bb736a5c0e9a2605f11c2bbb60a68f757832da32
+Message-Id: <156900662668.23740.2725582904267103842.pr-tracker-bot@kernel.org>
+Date:   Fri, 20 Sep 2019 19:10:26 +0000
+To:     Richard Kuo <rkuo@codeaurora.org>
+Cc:     torvalds@linux-foundation.org, linux-kernel@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, bcain@codeaurora.org
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi Linus,
+The pull request you sent on Thu, 19 Sep 2019 21:04:27 -0500:
 
-Please pull the following changes.  I am leaving QuIC, and Brian Cain will be
-taking over maintainership of the Hexagon port.
+> git://git.kernel.org/pub/scm/linux/kernel/git/rkuo/linux-hexagon-kernel.git for-linus
 
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/bb736a5c0e9a2605f11c2bbb60a68f757832da32
 
-Thanks,
-Richard Kuo
-
-
-The following changes since commit 4d856f72c10ecb060868ed10ff1b1453943fc6c8:
-
-  Linux 5.3 (2019-09-15 14:19:32 -0700)
-
-are available in the git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/rkuo/linux-hexagon-kernel.git for-linus
-
-for you to fetch changes up to 18dd1793a340f8216e22c9295c0c7b95cdae1783:
-
-  Hexagon: change maintainer to Brian Cain (2019-09-19 14:58:15 -0500)
-
-----------------------------------------------------------------
-Brian Cain (1):
-      Hexagon: change maintainer to Brian Cain
-
- MAINTAINERS | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
+Thank you!
 
 -- 
-Employee of Qualcomm Innovation Center, Inc.
-Qualcomm Innovation Center, Inc. is a member of the Code Aurora Forum, 
-a Linux Foundation Collaborative Project
+Deet-doot-dot, I am a bot.
+https://korg.wiki.kernel.org/userdoc/prtracker
