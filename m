@@ -2,61 +2,73 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 69209D54F6
-	for <lists+linux-hexagon@lfdr.de>; Sun, 13 Oct 2019 09:36:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 693FED800F
+	for <lists+linux-hexagon@lfdr.de>; Tue, 15 Oct 2019 21:21:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728690AbfJMHgC (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 13 Oct 2019 03:36:02 -0400
-Received: from [206.81.8.171] ([206.81.8.171]:56546 "EHLO varon.localdomain"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728198AbfJMHgB (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 13 Oct 2019 03:36:01 -0400
-Received: from 127.0.0.1 (varon [127.0.0.1])
-        by varon.localdomain (Postfix) with SMTP id 290C355D635;
-        Fri, 11 Oct 2019 10:21:17 +0000 (UTC)
-Received: from (HELO 1iqb) [176.71.184.19] by 127.0.0.1 for <linhao63@jlonline.com>; Fri, 11 Oct 2019 03:19:21 -0700
-Message-ID: <4-806$5o5$$r$as6q109r731c@hkg.so2qo8>
-From:   "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-Reply-To: "Mr Barrister Hans Erich" <dave@dbsoundfactory.com>
-To:     linhao63@jlonline.com
-Subject: RE:PERSONAL LETTER FROM MRS RASHIA AMIRA ??
-Date:   Fri, 11 Oct 19 03:19:21 GMT
-X-Mailer: Microsoft Outlook IMO, Build 9.0.2416 (9.0.2910.0)
+        id S1730641AbfJOTVA (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 15 Oct 2019 15:21:00 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:45644 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389372AbfJOTSk (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Tue, 15 Oct 2019 15:18:40 -0400
+Received: from localhost ([127.0.0.1] helo=localhost.localdomain)
+        by Galois.linutronix.de with esmtp (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1iKSL4-00067i-Dd; Tue, 15 Oct 2019 21:18:34 +0200
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     linux-kernel@vger.kernel.org
+Cc:     tglx@linutronix.de, Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+Subject: [PATCH 08/34] hexagon: Use CONFIG_PREEMPTION
+Date:   Tue, 15 Oct 2019 21:17:55 +0200
+Message-Id: <20191015191821.11479-9-bigeasy@linutronix.de>
+In-Reply-To: <20191015191821.11479-1-bigeasy@linutronix.de>
+References: <20191015191821.11479-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="C.F387.BA..3D"
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+From: Thomas Gleixner <tglx@linutronix.de>
 
---C.F387.BA..3D
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+CONFIG_PREEMPTION is selected by CONFIG_PREEMPT and by CONFIG_PREEMPT_RT.
+Both PREEMPT and PREEMPT_RT require the same functionality which today
+depends on CONFIG_PREEMPT.
 
-Greetings
+Switch the entry code over to use CONFIG_PREEMPTION.
 
-My name is Barrister Hans Erich.
+Cc: Brian Cain <bcain@codeaurora.org>
+Cc: linux-hexagon@vger.kernel.org
+Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ arch/hexagon/kernel/vm_entry.S | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I have a client who is interested to invest in your country, she is a well=
- known politician in her country and deserve a lucrative investment partne=
-rship with you outside her country without any delay   Please can you mana=
-ge such investment please Kindly reply for further details.
-
-Your full nameS -----------
-
-
-Your urgent response will be appreciated
-
-Thank you and God bless you.
-
-Barrister Hans Erich
-
-Yours sincerely,
-Barrister Hans Erich
-
---C.F387.BA..3D--
+diff --git a/arch/hexagon/kernel/vm_entry.S b/arch/hexagon/kernel/vm_entry.S
+index 12242c27e2df5..65a1ea0eed2fa 100644
+--- a/arch/hexagon/kernel/vm_entry.S
++++ b/arch/hexagon/kernel/vm_entry.S
+@@ -265,12 +265,12 @@
+ 	 * should be in the designated register (usually R19)
+ 	 *
+ 	 * If we were in kernel mode, we don't need to check scheduler
+-	 * or signals if CONFIG_PREEMPT is not set.  If set, then it has
++	 * or signals if CONFIG_PREEMPTION is not set.  If set, then it has
+ 	 * to jump to a need_resched kind of block.
+-	 * BTW, CONFIG_PREEMPT is not supported yet.
++	 * BTW, CONFIG_PREEMPTION is not supported yet.
+ 	 */
+=20
+-#ifdef CONFIG_PREEMPT
++#ifdef CONFIG_PREEMPTION
+ 	R0 =3D #VM_INT_DISABLE
+ 	trap1(#HVM_TRAP1_VMSETIE)
+ #endif
+--=20
+2.23.0
 
