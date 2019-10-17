@@ -2,73 +2,78 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 693FED800F
-	for <lists+linux-hexagon@lfdr.de>; Tue, 15 Oct 2019 21:21:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6CDB6DB3E3
+	for <lists+linux-hexagon@lfdr.de>; Thu, 17 Oct 2019 19:46:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730641AbfJOTVA (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 15 Oct 2019 15:21:00 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:45644 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389372AbfJOTSk (ORCPT
+        id S2436938AbfJQRqE (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 17 Oct 2019 13:46:04 -0400
+Received: from bombadil.infradead.org ([198.137.202.133]:52462 "EHLO
+        bombadil.infradead.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389827AbfJQRqD (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 15 Oct 2019 15:18:40 -0400
-Received: from localhost ([127.0.0.1] helo=localhost.localdomain)
-        by Galois.linutronix.de with esmtp (Exim 4.80)
-        (envelope-from <bigeasy@linutronix.de>)
-        id 1iKSL4-00067i-Dd; Tue, 15 Oct 2019 21:18:34 +0200
-From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To:     linux-kernel@vger.kernel.org
-Cc:     tglx@linutronix.de, Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Subject: [PATCH 08/34] hexagon: Use CONFIG_PREEMPTION
-Date:   Tue, 15 Oct 2019 21:17:55 +0200
-Message-Id: <20191015191821.11479-9-bigeasy@linutronix.de>
-In-Reply-To: <20191015191821.11479-1-bigeasy@linutronix.de>
-References: <20191015191821.11479-1-bigeasy@linutronix.de>
+        Thu, 17 Oct 2019 13:46:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+        Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+         bh=xCRQFy9+IPozuA6foR1LSQETFb0B/WIEsA+BjHPyM30=; b=QSTEOTclGysuQmJmkIo0siPhK
+        /pLUUoz+i79TA+VG6nSlISLGCLkIr1ggrDZvwpQ3NLEg2QUFoisPbZwaVnxaG5RDV8OjPBPKoCVdh
+        tfOsZTOmTulSBDEkEOjLWPRM099VRngsLVn0kVNc3mZdqizosIMTpCNj/RDDgkVqS/GifxjwsRaqP
+        J+Qjadf6dtwYvxkn7ev6qVAfQliw55xpUjhcCgKVqqUPIFO6BH6iBpmm8fYCRFRgPGB4MIxI2E9on
+        RxttYwCplOf4tQOQpkPNU8QczjCt5DUUHhczA9nf9o/yof+J21QHemhfr90FGfBiGTUmrEb/M6V5p
+        dd9W3DXFw==;
+Received: from [2001:4bb8:18c:d7b:c70:4a89:bc61:3] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1iL9qW-0005RL-Hy; Thu, 17 Oct 2019 17:45:56 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     Arnd Bergmann <arnd@arndb.de>, Guo Ren <guoren@kernel.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Guan Xuetao <gxt@pku.edu.cn>, x86@kernel.org
+Cc:     linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-mtd@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: generic ioremap (and lots of cleanups) v2
+Date:   Thu, 17 Oct 2019 19:45:33 +0200
+Message-Id: <20191017174554.29840-1-hch@lst.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-From: Thomas Gleixner <tglx@linutronix.de>
+Hi all,
 
-CONFIG_PREEMPTION is selected by CONFIG_PREEMPT and by CONFIG_PREEMPT_RT.
-Both PREEMPT and PREEMPT_RT require the same functionality which today
-depends on CONFIG_PREEMPT.
+the last patches in this series add a generic ioremap implementation,
+and switch our 3 most recent and thus most tidy architeture ports over
+to use it.  With a little work and an additional arch hook or two the
+implementation should be able to eventually cover more than half of
+our ports.
 
-Switch the entry code over to use CONFIG_PREEMPTION.
+The patches before that clean up various lose ends in the ioremap
+and iounmap implementations.
 
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: linux-hexagon@vger.kernel.org
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- arch/hexagon/kernel/vm_entry.S | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+A git tree is also available here:
 
-diff --git a/arch/hexagon/kernel/vm_entry.S b/arch/hexagon/kernel/vm_entry.S
-index 12242c27e2df5..65a1ea0eed2fa 100644
---- a/arch/hexagon/kernel/vm_entry.S
-+++ b/arch/hexagon/kernel/vm_entry.S
-@@ -265,12 +265,12 @@
- 	 * should be in the designated register (usually R19)
- 	 *
- 	 * If we were in kernel mode, we don't need to check scheduler
--	 * or signals if CONFIG_PREEMPT is not set.  If set, then it has
-+	 * or signals if CONFIG_PREEMPTION is not set.  If set, then it has
- 	 * to jump to a need_resched kind of block.
--	 * BTW, CONFIG_PREEMPT is not supported yet.
-+	 * BTW, CONFIG_PREEMPTION is not supported yet.
- 	 */
-=20
--#ifdef CONFIG_PREEMPT
-+#ifdef CONFIG_PREEMPTION
- 	R0 =3D #VM_INT_DISABLE
- 	trap1(#HVM_TRAP1_VMSETIE)
- #endif
---=20
-2.23.0
+    git://git.infradead.org/users/hch/misc.git generic-ioremap
 
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/generic-ioremap
+
+Changes since v1:
+ - dropped various patches already merged
+ - keep the parts of the parisc EISA hack that are still needed
