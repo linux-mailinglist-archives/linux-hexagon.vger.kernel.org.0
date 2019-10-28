@@ -2,42 +2,50 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 55AE5DE948
-	for <lists+linux-hexagon@lfdr.de>; Mon, 21 Oct 2019 12:20:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F2BFE7514
+	for <lists+linux-hexagon@lfdr.de>; Mon, 28 Oct 2019 16:30:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728088AbfJUKUw (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 21 Oct 2019 06:20:52 -0400
-Received: from [139.59.62.52] ([139.59.62.52]:35056 "EHLO mail.gatefjohn.tk"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S1727517AbfJUKUw (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 21 Oct 2019 06:20:52 -0400
-Received: by mail.gatefjohn.tk (Postfix, from userid 48)
-        id 4D3E7390AA4; Sun, 20 Oct 2019 20:03:30 +0000 (UTC)
-To:     linux-hexagon@vger.kernel.org
-Subject: Purchase Order
-X-PHP-Originating-Script: 0:ygehagea.php
-From:   Daniel Murray <sinara-group@bk.ru>
-Reply-To: sinara-group@list.ru
+        id S1728275AbfJ1PaC (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 28 Oct 2019 11:30:02 -0400
+Received: from verein.lst.de ([213.95.11.211]:35067 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728132AbfJ1PaB (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 28 Oct 2019 11:30:01 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id C147268B05; Mon, 28 Oct 2019 16:29:56 +0100 (CET)
+Date:   Mon, 28 Oct 2019 16:29:56 +0100
+From:   Christoph Hellwig <hch@lst.de>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Christoph Hellwig <hch@lst.de>, Arnd Bergmann <arnd@arndb.de>,
+        Guo Ren <guoren@kernel.org>, Michal Simek <monstr@monstr.eu>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Guan Xuetao <gxt@pku.edu.cn>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-mtd@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 08/21] x86: clean up ioremap
+Message-ID: <20191028152956.GA28048@lst.de>
+References: <20191017174554.29840-1-hch@lst.de> <20191017174554.29840-9-hch@lst.de> <alpine.DEB.2.21.1910211019540.1904@nanos.tec.linutronix.de>
 MIME-Version: 1.0
-Content-Type:   text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7BIT
-Message-Id: <20191020223323.4D3E7390AA4@mail.gatefjohn.tk>
-Date:   Sun, 20 Oct 2019 20:03:30 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <alpine.DEB.2.21.1910211019540.1904@nanos.tec.linutronix.de>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi,friend,
+On Mon, Oct 21, 2019 at 10:23:03AM +0200, Thomas Gleixner wrote:
+> Should this go with your larger series or can this be picked up
+> independently?
 
-This is Daniel Murray and i am purchasing manager from Sinara Group Co.,LTD in Russia.
-We are glad to know about your company from the web and we are interested in your products.
-Could you kindly send us your Latest catalog and price list for our trial order.
-
-Thanks and Best Regards,
-
-Daniel Murray
-Purchasing Manager
-Sinara Group Co.,LTD
-
-
+This should all go together.
