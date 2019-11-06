@@ -2,205 +2,151 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BC622F0C6D
-	for <lists+linux-hexagon@lfdr.de>; Wed,  6 Nov 2019 04:07:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6B41F1CF1
+	for <lists+linux-hexagon@lfdr.de>; Wed,  6 Nov 2019 18:56:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387725AbfKFDHG (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 5 Nov 2019 22:07:06 -0500
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:42417 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387468AbfKFDHG (ORCPT
+        id S1732379AbfKFR4j (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 6 Nov 2019 12:56:39 -0500
+Received: from mail-pf1-f193.google.com ([209.85.210.193]:38149 "EHLO
+        mail-pf1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732461AbfKFR4h (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 5 Nov 2019 22:07:06 -0500
-Received: by mail-pf1-f196.google.com with SMTP id s5so9471730pfh.9
-        for <linux-hexagon@vger.kernel.org>; Tue, 05 Nov 2019 19:07:05 -0800 (PST)
+        Wed, 6 Nov 2019 12:56:37 -0500
+Received: by mail-pf1-f193.google.com with SMTP id c13so19489788pfp.5
+        for <linux-hexagon@vger.kernel.org>; Wed, 06 Nov 2019 09:56:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=neEF1arVtlkYu7Te8ry9xWmO86m4L6M49fWU7Gf2erY=;
-        b=MHdxQCdPIk9csU9sco3kbranbRfmNXyVfOj6R0QS2I6oNtIc8cwCmqw1f/EFTcAnWl
-         cCibFUOyqIbnNRuM2BzlXj51Bb5c5qAMoJZ4xeDQYIUd8pYGppjJsGA3AAbqZSq2tIZ1
-         H/jJMin+LRdXqcd2YjNZuLuSD7JmT2jfKyg8mMfvkRxVgovlnGfH6TvYdz8h0FHtQQRV
-         NXTIkZi+X+AKw2g/ac5nfrChhCAMVLFVHWkDQGUC8gxeEdCTeUSZuTyDC096WgBbGTJ8
-         UZMJtwIleHqvn7xt4YrV/nQqoYGb6CDGlIcV46ptRhdWIRjS1TAFyr7uk57ULeKJKZSv
-         t1qA==
+        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+        h=date:subject:in-reply-to:cc:from:to:message-id;
+        bh=xZW1gMrCUoJqpGWBEYHWFfV09K+K/0uVmzI4MIoxGS8=;
+        b=PGZwZeqhjPGqmbBUrw44Auucb8k6dPtlYxXbuNpTAeEMGmKlsnFWXhrKzSARRD1P5Z
+         ofkafacEFrUvuMMQ8srHmApZNGXOM2FXgWNtdGS1rg8UPKc85d79tzD5/t3BF7GMjDtX
+         WoCFpoFoR/nlY6sa8P7ME55iO2h9Yfcb7ZSd7Zw+om2XJAjYyCK0yIJtNHDyXsnWFiZL
+         JcRZR97cwQ2ZvZRsXx81CQhAqwyUUPUY90oJrysCQQ7l1b0iCyPludGEBBLbIE1elh0S
+         JIqszC7OB8xZ2n5/8rEoDBU7MzMibg41EDmgXW2rJwIAtaViAg8zHwFVYITgL2sVpvu1
+         UzBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=neEF1arVtlkYu7Te8ry9xWmO86m4L6M49fWU7Gf2erY=;
-        b=SIDKjyyIzRbZYsV8oQSd29jvd/sjomY9z/GoMjiJ2ZalBE72sr4ytqIZBiD5BQtc58
-         K8Yf74pSb8CRPDsCEjagAqRGihjbC0mUuVMN2oRhMofgAWQ5coezXIxA1F/KKNZIJEbo
-         +1O5IHaMaJydW/R+ciZQ/SjArjKZ37ADo1CzF6GVqusfruWiPYmZiYldkieq/Hf4kHUP
-         GBYVicQXYMUvCr+KBPcndRdOIMpASSpM51EXkpgq+Cd4w1yHchyagcvzqy+br8nNy60H
-         GoT66/ddFiAKzUCoe0nUJ+jdVc0GKDFOl/VncEX+JfMk5IcBsuDGvACYTxBOQ0WF49nC
-         iRwA==
-X-Gm-Message-State: APjAAAWWDVj3w0Si2UJX9LBJWlGy3QJOZZBOpcqnrGNhwkM1cHocwif6
-        v6LEJh94wzUd23s/br9JaNEr4g==
-X-Google-Smtp-Source: APXvYqxKAfi2Tz6zIC2M0c+D9UwVXDevSqDNALyBUPGEETUlrOjbrasGkAo4OhzwHnfoy3e2g7qstg==
-X-Received: by 2002:a63:e853:: with SMTP id a19mr213781pgk.192.1573009625059;
-        Tue, 05 Nov 2019 19:07:05 -0800 (PST)
-Received: from Mindolluin.ire.aristanetworks.com ([217.173.96.166])
-        by smtp.gmail.com with ESMTPSA id k24sm19570487pgl.6.2019.11.05.19.07.01
+        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id;
+        bh=xZW1gMrCUoJqpGWBEYHWFfV09K+K/0uVmzI4MIoxGS8=;
+        b=XIK2bSpVy+2Q30FGdZosrwJxMXfRzqbvS9NtivciEbxZ5ODyb+2L77ZjV5v783RWu0
+         m65vK9k7N8fBmM8WlzH6iPpTsjz2UqHba/5yWRH0TwRn1IlsVRHFiLrZN3ZSDLHac/tH
+         IVFCMhGJ3wDK6kP+uzmXeoLwsWHq8XL/vXH9AcC8bC7AahgB7S/GGwu1o8shbGpDip9V
+         NKfPVtkOZITmyUPXJRrs33WT7fvsbbtVbQ52KpaPWuPof9MGRCOzjSd/eEIoxEy1XQVE
+         R3oEHuRhpmG16czBR5T5TJdrICuA3zsXldAxSiTR21bsh6cLpRnhyHD1qCnid92iwPGu
+         YGeQ==
+X-Gm-Message-State: APjAAAUsz96va7Vc2XdmDkyaV5YJi/AwKQ1m0MiEVTu18HStTGBg2qnA
+        p8L0U4rQGtFYdbOlPHA8NWmmFw==
+X-Google-Smtp-Source: APXvYqyZI0/opOONYHdOR3l6SH/z69P+ajsTKg8L6ObdzcVPlsahU45e+bD0ChxR/pgAJsTDNgZ9EA==
+X-Received: by 2002:a17:90a:340c:: with SMTP id o12mr5529604pjb.18.1573062994968;
+        Wed, 06 Nov 2019 09:56:34 -0800 (PST)
+Received: from localhost ([12.206.222.5])
+        by smtp.gmail.com with ESMTPSA id z11sm32745913pfg.117.2019.11.06.09.56.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2019 19:07:03 -0800 (PST)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>, Jiri Slaby <jslaby@suse.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org
-Subject: [PATCH 14/50] hexagon: Add show_stack_loglvl()
-Date:   Wed,  6 Nov 2019 03:05:05 +0000
-Message-Id: <20191106030542.868541-15-dima@arista.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20191106030542.868541-1-dima@arista.com>
-References: <20191106030542.868541-1-dima@arista.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Wed, 06 Nov 2019 09:56:34 -0800 (PST)
+Date:   Wed, 06 Nov 2019 09:56:34 -0800 (PST)
+X-Google-Original-Date: Wed, 06 Nov 2019 09:56:23 PST (-0800)
+Subject:     Re: [PATCH 10/21] asm-generic: ioremap_uc should behave the same with and without MMU
+In-Reply-To: <20191029064834.23438-11-hch@lst.de>
+CC:     Arnd Bergmann <arnd@arndb.de>, guoren@kernel.org, monstr@monstr.eu,
+        green.hu@gmail.com, deanbo422@gmail.com, gxt@pku.edu.cn,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-mtd@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Palmer Dabbelt <palmer@dabbelt.com>
+To:     Christoph Hellwig <hch@lst.de>
+Message-ID: <mhng-3f709a8a-a8c3-4612-b4de-847d13b4af0a@palmer-si-x1c4>
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Currently, the log-level of show_stack() depends on a platform
-realization. It creates situations where the headers are printed with
-lower log level or higher than the stacktrace (depending on
-a platform or user).
+On Mon, 28 Oct 2019 23:48:23 PDT (-0700), Christoph Hellwig wrote:
+> Whatever reason there is for the existence of ioremap_uc, and the fact
+> that it returns NULL by default on architectures with an MMU applies
+> equally to nommu architectures, so don't provide different defaults.
+>
+> In practice the difference is meaningless as the only portable driver
+> that uses ioremap_uc is atyfb which probably doesn't show up on nommu
+> devices.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  include/asm-generic/io.h | 36 ++++++++++++++++--------------------
+>  1 file changed, 16 insertions(+), 20 deletions(-)
+>
+> diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
+> index d02806513670..a98ed6325727 100644
+> --- a/include/asm-generic/io.h
+> +++ b/include/asm-generic/io.h
+> @@ -935,18 +935,7 @@ static inline void *phys_to_virt(unsigned long address)
+>   * defined your own ioremap_*() variant you must then declare your own
+>   * ioremap_*() variant as defined to itself to avoid the default NULL return.
+>   */
+> -
+> -#ifdef CONFIG_MMU
+> -
+> -#ifndef ioremap_uc
+> -#define ioremap_uc ioremap_uc
+> -static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
+> -{
+> -	return NULL;
+> -}
+> -#endif
+> -
+> -#else /* !CONFIG_MMU */
+> +#ifndef CONFIG_MMU
+>
+>  /*
+>   * Change "struct page" to physical address.
+> @@ -980,14 +969,6 @@ static inline void __iomem *ioremap_nocache(phys_addr_t offset, size_t size)
+>  }
+>  #endif
+>
+> -#ifndef ioremap_uc
+> -#define ioremap_uc ioremap_uc
+> -static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
+> -{
+> -	return ioremap_nocache(offset, size);
+> -}
+> -#endif
+> -
+>  #ifndef ioremap_wc
+>  #define ioremap_wc ioremap_wc
+>  static inline void __iomem *ioremap_wc(phys_addr_t offset, size_t size)
+> @@ -1004,6 +985,21 @@ static inline void __iomem *ioremap_wt(phys_addr_t offset, size_t size)
+>  }
+>  #endif
+>
+> +/*
+> + * ioremap_uc is special in that we do require an explicit architecture
+> + * implementation.  In general you do now want to use this function in a
 
-Furthermore, it forces the logic decision from user to an architecture
-side. In result, some users as sysrq/kdb/etc are doing tricks with
-temporary rising console_loglevel while printing their messages.
-And in result it not only may print unwanted messages from other CPUs,
-but also omit printing at all in the unlucky case where the printk()
-was deferred.
+Presumably that's supposed to be "do not want to use"?
 
-Introducing log-level parameter and KERN_UNSUPPRESSED [1] seems
-an easier approach than introducing more printk buffers.
-Also, it will consolidate printings with headers.
+> + * driver and use plain ioremap, which is uncached by default.  Similarly
+> + * architectures should not implement it unless they have a very good
+> + * reason.
+> + */
+> +#ifndef ioremap_uc
+> +#define ioremap_uc ioremap_uc
+> +static inline void __iomem *ioremap_uc(phys_addr_t offset, size_t size)
+> +{
+> +	return NULL;
+> +}
+> +#endif
+> +
+>  #ifdef CONFIG_HAS_IOPORT_MAP
+>  #ifndef CONFIG_GENERIC_IOMAP
+>  #ifndef ioport_map
 
-Introduce show_stack_loglvl(), that eventually will substitute
-show_stack().
+With the fix:
 
-As a good side-effect die() now prints the stacktrace with KERN_EMERG
-aligned with other messages.
-
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: linux-hexagon@vger.kernel.org
-[1]: https://lore.kernel.org/lkml/20190528002412.1625-1-dima@arista.com/T/#u
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- arch/hexagon/kernel/traps.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
-
-diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
-index 69c623b14ddd..a8a3a210d781 100644
---- a/arch/hexagon/kernel/traps.c
-+++ b/arch/hexagon/kernel/traps.c
-@@ -79,7 +79,7 @@ static const char *ex_name(int ex)
- }
- 
- static void do_show_stack(struct task_struct *task, unsigned long *fp,
--			  unsigned long ip)
-+			  unsigned long ip, const char *loglvl)
- {
- 	int kstack_depth_to_print = 24;
- 	unsigned long offset, size;
-@@ -93,9 +93,8 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 	if (task == NULL)
- 		task = current;
- 
--	printk(KERN_INFO "CPU#%d, %s/%d, Call Trace:\n",
--	       raw_smp_processor_id(), task->comm,
--	       task_pid_nr(task));
-+	printk("%sCPU#%d, %s/%d, Call Trace:\n", loglvl, raw_smp_processor_id(),
-+		task->comm, task_pid_nr(task));
- 
- 	if (fp == NULL) {
- 		if (task == current) {
-@@ -108,7 +107,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 	}
- 
- 	if ((((unsigned long) fp) & 0x3) || ((unsigned long) fp < 0x1000)) {
--		printk(KERN_INFO "-- Corrupt frame pointer %p\n", fp);
-+		printk("%s-- Corrupt frame pointer %p\n", loglvl, fp);
- 		return;
- 	}
- 
-@@ -125,8 +124,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 
- 		name = kallsyms_lookup(ip, &size, &offset, &modname, tmpstr);
- 
--		printk(KERN_INFO "[%p] 0x%lx: %s + 0x%lx", fp, ip, name,
--			offset);
-+		printk("%s[%p] 0x%lx: %s + 0x%lx", loglvl, fp, ip, name, offset);
- 		if (((unsigned long) fp < low) || (high < (unsigned long) fp))
- 			printk(KERN_CONT " (FP out of bounds!)");
- 		if (modname)
-@@ -136,8 +134,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 		newfp = (unsigned long *) *fp;
- 
- 		if (((unsigned long) newfp) & 0x3) {
--			printk(KERN_INFO "-- Corrupt frame pointer %p\n",
--				newfp);
-+			printk("%s-- Corrupt frame pointer %p\n", loglvl, newfp);
- 			break;
- 		}
- 
-@@ -147,7 +144,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 						+ 8);
- 
- 			if (regs->syscall_nr != -1) {
--				printk(KERN_INFO "-- trap0 -- syscall_nr: %ld",
-+				printk("%s-- trap0 -- syscall_nr: %ld", loglvl,
- 					regs->syscall_nr);
- 				printk(KERN_CONT "  psp: %lx  elr: %lx\n",
- 					 pt_psp(regs), pt_elr(regs));
-@@ -155,7 +152,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 			} else {
- 				/* really want to see more ... */
- 				kstack_depth_to_print += 6;
--				printk(KERN_INFO "-- %s (0x%lx)  badva: %lx\n",
-+				printk("%s-- %s (0x%lx)  badva: %lx\n", loglvl,
- 					ex_name(pt_cause(regs)), pt_cause(regs),
- 					pt_badva(regs));
- 			}
-@@ -178,10 +175,16 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 	}
- }
- 
--void show_stack(struct task_struct *task, unsigned long *fp)
-+void show_stack_loglvl(struct task_struct *task, unsigned long *fp,
-+		       const char *loglvl)
- {
- 	/* Saved link reg is one word above FP */
--	do_show_stack(task, fp, 0);
-+	do_show_stack(task, fp, 0, loglvl);
-+}
-+
-+void show_stack(struct task_struct *task, unsigned long *fp)
-+{
-+	show_stack_loglvl(task, fp, 0, KERN_INFO);
- }
- 
- int die(const char *str, struct pt_regs *regs, long err)
-@@ -207,7 +210,7 @@ int die(const char *str, struct pt_regs *regs, long err)
- 
- 	print_modules();
- 	show_regs(regs);
--	do_show_stack(current, &regs->r30, pt_elr(regs));
-+	do_show_stack(current, &regs->r30, pt_elr(regs), KERN_EMERG);
- 
- 	bust_spinlocks(0);
- 	add_taint(TAINT_DIE, LOCKDEP_NOW_UNRELIABLE);
--- 
-2.23.0
-
+Reviewed-by: Palmer Dabbelt <palmer@dabbelt.com>
