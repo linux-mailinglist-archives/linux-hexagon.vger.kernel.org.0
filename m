@@ -2,34 +2,38 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EAC5F724A
-	for <lists+linux-hexagon@lfdr.de>; Mon, 11 Nov 2019 11:36:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E61F801C
+	for <lists+linux-hexagon@lfdr.de>; Mon, 11 Nov 2019 20:33:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726913AbfKKKgn (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 11 Nov 2019 05:36:43 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:38207 "EHLO
+        id S1727820AbfKKTdk (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 11 Nov 2019 14:33:40 -0500
+Received: from mout.kundenserver.de ([212.227.17.24]:39367 "EHLO
         mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726887AbfKKKgn (ORCPT
+        with ESMTP id S1727797AbfKKTdj (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 11 Nov 2019 05:36:43 -0500
-Received: from mail-qv1-f46.google.com ([209.85.219.46]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.129]) with ESMTPSA (Nemesis)
- id 1MqbI0-1i8CQi2iKu-00mc2H; Mon, 11 Nov 2019 11:36:40 +0100
-Received: by mail-qv1-f46.google.com with SMTP id f12so4660079qvu.3;
-        Mon, 11 Nov 2019 02:36:39 -0800 (PST)
-X-Gm-Message-State: APjAAAUT3Qdeiri2nf/a9hZxYA+s9YglrpYjjU1hn5ZWkyA7i5p8Vrcc
-        QA30I7QFw7jV+rFcmPGwSBM33hztJ/+dGvx7o1E=
-X-Google-Smtp-Source: APXvYqwG9UjDI7BT4/zArLXJROi41Jfl0ozvIqGD8Z6sQp9Psd5jWuuWMeGtnWBnULPRq767xF7AmE4x/PyrFGraS9U=
-X-Received: by 2002:a0c:a9cc:: with SMTP id c12mr4580319qvb.222.1573468598676;
- Mon, 11 Nov 2019 02:36:38 -0800 (PST)
+        Mon, 11 Nov 2019 14:33:39 -0500
+Received: from mail-qk1-f179.google.com ([209.85.222.179]) by
+ mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
+ id 1N3bCH-1hmQ3w3kY7-010fCN; Mon, 11 Nov 2019 20:33:36 +0100
+Received: by mail-qk1-f179.google.com with SMTP id h15so12180561qka.13;
+        Mon, 11 Nov 2019 11:33:34 -0800 (PST)
+X-Gm-Message-State: APjAAAXXUehROR4hg16SrGsmLkhlWeNJFltpGV8/mDO3s1mh8skoqwjh
+        tY/46NCrVFjCjJg/qAPgy/4Ru1VJxk+kMV3sub8=
+X-Google-Smtp-Source: APXvYqzRT3LvGe5JvZLYKm1upZpHxk2xc9ns43ZUwTpi/JlFXD7dYhA8+4Mt4XVDG2f3/qLjEL/Ms2I9EThmbgvV8Jg=
+X-Received: by 2002:a37:58d:: with SMTP id 135mr2321779qkf.394.1573500813881;
+ Mon, 11 Nov 2019 11:33:33 -0800 (PST)
 MIME-Version: 1.0
-References: <20191029064834.23438-1-hch@lst.de> <20191029064834.23438-4-hch@lst.de>
-In-Reply-To: <20191029064834.23438-4-hch@lst.de>
+References: <20191029064834.23438-1-hch@lst.de> <20191029064834.23438-11-hch@lst.de>
+ <CAK8P3a2o4R+E2hTrHrmNy7K1ki3_98aWE5a-fjkQ_NWW=xd_gQ@mail.gmail.com>
+ <20191111101531.GA12294@lst.de> <CAK8P3a0rTvfPP2LUMw8EC0xz5gfZP5+NUkoaZBJrtYYfr6YRig@mail.gmail.com>
+ <20191111102923.GA12974@lst.de>
+In-Reply-To: <20191111102923.GA12974@lst.de>
 From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 11 Nov 2019 11:36:22 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3k2KRyhCy4OWJkToNBiw_mw0e_A=Ta6UANMMF3EXnhmA@mail.gmail.com>
-Message-ID: <CAK8P3a3k2KRyhCy4OWJkToNBiw_mw0e_A=Ta6UANMMF3EXnhmA@mail.gmail.com>
-Subject: Re: [PATCH 03/21] ia64: rename ioremap_nocache to ioremap_uc
+Date:   Mon, 11 Nov 2019 20:33:17 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a2b=td4JhYOcK1jUshh8Mp-5_w4v+dAr_JjnH783=ptBQ@mail.gmail.com>
+Message-ID: <CAK8P3a2b=td4JhYOcK1jUshh8Mp-5_w4v+dAr_JjnH783=ptBQ@mail.gmail.com>
+Subject: Re: [PATCH 10/21] asm-generic: ioremap_uc should behave the same with
+ and without MMU
 To:     Christoph Hellwig <hch@lst.de>
 Cc:     Guo Ren <guoren@kernel.org>, Michal Simek <monstr@monstr.eu>,
         Greentime Hu <green.hu@gmail.com>,
@@ -56,46 +60,43 @@ Cc:     Guo Ren <guoren@kernel.org>, Michal Simek <monstr@monstr.eu>,
         linux-arch <linux-arch@vger.kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:1JhgznTD+nxQakSYexEK5Pk7b21gJFc2WwU/VhlwbME8N3jGV/+
- TpZ37rg3qW3B4NpO67un+1fSQwj7nJ9WZxTx4tTw9EKEbeJLwQT1TG9P/3xrMgCSPaMoGDW
- 4OmMhZWar6tNBwoASHsSKmwJI7CPx497+h8ii4N2nIjzGmy0KJ0TV9vHBlIGb31rRCksOx9
- aTZ8Ir7FbCAiPNKD11llg==
+X-Provags-ID: V03:K1:VkzlYprmjLZkUUcNJ+eTrkc1uyTcHlM+BFAEE68s21ucomSZQaJ
+ Mq1HsbOKR10W9ktsWQqC2d+1fxNFc++gSh355I/Sm9Nt0OELiCU5GE/ejcbxdc0XoKGFGOR
+ lJT0aj3OKGGsrqrwmqhZcVjRTdGYhtUjAmaLqUrUWTfS9gPcJXopxjb/cHOb3V99Jjg8KyM
+ BDe7AsIZLiGgQ+SW18UXg==
 X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ine2h7iyM1A=:qlrnOzki59DM0rGyHbF8c+
- 4c41xr+Pjp3dv6qx5neQvKwVeJxerBsQ4cZwqUg3qKbbDEFa2ZPC0yEa1cbl7oJWJAwRcsdz6
- 3MUPWCBNg96i3H6LWIf2LY64tTEzAwU6ta+wRDArNRsNPjb+cOcAHdO9J5cipKKooXSwfqh8z
- hdrlf+Webj14QrpswR0AwC+8hKtzWd3i0xF+aE+nK/v+b1TtFw3PWqR0yiKat86EI4zUEaq5S
- blnI1BhSm9FhHUQnRQYPCyh9wiNRLDsep8swNKAMT9kFtEYbcXHeA956UAKOL55rHOLQlxqd3
- lAXOyepCNVYPFNUyMmMo6uXZePmp/F+60qeAs/Tm928lA24mSrrR1jN4Nq8m3JqUpjKhlZFaU
- fvOcUxdsAUUjwEiE4xSEhPoEtQb+DOGjhCuWsoZrvcZ1CjJd2pnmp6FLV3FPDrayCN2FUB0+D
- dmLJySIAVE94FRl52KFtqFt9/TBA0a2L4yS7XNw+74hbWZJzUFOsB1zH2ZnS90kPa5a1S22XM
- mkuCB+Ze2kLOtqiQGKJqc0RlyWnS+sMOkWAdvTX+Rk1hGH5fKf0QbR6Le5fYNxtQWuM0JMh+f
- By832HCI9AAhEwsUgCfxQCimkThZsEgsisrp/yb11zuIdHEeLX16avpzV0hyWrAt6yeKP7XrG
- yjSzxrZhvOP87R/igp1n2UpO7GVNOVggicvQugamDUOVh3NDT+rQXzKcV4LH3yIkPIKuSINHm
- GaoL/XXgPWkF56Qx6lsBsgXfh3dciBTkAIu4nPZV5+fqR9kZ2QN3jAM4eo2Ub3HntQ9Kbyv/a
- ZDdBgC236xAnxPORQfWGJIrWohqntO0L5vDv2H4PTweI1FuenAFOsrx0PeMpr05WJvpzkeNBM
- RntzRq/h+i22XaPj8kSJZuypgHi3M6gwdd2H+7uFpgi5116lXuTPt2gZhmC4RNHOAUMyt7F6w
- EKVOtQp2bdxVDZZvAy6BtKT5EprzcuH1RFRAxRb4YPU7spR+xJPQCgbGgWu5JDdYB+aa/+plM
- NJyOttaoY33T+C7Iqkgauu6DDMOdPDodJFayhYpF7V4oCFsaUB1Qh4zXbOtQenYMLA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hdS04Xdlzj8=:M/ucaK4r3dinqbK80C41xd
+ FMDjqQL3YWPxy6jHWBpvqKj9qZWP8X6dfE8RQCodF9mGe6XJZOKEt4p5phfvsuDjwfDAuR77q
+ 5sbXk3f1gGuA3fUl2kc50FhfPxqpKsTvCyJ9PMoA1vJWANud2ysKvaSTXrsxfuBDYbDYflWwD
+ FkAIhnavF1mnucw3hAUZbu/DkQc78rhm6yA66+iyf0ibiFIB1fiFKcy3QWM1WJMSymvmz+Cik
+ 0TMLecIni73LtmjHaEJqdQ07OpzRu6o2+nc6q2bAY8v58NfnuF4PC+RAMX5jsCwhiMQuTAAzH
+ d9cCFvrdweO5pjBwUMsl1fDngiL0PhMkFoHuG2mp6WTu+9yigHaCDYkLBnzqo3wCtFy+yT589
+ vZ/FGbV4Lx/67Cyy8ORfHd/Q4I+ytFVw6wwtG0/mHwHZbYfS5buusBz3lQKNPLkaAr33vhbEI
+ HXyb+ZMaKffgQFt++5lnGgDgUJQspoUegjhdEeGEI5XiZQJLi3elBg+C5Gkccpc1LDKrpW2ka
+ YjGgj5260Lt3d8KDG/qdbMttJAKgU/xdQzH2MW0jtDV/+7cUj/sApumoILyv1cXORKI+bqwSx
+ ogfAEpKRHtcZ3qEtQueZhW8Xu+2e019UPGPVU0qRA4v2G6oIRAzpinHe15u698zmzbDymL58Y
+ lwxjoo4VbkwFV/6Hr98ctBchu4Q9vloUQ/pqLZpaLK1ga8iZgXmf+PzlaojeIr0ObdDBvevEx
+ 7OZcdxrTy7Y1NqggNs6PW94MGROjlUKfXkY5V9wZiL5kUIPMuEbzKs1fxUg2d59L21Tn3fP6m
+ i7fEXDMKusM1lgLeJl9N0qIk4SBBs+5bFUkc1R6uO78ROGzNzWdO/juF7AjegP2MSh3mgCkLn
+ JUwmUH8sWRrwHApJ0rkA==
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, Oct 29, 2019 at 7:48 AM Christoph Hellwig <hch@lst.de> wrote:
+On Mon, Nov 11, 2019 at 11:29 AM Christoph Hellwig <hch@lst.de> wrote:
 >
-> On ia64 ioremap_nocache fails if attributes don't match.  Not other
-> architectures does this, and we plan to get rid of ioremap_nocache.
-> So get rid of the special semantics and define ioremap_nocache in
-> terms of ioremap as no portable driver could rely on the behavior
-> anyway.
+> On Mon, Nov 11, 2019 at 11:27:27AM +0100, Arnd Bergmann wrote:
+> > Ok, fair enough. Let's just go with your version for now, if only to not
+> > hold your series up more. I'd still suggest we change atyfb to only
+> > use ioremap_uc() on i386 and maybe ia64. I can send a patch for that.
 >
-> However x86 implements ioremap_uc in a similar way as the ia64
-> version of ioremap_nocache, in that it ignores the firmware tables.
-> Switch ia64 to override ioremap_uc instead.
->
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> I don't think we even need it on ia64.  But lets kick off a dicussion
+> with the atyfb, x86 and ia64 maintainers after this series is in.
+> Which was kinda my plan anyway.
 
-Good idea,
+I missed your reply and already sent my patch now. I guess it doesn't
+hurt to discuss that in parallel. Anyway I think that this patch is the
+last one you want an Ack from me for (let me know if I missed one), so
 
 Reviewed-by: Arnd Bergmann <arnd@arndb.de>
