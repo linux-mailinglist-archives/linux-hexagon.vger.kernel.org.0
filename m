@@ -2,101 +2,237 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 94E61F801C
-	for <lists+linux-hexagon@lfdr.de>; Mon, 11 Nov 2019 20:33:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9275FF8B11
+	for <lists+linux-hexagon@lfdr.de>; Tue, 12 Nov 2019 09:52:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727820AbfKKTdk (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 11 Nov 2019 14:33:40 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:39367 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727797AbfKKTdj (ORCPT
+        id S1727170AbfKLIwJ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 12 Nov 2019 03:52:09 -0500
+Received: from mail-qv1-f68.google.com ([209.85.219.68]:36799 "EHLO
+        mail-qv1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725954AbfKLIwJ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 11 Nov 2019 14:33:39 -0500
-Received: from mail-qk1-f179.google.com ([209.85.222.179]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1N3bCH-1hmQ3w3kY7-010fCN; Mon, 11 Nov 2019 20:33:36 +0100
-Received: by mail-qk1-f179.google.com with SMTP id h15so12180561qka.13;
-        Mon, 11 Nov 2019 11:33:34 -0800 (PST)
-X-Gm-Message-State: APjAAAXXUehROR4hg16SrGsmLkhlWeNJFltpGV8/mDO3s1mh8skoqwjh
-        tY/46NCrVFjCjJg/qAPgy/4Ru1VJxk+kMV3sub8=
-X-Google-Smtp-Source: APXvYqzRT3LvGe5JvZLYKm1upZpHxk2xc9ns43ZUwTpi/JlFXD7dYhA8+4Mt4XVDG2f3/qLjEL/Ms2I9EThmbgvV8Jg=
-X-Received: by 2002:a37:58d:: with SMTP id 135mr2321779qkf.394.1573500813881;
- Mon, 11 Nov 2019 11:33:33 -0800 (PST)
+        Tue, 12 Nov 2019 03:52:09 -0500
+Received: by mail-qv1-f68.google.com with SMTP id f12so6061477qvu.3;
+        Tue, 12 Nov 2019 00:52:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=cROzNmdYxisqWoueYc9W+eIG2Mx3qlHP7NfXN3GI/FQ=;
+        b=PF/S6iWT4CYos5f/Qxiyrj819yA9DztoVnQngjCM7ST0A6/xHzOKuFza6aEAOEIHFD
+         IRs3g/sDkmOZsVUg5BfLLNbhxSMsVVb1DEnttjxKmX81P3vu2Wx0WRs/PKqDolQ/IqMK
+         uPtjTNahNUl/KH+yjsZZF+CoOeh+jZqwG7uXGo3nhOFae7Ampy0721WlrVLudKDpbQ6w
+         Ne05cDDAK3nINRCW8InLefN68zNgFYrAuL9YQ5NnpKcJktjb30Vy1+p0A29rUFLtn67e
+         CyPwRK92ARrt+aagj3u2Ed/rcJMFZLBJNDyZ8A+QOoxqRdIwXIhdl4nE8zBZgMbMWl9y
+         KZDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=cROzNmdYxisqWoueYc9W+eIG2Mx3qlHP7NfXN3GI/FQ=;
+        b=YNAf5bi0IwYHZYEY1+2wXQaFQUJkvOzeXvYB3tC7UZaOMLcuX+vd2l1fdxhxQm2XN3
+         8wTGx61vLOXuZQqLbQNbJFTiMWR0RbcMozzIiPDhMKycLQ0cgaSB18oz6eIU3HVfQWxA
+         98R61PW6tsp/IENRLeAz5Vb56OfIzhCXNFMhzmuKGgADIvkmaAGlPsGLZ8dFtjEIXAH6
+         oXt9Aq9Zj9lt2YKMxHc6LrBPKmHMIWPXOcDOqnNAWfLnucMN/7B6v8cf8ad3JRvUvW7M
+         bIdFJkcgM5V9xm98crMw3LqJeZRErrRiZxbxjlkCKkMBbpV/pVSTfFAgo8pEQ9PpsVCE
+         6sIw==
+X-Gm-Message-State: APjAAAUP+caTtJZCypdyRsHqKGjdSEoq3FVSTWVJh1cngQoYJD+tsJ7i
+        Wx5X4H0W1ZKcd9fnhneQ/EJSTIDBui8WEiKQGbA=
+X-Google-Smtp-Source: APXvYqx6NKc2ScCo7khfKTbduCZ3tXXPnpOsLDXFoJ5p/wlTm7Nj9aXW2BAPakV8QIjz95Uh9EuSyoZxwk73743by2g=
+X-Received: by 2002:a0c:d0e1:: with SMTP id b30mr27967066qvh.197.1573548727413;
+ Tue, 12 Nov 2019 00:52:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20191029064834.23438-1-hch@lst.de> <20191029064834.23438-11-hch@lst.de>
- <CAK8P3a2o4R+E2hTrHrmNy7K1ki3_98aWE5a-fjkQ_NWW=xd_gQ@mail.gmail.com>
- <20191111101531.GA12294@lst.de> <CAK8P3a0rTvfPP2LUMw8EC0xz5gfZP5+NUkoaZBJrtYYfr6YRig@mail.gmail.com>
- <20191111102923.GA12974@lst.de>
-In-Reply-To: <20191111102923.GA12974@lst.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Mon, 11 Nov 2019 20:33:17 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a2b=td4JhYOcK1jUshh8Mp-5_w4v+dAr_JjnH783=ptBQ@mail.gmail.com>
-Message-ID: <CAK8P3a2b=td4JhYOcK1jUshh8Mp-5_w4v+dAr_JjnH783=ptBQ@mail.gmail.com>
-Subject: Re: [PATCH 10/21] asm-generic: ioremap_uc should behave the same with
- and without MMU
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Guo Ren <guoren@kernel.org>, Michal Simek <monstr@monstr.eu>,
-        Greentime Hu <green.hu@gmail.com>,
+References: <20191029064834.23438-1-hch@lst.de> <20191029064834.23438-20-hch@lst.de>
+In-Reply-To: <20191029064834.23438-20-hch@lst.de>
+From:   Greentime Hu <green.hu@gmail.com>
+Date:   Tue, 12 Nov 2019 16:51:29 +0800
+Message-ID: <CAEbi=3c58Pb=Q3BqeTLhEK8OsdTpbD5tAe6VcGOC7JBWbTjetQ@mail.gmail.com>
+Subject: Re: [PATCH 19/21] nds32: use generic ioremap
+To:     Christoph Hellwig <hch@lst.de>, Nickhu <nickhu@andestech.com>,
+        alankao@andestech.com
+Cc:     Arnd Bergmann <arnd@arndb.de>, Guo Ren <guoren@kernel.org>,
+        Michal Simek <monstr@monstr.eu>,
         Vincent Chen <deanbo422@gmail.com>,
-        Guan Xuetao <gxt@pku.edu.cn>,
-        "the arch/x86 maintainers" <x86@kernel.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        "open list:SYNOPSYS ARC ARCHITECTURE" 
-        <linux-snps-arc@lists.infradead.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        linux-ia64@vger.kernel.org,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        linux-mips@vger.kernel.org,
-        "moderated list:NIOS2 ARCHITECTURE" 
-        <nios2-dev@lists.rocketboards.org>, openrisc@lists.librecores.org,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-riscv@lists.infradead.org,
+        Guan Xuetao <gxt@pku.edu.cn>, x86@kernel.org,
+        linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
         linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        sparclinux <sparclinux@vger.kernel.org>,
-        linux-xtensa@linux-xtensa.org,
-        linux-mtd <linux-mtd@lists.infradead.org>,
+        linux-sh@vger.kernel.org, sparclinux <sparclinux@vger.kernel.org>,
+        linux-xtensa@linux-xtensa.org, linux-mtd@lists.infradead.org,
         linux-arch <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:VkzlYprmjLZkUUcNJ+eTrkc1uyTcHlM+BFAEE68s21ucomSZQaJ
- Mq1HsbOKR10W9ktsWQqC2d+1fxNFc++gSh355I/Sm9Nt0OELiCU5GE/ejcbxdc0XoKGFGOR
- lJT0aj3OKGGsrqrwmqhZcVjRTdGYhtUjAmaLqUrUWTfS9gPcJXopxjb/cHOb3V99Jjg8KyM
- BDe7AsIZLiGgQ+SW18UXg==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hdS04Xdlzj8=:M/ucaK4r3dinqbK80C41xd
- FMDjqQL3YWPxy6jHWBpvqKj9qZWP8X6dfE8RQCodF9mGe6XJZOKEt4p5phfvsuDjwfDAuR77q
- 5sbXk3f1gGuA3fUl2kc50FhfPxqpKsTvCyJ9PMoA1vJWANud2ysKvaSTXrsxfuBDYbDYflWwD
- FkAIhnavF1mnucw3hAUZbu/DkQc78rhm6yA66+iyf0ibiFIB1fiFKcy3QWM1WJMSymvmz+Cik
- 0TMLecIni73LtmjHaEJqdQ07OpzRu6o2+nc6q2bAY8v58NfnuF4PC+RAMX5jsCwhiMQuTAAzH
- d9cCFvrdweO5pjBwUMsl1fDngiL0PhMkFoHuG2mp6WTu+9yigHaCDYkLBnzqo3wCtFy+yT589
- vZ/FGbV4Lx/67Cyy8ORfHd/Q4I+ytFVw6wwtG0/mHwHZbYfS5buusBz3lQKNPLkaAr33vhbEI
- HXyb+ZMaKffgQFt++5lnGgDgUJQspoUegjhdEeGEI5XiZQJLi3elBg+C5Gkccpc1LDKrpW2ka
- YjGgj5260Lt3d8KDG/qdbMttJAKgU/xdQzH2MW0jtDV/+7cUj/sApumoILyv1cXORKI+bqwSx
- ogfAEpKRHtcZ3qEtQueZhW8Xu+2e019UPGPVU0qRA4v2G6oIRAzpinHe15u698zmzbDymL58Y
- lwxjoo4VbkwFV/6Hr98ctBchu4Q9vloUQ/pqLZpaLK1ga8iZgXmf+PzlaojeIr0ObdDBvevEx
- 7OZcdxrTy7Y1NqggNs6PW94MGROjlUKfXkY5V9wZiL5kUIPMuEbzKs1fxUg2d59L21Tn3fP6m
- i7fEXDMKusM1lgLeJl9N0qIk4SBBs+5bFUkc1R6uO78ROGzNzWdO/juF7AjegP2MSh3mgCkLn
- JUwmUH8sWRrwHApJ0rkA==
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Mon, Nov 11, 2019 at 11:29 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Mon, Nov 11, 2019 at 11:27:27AM +0100, Arnd Bergmann wrote:
-> > Ok, fair enough. Let's just go with your version for now, if only to not
-> > hold your series up more. I'd still suggest we change atyfb to only
-> > use ioremap_uc() on i386 and maybe ia64. I can send a patch for that.
->
-> I don't think we even need it on ia64.  But lets kick off a dicussion
-> with the atyfb, x86 and ia64 maintainers after this series is in.
-> Which was kinda my plan anyway.
+Hi,
 
-I missed your reply and already sent my patch now. I guess it doesn't
-hurt to discuss that in parallel. Anyway I think that this patch is the
-last one you want an Ack from me for (let me know if I missed one), so
+Christoph Hellwig <hch@lst.de> =E6=96=BC 2019=E5=B9=B410=E6=9C=8829=E6=97=
+=A5 =E9=80=B1=E4=BA=8C =E4=B8=8B=E5=8D=882:49=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> Use the generic ioremap_prot and iounmap helpers.
+>
+> Note that the io.h include in pgtable.h had to be removed to not create
+> an include loop.  As far as I can tell there was no need for it to
+> start with.
+>
+> Signed-off-by: Christoph Hellwig <hch@lst.de>
+> ---
+>  arch/nds32/Kconfig               |  1 +
+>  arch/nds32/include/asm/io.h      |  3 +-
+>  arch/nds32/include/asm/pgtable.h |  4 ++-
+>  arch/nds32/mm/Makefile           |  3 +-
+>  arch/nds32/mm/ioremap.c          | 62 --------------------------------
+>  5 files changed, 6 insertions(+), 67 deletions(-)
+>  delete mode 100644 arch/nds32/mm/ioremap.c
+>
+> diff --git a/arch/nds32/Kconfig b/arch/nds32/Kconfig
+> index fbd68329737f..12c06a833b7c 100644
+> --- a/arch/nds32/Kconfig
+> +++ b/arch/nds32/Kconfig
+> @@ -20,6 +20,7 @@ config NDS32
+>         select GENERIC_CLOCKEVENTS
+>         select GENERIC_IRQ_CHIP
+>         select GENERIC_IRQ_SHOW
+> +       select GENERIC_IOREMAP
+>         select GENERIC_LIB_ASHLDI3
+>         select GENERIC_LIB_ASHRDI3
+>         select GENERIC_LIB_CMPDI2
+> diff --git a/arch/nds32/include/asm/io.h b/arch/nds32/include/asm/io.h
+> index fb0e8a24c7af..e57378d04006 100644
+> --- a/arch/nds32/include/asm/io.h
+> +++ b/arch/nds32/include/asm/io.h
+> @@ -6,8 +6,6 @@
+>
+>  #include <linux/types.h>
+>
+> -void __iomem *ioremap(phys_addr_t phys_addr, size_t size);
+> -extern void iounmap(volatile void __iomem *addr);
+>  #define __raw_writeb __raw_writeb
+>  static inline void __raw_writeb(u8 val, volatile void __iomem *addr)
+>  {
+> @@ -80,6 +78,7 @@ static inline u32 __raw_readl(const volatile void __iom=
+em *addr)
+>  #define writeb(v,c)    ({ __iowmb(); writeb_relaxed((v),(c)); })
+>  #define writew(v,c)    ({ __iowmb(); writew_relaxed((v),(c)); })
+>  #define writel(v,c)    ({ __iowmb(); writel_relaxed((v),(c)); })
+> +
+>  #include <asm-generic/io.h>
+>
+>  #endif /* __ASM_NDS32_IO_H */
+> diff --git a/arch/nds32/include/asm/pgtable.h b/arch/nds32/include/asm/pg=
+table.h
+> index 0588ec99725c..6fbf251cfc26 100644
+> --- a/arch/nds32/include/asm/pgtable.h
+> +++ b/arch/nds32/include/asm/pgtable.h
+> @@ -12,7 +12,6 @@
+>  #include <asm/nds32.h>
+>  #ifndef __ASSEMBLY__
+>  #include <asm/fixmap.h>
+> -#include <asm/io.h>
+>  #include <nds32_intrinsic.h>
+>  #endif
+>
+> @@ -130,6 +129,9 @@ extern void __pgd_error(const char *file, int line, u=
+nsigned long val);
+>  #define _PAGE_CACHE            _PAGE_C_MEM_WB
+>  #endif
+>
+> +#define _PAGE_IOREMAP \
+> +       (_PAGE_V | _PAGE_M_KRW | _PAGE_D | _PAGE_G | _PAGE_C_DEV)
+> +
+>  /*
+>   * + Level 1 descriptor (PMD)
+>   */
+> diff --git a/arch/nds32/mm/Makefile b/arch/nds32/mm/Makefile
+> index bd360e4583b5..897ecaf5cf54 100644
+> --- a/arch/nds32/mm/Makefile
+> +++ b/arch/nds32/mm/Makefile
+> @@ -1,6 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+> -obj-y                          :=3D extable.o tlb.o \
+> -                                  fault.o init.o ioremap.o mmap.o \
+> +obj-y                          :=3D extable.o tlb.o fault.o init.o mmap.=
+o \
+>                                     mm-nds32.o cacheflush.o proc.o
+>
+>  obj-$(CONFIG_ALIGNMENT_TRAP)   +=3D alignment.o
+> diff --git a/arch/nds32/mm/ioremap.c b/arch/nds32/mm/ioremap.c
+> deleted file mode 100644
+> index 690140bb23a2..000000000000
+> --- a/arch/nds32/mm/ioremap.c
+> +++ /dev/null
+> @@ -1,62 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0
+> -// Copyright (C) 2005-2017 Andes Technology Corporation
+> -
+> -#include <linux/vmalloc.h>
+> -#include <linux/io.h>
+> -#include <linux/mm.h>
+> -#include <asm/pgtable.h>
+> -
+> -void __iomem *ioremap(phys_addr_t phys_addr, size_t size);
+> -
+> -static void __iomem *__ioremap_caller(phys_addr_t phys_addr, size_t size=
+,
+> -                                     void *caller)
+> -{
+> -       struct vm_struct *area;
+> -       unsigned long addr, offset, last_addr;
+> -       pgprot_t prot;
+> -
+> -       /* Don't allow wraparound or zero size */
+> -       last_addr =3D phys_addr + size - 1;
+> -       if (!size || last_addr < phys_addr)
+> -               return NULL;
+> -
+> -       /*
+> -        * Mappings have to be page-aligned
+> -        */
+> -       offset =3D phys_addr & ~PAGE_MASK;
+> -       phys_addr &=3D PAGE_MASK;
+> -       size =3D PAGE_ALIGN(last_addr + 1) - phys_addr;
+> -
+> -       /*
+> -        * Ok, go for it..
+> -        */
+> -       area =3D get_vm_area_caller(size, VM_IOREMAP, caller);
+> -       if (!area)
+> -               return NULL;
+> -
+> -       area->phys_addr =3D phys_addr;
+> -       addr =3D (unsigned long)area->addr;
+> -       prot =3D __pgprot(_PAGE_V | _PAGE_M_KRW | _PAGE_D |
+> -                       _PAGE_G | _PAGE_C_DEV);
+> -       if (ioremap_page_range(addr, addr + size, phys_addr, prot)) {
+> -               vunmap((void *)addr);
+> -               return NULL;
+> -       }
+> -       return (__force void __iomem *)(offset + (char *)addr);
+> -
+> -}
+> -
+> -void __iomem *ioremap(phys_addr_t phys_addr, size_t size)
+> -{
+> -       return __ioremap_caller(phys_addr, size,
+> -                               __builtin_return_address(0));
+> -}
+> -
+> -EXPORT_SYMBOL(ioremap);
+> -
+> -void iounmap(volatile void __iomem * addr)
+> -{
+> -       vunmap((void *)(PAGE_MASK & (unsigned long)addr));
+> -}
+> -
+> -EXPORT_SYMBOL(iounmap);
 
-Reviewed-by: Arnd Bergmann <arnd@arndb.de>
+Acked-by: Greentime Hu <green.hu@gmail.com>
+Looks good to me.
