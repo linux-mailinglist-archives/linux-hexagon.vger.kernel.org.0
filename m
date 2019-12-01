@@ -2,87 +2,89 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DF35FE1F6
-	for <lists+linux-hexagon@lfdr.de>; Fri, 15 Nov 2019 16:50:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A47F710E2FD
+	for <lists+linux-hexagon@lfdr.de>; Sun,  1 Dec 2019 19:19:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727728AbfKOPtz (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 15 Nov 2019 10:49:55 -0500
-Received: from mail-io1-f67.google.com ([209.85.166.67]:38142 "EHLO
-        mail-io1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727658AbfKOPtn (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 15 Nov 2019 10:49:43 -0500
-Received: by mail-io1-f67.google.com with SMTP id i13so10926445ioj.5
-        for <linux-hexagon@vger.kernel.org>; Fri, 15 Nov 2019 07:49:43 -0800 (PST)
+        id S1727237AbfLASTe (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 1 Dec 2019 13:19:34 -0500
+Received: from mtax.cdmx.gob.mx ([187.141.35.197]:8821 "EHLO mtax.cdmx.gob.mx"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727295AbfLASTe (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Sun, 1 Dec 2019 13:19:34 -0500
+X-Greylist: delayed 6562 seconds by postgrey-1.27 at vger.kernel.org; Sun, 01 Dec 2019 13:19:33 EST
+X-NAI-Header: Modified by McAfee Email Gateway (4500)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=T96mBsWswYjsm0w7ecYkWpV509ib/ulk9bHbI0Xwo0rzkePegh7rSfOcmzGbyf8vTc
-         lns/HOXyf4/6jOYDVIgZ/CZyIfN2m2y88qVdmXSABhNsP0MXDIRsHGSOOd7wWkwuGiQx
-         ehcoBpFXp6INIFq3jwmveina1L3fsWjpzHRhMvlhwo8OJ8Dy4xuFXwCrYZiL/Ja/dmiU
-         sEvBblBcC09ww5H/W1Li3rJXBc1TYjMn46kjeboNwYGUiqFeNnjz46iJxarBlBzUTpau
-         7EU4w1MkRxjhgPFrJ2/ipVqnuE4IawmENFYcW1JVUg9OFLrEKZvfb77T8+3XayPV4Zd+
-         KrHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=X5NAAOrJ3bS32ihsXavVCESX6DNfXdWEE7aVqtLVIHM=;
-        b=m7X6hsgSUA+2qkKeZB3RJDOYq9Xg3YD08fHVIN+cGH6vfbbqycm7F5c1/7eUdUXxjt
-         SDzJQcueHlMpLx8rD27wroWy07ekXn9RITndH16V9qXsHKU0cUZdmUPqIZ3kv9m7JcW5
-         9eGseXtzAEIGjKon/JngA9OREEqEHEpvL+4MElgI/B38qV070liacWyTKz6M3aWPNwJY
-         +xnologXUKDTMj0DnV7qRl02JJhCo9P94N1lXpL2U2kOJuoqm0DNHhFEvuXTLoWvJE2j
-         SJqZUCGYYqwQ90Yq5eI5iktUzsUb55vxJLLvzHCY5miuOtRSvwcHMNv69Fb+nxq8z3V7
-         Q/Hg==
-X-Gm-Message-State: APjAAAUqhYNbk2w0l9KKMVB6wPjP8Qems7QdcwiZnzuxnJvn+Wok9iGt
-        QqSZP8DVMzHGBs6dGrU+LwDfeHgLys1Ixj2cOw==
-X-Google-Smtp-Source: APXvYqxEj1beLI6zhjihT/lmX2Dk324PGcIr8veC5c+0F/PFQKT7AeNYgljOGh72OwNqCMMZvqGkvMbSAqCkDjgGkjg=
-X-Received: by 2002:a5e:8e02:: with SMTP id a2mr1343031ion.269.1573832982053;
- Fri, 15 Nov 2019 07:49:42 -0800 (PST)
+        d=cdmx.gob.mx; s=72359050-3965-11E6-920A-0192F7A2F08E;
+        t=1575217625; h=DKIM-Filter:X-Virus-Scanned:
+         Content-Type:MIME-Version:Content-Transfer-Encoding:
+         Content-Description:Subject:To:From:Date:Message-Id:
+         X-AnalysisOut:X-AnalysisOut:X-AnalysisOut:
+         X-AnalysisOut:X-AnalysisOut:X-SAAS-TrackingID:
+         X-NAI-Spam-Flag:X-NAI-Spam-Threshold:X-NAI-Spam-Score:
+         X-NAI-Spam-Rules:X-NAI-Spam-Version; bh=M
+        8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs4
+        8=; b=XKUYD+QS2r+9ZbHy5RpAVxj+pZnQC7Q7cTViWuyWHEXY
+        QBbK2hb+KexqAWu9kpDFo36Pv8nFLKt3pypAeUXg64cTQwH/6B
+        ppU70JgP3id15uNcl/nIdZFEpIK0DPEKoQhfrY4nQ5FnyK/obE
+        jROpNjnOuviUSToqIagBLIRdgFM=
+Received: from cdmx.gob.mx (correo.cdmx.gob.mx [10.250.108.150]) by mtax.cdmx.gob.mx with smtp
+        (TLS: TLSv1/SSLv3,256bits,ECDHE-RSA-AES256-GCM-SHA384)
+         id 1a22_50b8_b013406f_b356_481d_b307_7300debbb3ac;
+        Sun, 01 Dec 2019 10:27:04 -0600
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 432F61E2B15;
+        Sun,  1 Dec 2019 10:18:40 -0600 (CST)
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id 927afmzW5ZGQ; Sun,  1 Dec 2019 10:18:40 -0600 (CST)
+Received: from localhost (localhost [127.0.0.1])
+        by cdmx.gob.mx (Postfix) with ESMTP id 611931E2504;
+        Sun,  1 Dec 2019 10:13:45 -0600 (CST)
+DKIM-Filter: OpenDKIM Filter v2.9.2 cdmx.gob.mx 611931E2504
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cdmx.gob.mx;
+        s=72359050-3965-11E6-920A-0192F7A2F08E; t=1575216825;
+        bh=M8rWdUYQ57RAYAgTWJQ4Rsch0kO0UXllaAVDzocOs48=;
+        h=Content-Type:MIME-Version:Content-Transfer-Encoding:Subject:To:
+         From:Date:Message-Id;
+        b=u7/KnAkpJ9kaHwrs/hDNl2XxyhFvaNiaTmiQ55la1NH0Cf5uMQH+0e8RidQcLQPAs
+         oUwuP0c+R9NdAEnZIkIWFc2j0CO3JBQQ1F/Lm64kIA0tLLDBE5WLizpHcqH2OuqMt5
+         YIudnGLkelVe54qGy2DzXRt5/xDvg5KnPFz3fPZk=
+X-Virus-Scanned: amavisd-new at cdmx.gob.mx
+Received: from cdmx.gob.mx ([127.0.0.1])
+        by localhost (cdmx.gob.mx [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id 1_TH2OSVL7_a; Sun,  1 Dec 2019 10:13:45 -0600 (CST)
+Received: from [192.168.0.104] (unknown [188.125.168.160])
+        by cdmx.gob.mx (Postfix) with ESMTPSA id 586F01E313F;
+        Sun,  1 Dec 2019 10:05:02 -0600 (CST)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Received: by 2002:a02:7749:0:0:0:0:0 with HTTP; Fri, 15 Nov 2019 07:49:41
- -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Ms.Mary Coster" <info.zennitbankplcnigerian@gmail.com>
-Date:   Fri, 15 Nov 2019 16:49:41 +0100
-Message-ID: <CABHzvrkUQbbmg0Gr7foD3OjAJiY7Fd37=SW3mU=fnOPOcOyNdQ@mail.gmail.com>
-Subject: Goodnews, I have deposited your transfer total amount US$4.8million
- Dollars with Money Gram this morning. we agreed you will be receiving it
- $5000.00 daily.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: Congratulations
+To:     Recipients <aac-styfe@cdmx.gob.mx>
+From:   "Bishop Johnr" <aac-styfe@cdmx.gob.mx>
+Date:   Sun, 01 Dec 2019 17:04:55 +0100
+Message-Id: <20191201160502.586F01E313F@cdmx.gob.mx>
+X-AnalysisOut: [v=2.2 cv=cLaQihWN c=1 sm=1 tr=0 p=6K-Ig8iNAUou4E5wYCEA:9 p]
+X-AnalysisOut: [=zRI05YRXt28A:10 a=T6zFoIZ12MK39YzkfxrL7A==:117 a=9152RP8M]
+X-AnalysisOut: [6GQqDhC/mI/QXQ==:17 a=8nJEP1OIZ-IA:10 a=pxVhFHJ0LMsA:10 a=]
+X-AnalysisOut: [pGLkceISAAAA:8 a=wPNLvfGTeEIA:10 a=M8O0W8wq6qAA:10 a=Ygvjr]
+X-AnalysisOut: [iKHvHXA2FhpO6d-:22]
+X-SAAS-TrackingID: 7d9e3ed5.0.90879470.00-2352.152483320.s12p02m012.mxlogic.net
+X-NAI-Spam-Flag: NO
+X-NAI-Spam-Threshold: 3
+X-NAI-Spam-Score: -5000
+X-NAI-Spam-Rules: 1 Rules triggered
+        WHITELISTED=-5000
+X-NAI-Spam-Version: 2.3.0.9418 : core <6686> : inlines <7165> : streams
+ <1840193> : uri <2949750>
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Attn, Dear
-Goodnews, I have deposited your transfer total amount US$4.8million
-Dollars with Money Gram this morning. we agreed you will be receiving
-it $5000.00 daily.
-Contact Mr. John Dave Director, Money Gram to pick up your first Money
-Gram payment $5000.00 today.
-Contact Person; Mr. John Dave Director, Money Gram,International
-Remittance-Benin
-Email; moneygram.1820@outlook.fr
-Telephone; +229 62619517
-Please re-confirm your address to him once again such as listed below.
-1.Your Full Name..............................
-2.Address.........................
-3.Country....................
-4.Sex.........................................
-5.Your telephone numbers..........................
-6. Copy of your ID...........................
-This is to avoid sending your funds to wrong person, He is waiting to
-hear from you urgent today.
-Let me know once you pick up your transfer $5000.00 today.
-Finally, Note I have paid for the service fees, but only money will
-send to him is $90.00 transfer fee before you can pick up the transfer
-today.
-Ask, Mr. John Dave Director, Money Gram to give you direction where to
-send your transfer fee $90.00 only to Him Immediately so that you can
-pick up $5000.00 us dollars today.
-Thanks for undrstanding.
-Mary Coster
-m.coster@aol.com
+Money was donated to you by Mr and Mrs Allen and Violet Large, just contact=
+ them with this email for more information =
+
+
+EMail: allenandvioletlargeaward@gmail.com
