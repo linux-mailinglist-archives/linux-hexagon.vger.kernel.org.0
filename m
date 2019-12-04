@@ -2,111 +2,93 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AC972112BB3
-	for <lists+linux-hexagon@lfdr.de>; Wed,  4 Dec 2019 13:43:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 830B3112CA8
+	for <lists+linux-hexagon@lfdr.de>; Wed,  4 Dec 2019 14:33:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727852AbfLDMnD (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 4 Dec 2019 07:43:03 -0500
-Received: from mail-qt1-f194.google.com ([209.85.160.194]:43944 "EHLO
-        mail-qt1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727714AbfLDMnA (ORCPT
+        id S1727798AbfLDNde (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 4 Dec 2019 08:33:34 -0500
+Received: from mail-pg1-f193.google.com ([209.85.215.193]:43170 "EHLO
+        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727703AbfLDNde (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 4 Dec 2019 07:43:00 -0500
-Received: by mail-qt1-f194.google.com with SMTP id q8so7536368qtr.10
-        for <linux-hexagon@vger.kernel.org>; Wed, 04 Dec 2019 04:42:59 -0800 (PST)
+        Wed, 4 Dec 2019 08:33:34 -0500
+Received: by mail-pg1-f193.google.com with SMTP id b1so3385551pgq.10;
+        Wed, 04 Dec 2019 05:33:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=AkbuvF8WWOeGkFuNbpEiUPeHs0D9XYCrvYJnn3sJBPk0l/N+bAJ+lU7by52a8c0/XL
-         X5y/+uJVi5SRPzgKpD7LZp2RSO63H/dWhNB+Sgv8CnTmnW6HnNvEkrD3pvFKiHue+ji0
-         Cyct4Vs7hozR5hYKDh8cJJMkT72K9aPHj93bK1Ew++bIIM698i5hGwNXpwVN8RyOlTlg
-         ekVZP06isuUhwZwFxkLwU0Sye3HMnEDkq9yUmWZzxA1JTm8RzibEufZxYTJilauyHwzc
-         pKJFDkaXtzzvkeOyU7ajhljX9QykaA8Ur2FHYJunK1Sxosbxld4ODKAYs9j7AB06Aipc
-         jW5w==
+        h=sender:from:to:cc:subject:date:message-id;
+        bh=A25GspOP/H1evlaxQOyjWW6KvcwnSro5rGpRXcQFYV4=;
+        b=ew2kG1pASB0XkGMKDqb+FvwhANd2mlGEDByyjkzl5YIZQLVMXs8kACbWHjVSOM7pPe
+         FGvKbFziox2Kz86DbfzEzEcmDZAHsZXiQnIiRz+5XJhFjdS4PmZfPyDseaOm6Kbnw9Op
+         qpB88ECx1oRy20ZL/qmyznwusGqXvjdQANOIbUxZZ5U36/w9NxB52dVDCGbDAgRX4IRy
+         cqvetN2NCLjdZBIn422CCXNkN4W08d8QeNjymZe6KHz4AILS9pXR5h5eQQO9PlP1Uast
+         wV1dCL3rI++ql7jErS1Fm853+LJb/T1Yq1vUIVB28DwXcOATQEujbYjE+o1g9/7bQ5HS
+         jcXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=SWzs3svZdfoJNhQZue5B0UPApGf3QNVhTsPQAsjB3v0=;
-        b=KhgI1DVrwzL1XNhSwRvxg2Cv1JcwwTC46MoSrMkiIwUIfhQU0nRn2mXjU8oC18OyLL
-         B6QH20k/GsBQsi5UuXCMeNxpSC/AsmEx4OgMUbSdEReZjkcqlG/fXzaqEww5uAxnFgP6
-         JanpZ3stBPU/NLPM6+kDXY4p49i1qpBhusydX/c9TMTdEz4VWiZjs0/uqs0sdd41fa48
-         d/gpxArfLldvf4WsnMiSWv5lLQEjcvaKkwY7HX8TW1tmFy+wzy5tmSe4WqyEPdnHuoFD
-         9jUc5uaYRdI8aMk50nxirX/MW6dWjxcme3ciVIE4bWQwsUrqfHKkLU4X1y0U1L0zeFyb
-         3jlg==
-X-Gm-Message-State: APjAAAV6ir98R/UclzgMM/lYupAS4fRfAyuz4Y7p/tplB/76EqPTYAfq
-        OjFLaNVXGDr8smsPahXyeQiEpro2IkZ2RntYNmM=
-X-Google-Smtp-Source: APXvYqzw3gCG5cnmI6368TWfhjS/+LLSHd6b95oZCOsPTpsAjIN23auDStB1pQ1PTnMah1qk6gl8uYsnTPaZ7k01uH0=
-X-Received: by 2002:ac8:4a81:: with SMTP id l1mr2434940qtq.357.1575463377714;
- Wed, 04 Dec 2019 04:42:57 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:ac8:2f0c:0:0:0:0:0 with HTTP; Wed, 4 Dec 2019 04:42:57 -0800 (PST)
-Reply-To: moneygram.1820@outlook.fr
-From:   "Rev.Dr Emmanuel Okoye CEO Ecobank-benin" 
-        <westernunion.benin982@gmail.com>
-Date:   Wed, 4 Dec 2019 13:42:57 +0100
-Message-ID: <CAP=nHBJXiPmPL21x=_0BHWRk_3N3Yax+tTxcFi=t=AhN7g==1Q@mail.gmail.com>
-Subject: God has remembered your prayers I have already sent you Money Gram
- payment of $5000.00 today, MG 1029-8096
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+        bh=A25GspOP/H1evlaxQOyjWW6KvcwnSro5rGpRXcQFYV4=;
+        b=NJNIMrmIZgzIy0nCEqivcY1N5KP8dTXdSuhFFahDVl3Ve88rZK5pIKj99Yci7Ul74h
+         nFrRYzkkayiTadRBiY1piTcr947eX1L+sfmYmRRQR4FVkNNq+/Sa/sshPP+dxyZrXxef
+         /NxIjA/qOZRWHDTcKRoh0hSwb9XixWLX441HCmCI7hga0fBkfamk3oychG+Uf+dYh421
+         DtUwZdQGcNSp58bwXRP9hPAzOu6v0wjfiXnP4FxZ7cnY8dOpvLBULxTjEcMIKaN74m3a
+         pUC1QY3naYMVLRPvbDH53+YVoKQv4jnCQbLB0Nl/+HoRtRxwpt97EKtJCXEW4KWUa6hg
+         /ShA==
+X-Gm-Message-State: APjAAAXi9Kqjq9a3NJNU6t1UgQfmy9WHzLaOdQa6uextNZAzkcIjXxX/
+        Kd2B6TzWpuIsgBJ21+PEsFY=
+X-Google-Smtp-Source: APXvYqx0FcJBl26PQ3mn0KT4C343r/E5Kb4JMSiASKhxNqnoLxnweeSB9zz3gsjhtnOVH9tKhuHy0g==
+X-Received: by 2002:a63:d017:: with SMTP id z23mr3578890pgf.110.1575466413972;
+        Wed, 04 Dec 2019 05:33:33 -0800 (PST)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id e27sm8553536pfm.26.2019.12.04.05.33.30
+        (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 04 Dec 2019 05:33:31 -0800 (PST)
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Brian Cain <bcain@codeaurora.org>
+Cc:     linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Guenter Roeck <linux@roeck-us.net>,
+        Tuowen Zhao <ztuowen@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: [PATCH] hexagon: io: Define ioremap_uc to fix build error
+Date:   Wed,  4 Dec 2019 05:33:28 -0800
+Message-Id: <20191204133328.18668-1-linux@roeck-us.net>
+X-Mailer: git-send-email 2.17.1
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Attn, dear Beneficiary.
+ioremap_uc is now mandatory.
 
-God has remembered your prayers
-I have already sent you Money Gram payment of $5000.00 today, MG 1029-8096
-This is because we have finally concluded to effect your transfer
-funds of $4.8,000.000usd
-through MONEY GRAM International Fund transfer Service
-Each payment will be sending to you by $5000.00 daily until the
-($4.8,000.000usd) is completely transferred
-we have this morning sent  MONEY GRAM payment of $5,000.00 in your name today
-So contact the MONEY GRAM Agent to pick up this first payment of $5000 now
+lib/devres.c:44:3: error: implicit declaration of function 'ioremap_uc'
 
-Contact person Mrs. Alan Ude
-Dir. MONEY GRAM Service,Benin
-Phone number: +229 98856728
-E-mail: moneygram.1820@outlook.fr
+Fixes: e537654b7039 ("lib: devres: add a helper function for ioremap_uc")
+Cc: Tuowen Zhao <ztuowen@gmail.com>
+Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+---
+ arch/hexagon/include/asm/io.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Ask him to give you the complete mtcn, sender name, question and
-answer to enable you
-pick up the $5000.00 sent today,
-Also you are instructed to re-confirm your information's
-to Mrs.Alan Ude as listed below to avoid wrong transactions.
+diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
+index 539e3efcf39c..39e5605c5d42 100644
+--- a/arch/hexagon/include/asm/io.h
++++ b/arch/hexagon/include/asm/io.h
+@@ -173,7 +173,7 @@ static inline void writel(u32 data, volatile void __iomem *addr)
+ 
+ void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
+ #define ioremap_nocache ioremap
+-
++#define ioremap_uc ioremap
+ 
+ #define __raw_writel writel
+ 
+-- 
+2.17.1
 
-(1Your Full name:............................................
-(2 Phone number.....................................................
-(3 Contact address:.....................................
-(4 Age:..................................................................
-(5 Country..............................................
-(6) Sex .................................................................
-(7) your occupation...........................................
-
-(8)Passport/By Attach or Drivers License Number:
-Contact Mrs. Alan Ude for your MONEY GRAM payment of $4.8,000.000usd
-Note please: I have paid service fees for you but the only money you
-are required
-to send to Mrs. Alan Ude is $90.00 only Transfer fee before you can
-pick up your transfer today.
-
-Send it to via Money Gram
-Receiver's Name-----Alan Ude
-Country----------Benin
-Address-----------Cotonou
-Quest--------Honest
-Ans-----------Trust
-
-I done all my best for you to receive your transfer now ok.
-We need your urgent reply
-Best Regards
-Rev.Dr Emmanuel Okoye
-CEO Ecobank-benin
-
-If we did not receive it urgent from you today,
-I will go ahead and release you funds to Mrs. Lyndia Ppaulson as your
-representative.
