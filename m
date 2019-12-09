@@ -2,89 +2,84 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A61C0116F30
-	for <lists+linux-hexagon@lfdr.de>; Mon,  9 Dec 2019 15:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 88059117955
+	for <lists+linux-hexagon@lfdr.de>; Mon,  9 Dec 2019 23:30:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727359AbfLIOkn (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 9 Dec 2019 09:40:43 -0500
-Received: from mga01.intel.com ([192.55.52.88]:44217 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727300AbfLIOkm (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 9 Dec 2019 09:40:42 -0500
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Dec 2019 06:40:42 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.69,296,1571727600"; 
-   d="scan'208";a="387256605"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2019 06:40:39 -0800
-Received: from andy by smile with local (Exim 4.93-RC5)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1ieKDH-0007XR-7G; Mon, 09 Dec 2019 16:40:39 +0200
-Date:   Mon, 9 Dec 2019 16:40:39 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Tuowen Zhao <ztuowen@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>
-Subject: Re: [PATCH] hexagon: io: Define ioremap_uc to fix build error
-Message-ID: <20191209144039.GI32742@smile.fi.intel.com>
-References: <20191204133328.18668-1-linux@roeck-us.net>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20191204133328.18668-1-linux@roeck-us.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726207AbfLIWaV (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 9 Dec 2019 17:30:21 -0500
+Received: from mail-pg1-f202.google.com ([209.85.215.202]:43522 "EHLO
+        mail-pg1-f202.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726175AbfLIWaV (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 9 Dec 2019 17:30:21 -0500
+Received: by mail-pg1-f202.google.com with SMTP id d9so9410696pgd.10
+        for <linux-hexagon@vger.kernel.org>; Mon, 09 Dec 2019 14:30:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=date:message-id:mime-version:subject:from:to:cc;
+        bh=t/1UStflpkba+9ZUNaSHKODK6B51M8rcDxieTuoYA4M=;
+        b=gm9HwVK6fxD5suhOgCk7Tqmkef4vDSdqxt5K56QTUcNLFn1QZxRucbsJCBO5HXWsIJ
+         sXBCidhNZIdgVhpJ4q9N208byXFqFjIenM5TCJoAty96z/QTJxUfLcshXlCan1Kmix4s
+         O0LahjEnCOuKXPGayOFyTifTWvtYWP9dMXGZC/QiO+foAjPrABjJ2dktvJfTC0CsZmYG
+         ZJy7Ha9i6tHEx13CClFg5S01ki+Kamb6Ruso+dGhqEZhJ1Yc/r1lppNmuGUnXNq8bddm
+         ERMeXa8CH6HC4wcnpE1ppR7i5xJCgdRqPxOzcEDt922796CspxnpGDklNHqLfk4psCci
+         6Jtw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+        bh=t/1UStflpkba+9ZUNaSHKODK6B51M8rcDxieTuoYA4M=;
+        b=pMV89rtn1ThYL1WXMKdY+TjHDK6I9f583zulrdSI4lxlv0dy/DB3G0zWp/F4tyrXRm
+         jyUsmn0a1m9wYoHWHtwPFjnZhQoS032QhBvI3u8ptaWgue3cVCVnHMZgFj2BXA5XU4uU
+         D87dfZlY8et8rnXH9INcJ8diD5zpkQXs0krCKuDV0nUVjhL++V+3NEXsRnwoXhrfkFbF
+         iVmLd5yfUBqANup5M+mmp+ZpOd+DecgUBtLeCWzB090Yqf2ScfLhvHTyuWsc9cG8pDAf
+         n57/W30h2Vl3cprJOIS8xNSMSzl0sqLxIwsqSdY2QUzRjytM631XsqVKvgF5jezGxjPH
+         6quA==
+X-Gm-Message-State: APjAAAV3HcHO+bXZoEjIi8H3aTkBe1gdelodT5P/lMEZat1LA1j7NcHL
+        Y9y1sa9QnAxt2BgTvDQfi1oNhyoYGLUfT+3BTHA=
+X-Google-Smtp-Source: APXvYqz/+vR/BO/XifTVHhuPFPKeRt5GgaHVo9pcQI3oSQy6uBUApzEgwqvvb36SYEnZAbt0EykOuPNLfVH7ZRRcZmQ=
+X-Received: by 2002:a63:4f5c:: with SMTP id p28mr20715986pgl.409.1575930620462;
+ Mon, 09 Dec 2019 14:30:20 -0800 (PST)
+Date:   Mon,  9 Dec 2019 14:29:54 -0800
+Message-Id: <20191209222956.239798-1-ndesaulniers@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.24.0.393.g34dc348eaf-goog
+Subject: [PATCH 0/2] Hexagon fixes
+From:   Nick Desaulniers <ndesaulniers@google.com>
+To:     bcain@codeaurora.org
+Cc:     Nick Desaulniers <ndesaulniers@google.com>, lee.jones@linaro.org,
+        andriy.shevchenko@linux.intel.com, ztuowen@gmail.com,
+        mika.westerberg@linux.intel.com, mcgrof@kernel.org,
+        gregkh@linuxfoundation.org, alexios.zavras@intel.com,
+        allison@lohutok.net, will@kernel.org, rfontana@redhat.com,
+        tglx@linutronix.de, peterz@infradead.org, boqun.feng@gmail.com,
+        mingo@redhat.com, akpm@linux-foundation.org, geert@linux-m68k.org,
+        linux-hexagon@vger.kernel.org, clang-built-linux@googlegroups.com,
+        linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Wed, Dec 04, 2019 at 05:33:28AM -0800, Guenter Roeck wrote:
-> ioremap_uc is now mandatory.
-> 
-> lib/devres.c:44:3: error: implicit declaration of function 'ioremap_uc'
+Fixes 2 warnings when trying to build hexagon with Clang:
+$ ARCH=hexagon CROSS_COMPILE=hexagon-linux-gnu- make -j71 \
+  CC=clang AS=clang LD=ld.lld AR=llvm-ar
 
-Thanks for a fix!
-Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Fixes -Winline-asm and -Wimplicit-function-definition.
 
-> 
-> Fixes: e537654b7039 ("lib: devres: add a helper function for ioremap_uc")
-> Cc: Tuowen Zhao <ztuowen@gmail.com>
-> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> Cc: Lee Jones <lee.jones@linaro.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> ---
->  arch/hexagon/include/asm/io.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
-> index 539e3efcf39c..39e5605c5d42 100644
-> --- a/arch/hexagon/include/asm/io.h
-> +++ b/arch/hexagon/include/asm/io.h
-> @@ -173,7 +173,7 @@ static inline void writel(u32 data, volatile void __iomem *addr)
->  
->  void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
->  #define ioremap_nocache ioremap
-> -
-> +#define ioremap_uc ioremap
->  
->  #define __raw_writel writel
->  
-> -- 
-> 2.17.1
-> 
+Nick Desaulniers (2):
+  hexagon: define ioremap_uc
+  hexagon: parenthesize registers in asm predicates
+
+ arch/hexagon/include/asm/atomic.h   |  8 ++++----
+ arch/hexagon/include/asm/bitops.h   |  8 ++++----
+ arch/hexagon/include/asm/cmpxchg.h  |  2 +-
+ arch/hexagon/include/asm/futex.h    |  6 +++---
+ arch/hexagon/include/asm/io.h       |  1 +
+ arch/hexagon/include/asm/spinlock.h | 20 ++++++++++----------
+ arch/hexagon/kernel/vm_entry.S      |  2 +-
+ 7 files changed, 24 insertions(+), 23 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.24.0.393.g34dc348eaf-goog
 
