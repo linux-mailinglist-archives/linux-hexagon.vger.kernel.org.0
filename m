@@ -2,100 +2,89 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B9AC1162A4
-	for <lists+linux-hexagon@lfdr.de>; Sun,  8 Dec 2019 16:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A61C0116F30
+	for <lists+linux-hexagon@lfdr.de>; Mon,  9 Dec 2019 15:40:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726418AbfLHO7Y (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 8 Dec 2019 09:59:24 -0500
-Received: from Galois.linutronix.de ([193.142.43.55]:36877 "EHLO
-        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726787AbfLHO6y (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 8 Dec 2019 09:58:54 -0500
-Received: from [5.158.153.53] (helo=tip-bot2.lab.linutronix.de)
-        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
-        (Exim 4.80)
-        (envelope-from <tip-bot2@linutronix.de>)
-        id 1idy1D-0000Yr-4U; Sun, 08 Dec 2019 15:58:43 +0100
-Received: from [127.0.1.1] (localhost [IPv6:::1])
-        by tip-bot2.lab.linutronix.de (Postfix) with ESMTP id 3D5441C288F;
-        Sun,  8 Dec 2019 15:58:34 +0100 (CET)
-Date:   Sun, 08 Dec 2019 14:58:34 -0000
-From:   "tip-bot2 for Thomas Gleixner" <tip-bot2@linutronix.de>
-Reply-to: linux-kernel@vger.kernel.org
-To:     linux-tip-commits@vger.kernel.org
-Subject: [tip: sched/urgent] sched/rt, hexagon: Use CONFIG_PREEMPTION
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Brian Cain <bcain@codeaurora.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        linux-hexagon@vger.kernel.org, Ingo Molnar <mingo@kernel.org>,
-        x86 <x86@kernel.org>, LKML <linux-kernel@vger.kernel.org>
-In-Reply-To: <20191015191821.11479-9-bigeasy@linutronix.de>
-References: <20191015191821.11479-9-bigeasy@linutronix.de>
+        id S1727359AbfLIOkn (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 9 Dec 2019 09:40:43 -0500
+Received: from mga01.intel.com ([192.55.52.88]:44217 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727300AbfLIOkm (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 9 Dec 2019 09:40:42 -0500
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 09 Dec 2019 06:40:42 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.69,296,1571727600"; 
+   d="scan'208";a="387256605"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga005.jf.intel.com with ESMTP; 09 Dec 2019 06:40:39 -0800
+Received: from andy by smile with local (Exim 4.93-RC5)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1ieKDH-0007XR-7G; Mon, 09 Dec 2019 16:40:39 +0200
+Date:   Mon, 9 Dec 2019 16:40:39 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Guenter Roeck <linux@roeck-us.net>
+Cc:     Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Tuowen Zhao <ztuowen@gmail.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Luis Chamberlain <mcgrof@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>
+Subject: Re: [PATCH] hexagon: io: Define ioremap_uc to fix build error
+Message-ID: <20191209144039.GI32742@smile.fi.intel.com>
+References: <20191204133328.18668-1-linux@roeck-us.net>
 MIME-Version: 1.0
-Message-ID: <157581711407.21853.6051212819041129601.tip-bot2@tip-bot2>
-X-Mailer: tip-git-log-daemon
-Robot-ID: <tip-bot2.linutronix.de>
-Robot-Unsubscribe: Contact <mailto:tglx@linutronix.de> to get blacklisted from these emails
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Linutronix-Spam-Score: -1.0
-X-Linutronix-Spam-Level: -
-X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20191204133328.18668-1-linux@roeck-us.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-The following commit has been merged into the sched/urgent branch of tip:
+On Wed, Dec 04, 2019 at 05:33:28AM -0800, Guenter Roeck wrote:
+> ioremap_uc is now mandatory.
+> 
+> lib/devres.c:44:3: error: implicit declaration of function 'ioremap_uc'
 
-Commit-ID:     143cd41f50e0c074fbdb06c3ab75a45e3076b5a6
-Gitweb:        https://git.kernel.org/tip/143cd41f50e0c074fbdb06c3ab75a45e3076b5a6
-Author:        Thomas Gleixner <tglx@linutronix.de>
-AuthorDate:    Tue, 15 Oct 2019 21:17:55 +02:00
-Committer:     Ingo Molnar <mingo@kernel.org>
-CommitterDate: Sun, 08 Dec 2019 14:37:33 +01:00
+Thanks for a fix!
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-sched/rt, hexagon: Use CONFIG_PREEMPTION
+> 
+> Fixes: e537654b7039 ("lib: devres: add a helper function for ioremap_uc")
+> Cc: Tuowen Zhao <ztuowen@gmail.com>
+> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
+> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Cc: Luis Chamberlain <mcgrof@kernel.org>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> ---
+>  arch/hexagon/include/asm/io.h | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
+> index 539e3efcf39c..39e5605c5d42 100644
+> --- a/arch/hexagon/include/asm/io.h
+> +++ b/arch/hexagon/include/asm/io.h
+> @@ -173,7 +173,7 @@ static inline void writel(u32 data, volatile void __iomem *addr)
+>  
+>  void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
+>  #define ioremap_nocache ioremap
+> -
+> +#define ioremap_uc ioremap
+>  
+>  #define __raw_writel writel
+>  
+> -- 
+> 2.17.1
+> 
 
-CONFIG_PREEMPTION is selected by CONFIG_PREEMPT and by CONFIG_PREEMPT_RT.
-Both PREEMPT and PREEMPT_RT require the same functionality which today
-depends on CONFIG_PREEMPT.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Switch the entry code over to use CONFIG_PREEMPTION.
 
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Peter Zijlstra <peterz@infradead.org>
-Cc: linux-hexagon@vger.kernel.org
-Link: https://lore.kernel.org/r/20191015191821.11479-9-bigeasy@linutronix.de
-Signed-off-by: Ingo Molnar <mingo@kernel.org>
----
- arch/hexagon/kernel/vm_entry.S | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/arch/hexagon/kernel/vm_entry.S b/arch/hexagon/kernel/vm_entry.S
-index 12242c2..65a1ea0 100644
---- a/arch/hexagon/kernel/vm_entry.S
-+++ b/arch/hexagon/kernel/vm_entry.S
-@@ -265,12 +265,12 @@ event_dispatch:
- 	 * should be in the designated register (usually R19)
- 	 *
- 	 * If we were in kernel mode, we don't need to check scheduler
--	 * or signals if CONFIG_PREEMPT is not set.  If set, then it has
-+	 * or signals if CONFIG_PREEMPTION is not set.  If set, then it has
- 	 * to jump to a need_resched kind of block.
--	 * BTW, CONFIG_PREEMPT is not supported yet.
-+	 * BTW, CONFIG_PREEMPTION is not supported yet.
- 	 */
- 
--#ifdef CONFIG_PREEMPT
-+#ifdef CONFIG_PREEMPTION
- 	R0 = #VM_INT_DISABLE
- 	trap1(#HVM_TRAP1_VMSETIE)
- #endif
