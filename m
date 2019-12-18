@@ -2,110 +2,94 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id C6C6E1182A7
-	for <lists+linux-hexagon@lfdr.de>; Tue, 10 Dec 2019 09:45:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0CE2124B1F
+	for <lists+linux-hexagon@lfdr.de>; Wed, 18 Dec 2019 16:14:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726983AbfLJIpr convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 10 Dec 2019 03:45:47 -0500
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:46936 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726883AbfLJIpq (ORCPT
+        id S1727226AbfLRPOC (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 18 Dec 2019 10:14:02 -0500
+Received: from mail-il1-f195.google.com ([209.85.166.195]:38268 "EHLO
+        mail-il1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727177AbfLRPNy (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 10 Dec 2019 03:45:46 -0500
-Received: by mail-ot1-f66.google.com with SMTP id g18so14766826otj.13;
-        Tue, 10 Dec 2019 00:45:46 -0800 (PST)
+        Wed, 18 Dec 2019 10:13:54 -0500
+Received: by mail-il1-f195.google.com with SMTP id f5so1986543ilq.5
+        for <linux-hexagon@vger.kernel.org>; Wed, 18 Dec 2019 07:13:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=Q3vp2fJ40VWpq9rX2ikiWTUrhuiQJXzCeUu43e1oIIOk8rzGCPMljco+W3g3Sdt7mK
+         0zMp27lNXT81ott0dYeyE6wCdI4c1wfi5qCqRmoGIMvdtgle/6NMWI0GJrkD30CBojRq
+         hZbdgtbn9F/6uhvfSLkMdN7NhUpQoMVScRn9uDFKZJxofy0MWDF6kZw53YXeVt8sjWjA
+         Dd9TBzj4Ogplv/txGap2r0I252pQP7l7XSY4YOVhZ7qL539zlqhtO9W4mad505PIZ9Xp
+         yYy+XyL34oyC2pvEIWTDP8EMj+Gj6Cu0eHyc7GTPTD7Enq1rjLHU3JyAyX8LQzaLW/WP
+         +a+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=gu9XcTljjRQf7hRb8/Mhf5hwSbDp/VoOA2gAk6H+H+Q=;
-        b=FG5T8bpUugqi1vwtL8ZXNXg/faXNxuT0wAV7AJj+pVCDqtNO6Xh4DyTkUttfQO8SDN
-         XuAd2ccf27waOfXV6yiMmugJyELMQMlMiMX+2fLay2gRhxwA7HWu4/rj+4NUM9tYCiRF
-         npAifmQht3BjYcudZfbdiCnjA+W69wiG/cVKUURyO44zV54p1d9fb7xqzS+TnFm+inQu
-         0b3b/VCESSMf7RlWENtgmTmFBsZFHYMFMQNuCTuSTMdLoQDPLst1Ab4oMpYTl0WS8IDG
-         NHhBv/VRO2tVkWg4wNOG606g+LaPO+uxefM7D6OYFyg6ff+qin6cVFoPHwue877lo5x6
-         9yhg==
-X-Gm-Message-State: APjAAAVdxcO8HgzvIlOBEfOIQNLrkFI7sdg2SZNxgMrZpK2S2byhQGMG
-        IwtcWlbMMkHtfZOa+cbRVJNQhP0dNXUuhL/bcGY=
-X-Google-Smtp-Source: APXvYqwr5SQmZAWza7zJ7Atdb9MhYfJIuarcaSpvfba+QWrG34fJ6MQk6AeLc7aZqDjffLly9ww2kZAuvH8NC0hX6Es=
-X-Received: by 2002:a9d:7984:: with SMTP id h4mr20205715otm.297.1575967546178;
- Tue, 10 Dec 2019 00:45:46 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=R9l9mbjTMtC+3agOxuj88vgGSGUSi1shzIvbtHPQHDA=;
+        b=p/icXd4Rf5dTU+rkN0QISSTW3oJXsg/AiMupGRueFF45KRE96mwxZeGtcNwGNk+3tK
+         2RvTyoYCd9rBfI4DcvHnp5FiYW/5V3TKrgU1MLgusuGL/4noJWrVG/g3ApiKxXe4lc2h
+         MfR2YRoIwHj7CWsAJ/95kbSWJhJA7qQplLs8yaVq+2a/BGVLhtvJWarzy58At4HejTb+
+         6aJaI3prGwZ0PR9suWcRU/+6+3thMEiLvcIreIGQ0q7xt2I4QbokGw9CVOYjs8vq1kTQ
+         9l8893aVwAQtaJdxaa5x6iGRLqHOIJ/d7cv6tyonPx2FWlsxiY4PbWTA6FwTcadaxVRL
+         qp2w==
+X-Gm-Message-State: APjAAAU2EDNqru6EqfFerTM4RuDpLxo+MU63nuxRF32I4SfTwk9eYRR4
+        ZRwm30Kw82J+n4VKul302JOlC+imjdm+qaBqUw==
+X-Google-Smtp-Source: APXvYqzpDMY1kfzvQTGFYFDuSf5Wkv4RFsY3uCP+mpqq6wLn7kqjCTzLCYufYBbbmMCBsVo5PHwr9dpQEEDI7K8RY00=
+X-Received: by 2002:a92:cc90:: with SMTP id x16mr2363556ilo.269.1576682033220;
+ Wed, 18 Dec 2019 07:13:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20191204133328.18668-1-linux@roeck-us.net> <CAMuHMdXwJUzuSNS7CBpU5J6ofOZGrWMStJU9VaT2gp3m5U5=Lw@mail.gmail.com>
- <42cb2e14-a2d7-8e53-509f-da201f0624a0@roeck-us.net>
-In-Reply-To: <42cb2e14-a2d7-8e53-509f-da201f0624a0@roeck-us.net>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 10 Dec 2019 09:45:35 +0100
-Message-ID: <CAMuHMdW=aFS8qm+=cwTciNBkHmbp5f7S8PVhus7E3MEoJT-qkw@mail.gmail.com>
-Subject: Re: [PATCH] hexagon: io: Define ioremap_uc to fix build error
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Brian Cain <bcain@codeaurora.org>,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Tuowen Zhao <ztuowen@gmail.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Lee Jones <lee.jones@linaro.org>
+Received: by 2002:a02:6603:0:0:0:0:0 with HTTP; Wed, 18 Dec 2019 07:13:52
+ -0800 (PST)
+Reply-To: dhl.expresscourier102156@outlook.fr
+From:   "MS. MARYANNA B. THOMASON" <info.zennitbankplcnigerian@gmail.com>
+Date:   Wed, 18 Dec 2019 16:13:52 +0100
+Message-ID: <CABHzvrnY8Lhdw4Y2q97jvAVrRpM9CVLFkw=Ved7y1GhGqHiAdw@mail.gmail.com>
+Subject: I WANT TO YOU TO TREAT THIS EMAIL VERY URGENT
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi Günter,
+Attn Dear.
 
-On Tue, Dec 10, 2019 at 9:23 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> On 12/10/19 12:09 AM, Geert Uytterhoeven wrote:
-> > On Wed, Dec 4, 2019 at 2:34 PM Guenter Roeck <linux@roeck-us.net> wrote:
-> >> ioremap_uc is now mandatory.
-> >>
-> >> lib/devres.c:44:3: error: implicit declaration of function 'ioremap_uc'
-> >>
-> >> Fixes: e537654b7039 ("lib: devres: add a helper function for ioremap_uc")
-> >> Cc: Tuowen Zhao <ztuowen@gmail.com>
-> >> Cc: Mika Westerberg <mika.westerberg@linux.intel.com>
-> >> Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> >> Cc: Luis Chamberlain <mcgrof@kernel.org>
-> >> Cc: Lee Jones <lee.jones@linaro.org>
-> >> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> >> ---
-> >>   arch/hexagon/include/asm/io.h | 2 +-
-> >>   1 file changed, 1 insertion(+), 1 deletion(-)
-> >>
-> >> diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
-> >> index 539e3efcf39c..39e5605c5d42 100644
-> >> --- a/arch/hexagon/include/asm/io.h
-> >> +++ b/arch/hexagon/include/asm/io.h
-> >> @@ -173,7 +173,7 @@ static inline void writel(u32 data, volatile void __iomem *addr)
-> >>
-> >>   void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
-> >>   #define ioremap_nocache ioremap
-> >> -
-> >> +#define ioremap_uc ioremap
-> >>
-> >>   #define __raw_writel writel
-> >
-> > Do we really need this? There is only one user of ioremap_uc(), which
-> > Christoph is trying hard to get rid of, and the new devres helper that
-> > triggers all of this :-(
-> > https://lore.kernel.org/dri-devel/20191112105507.GA7122@lst.de/
->
-> One may ask why we needed a devres helper in the first place if there
-> is indeed just one user.
+Urgent delivery Notification of your ATM MASTER CARD, Dhl-Benin is
+ready for delivery of your ATM Master card worth $15.800=E2=80=99000=E2=80=
+=9900, as
+approved this morning, Date, 18/12/2019. Through the Intruction from
+INTERNATIONAL MONETARY FUNDS, I.M.F official Directors.
 
-Because of the new second user, which jumped on the devres train...
-a8ff78f7f773142e ("mfd: intel-lpss: Use devm_ioremap_uc for MMIO").
+REGISTRATION NO :EG58945
+PARCEL NUMBER: 140479
+Delivery Schuleded now,
+Finally all we required from you is your ATM Card Proccessing Delivery
+fees $19.00 only which you must send to this DHL service to enable us
+dispatch the parcel to your destination today.
 
-Gr{oetje,eeting}s,
+Here is our receiving payment details.
+You are advised to send it Via Money Gram Service.
 
-                        Geert
+Receiver's Name--------Alan Ude
+Country-------Benin Republic.
+City/ Address--------Cotonou
+Test Question--------In God
+Answer-------We Trust
+Amount------------$US19.00 only
+Mtcn-------------
+Sender's Name-------
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Your delivery  ATM card worth $15.800=E2=80=99000=E2=80=9900,
+Is Due for delivery to your address today upon confirmation of
+required fee from you asap.
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Call us on this phone number for any inquiry. +229 62819378
+Awaiting your urgent response.
+
+MS. MARYANNA B. THOMASON, Shipment director, DHL Express
+Courier Company-Benin
