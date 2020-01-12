@@ -2,99 +2,86 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 5973013795C
-	for <lists+linux-hexagon@lfdr.de>; Fri, 10 Jan 2020 23:08:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBA6013854F
+	for <lists+linux-hexagon@lfdr.de>; Sun, 12 Jan 2020 07:33:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728455AbgAJWHs (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 10 Jan 2020 17:07:48 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55848 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728437AbgAJWHn (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 10 Jan 2020 17:07:43 -0500
-Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D377420721;
-        Fri, 10 Jan 2020 22:07:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1578694063;
-        bh=sj6N5pE2/82h7vfPvxKma1ckeCsu0WweTBH31NIC6AI=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=cOMot84PpLkxB7a9+jfnqpYbzu9Z1AO7Yk7SXmmPhmNan/WPbwQwfQjJE5XJdcnMa
-         8oNo45HqprW+8nK/sC3NeK3l9fuoj5GXXUhiPo4vDRSQYxI+MhMQ7SQff+f/shk5lw
-         xLYH7UgSfvpJ5P8g2p+iCpg9GfkBMmI5dLX/L8Jg=
-From:   Sasha Levin <sashal@kernel.org>
-To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        Sid Manning <sidneym@quicinc.com>,
-        Brian Cain <bcain@codeaurora.org>,
-        Allison Randal <allison@lohutok.net>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Richard Fontana <rfontana@redhat.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Sasha Levin <sashal@kernel.org>, linux-hexagon@vger.kernel.org,
-        clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.4 2/3] hexagon: work around compiler crash
-Date:   Fri, 10 Jan 2020 17:07:38 -0500
-Message-Id: <20200110220739.28883-2-sashal@kernel.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20200110220739.28883-1-sashal@kernel.org>
-References: <20200110220739.28883-1-sashal@kernel.org>
+        id S1732276AbgALGdh (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 12 Jan 2020 01:33:37 -0500
+Received: from mail3.iservicesmail.com ([217.130.24.75]:13481 "EHLO
+        mail3.iservicesmail.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732275AbgALGdh (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Sun, 12 Jan 2020 01:33:37 -0500
+IronPort-SDR: g7KEQ77/WcjvhETotf2iDJBms+bTOLWuXCKa0UG4mQLnKZV4t3DQySQApXO422gZyeKpYMvu93
+ iTmY15tIGUFw==
+IronPort-PHdr: =?us-ascii?q?9a23=3AVlEISRTtoHy8GT0AiEDUao545Npsv+yvbD5Q0Y?=
+ =?us-ascii?q?Iujvd0So/mwa6ybR2N2/xhgRfzUJnB7Loc0qyK6vumAzJeqsfa+Fk5M7V0Hy?=
+ =?us-ascii?q?cfjssXmwFySOWkMmbcaMDQUiohAc5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFR?=
+ =?us-ascii?q?rwLxd6KfroEYDOkcu3y/qy+5rOaAlUmTaxe7x/IAi4oAnLqMUbgIpvJqk1xx?=
+ =?us-ascii?q?bHv3BFZ/lYyWR0KFyJgh3y/N2w/Jlt8yRRv/Iu6ctNWrjkcqo7ULJVEi0oP3?=
+ =?us-ascii?q?g668P3uxbDSxCP5mYHXWUNjhVIGQnF4wrkUZr3ryD3q/By2CiePc3xULA0RT?=
+ =?us-ascii?q?Gv5LplRRP0lCsKMSMy/GfQhsJtkK1Uuhehphxmz4PKZ4GVLuJ+fqTHfdwAWW?=
+ =?us-ascii?q?pOQN9dWDJHAo+lc4YPE/YBMvxEoIn9uVQOqAWxBQ+wBO/21DBIgGb606o90+?=
+ =?us-ascii?q?QnDw7H3BUsEMwIsH/JqNn4OrseXfywwKTO0D7Nbe5Z2S3l5YbGch4hu++CU7?=
+ =?us-ascii?q?Ftf8Xe1UYhGBjIjkmSpIP5Iz+ZyvgBv3ad4uF9VeyvkWknqwRprza12Mgslp?=
+ =?us-ascii?q?fGhpgIwV/E8iV5xok1LsC/RU5jf9GkDIVftzuUNotxRMMiTHpluCYhyrIdpZ?=
+ =?us-ascii?q?G3ZjQFyJMixxLFa/yHcJGF7xT+X+iSOTd1nGxpdK+9ihqo7EStxPHwWtOq3F?=
+ =?us-ascii?q?tFtCZInNnBu3YQ3BLJ8MeHUOFy/kK51DaK0ADc9/9LLFgvlareN54h2rkwlo?=
+ =?us-ascii?q?cPsUjbHi/5hkH2jKiOe0Uh4Oeo6uDnYq/4qZ+YK4N5hRvyMropmsOiG+s4PA?=
+ =?us-ascii?q?8OX26F9uimyrLj5lX1QLRMjvIojqnUqI7WKdkZq6KjHgNY3Jov5wyhAzqpyt?=
+ =?us-ascii?q?gVk3kKIEpAeB2djojpP1/OIOr/Dfe6m1msiClkx+zYMb37DJTNKX7DkLj6cL?=
+ =?us-ascii?q?Z98E5T0xY8wcpD6JJTD7ENOvLzWkzpuNzCEhA5KxC0w/rgCNhl0oMeWGSPAr?=
+ =?us-ascii?q?KWMa/LsV+H+O0uLPODZI8SvjbwMOYl5/Hwgn8jg1Mdfrem3YERaH+mGvRqOU?=
+ =?us-ascii?q?KZYWDjgoRJLWBfugs4UfyviFCSWDFUYV6sUK8moDI2EoSrCcHEXI/+urGZ2D?=
+ =?us-ascii?q?aHGchua3xLEBizFnHnP9GcVusBcj2VJMBhkTwfX7OJRIoo1BXovwj/nelJNO?=
+ =?us-ascii?q?3RrxUVqZ/5nOdy4eKbwQk/6TFuEMOb3EmNVGt/2GgPQnk23/Ys8gRG1l6f3P?=
+ =?us-ascii?q?0h0LRjHttJ6qYSCl83?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A2GeAgAJvRpelyMYgtlNGBoBAQEBAQE?=
+ =?us-ascii?q?BAQEDAQEBAREBAQECAgEBAQGBaAQBAQEBCwEBGwgBgSWBTVIgEpNQgU0fg0O?=
+ =?us-ascii?q?LY4EAgx4VhgcUDIFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQE?=
+ =?us-ascii?q?FBAEBAhABAQEBAQYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVO?=
+ =?us-ascii?q?DBIJLAQEznXEBjQQNDQKFHYJKBAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ?=
+ =?us-ascii?q?/ARIBbIJIglkEjUISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAO?=
+ =?us-ascii?q?EToF9ozdXdAGBHnEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
+X-IPAS-Result: =?us-ascii?q?A2GeAgAJvRpelyMYgtlNGBoBAQEBAQEBAQEDAQEBAREBA?=
+ =?us-ascii?q?QECAgEBAQGBaAQBAQEBCwEBGwgBgSWBTVIgEpNQgU0fg0OLY4EAgx4VhgcUD?=
+ =?us-ascii?q?IFbDQEBAQEBNQIBAYRATgEXgQ8kNQgOAgMNAQEFAQEBAQEFBAEBAhABAQEBA?=
+ =?us-ascii?q?QYYBoVzgh0MHgEEAQEBAQMDAwEBDAGDXQcZDzlKTAEOAVODBIJLAQEznXEBj?=
+ =?us-ascii?q?QQNDQKFHYJKBAqBCYEaI4E2AYwYGoFBP4EjIYIrCAGCAYJ/ARIBbIJIglkEj?=
+ =?us-ascii?q?UISIYEHiCmYF4JBBHaJTIwCgjcBD4gBhDEDEIJFD4EJiAOEToF9ozdXdAGBH?=
+ =?us-ascii?q?nEzGoImGoEgTxgNiBuOLUCBFhACT4xbgjIBAQ?=
+X-IronPort-AV: E=Sophos;i="5.69,424,1571695200"; 
+   d="scan'208";a="303987005"
+Received: from mailrel04.vodafone.es ([217.130.24.35])
+  by mail01.vodafone.es with ESMTP; 12 Jan 2020 07:33:34 +0100
+Received: (qmail 24337 invoked from network); 12 Jan 2020 05:00:20 -0000
+Received: from unknown (HELO 192.168.1.3) (quesosbelda@[217.217.179.17])
+          (envelope-sender <peterwong@hsbc.com.hk>)
+          by mailrel04.vodafone.es (qmail-ldap-1.03) with SMTP
+          for <linux-hexagon@vger.kernel.org>; 12 Jan 2020 05:00:20 -0000
+Date:   Sun, 12 Jan 2020 06:00:19 +0100 (CET)
+From:   Peter Wong <peterwong@hsbc.com.hk>
+Reply-To: Peter Wong <peterwonghkhsbc@gmail.com>
+To:     linux-hexagon@vger.kernel.org
+Message-ID: <8141227.460766.1578805220670.JavaMail.cash@217.130.24.55>
+Subject: Investment opportunity
 MIME-Version: 1.0
-X-stable: review
-X-Patchwork-Hint: Ignore
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-From: Nick Desaulniers <ndesaulniers@google.com>
+Greetings,
+Please read the attached investment proposal and reply for more details.
+Are you interested in loan?
+Sincerely: Peter Wong
 
-[ Upstream commit 63e80314ab7cf4783526d2e44ee57a90514911c9 ]
 
-Clang cannot translate the string "r30" into a valid register yet.
 
-Link: https://github.com/ClangBuiltLinux/linux/issues/755
-Link: http://lkml.kernel.org/r/20191028155722.23419-1-ndesaulniers@google.com
-Signed-off-by: Nick Desaulniers <ndesaulniers@google.com>
-Suggested-by: Sid Manning <sidneym@quicinc.com>
-Reviewed-by: Brian Cain <bcain@codeaurora.org>
-Cc: Allison Randal <allison@lohutok.net>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Richard Fontana <rfontana@redhat.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Linus Torvalds <torvalds@linux-foundation.org>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- arch/hexagon/kernel/stacktrace.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/arch/hexagon/kernel/stacktrace.c b/arch/hexagon/kernel/stacktrace.c
-index f94918b449a8..03a0e10ecdcc 100644
---- a/arch/hexagon/kernel/stacktrace.c
-+++ b/arch/hexagon/kernel/stacktrace.c
-@@ -23,8 +23,6 @@
- #include <linux/thread_info.h>
- #include <linux/module.h>
- 
--register unsigned long current_frame_pointer asm("r30");
--
- struct stackframe {
- 	unsigned long fp;
- 	unsigned long rets;
-@@ -42,7 +40,7 @@ void save_stack_trace(struct stack_trace *trace)
- 
- 	low = (unsigned long)task_stack_page(current);
- 	high = low + THREAD_SIZE;
--	fp = current_frame_pointer;
-+	fp = (unsigned long)__builtin_frame_address(0);
- 
- 	while (fp >= low && fp <= (high - sizeof(*frame))) {
- 		frame = (struct stackframe *)fp;
--- 
-2.20.1
+----------------------------------------------------
+This email was sent by the shareware version of Postman Professional.
 
