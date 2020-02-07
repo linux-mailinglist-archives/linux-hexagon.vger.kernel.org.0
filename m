@@ -2,87 +2,72 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id BA13B153F19
-	for <lists+linux-hexagon@lfdr.de>; Thu,  6 Feb 2020 08:07:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0738A155FEF
+	for <lists+linux-hexagon@lfdr.de>; Fri,  7 Feb 2020 21:42:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727698AbgBFHHQ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 6 Feb 2020 02:07:16 -0500
-Received: from smtp4.tjgo.jus.br ([45.71.214.102]:27661 "EHLO mx2.tjgo.jus.br"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725895AbgBFHHP (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 6 Feb 2020 02:07:15 -0500
-X-Greylist: delayed 803 seconds by postgrey-1.27 at vger.kernel.org; Thu, 06 Feb 2020 02:07:14 EST
-Received: from sv-email-p02.tjgo.jus.br (sv-email-p02.tjgo.jus.br [45.71.214.97])
-        by mx2.tjgo.jus.br (Postfix) with ESMTPS id 054912C827C;
-        Thu,  6 Feb 2020 03:51:29 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by sv-email-p02.tjgo.ldc (Postfix) with ESMTP id A0A7F63B21;
-        Thu,  6 Feb 2020 03:51:28 -0300 (-03)
-Received: from sv-email-p02.tjgo.jus.br ([127.0.0.1])
-        by localhost (sv-email-p02.tjgo.ldc [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id soxsJAhSi4vY; Thu,  6 Feb 2020 03:51:28 -0300 (-03)
-Received: from localhost (localhost [127.0.0.1])
-        by sv-email-p02.tjgo.ldc (Postfix) with ESMTP id 12F5563902;
-        Thu,  6 Feb 2020 03:51:25 -0300 (-03)
-DKIM-Filter: OpenDKIM Filter v2.10.3 sv-email-p02.tjgo.ldc 12F5563902
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=tjgo.jus.br;
-        s=DB6EB6C0-19CB-11E9-B608-74AECE7D716B; t=1580971885;
-        bh=N7ic5LlI94J/87ZUuJbnr2MyW1XAh52HpvlLWUizZd4=;
-        h=Date:From:Message-ID:MIME-Version;
-        b=EPi2Gk781vujd2ZHkTZaOaAbCTdGui9DT8OrZP6KEkk/zHDwzBGhbPUYtkf90HbRm
-         GpiItJfh9urF4DPOraV2rtfBD0g19EyaRMXcnUMPn1U91dvWUOyn2jMnxIKLt72yxf
-         Jwu01kTIOIdJymuN3XTzqsBDdL0OzjLoS+dN1ygQibVPmLnIQ/aagdtNJsa7MYzyX0
-         EhM5X1dXv+tBFEe7ducVc6psUpypHR8bAUmnGjCVKtSLZ1zeGOR+u53lLKDRBIgZtp
-         PaLQW2+1pW/u1zYzBvY+xdF6v8amrKO45Ch3wL/dG5HFWeb9+Yrwcb4lmnS8znb27G
-         t+KjfgUWaPcxQ==
-X-Virus-Scanned: amavisd-new at sv-email-p02.tjgo.ldc
-Received: from sv-email-p02.tjgo.jus.br ([127.0.0.1])
-        by localhost (sv-email-p02.tjgo.ldc [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Y6VpgpYna4Q3; Thu,  6 Feb 2020 03:51:24 -0300 (-03)
-Received: from sv-email-p00.tjgo.ldc (sv-email-p00.tjgo.ldc [45.71.214.95])
-        by sv-email-p02.tjgo.ldc (Postfix) with ESMTP id 2EE896387A;
-        Thu,  6 Feb 2020 03:51:19 -0300 (-03)
-Date:   Thu, 6 Feb 2020 03:51:19 -0300 (BRT)
-From:   Viviane Jose Pereira <vjpereira@tjgo.jus.br>
-Reply-To: Tom Crist <cristtom063@gmail.com>
-Message-ID: <277406600.1011929.1580971879114.JavaMail.zimbra@tjgo.jus.br>
-Subject: Re:
+        id S1727522AbgBGUmX (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 7 Feb 2020 15:42:23 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:42366 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbgBGUmM (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 7 Feb 2020 15:42:12 -0500
+Received: by mail-oi1-f196.google.com with SMTP id j132so3277884oih.9
+        for <linux-hexagon@vger.kernel.org>; Fri, 07 Feb 2020 12:42:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
+        b=YPZJJy834hUJnz7pionGH11ZciL6RrbrPELuvEefyNE4m32c/3BRL7jS6BX3GTRbjW
+         A7PT2XuyoA0DKIOAMXBVLqZDks+EHHVySpQpjboWji0NFQ79t34wrEkdhJ/7mvVnPfcg
+         BPXVuIvRzTGxR9yBINGUBTO7OS1IgYRxQvNJFyy4DMElAWJNigH6Lfy9a++UWnjsZV7K
+         NbU0I3Vhb1neiaj+I96jGm3rPYvdHpbUTw6COrl+fTWEjyjGSvKY6qdov3nXpFudxXNb
+         5mDt4W3AkewRXnJYuxGyMUAK1lkfrMP5hrIUalSBsJd0qxRrK90fgDoK4eboWAVqoACA
+         vQPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=8cDRXBFOpE9J1p6S5H+HXSQg9q3m7pUJ3iUuQ5MPcDc=;
+        b=rSdvT7vGvRf448jTH1s1CRkVo/6NNeHODOxmaOluvAFEMuCRO99iinNkcMRq7vQI2A
+         I+QoEgkHngF15s9yM1AajsUiex1nKM++GCD1ImIuLs6G2dHawVxm0ul8rV6iJiD1OroL
+         n10bENzRmIodIsgRrzgxscpmVZJWc2SWX0gbx/68d/6KexZTuyih38hGtfJl/2zEMPRH
+         +HP5SNT3mD7YGyUP1nxLLS8pyST7lOVlkBB9QbVCQA2A2iNbpwmFd4MYdgsYNpU6Tzta
+         2Mymt+mgoG+MUY2i3K+jSfDs6DUfbTPUVCXHlkCE/3/lRMhWjvgxUWouFVcSmjNuC/TY
+         SXfQ==
+X-Gm-Message-State: APjAAAUGIWs1LME2Iz4arf3llN8vwh6GYy8yIIAzGoIOT28J9TxiJ9iY
+        2LUOmZjrEKtplzBkb4z9lEaSCBhJ1wAVQv1xzZY=
+X-Google-Smtp-Source: APXvYqwSeJkRlkGgNiWsW1NpF1DiAIFzsJveh9+wRvoFwY/EgylY09EfD37WjburJ+wD5ZF6dcgpmVqlX+UTGTmHly0=
+X-Received: by 2002:aca:c7cb:: with SMTP id x194mr3327726oif.157.1581108131844;
+ Fri, 07 Feb 2020 12:42:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [109.70.100.26]
-X-Mailer: Zimbra 8.8.15_GA_3829 (zclient/8.8.15_GA_3829)
-Thread-Index: rCMEvftRfzk4MlpDXbUDQruVbx1KMA==
-Thread-Topic: 
-X-HSC-Mail_Inspector-From: vjpereira@tjgo.jus.br
-X-HSC-Mail_Inspector-IP: 45.71.214.97
-X-HSC-Mail_Inspector-Point: 2
-X-HSC-Mail_Inspector-ID: 054912C827C.AA8EB
-X-HSC-Brasil-HSC_MailInspector: Mensagem OK
-X-HSC-Brasil-HSC_MailInspector-SpamCheck: Nao e SPAM,
-        HSC MailInspector (cached, Pontuacao=5.168, requerido 6,
-        BAYES_00 -3.00, DKIM_VALID_AU -0.10, HELO_NO_DOMAIN 0.00,
-        HSC_MAIL_REPUTATION 4.90, LOTS_OF_MONEY 0.00, MISSING_HEADERS 1.02,
-        RDNS_NONE 0.79, REPLYTO_WITHOUT_TO_CC 1.55)
-X-HSC-Brasil-HSC_MailInspector-SpamScore: 5
-X-HSC-Brasil-HSC_MailInspector-From: vjpereira@tjgo.jus.br
-X-Spam-Status: No
-To:     unlisted-recipients:; (no To-header on input)
+Received: by 2002:a4a:d508:0:0:0:0:0 with HTTP; Fri, 7 Feb 2020 12:42:11 -0800 (PST)
+Reply-To: auch197722@gmail.com
+From:   "Mr. Theophilus Odadudu" <cristinamedina0010@gmail.com>
+Date:   Fri, 7 Feb 2020 15:42:11 -0500
+Message-ID: <CAPNvSTgeN84MC4a+RJ1wBioXqDfarTE4_m4nbA9Dm=S8bmF0WQ@mail.gmail.com>
+Subject: LETTER OF INQUIRY
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+Good Day,
 
+I work as a clerk in a Bank here in Nigeria, I have a very
+confidential Business Proposition for you. There is a said amount of
+money floating in the bank unclaimed, belonging to the bank Foreign
+customer who die with his family in the Ethiopian Airline crash of
+March 11, 2019.
 
---=20
-Hallo, ich entschuldige mich daf=C3=BCr, dass ich deine Privatsph=C3=A4re g=
-est=C3=B6rt habe. Ich kontaktiere Sie f=C3=BCr eine =C3=A4u=C3=9Ferst dring=
-ende und vertrauliche Angelegenheit.
+I seek your good collaboration to move the fund for our benefit. we
+have agreed that 40% be yours once you help claim.
 
-Ihnen wurde eine Spende von 15.000.000,00 EUR angeboten Kontakt: cristtom06=
-3@gmail.com f=C3=BCr weitere Informationen.
+Do get back to with 1) Your Full Name: (2) Residential Address: (3)
+Phone, Mobile  (4) Scan Copy of Your ID. to apply for claims of the
+funds.
 
-Dies ist keine Spam-Nachricht, sondern eine wichtige Mitteilung an Sie. Ant=
-worten Sie auf die obige E-Mail, um immer mehr Informationen =C3=BCber die =
-Spende und den Erhalt von Geldern zu erhalten.
+Regards
+Theophilus Odadudu
