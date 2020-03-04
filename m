@@ -2,67 +2,198 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id A5E361781BB
-	for <lists+linux-hexagon@lfdr.de>; Tue,  3 Mar 2020 20:02:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DFBE317872D
+	for <lists+linux-hexagon@lfdr.de>; Wed,  4 Mar 2020 01:49:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731911AbgCCSFq (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 3 Mar 2020 13:05:46 -0500
-Received: from mail-io1-f68.google.com ([209.85.166.68]:36162 "EHLO
-        mail-io1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387620AbgCCSFp (ORCPT
+        id S1727903AbgCDAtQ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 3 Mar 2020 19:49:16 -0500
+Received: from mail-pf1-f196.google.com ([209.85.210.196]:38941 "EHLO
+        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727854AbgCDAtQ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 3 Mar 2020 13:05:45 -0500
-Received: by mail-io1-f68.google.com with SMTP id d15so4659013iog.3
-        for <linux-hexagon@vger.kernel.org>; Tue, 03 Mar 2020 10:05:45 -0800 (PST)
+        Tue, 3 Mar 2020 19:49:16 -0500
+Received: by mail-pf1-f196.google.com with SMTP id l7so33295pff.6;
+        Tue, 03 Mar 2020 16:49:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
-        b=Dwixi1EI1CdoSCBPh9ZUJ9H2SUS7/DPuKnXPo1wyGO9pr2ipz4cVpqXcYk0YHDaPL3
-         3pTXqOs4ikNBL8xPpW2n2VpHFjsIVwZiPoIHHK8i3vNy9p1eweAi6Ca43U+R3aNjbZ9c
-         wkp354n4E7GmevQVvkHz38JLxUmX0KNb0GRIaTMXjUN7N438Ax0yyGedcE1D/1AafxiR
-         9ndDlt/UPpo0mDFX5JrivT5nhKHLQuTiPj6EUW510eSCpkBr34N7QtkhYs9lKkC17Do3
-         CjuNRjHP4NFfgOTr7407rrSfshPJxHsCHbSX3kl5FRmsmAqNF/I2pRVgSYOFu9zo3X2F
-         0XXQ==
+        h=from:to:cc:subject:date:message-id;
+        bh=fchUchZf7JdeqH38aXjaBP5ZuQR9zSoVNleVtfnCoh8=;
+        b=aoS70Y/SNFfr/bkddtY4JmUukQC8BDn9XS7opwiJ6w3OjoZCxZdAqWTp2nVsigLERZ
+         bV7UZnmQOirWsYHTqxSWrfEaAqCUdi4WuLLMYn3iiqjU/lM35pCll0Hk9o3Zovts9oX5
+         kXfk7DtkHYcTt6WUHqQpU0mn/BHw8ik7OZrD4of4sjae8aVWH/SlLFmcEDTBUITU1aMn
+         FlJwxYFe0Ay6pIGo9bXiicFUNHUy3fAAoyqFvAnpkBX7DtnfGZGKcn9G7LU9RCOQk9IB
+         PngAl4ywC/7NvvtgRubSDnOMfdYHdSaMFCWGjLQ7f6N+kvP+mUHYZvh5G4HpTyYsAQWb
+         GSAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=42VRx4KA+cD1ZZnhz/34yl/kjJSKnU+ahvHX6e7S6BM=;
-        b=kz8SFzDTXR1736BroqyFLQkWsIXsN5SYk/HJjt+N4Xx4gaW1mqX+yvsmjabdl/IT6C
-         yNfIsR2DIx4iBjFA8+ciIIlSiMEi/YCczpqGQbFiroukpXaA1EWOzUTJo7CSTOQQMptv
-         Ye9nOgX6AiGTYhaqSVkFvtSFxUA7QUNYsZkdFIIme26CnWnZ1muDTYx+ykLBGo4gpKFB
-         r0W0LKTliRUWfe745seE5LmTQ+dZMK5YU5N75JcEy2mhp7ItnMio/NV5vT+QJJsR9Zcc
-         tpZNEs41xZK38zpJMT0iwgr+t9XyesEBtALutXh13ze3qBDqJq4+KnPYB/WNoo/5llqv
-         82jA==
-X-Gm-Message-State: ANhLgQ3BAC1EAqfGysf3I7gJ0RInUtsuQ8yh2ohnf0C/ouuxl4jmG1Gr
-        o/jTCTrV4KWac8bix051IDJhzlCdzXoR0NBvtl8=
-X-Google-Smtp-Source: ADFU+vsDbJ7xM6wnLpFq/EqIXCZvUijxXGceyBvGjhFZ/y6H6zjACEZyH87k1qoZmjXpB7j1RK7GCvfhxSG6teNgU+A=
-X-Received: by 2002:a6b:6011:: with SMTP id r17mr4813343iog.220.1583258745203;
- Tue, 03 Mar 2020 10:05:45 -0800 (PST)
-MIME-Version: 1.0
-Received: by 2002:a02:9f04:0:0:0:0:0 with HTTP; Tue, 3 Mar 2020 10:05:44 -0800 (PST)
-Reply-To: dr.challynoah@gmail.com
-From:   DR CHALLY NOAH <mayorabrahamedge404@gmail.com>
-Date:   Tue, 3 Mar 2020 19:05:44 +0100
-Message-ID: <CALqVJWcXz6HkkCnC_QjXoWyB_0KG64G_ZUwkcrgf7s1EVnprLQ@mail.gmail.com>
-Subject: Hello Dear
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=fchUchZf7JdeqH38aXjaBP5ZuQR9zSoVNleVtfnCoh8=;
+        b=aWbgJqa6ln+pnWzXsJs+o+xMr9Rna5vTJoO1YvLUq+Ril6wIvT0JDu5538NcitYFcE
+         aqz1273z6+y4V396qT5fdgPFFdYTGvuzptIti411fMtpnCVf1xit26nktV13cQaaxGqq
+         QqShB4lpX2Y2C66t0KOPeKSVFR1Ixk89oicH6lxd+RxDeywdQ1GZwfBi23h4QkbicffN
+         TgjS9w7oqVPy05giivim1/9EmnLJFmozfAVjj001ZOr7OmmSsn/U/Mqm14JtRCcEeMBo
+         ySuYuGjg5Trg5w1Ivq8EtBuE830KNIYJ5/YGjz/D8J8s2RqDnXhOnHLIaf3E368iUGCn
+         +2ag==
+X-Gm-Message-State: ANhLgQ2sWzDzQWXRg+p7HpOxmsfEeyIPxeOhTUmQU0tEiaXNorHEM+XL
+        jVQ93yfjlY7lAXkNOuVyP9ZcyyaI
+X-Google-Smtp-Source: ADFU+vtnecRChCSPLMPxV7NgPGh79fAtubdaps4zlWIhFDCOsvsL+PeNS/CSTs7V0sbjK7daMSTEuA==
+X-Received: by 2002:a63:770d:: with SMTP id s13mr129483pgc.7.1583282954772;
+        Tue, 03 Mar 2020 16:49:14 -0800 (PST)
+Received: from localhost.localdomain ([106.51.232.35])
+        by smtp.gmail.com with ESMTPSA id c15sm343440pja.30.2020.03.03.16.49.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Mar 2020 16:49:14 -0800 (PST)
+From:   afzal mohammed <afzal.mohd.ma@gmail.com>
+To:     linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     afzal mohammed <afzal.mohd.ma@gmail.com>,
+        Brian Cain <bcain@codeaurora.org>
+Subject: [PATCH v3] hexagon: replace setup_irq() by request_irq()
+Date:   Wed,  4 Mar 2020 06:19:09 +0530
+Message-Id: <20200304004910.4842-1-afzal.mohd.ma@gmail.com>
+X-Mailer: git-send-email 2.18.0
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello Dear,
-What Have Kept You Waiting To Claim Your $600,000.00 USD Compensation Award?
-This said fund was issued out by the UNITED NATIONS To compensate
-you.Please If You Have Not Claim Your Fund (Award),Kindly contact me
-at   DR.CHALLYNOAH@GMAIL.COM   for further details on how to proceed your
-fund (award)release to you or better still reply back Immediately You
-Receive This Information For An Urgent Confirmation And Release Of Your
-Fund To You Without Delays, as your email was listed among those to be
-compensated this year.Congratulations..
-Best Regards,
-Dr Chally Noah.
-Minister Of Finance On Foreign Remittance:
+request_irq() is preferred over setup_irq(). Invocations of setup_irq()
+occur after memory allocators are ready.
+
+Per tglx[1], setup_irq() existed in olden days when allocators were not
+ready by the time early interrupts were initialized.
+
+Hence replace setup_irq() by request_irq().
+
+[1] https://lkml.kernel.org/r/alpine.DEB.2.20.1710191609480.1971@nanos
+
+Signed-off-by: afzal mohammed <afzal.mohd.ma@gmail.com>
+---
+Hi hexagon maintainers,
+
+if okay w/ this change, please consider taking it thr' your tree, else please
+let me know.
+
+Regards
+afzal
+
+Link to v2 & v1,
+[v2] https://lkml.kernel.org/r/cover.1582471508.git.afzal.mohd.ma@gmail.com
+[v1] https://lkml.kernel.org/r/cover.1581478323.git.afzal.mohd.ma@gmail.com
+
+v3:
+ * Split out from tree wide series, as Thomas suggested to get it thr'
+	respective maintainers
+ * Modify pr_err displayed in case of error
+ * Re-arrange code & choose pr_err args as required to improve readability
+ * Remove irrelevant parts from commit message & improve
+ 
+v2:
+ * Replace pr_err("request_irq() on %s failed" by
+           pr_err("%s: request_irq() failed"
+ * Commit message massage
+
+ arch/hexagon/kernel/smp.c  | 22 +++++++++++-----------
+ arch/hexagon/kernel/time.c | 11 +++--------
+ 2 files changed, 14 insertions(+), 19 deletions(-)
+
+diff --git a/arch/hexagon/kernel/smp.c b/arch/hexagon/kernel/smp.c
+index 0bbbe652a513..619c56420aa0 100644
+--- a/arch/hexagon/kernel/smp.c
++++ b/arch/hexagon/kernel/smp.c
+@@ -114,12 +114,6 @@ void send_ipi(const struct cpumask *cpumask, enum ipi_message_type msg)
+ 	local_irq_restore(flags);
+ }
+ 
+-static struct irqaction ipi_intdesc = {
+-	.handler = handle_ipi,
+-	.flags = IRQF_TRIGGER_RISING,
+-	.name = "ipi_handler"
+-};
+-
+ void __init smp_prepare_boot_cpu(void)
+ {
+ }
+@@ -132,8 +126,8 @@ void __init smp_prepare_boot_cpu(void)
+ 
+ void start_secondary(void)
+ {
+-	unsigned int cpu;
+ 	unsigned long thread_ptr;
++	unsigned int cpu, irq;
+ 
+ 	/*  Calculate thread_info pointer from stack pointer  */
+ 	__asm__ __volatile__(
+@@ -155,7 +149,10 @@ void start_secondary(void)
+ 
+ 	cpu = smp_processor_id();
+ 
+-	setup_irq(BASE_IPI_IRQ + cpu, &ipi_intdesc);
++	irq = BASE_IPI_IRQ + cpu;
++	if (request_irq(irq, handle_ipi, IRQF_TRIGGER_RISING, "ipi_handler",
++			NULL))
++		pr_err("Failed to request irq %u (ipi_handler)\n", irq);
+ 
+ 	/*  Register the clock_event dummy  */
+ 	setup_percpu_clockdev();
+@@ -201,7 +198,7 @@ void __init smp_cpus_done(unsigned int max_cpus)
+ 
+ void __init smp_prepare_cpus(unsigned int max_cpus)
+ {
+-	int i;
++	int i, irq = BASE_IPI_IRQ;
+ 
+ 	/*
+ 	 * should eventually have some sort of machine
+@@ -213,8 +210,11 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
+ 		set_cpu_present(i, true);
+ 
+ 	/*  Also need to register the interrupts for IPI  */
+-	if (max_cpus > 1)
+-		setup_irq(BASE_IPI_IRQ, &ipi_intdesc);
++	if (max_cpus > 1) {
++		if (request_irq(irq, handle_ipi, IRQF_TRIGGER_RISING,
++				"ipi_handler", NULL))
++			pr_err("Failed to request irq %d (ipi_handler)\n", irq);
++	}
+ }
+ 
+ void smp_send_reschedule(int cpu)
+diff --git a/arch/hexagon/kernel/time.c b/arch/hexagon/kernel/time.c
+index f99e9257bed4..feffe527ac92 100644
+--- a/arch/hexagon/kernel/time.c
++++ b/arch/hexagon/kernel/time.c
+@@ -143,13 +143,6 @@ static irqreturn_t timer_interrupt(int irq, void *devid)
+ 	return IRQ_HANDLED;
+ }
+ 
+-/*  This should also be pulled from devtree  */
+-static struct irqaction rtos_timer_intdesc = {
+-	.handler = timer_interrupt,
+-	.flags = IRQF_TIMER | IRQF_TRIGGER_RISING,
+-	.name = "rtos_timer"
+-};
+-
+ /*
+  * time_init_deferred - called by start_kernel to set up timer/clock source
+  *
+@@ -163,6 +156,7 @@ void __init time_init_deferred(void)
+ {
+ 	struct resource *resource = NULL;
+ 	struct clock_event_device *ce_dev = &hexagon_clockevent_dev;
++	unsigned long flag = IRQF_TIMER | IRQF_TRIGGER_RISING;
+ 
+ 	ce_dev->cpumask = cpu_all_mask;
+ 
+@@ -195,7 +189,8 @@ void __init time_init_deferred(void)
+ #endif
+ 
+ 	clockevents_register_device(ce_dev);
+-	setup_irq(ce_dev->irq, &rtos_timer_intdesc);
++	if (request_irq(ce_dev->irq, timer_interrupt, flag, "rtos_timer", NULL))
++		pr_err("Failed to register rtos_timer interrupt\n");
+ }
+ 
+ void __init time_init(void)
+-- 
+2.25.1
+
