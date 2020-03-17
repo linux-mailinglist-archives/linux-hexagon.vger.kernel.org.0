@@ -2,205 +2,62 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id D941B186D5D
-	for <lists+linux-hexagon@lfdr.de>; Mon, 16 Mar 2020 15:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFCB6188319
+	for <lists+linux-hexagon@lfdr.de>; Tue, 17 Mar 2020 13:09:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731723AbgCPOkr (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 16 Mar 2020 10:40:47 -0400
-Received: from mail-pj1-f68.google.com ([209.85.216.68]:33707 "EHLO
-        mail-pj1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731680AbgCPOkr (ORCPT
+        id S1726918AbgCQMJp (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 17 Mar 2020 08:09:45 -0400
+Received: from sonic308-2.consmr.mail.ne1.yahoo.com ([66.163.187.121]:39669
+        "EHLO sonic308-2.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726250AbgCQMJo (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 16 Mar 2020 10:40:47 -0400
-Received: by mail-pj1-f68.google.com with SMTP id dw20so4092153pjb.0
-        for <linux-hexagon@vger.kernel.org>; Mon, 16 Mar 2020 07:40:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=arista.com; s=googlenew;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ML9QnmYycAYqBuHmwB02FgVr/qb/2XNl2+pJ9kSVZfk=;
-        b=FAz6w/yr23y1uFPy/XFwW5Sl96On4ZY7zXaQxi6Dv8Kl46TSTnJbw7suk4JfORLhDu
-         qfsd1nfrliQg2zAN1Sf8A+dUcQMAWIq18/8v+98blt1kKvwHHR68zpmpKHTcsEivUUuU
-         DZUfdfZLdWkvMIfM1lJEJIJ/m3CjsiKAkhXAO1/1n4+XaJ5ziFyFg+Q7y4c8pebckDmw
-         iZJUuweHVOTLfwWRi2MB7MQxSvftLCF8t50xo1r2zC8X4kPRcIBHEXIJurbtabLXqjpU
-         fbdBwcVOutJ0gwA20OXbIhErWSN0p4uN5s4j1TFRkQejrRYdbE8ldb14hfJjrox5Phwq
-         DoZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ML9QnmYycAYqBuHmwB02FgVr/qb/2XNl2+pJ9kSVZfk=;
-        b=GXmCfm3CN01tPLItx2+eW7bIbVFkMOTfXIm8B9qf3qOLIQKWnRN61p4QpurVUYT2y6
-         eAKwYvRDXA0kDqPgGjCHmBufUlAx0GYl6ynsKvKsi4yaa01ANwqgwXupW6g9lbmmrKH/
-         eOYraNBxalJuTiTUS/3W+AxHq1sjT1rMbyTXSkD6Q0XqNh1lKqhyT1zurr7y2sBpNOFn
-         wLPCa9KRQqSTuBX7Q26YqMSSrFNwZpHLvxe1tPP6Mgz8nD73e/D3ttbMxpdOh+JL+aKY
-         D7cdKLz/dsj+K7c4UcZjPxFyK/WJjwT9/m2/xWXJRp8T5HCPr7oYD4/s+/4s5rjuJIa8
-         JDEA==
-X-Gm-Message-State: ANhLgQ1vmT2hDhf/4moBzdrnKV1XnpyYEhe5CtPlEnb9eV3kngVLBe0M
-        OMMtguVEv5gQN32n8Plr0cuZmHPjZA2wSw==
-X-Google-Smtp-Source: ADFU+vuZMkcsPbmNT9DPCN78vyP5De+z0stdPCk4zYPh3NwltEIprDDhI2wGhSNYTPtTsDsbpgFy2w==
-X-Received: by 2002:a17:90b:374c:: with SMTP id ne12mr24765794pjb.67.1584369646065;
-        Mon, 16 Mar 2020 07:40:46 -0700 (PDT)
-Received: from Mindolluin.aristanetworks.com ([2a02:8084:e84:2480:228:f8ff:fe6f:83a8])
-        by smtp.gmail.com with ESMTPSA id i2sm81524pjs.21.2020.03.16.07.40.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Mar 2020 07:40:45 -0700 (PDT)
-From:   Dmitry Safonov <dima@arista.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Dmitry Safonov <0x7f454c46@gmail.com>,
-        Dmitry Safonov <dima@arista.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Ingo Molnar <mingo@kernel.org>, Jiri Slaby <jslaby@suse.com>,
-        Petr Mladek <pmladek@suse.com>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Tetsuo Handa <penguin-kernel@I-love.SAKURA.ne.jp>,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org
-Subject: [PATCHv2 14/50] hexagon: Add show_stack_loglvl()
-Date:   Mon, 16 Mar 2020 14:38:40 +0000
-Message-Id: <20200316143916.195608-15-dima@arista.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200316143916.195608-1-dima@arista.com>
-References: <20200316143916.195608-1-dima@arista.com>
+        Tue, 17 Mar 2020 08:09:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1584446983; bh=kcevCRoll2+Bsa3FDERpIV72LVcB1A4YV1b5N2AWYBk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=Y5EVuw/rLgZWRMyXdYT50zJetJc6qxTaFtkDUd61yC67972Pv8BafoOYY5PpfFzHkhB66Bg4rtcMSXoq8A7BL5IIgjK9SJC8mxZMQRlRszKv6bj9MOQPdyR95GfO4fmEMbXi94ih/l1RXHAKAecbkLgb7E2jzk98FO+oKrElObmAlhaNIBdqAwP4X5M/wIs5btVaU9rpX2/LYk0A5ti2YrPZfCG30sXdz3iJZlGWvqkRf/8ofp7KEmaugfrBD9+fheWe5dd8wMA0fEsTW3+x/Z0bOHPIrt9VT3GhnXsUoqgqwXBjD6HuTC7XSQAlw6k4FMj1kCDmySakb8tto9ElPw==
+X-YMail-OSG: G42Kh.gVM1knbTm_ea7wDoC40E6mWcHxSA9L_Bt_wnpBVmL882rMq9bJ2rg9qeQ
+ hGJsKP6ixdHr58L4tqUtrrFYe4Ow4blICkwYwQX_Ue4k_yt6aioGE8t4rs2GJ09La4RlaQeUVAP5
+ I1B1JU8Bxt1YqGQu8ncZ.Xd6id0PE4.SYHek8aBYxFevAgCoWKBWgIhrsG7iVN_ZshTI_sI1UOl8
+ S.HbmHQFVHj7iYn9OiFSZfkbtsmJ80KcIxr.5wpySaW5p09F_pPeb5LdneUAKtwPvavTm1o_9O18
+ isTXNqESksVG_I_Zn8QONuM7sPvR.nvbJgUv_0wykTVYMOOAPG1pRXNI5bmFKc2ouhHWS85iNubW
+ qzLmd8XGPCS1K.D6Cm.8LNtrbQLw6N_6d2LLN7Mn0kJQuMiUc6bm2zZG8_mUpU6Enw.JqWMPbxn1
+ _kx5M8vf8Ujp9B3sbTuXIxYiieWVRHXtf.cudBqDMsrNFMxouW4hvbOZkUaP9tlQbDxSq8BS01mH
+ dGH7EPFC071LXSNqiG3msjeprMWww1FIEdtvxguemtkFWwqNBkhi6mynLkUJ3tXL7eos3VVBC5GC
+ 2T.gNA2mB3d5JOWMyRf5vKOGieqwKRURZJrYFdXZfLgBIi.ctJPp8PTNZWbVJZPvFLspXzbiYOAM
+ _tjWurYsHFh.nj4awKT22f7RY6I2QetZp_gEug.5EG0eF05mw6ALEmZkyGEbYDwAWHIV_HrUkk4Q
+ 7x0FYgxRLUV7A7Pf9.j.Qv8eCr3WOfcH6fzugui36LKhqED0SiEJHpkDtre.e9ZMd90ikBoDt9FV
+ B8j35JQHGGO5vYLnQXpPleh3MsSF7ELpoT_j_6IWp.wX.yUiwMa4ajOOmQhWItdMC0BPjiLrYMay
+ YFE.jtyXFSXWlJHCNNo84.nVn25Ek5Y1AZ9xnRFVUUhqwa0BWgSENaDaql4kxOeQx9L8OdOCmFU6
+ FZjaFneQdZDPnY_zzvHSWcM3OAvmc7ZM0iaVkqk.GQrka8Twl1K91Us9UJ0frPlmKBcEMLKCg2t2
+ 2OArVmvWH9WkilexAh2vN09fZtIZHEDSNe5mJNyK4gr6CDjUyxCGKWLXYOn4Xr09h0q75kY8B6U_
+ BH75yA0JaBM80xTEJU2l8j9lFLEQA6TOIRHuG5weoYFzlsA6AqHUnYpnLdFw8FsRq1Jt4RP0rXfC
+ iMpWfmp1bpcFbGJtrrD7.7T2.yzzZmwPeGg4eL5YmF.wfuAAu9L.8uYv_8B3.WCWSQZRc.m_lK_g
+ 3sOnlkGM78WG5tUzqKtrD2IGaT1bFCAMoLFQh3vemnklC4pBz7_MMntFoMmjjSpxlS1bTG3a_Kxs
+ 6nu1WXFPK4e0mTIR8w1L1eRXn5lg-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Tue, 17 Mar 2020 12:09:43 +0000
+Date:   Tue, 17 Mar 2020 12:07:42 +0000 (UTC)
+From:   Stephen Li <stenn7@gabg.net>
+Reply-To: stephli947701@gmail.com
+Message-ID: <608201144.1808131.1584446862432@mail.yahoo.com>
+Subject: REF
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <608201144.1808131.1584446862432.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.15342 YMailNodin Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.132 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Currently, the log-level of show_stack() depends on a platform
-realization. It creates situations where the headers are printed with
-lower log level or higher than the stacktrace (depending on
-a platform or user).
 
-Furthermore, it forces the logic decision from user to an architecture
-side. In result, some users as sysrq/kdb/etc are doing tricks with
-temporary rising console_loglevel while printing their messages.
-And in result it not only may print unwanted messages from other CPUs,
-but also omit printing at all in the unlucky case where the printk()
-was deferred.
 
-Introducing log-level parameter and KERN_UNSUPPRESSED [1] seems
-an easier approach than introducing more printk buffers.
-Also, it will consolidate printings with headers.
-
-Introduce show_stack_loglvl(), that eventually will substitute
-show_stack().
-
-As a good side-effect die() now prints the stacktrace with KERN_EMERG
-aligned with other messages.
-
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: linux-hexagon@vger.kernel.org
-[1]: https://lore.kernel.org/lkml/20190528002412.1625-1-dima@arista.com/T/#u
-Signed-off-by: Dmitry Safonov <dima@arista.com>
----
- arch/hexagon/kernel/traps.c | 31 +++++++++++++++++--------------
- 1 file changed, 17 insertions(+), 14 deletions(-)
-
-diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
-index 69c623b14ddd..a8a3a210d781 100644
---- a/arch/hexagon/kernel/traps.c
-+++ b/arch/hexagon/kernel/traps.c
-@@ -79,7 +79,7 @@ static const char *ex_name(int ex)
- }
- 
- static void do_show_stack(struct task_struct *task, unsigned long *fp,
--			  unsigned long ip)
-+			  unsigned long ip, const char *loglvl)
- {
- 	int kstack_depth_to_print = 24;
- 	unsigned long offset, size;
-@@ -93,9 +93,8 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 	if (task == NULL)
- 		task = current;
- 
--	printk(KERN_INFO "CPU#%d, %s/%d, Call Trace:\n",
--	       raw_smp_processor_id(), task->comm,
--	       task_pid_nr(task));
-+	printk("%sCPU#%d, %s/%d, Call Trace:\n", loglvl, raw_smp_processor_id(),
-+		task->comm, task_pid_nr(task));
- 
- 	if (fp == NULL) {
- 		if (task == current) {
-@@ -108,7 +107,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 	}
- 
- 	if ((((unsigned long) fp) & 0x3) || ((unsigned long) fp < 0x1000)) {
--		printk(KERN_INFO "-- Corrupt frame pointer %p\n", fp);
-+		printk("%s-- Corrupt frame pointer %p\n", loglvl, fp);
- 		return;
- 	}
- 
-@@ -125,8 +124,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 
- 		name = kallsyms_lookup(ip, &size, &offset, &modname, tmpstr);
- 
--		printk(KERN_INFO "[%p] 0x%lx: %s + 0x%lx", fp, ip, name,
--			offset);
-+		printk("%s[%p] 0x%lx: %s + 0x%lx", loglvl, fp, ip, name, offset);
- 		if (((unsigned long) fp < low) || (high < (unsigned long) fp))
- 			printk(KERN_CONT " (FP out of bounds!)");
- 		if (modname)
-@@ -136,8 +134,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 		newfp = (unsigned long *) *fp;
- 
- 		if (((unsigned long) newfp) & 0x3) {
--			printk(KERN_INFO "-- Corrupt frame pointer %p\n",
--				newfp);
-+			printk("%s-- Corrupt frame pointer %p\n", loglvl, newfp);
- 			break;
- 		}
- 
-@@ -147,7 +144,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 						+ 8);
- 
- 			if (regs->syscall_nr != -1) {
--				printk(KERN_INFO "-- trap0 -- syscall_nr: %ld",
-+				printk("%s-- trap0 -- syscall_nr: %ld", loglvl,
- 					regs->syscall_nr);
- 				printk(KERN_CONT "  psp: %lx  elr: %lx\n",
- 					 pt_psp(regs), pt_elr(regs));
-@@ -155,7 +152,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 			} else {
- 				/* really want to see more ... */
- 				kstack_depth_to_print += 6;
--				printk(KERN_INFO "-- %s (0x%lx)  badva: %lx\n",
-+				printk("%s-- %s (0x%lx)  badva: %lx\n", loglvl,
- 					ex_name(pt_cause(regs)), pt_cause(regs),
- 					pt_badva(regs));
- 			}
-@@ -178,10 +175,16 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
- 	}
- }
- 
--void show_stack(struct task_struct *task, unsigned long *fp)
-+void show_stack_loglvl(struct task_struct *task, unsigned long *fp,
-+		       const char *loglvl)
- {
- 	/* Saved link reg is one word above FP */
--	do_show_stack(task, fp, 0);
-+	do_show_stack(task, fp, 0, loglvl);
-+}
-+
-+void show_stack(struct task_struct *task, unsigned long *fp)
-+{
-+	show_stack_loglvl(task, fp, 0, KERN_INFO);
- }
- 
- int die(const char *str, struct pt_regs *regs, long err)
-@@ -207,7 +210,7 @@ int die(const char *str, struct pt_regs *regs, long err)
- 
- 	print_modules();
- 	show_regs(regs);
--	do_show_stack(current, &regs->r30, pt_elr(regs));
-+	do_show_stack(current, &regs->r30, pt_elr(regs), KERN_EMERG);
- 
- 	bust_spinlocks(0);
- 	add_taint(TAINT_DIE, LOCKDEP_NOW_UNRELIABLE);
--- 
-2.25.1
-
+Greetings,
+I was searching through a local business directory when I found your
+profile. I am Soliciting On-Behalf of my private client who is
+interested in having a serious business investment in your country. If
+you have a valid business, investment or project he can invest
+back to me for more details. Your swift response is highly needed.
+Sincerely
+Stephen Li
+Please response back to me with is my private email below for more details
+stephli947701@gmail.com
