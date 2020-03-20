@@ -2,58 +2,90 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 207DB18B987
-	for <lists+linux-hexagon@lfdr.de>; Thu, 19 Mar 2020 15:38:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C2F918CABA
+	for <lists+linux-hexagon@lfdr.de>; Fri, 20 Mar 2020 10:49:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726943AbgCSOiy (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 19 Mar 2020 10:38:54 -0400
-Received: from mail-lf1-f65.google.com ([209.85.167.65]:45264 "EHLO
-        mail-lf1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727082AbgCSOiy (ORCPT
+        id S1726778AbgCTJtl (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 20 Mar 2020 05:49:41 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:35078 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726791AbgCTJtj (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 19 Mar 2020 10:38:54 -0400
-Received: by mail-lf1-f65.google.com with SMTP id x143so1808221lff.12
-        for <linux-hexagon@vger.kernel.org>; Thu, 19 Mar 2020 07:38:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=MkfEc6MRH89syDpHugGsyUmRoLIB+ex3PIfLXsCoWS0=;
-        b=VNKsnixrSGPf8yrO/jo6xJSlXKQVopNMoQT6BraznVYO9v6c604ckBPJK3qWjK+FAb
-         5svsp89rDIRokuRXORX2g5NtGFxK8vbSgXi1i17ILZ0/lR0v51HB+IGnOnTQk2PauOtp
-         sTIf1QK661uLD3q0DhnSAhAYpDv9dReh6RuvHQ8mu6v7rigFgplhUdhtJhVoecPfYNUD
-         vK7up9VYGBMQ9LRA8Jflc2WH49An0EuiGvBAjq/Hq3kZeRHWgFe7vVFyaSHgMdBMrZrT
-         AyIV7YgmnlEAlYFbWbmWMsMJryP2WWtaO5o3yf7G1r9AtkO3LBrad8C/Xz13iUTNhR8V
-         J6tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=MkfEc6MRH89syDpHugGsyUmRoLIB+ex3PIfLXsCoWS0=;
-        b=WFELgmLyXi30L775Udbjg7D45KRzySYaxQOZPnU+eOnhx3h3cwob0j1bQLK0APXFul
-         woFBvUV4F6KfB37tbGl3ei0XZUaPfpTYoZx3hxHj3wtU8Mb3abBZfJ5S1de+f6fYAXmC
-         SPYwZt0CVKHgVCxnEKLlWawsW2M0yoBoXDds8taB23C8ld7hrdACJg26CdHuRbVw/vLi
-         lEsIgasPkDdBbMEOyehb/XfwnGf7+QkNLg66B6oRz/Da1+N35EBCBpgIUYGjtpfdQ9L4
-         MU4k/DiigYN3ZApWUpobbytZO5toBECLgeUGE8uiJLJVmVDsxl/CLbBjjy0SoKk8CZ54
-         WkhQ==
-X-Gm-Message-State: ANhLgQ0qaKQTSmVO2pgrBsaDLUEZQ74cXsk42QkElZXh61bKaBonGVFU
-        2y+eME+rUFYXaTjDK54O3E8ytZhBiTVew8QDXa4=
-X-Google-Smtp-Source: ADFU+vvs48PcHTruOCCw8qtCf1y3JhdkdGqb+alGXikcZyv5RHItou9TIvti3tj6+wPCyO5s3hsxrX4/fiPcteRF7Kw=
-X-Received: by 2002:ac2:4a6d:: with SMTP id q13mr2366850lfp.27.1584628731473;
- Thu, 19 Mar 2020 07:38:51 -0700 (PDT)
+        Fri, 20 Mar 2020 05:49:39 -0400
+Received: from localhost ([127.0.0.1] helo=flow.W.breakpoint.cc)
+        by Galois.linutronix.de with esmtp (Exim 4.80)
+        (envelope-from <bigeasy@linutronix.de>)
+        id 1jFEH2-0000vL-7B; Fri, 20 Mar 2020 10:49:04 +0100
+From:   Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+To:     tglx@linutronix.de
+Cc:     arnd@arndb.de, balbi@kernel.org, bhelgaas@google.com,
+        bigeasy@linutronix.de, dave@stgolabs.net, davem@davemloft.net,
+        gregkh@linuxfoundation.org, joel@joelfernandes.org,
+        kurt.schwemmer@microsemi.com, kvalo@codeaurora.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, logang@deltatee.com,
+        mingo@kernel.org, mpe@ellerman.id.au, netdev@vger.kernel.org,
+        oleg@redhat.com, paulmck@kernel.org, peterz@infradead.org,
+        rdunlap@infradead.org, rostedt@goodmis.org,
+        torvalds@linux-foundation.org, will@kernel.org,
+        Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org, kbuild test robot <lkp@intel.com>
+Subject: [PATCH 3/5] hexagon: Remove mm.h from asm/uaccess.h
+Date:   Fri, 20 Mar 2020 10:48:54 +0100
+Message-Id: <20200320094856.3453859-4-bigeasy@linutronix.de>
+X-Mailer: git-send-email 2.26.0.rc2
+In-Reply-To: <20200320094856.3453859-1-bigeasy@linutronix.de>
+References: <20200318204408.010461877@linutronix.de>
+ <20200320094856.3453859-1-bigeasy@linutronix.de>
 MIME-Version: 1.0
-Received: by 2002:a05:6504:74f:0:0:0:0 with HTTP; Thu, 19 Mar 2020 07:38:51
- -0700 (PDT)
-Reply-To: georgebrownlevi@outlook.com
-From:   George <okeke.tg@gmail.com>
-Date:   Thu, 19 Mar 2020 14:38:51 +0000
-Message-ID: <CACtp8BHRtQ0YMhgMQb6NvCZ+dWy8kxOuziE87GerxEwX=mdaHQ@mail.gmail.com>
-Subject: from George
-To:     georgebrownlevi@outlook.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
--- 
-Do you received my previous email?
+The defconfig compiles without linux/mm.h. With mm.h included the
+include chain leands to:
+|   CC      kernel/locking/percpu-rwsem.o
+| In file included from include/linux/huge_mm.h:8,
+|                  from include/linux/mm.h:567,
+|                  from arch/hexagon/include/asm/uaccess.h:,
+|                  from include/linux/uaccess.h:11,
+|                  from include/linux/sched/task.h:11,
+|                  from include/linux/sched/signal.h:9,
+|                  from include/linux/rcuwait.h:6,
+|                  from include/linux/percpu-rwsem.h:8,
+|                  from kernel/locking/percpu-rwsem.c:6:
+| include/linux/fs.h:1422:29: error: array type has incomplete element type=
+ 'struct percpu_rw_semaphore'
+|  1422 |  struct percpu_rw_semaphore rw_sem[SB_FREEZE_LEVELS];
+
+once rcuwait.h includes linux/sched/signal.h.
+
+Remove the linux/mm.h include.
+
+Cc: Brian Cain <bcain@codeaurora.org>
+Cc: linux-hexagon@vger.kernel.org
+Reported-by: kbuild test robot <lkp@intel.com>
+Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+---
+ arch/hexagon/include/asm/uaccess.h | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/arch/hexagon/include/asm/uaccess.h b/arch/hexagon/include/asm/=
+uaccess.h
+index 00cb38faad0c4..c1019a736ff13 100644
+--- a/arch/hexagon/include/asm/uaccess.h
++++ b/arch/hexagon/include/asm/uaccess.h
+@@ -10,7 +10,6 @@
+ /*
+  * User space memory access functions
+  */
+-#include <linux/mm.h>
+ #include <asm/sections.h>
+=20
+ /*
+--=20
+2.26.0.rc2
+
