@@ -2,79 +2,94 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 3485B18CC90
-	for <lists+linux-hexagon@lfdr.de>; Fri, 20 Mar 2020 12:19:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 99BC118E0BF
+	for <lists+linux-hexagon@lfdr.de>; Sat, 21 Mar 2020 12:38:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726814AbgCTLTr (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 20 Mar 2020 07:19:47 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:42004 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726820AbgCTLTr (ORCPT
+        id S1728477AbgCULey (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 21 Mar 2020 07:34:54 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:38418 "EHLO
+        Galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725932AbgCULex (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 20 Mar 2020 07:19:47 -0400
-Received: by mail-ot1-f65.google.com with SMTP id f66so102834otf.9
-        for <linux-hexagon@vger.kernel.org>; Fri, 20 Mar 2020 04:19:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=UHL0kgD4cug08zC0MRvxo3drDB+ChClVE0q9tOk1MQetUg0+I5ub9UN4JNt/5k0pVg
-         ZZ50Xz+WF+fxx2x99F4OWmh3u+pG45K30pNQtebp/cXYcAxKBr03CYvlgyXveQEcMsgN
-         zJOuwNf48+6p608XDXxI1lA9NfAoSTTueOW79vwsxr+KRjizLpfMwKlWc5RewUb2iwaK
-         c5jwJvwCVq/GGdHK9hCQNv+r1FAi97IjZTsdakc+FRfdqsg+7UlObWSNoCAPTzXoSo24
-         zLWDOlrfuxfb6T/mx8MXIOqQPfP7KLaHm804uTNFJaTnstb/OIVMuEmTcf6w/L5qHtYJ
-         rpag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=6w+aFSJ+2vZ3lBtg9xVXLOFVqSNoMPd625E7FNYobb8=;
-        b=eDlCdo7SUsbC94xZXft0u2r4zlcSBwDv034E8Cntra/b0e72cNB7ZEJ7z4exOHLcdG
-         6SRVTTE7BrwFPZsTRSaU7Va6Kbj3ITNsJ3R8i8lLCEf9axdPslFFkZuaW3BYV0YhBbEU
-         fonAW+yCG7x/nwxDOfFH0+beSq4i0HEDRXrfoWPiQ085DFbOwyqIn5URaiS02GW9eO/h
-         IbwE1pY2SI1eHYR0ylHkuaS9FI7R+kSrE5YA1yj+jogV+DEeb2ZIWaqPUCi5A+OctJf+
-         yPqsn475TNewVRUXRupIvfedb02O7yBPnkANP+wz7UgEGZMBmWaw3flsueYs/9tK/6fY
-         LHqg==
-X-Gm-Message-State: ANhLgQ2rb18wJ6sZmH+zVwnWzG0y+gaRLRYJVDv84yScBij7uNbnbTGU
-        Ou2/nnyY5txoxbqm484L1xxqkT7MwMPqPX3AzJ4=
-X-Google-Smtp-Source: ADFU+vtLc0vveIosB8f2h8M1zIStVus3qPsLsVZrey+Z2SvyRwgJNUw37rE5mGiHXxgZeOm3zyfF+wkBbZ2eoIHJfds=
-X-Received: by 2002:a05:6830:3151:: with SMTP id c17mr6547906ots.310.1584703186754;
- Fri, 20 Mar 2020 04:19:46 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a05:6838:40c6:0:0:0:0 with HTTP; Fri, 20 Mar 2020 04:19:46
- -0700 (PDT)
-From:   ECOWAS COMMITEE <ecowasmonitoringcommitteeabj@gmail.com>
-Date:   Fri, 20 Mar 2020 11:19:46 +0000
-Message-ID: <CAHHubrZKtCjA328d83CfuxVt-kHkrCWqK9S=CcVit4JYuKoSVw@mail.gmail.com>
-Subject: HAPPY SURVIVAL OF CORONAVIRUS
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 21 Mar 2020 07:34:53 -0400
+Received: from p5de0bf0b.dip0.t-ipconnect.de ([93.224.191.11] helo=nanos.tec.linutronix.de)
+        by Galois.linutronix.de with esmtpsa (TLS1.2:DHE_RSA_AES_256_CBC_SHA256:256)
+        (Exim 4.80)
+        (envelope-from <tglx@linutronix.de>)
+        id 1jFcOQ-0001zF-3g; Sat, 21 Mar 2020 12:34:18 +0100
+Received: from nanos.tec.linutronix.de (localhost [IPv6:::1])
+        by nanos.tec.linutronix.de (Postfix) with ESMTP id 2A835FFBBF;
+        Sat, 21 Mar 2020 12:34:17 +0100 (CET)
+Message-Id: <20200321112544.878032781@linutronix.de>
+User-Agent: quilt/0.65
+Date:   Sat, 21 Mar 2020 12:25:44 +0100
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Ingo Molnar <mingo@kernel.org>,
+        Sebastian Siewior <bigeasy@linutronix.de>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Joel Fernandes <joel@joelfernandes.org>,
+        Oleg Nesterov <oleg@redhat.com>,
+        Davidlohr Bueso <dave@stgolabs.net>,
+        Logan Gunthorpe <logang@deltatee.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Kurt Schwemmer <kurt.schwemmer@microsemi.com>,
+        linux-pci@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Felipe Balbi <balbi@kernel.org>, linux-usb@vger.kernel.org,
+        Kalle Valo <kvalo@codeaurora.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        Darren Hart <dvhart@infradead.org>,
+        Andy Shevchenko <andy@infradead.org>,
+        platform-driver-x86@vger.kernel.org,
+        Zhang Rui <rui.zhang@intel.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
+        linux-pm@vger.kernel.org, Len Brown <lenb@kernel.org>,
+        linux-acpi@vger.kernel.org, kbuild test robot <lkp@intel.com>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Guo Ren <guoren@kernel.org>, linux-csky@vger.kernel.org,
+        Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org, Tony Luck <tony.luck@intel.com>,
+        Fenghua Yu <fenghua.yu@intel.com>, linux-ia64@vger.kernel.org,
+        Michal Simek <monstr@monstr.eu>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Geoff Levand <geoff@infradead.org>,
+        linuxppc-dev@lists.ozlabs.org,
+        "Paul E . McKenney" <paulmck@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Davidlohr Bueso <dbueso@suse.de>
+Subject: [patch V3 00/20] Lock ordering documentation and annotation for lockdep
+Content-transfer-encoding: 8-bit
+X-Linutronix-Spam-Score: -1.0
+X-Linutronix-Spam-Level: -
+X-Linutronix-Spam-Status: No , -1.0 points, 5.0 required,  ALL_TRUSTED=-1,SHORTCIRCUIT=-0.0001
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Dear Sir/Madam
+This is the third and hopefully final version of this work. The second one
+can be found here:
 
-HAPPY SURVIVAL OF CORONAVIRUS
+   https://lore.kernel.org/r/20200318204302.693307984@linutronix.de
 
-We the West African Monitoring Committee of the West African Economic
-Community(ECOWAS)are contacting you for a business transaction which
-we feel will be of great interest to you.
+Changes since V2:
 
-Our duty is to see to the coming in and out of funds into this sub
-region.There is a fund which we confiscated worth of $12.5 million
-dollars.We will like you to receive this fund on your name in your
-account and as well helping us in the investment.
+  - Included the arch/XXX fixups for the rcuwait changes (Sebastian)
 
-You are advised to contact us as soon as you get this message for
-details of the transaction if you find it interesting.
+  - Folded the init fix for the PS3 change (Sebastian)
 
-Best Regards,
+  - Addressed feedback on documentation (Paul, Davidlohr, Jonathan)
 
-Mr John Aka
+  - Picked up acks and reviewed tags
 
-Chairman
-ECOWAS
-West African Monitoring Committee
-Tel 00225 6716 6756
-Abidjan Cote D'Ivoire
+Thanks,
+
+	tglx
+
