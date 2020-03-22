@@ -2,47 +2,45 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E43818E560
-	for <lists+linux-hexagon@lfdr.de>; Sun, 22 Mar 2020 00:08:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E71818EBB1
+	for <lists+linux-hexagon@lfdr.de>; Sun, 22 Mar 2020 19:53:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727700AbgCUXIm (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 21 Mar 2020 19:08:42 -0400
-Received: from static-dsl-170.87-197-152.telecom.sk ([87.197.152.170]:36790
-        "EHLO sldom.sldom" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726997AbgCUXIm (ORCPT
+        id S1725997AbgCVSxI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 22 Mar 2020 14:53:08 -0400
+Received: from mail.destinigroup.com ([175.144.213.75]:52032 "EHLO
+        mail.destinigroup.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725881AbgCVSxI (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 21 Mar 2020 19:08:42 -0400
-Received: from Shop01 (localhost [127.0.0.1])
-        by sldom.sldom (Postfix) with SMTP id 93F8B1DDC15;
-        Fri, 20 Mar 2020 03:19:18 +0100 (CET)
-Received: from [118.228.18.94] by Shop01 id v0K1p2F3M1eH; Thu, 19 Mar 2020 20:11:16 -0700
-Message-ID: <2kwcclu8-70k18---$j20@kw62c>
-From:   "Jean Marie" <tbryant6@woh.rr.com>
-Reply-To: "Jean Marie" <tbryant6@woh.rr.com>
-To:     linux-arch@vger.kernel.org
-Subject: RESPOND BACK  FOR DISCUSSION
-Date:   Thu, 19 Mar 20 20:11:16 GMT
-X-Mailer: Microsoft Outlook, Build 10.0.2627
+        Sun, 22 Mar 2020 14:53:08 -0400
+X-Greylist: delayed 4205 seconds by postgrey-1.27 at vger.kernel.org; Sun, 22 Mar 2020 14:53:07 EDT
+Received: from localhost (localhost [127.0.0.1])
+        by mail.destinigroup.com (Postfix) with ESMTP id 7C3452D3694;
+        Mon, 23 Mar 2020 01:02:42 +0800 (MYT)
+Received: from mail.destinigroup.com ([127.0.0.1])
+        by localhost (mail.destinigroup.com [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id xarYDKzPEOIz; Mon, 23 Mar 2020 01:02:42 +0800 (MYT)
+Received: from [45.143.223.46] (unknown [45.143.223.46])
+        by mail.destinigroup.com (Postfix) with ESMTPSA id 477342D2936;
+        Mon, 23 Mar 2020 01:02:34 +0800 (MYT)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="_C9._9373.."
-X-Priority: 3
-X-MSMail-Priority: Normal
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: YOUR EARLY REPLY
+To:     Recipients <amunoza@surnet.cl>
+From:   "Mr. Fu" <amunoza@surnet.cl>
+Date:   Sun, 22 Mar 2020 10:02:28 -0700
+Reply-To: fulanlan28@gmail.com
+Message-Id: <20200322170235.477342D2936@mail.destinigroup.com>
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-
---_C9._9373..
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
-
-I am a private financial consultant,  I have a client who is interested to=
- invest millions dollar in your country. Get back to me privately for disc=
-ussion hence you have investment experience to manage the above funds.
-Regards
-Mr. Jean Marie .B
-
---_C9._9373..--
-
+YOUR EARLY REPLY
+I have a lucrative business proposal that I would like to share with you.
+I'm glad about your quick answer
+E-mail;fulanlan28@gmail.com
+greetings
+Mr. Fu Lan
