@@ -2,142 +2,204 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id AD43C195A9D
-	for <lists+linux-hexagon@lfdr.de>; Fri, 27 Mar 2020 17:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D3B13195AAE
+	for <lists+linux-hexagon@lfdr.de>; Fri, 27 Mar 2020 17:09:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727606AbgC0QIZ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 27 Mar 2020 12:08:25 -0400
-Received: from mail-pg1-f193.google.com ([209.85.215.193]:41063 "EHLO
-        mail-pg1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727354AbgC0QIY (ORCPT
+        id S1727549AbgC0QJz (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 27 Mar 2020 12:09:55 -0400
+Received: from mail-pl1-f196.google.com ([209.85.214.196]:44510 "EHLO
+        mail-pl1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727509AbgC0QJy (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 27 Mar 2020 12:08:24 -0400
-Received: by mail-pg1-f193.google.com with SMTP id b1so4774996pgm.8;
-        Fri, 27 Mar 2020 09:08:21 -0700 (PDT)
+        Fri, 27 Mar 2020 12:09:54 -0400
+Received: by mail-pl1-f196.google.com with SMTP id h11so3601135plr.11;
+        Fri, 27 Mar 2020 09:09:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to:user-agent;
-        bh=v3WW2gICCRcfa0oGxmZ+LfSQn5AikLIQ+ZRnRYdwUfA=;
-        b=an6bUaMWa/gge8dt35mNz51d8Pj8Aa/qVvKR0POiYMe4zuNsTFMbWsDqtJpu8Vfgps
-         HodQ817xNYHI9SLLHcYrsshSCnFQVPdRz5miPel3a6dQh30+182sG4GpKzSYGg0Moaql
-         oICMZDkEloRd8GN1T9OAdis5YEzicvSdRi2cwTkeLqxIisdfp6u4WrF2upjoOm0b/Nqv
-         xJs9hkC3swEZG36oeWhAa8kBkb2p598PAhHmrKt9TC86LDUy19H7w13AsSWaFeOMFBw1
-         1kiJmtgBbfIhYEZfNNWHTKYdN5NFa73OW2vgKUh7ekKVHy/s1yLOWQQExWS6RBTI4i5f
-         lubA==
+        bh=LVnJntLYzH7Zj+TzjtaQCNZBQVMzfV4qtxc28RtRXBk=;
+        b=Wr9w0+2+vG5+GIAAsmHkLUkJ67+/v20StxdCIVcNOlCs1QgDja/SK2gi7YgnnMFCGl
+         HqSkGV/oGGtS6/1IrxyAh30HL3Qevyj0bxI/wsnJcoeBaVjt5/CrXKItw8oWEJIpR/wr
+         3g3N8RNPbovPzgp0anVktMGWqsQpm9BSn/Tb/hKbvCCkUMghQZ8Wu+RilqBmxWr1ThpQ
+         kIO1SDJR8ESRGErze6elG3ltPQHVW+2FeN3QzsQkvXiFIIbquieyyw3FfFfF66jUxXNU
+         zQ8kzRGG+UPOMyBu3hgdyEGagv1iPbBg3ZwxeQFOASiIOfSbYqfww66+82ms5GFh6CoK
+         75aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=v3WW2gICCRcfa0oGxmZ+LfSQn5AikLIQ+ZRnRYdwUfA=;
-        b=K61t+aL22V7z1zCxdy92iLEGfcUUfCcui1nXRjhlhBoF1i5bSiZeUHJHo9tj8E3hl7
-         LkfP1UHq6zAWyukKSnmDoWQTb2yZrra+7+orFlf/8phatZvSEc7pQjNcOeAdyBTCb1y6
-         IhuKSgp++nxg6di5pN8GCuKkAZhlw9fp7Td3Lqfr5w+nMRQdLyxPHMKR29SWvVUjhJ8u
-         KM5b+m29XY3GGJbeEYgD0GcJ292B3HsiMUi15O2xGS7FQMVnNnCv5TnoJeHcfiL/xGDE
-         AvNCTKvVXOnoWxUGyLgLhfXf1T5W5Vt6svfYf4q1S3rQ8N8kaoK9bCv7okpY4oL/5JOk
-         3qgw==
-X-Gm-Message-State: ANhLgQ3vw/FfWuBbGxGGxSE2ZiBjUx8kOAWKqaEKYZYl9EBGZhw3jGAy
-        sz3DwZrD1BEUqvJS4J1F57A=
-X-Google-Smtp-Source: ADFU+vs5xl4PN9llzz39JwJNhgmk9dgWBu5u30cb77PT2OtFyYrOeXBrJPUM82BlUm8kk65OLbcqNQ==
-X-Received: by 2002:aa7:947d:: with SMTP id t29mr14654589pfq.184.1585325301244;
-        Fri, 27 Mar 2020 09:08:21 -0700 (PDT)
+        bh=LVnJntLYzH7Zj+TzjtaQCNZBQVMzfV4qtxc28RtRXBk=;
+        b=IQqh73GffAY90wmse+MyW7163J1fIPoHWxSTLHt5Ff+nmtch1EmsmCTizeV6vfSF8M
+         AW27r3pkCDjmXwfms+lQ9Vqx6qttvm2gHWeCq3Xs1kuqN7HuTO8vnqeJPK5CPj9P4ItG
+         nT9X489g1SseNNUzOcW3lUpKHOLLBYWvwATPKcLGYnJnc1Y+T2dHES4tb3TX1aNO2FMN
+         PtSTOAmorc6Y3FTl1EQ8ohfVniQxBQ05gPla2Des4/xgLTT/Jnz2GxaNvG/ZNNpFh6s+
+         MElHL5T/TiNmpm1B6lRG5agyZsNi5ywmlupa5s+pbYWCpGMUv3xFyR4tMbpxaGoh5maT
+         42dA==
+X-Gm-Message-State: ANhLgQ3/6jeNngBBjAH6Va+OWfXbWCOTgvUwnnbfB9xKqs+JMIwer27H
+        eEE7ePDwh0XUnXKSsOGb8SE=
+X-Google-Smtp-Source: ADFU+vv0QOIrhMO6NfKN1odzXeh1iV4k+Uofu66WworPTXHF22tzwTen4Eqo3yR0XRfHOMzjE4De2w==
+X-Received: by 2002:a17:902:9a93:: with SMTP id w19mr13834187plp.277.1585325393014;
+        Fri, 27 Mar 2020 09:09:53 -0700 (PDT)
 Received: from localhost ([49.207.55.57])
-        by smtp.gmail.com with ESMTPSA id v185sm4391917pfv.32.2020.03.27.09.08.20
+        by smtp.gmail.com with ESMTPSA id l6sm4280981pff.173.2020.03.27.09.09.52
         (version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-        Fri, 27 Mar 2020 09:08:20 -0700 (PDT)
-Date:   Fri, 27 Mar 2020 21:38:18 +0530
+        Fri, 27 Mar 2020 09:09:52 -0700 (PDT)
+Date:   Fri, 27 Mar 2020 21:39:50 +0530
 From:   afzal mohammed <afzal.mohd.ma@gmail.com>
 To:     Thomas Gleixner <tglx@linutronix.de>
-Cc:     linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, x86@kernel.org,
-        linux-sh@vger.kernel.org, linux-s390@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-parisc@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-ia64@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-c6x-dev@linux-c6x.org, linux-omap@vger.kernel.org,
-        linux-alpha@vger.kernel.org
-Subject: [PATCH 0/6] Kill setup_irq()
-Message-ID: <cover.1585320721.git.afzal.mohd.ma@gmail.com>
+Cc:     Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v5 3/6] hexagon: replace setup_irq() by request_irq()
+Message-ID: <e84ac60de8f747d49ce082659e51595f708c29d4.1585320721.git.afzal.mohd.ma@gmail.com>
 References: <20200321174303.GA7930@afzalpc>
+ <cover.1585320721.git.afzal.mohd.ma@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200321174303.GA7930@afzalpc>
+In-Reply-To: <cover.1585320721.git.afzal.mohd.ma@gmail.com>
 User-Agent: Mutt/1.9.3 (2018-01-21)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi Thomas,
+request_irq() is preferred over setup_irq(). Invocations of setup_irq()
+occur after memory allocators are ready.
 
-As compared to the situation mentioned earlier[1], now powerpc patch is
-also in -next, and the pending ARM patches has been picked up by ARM SoC
-maintainers today and is expected to show up in next -next. All other
-subsytem patches has been picked by relevant maintainers & are already
-in -next except alpha, c6x, hexagon, unicore32 & sh.
+Per tglx[1], setup_irq() existed in olden days when allocators were not
+ready by the time early interrupts were initialized.
 
-As it is the case, i am sending you patches for the above 5
-architecture's plus the core removal patch.
+Hence replace setup_irq() by request_irq().
 
-Status of 5 arch's:
--------------------
-alpha:		received ack from Matt Turner, build test success
-c6x:		did receive ack from Mark Salter in v1, the final
-		 version (v3) was with minor changes, hence removed his
-		 ack & cc'ed him, build test success
-hexagon:	build test success
-unicore32:	couldn't get toolchain from kernel.org, 0day test robot
-		 or Segher's buildall
-sh:		To compile the relevant changes sh64 compiler is
-		 required, couldn't get it from above mentioned 3
-		 sources.
+[1] https://lkml.kernel.org/r/alpine.DEB.2.20.1710191609480.1971@nanos
 
-Note 1: sh toolchain is available, but that will not make the
- relevant changes compile as it has dependency of 64bit arch toolchain,
- did try a Kconfig hack to make it compile w/ 32bit sh toolchain, but it
- failed due to other reasons (unknown operands), so gave up on that.
-Note 2: hexagon final image creation fails even w/o my patch, but it
- has been ensured that w/ my changes relevant object files are getting
- built  w/o warnings.
+Signed-off-by: afzal mohammed <afzal.mohd.ma@gmail.com>
+---
 
-Regards
-afzal
+Link to v3, v2 & v1,
+[v3] https://lkml.kernel.org/r/20200304004910.4842-1-afzal.mohd.ma@gmail.com
+[v2] https://lkml.kernel.org/r/cover.1582471508.git.afzal.mohd.ma@gmail.com
+[v1] https://lkml.kernel.org/r/cover.1581478323.git.afzal.mohd.ma@gmail.com
 
-[1] https://lkml.kernel.org/r/20200321172626.GA6323@afzalpc
+v5:
+ * No change
+v4:
+ * Non-existent
+v3:
+ * Split out from tree wide series, as Thomas suggested to get it thr'
+	respective maintainers
+ * Modify pr_err displayed in case of error
+ * Re-arrange code & choose pr_err args as required to improve readability
+ * Remove irrelevant parts from commit message & improve
+ 
+v2:
+ * Replace pr_err("request_irq() on %s failed" by
+           pr_err("%s: request_irq() failed"
+ * Commit message massage
 
-afzal mohammed (6):
-  alpha: Replace setup_irq() by request_irq()
-  c6x: replace setup_irq() by request_irq()
-  hexagon: replace setup_irq() by request_irq()
-  sh: replace setup_irq() by request_irq()
-  unicore32: replace setup_irq() by request_irq()
-  genirq: Remove setup_irq() and remove_irq()
+ arch/hexagon/kernel/smp.c  | 22 +++++++++++-----------
+ arch/hexagon/kernel/time.c | 11 +++--------
+ 2 files changed, 14 insertions(+), 19 deletions(-)
 
- arch/alpha/kernel/irq_alpha.c     | 29 ++++----------------
- arch/alpha/kernel/irq_i8259.c     |  8 ++----
- arch/alpha/kernel/irq_impl.h      |  7 +----
- arch/alpha/kernel/irq_pyxis.c     |  3 ++-
- arch/alpha/kernel/sys_alcor.c     |  3 ++-
- arch/alpha/kernel/sys_cabriolet.c |  3 ++-
- arch/alpha/kernel/sys_eb64p.c     |  3 ++-
- arch/alpha/kernel/sys_marvel.c    |  2 +-
- arch/alpha/kernel/sys_miata.c     |  6 +++--
- arch/alpha/kernel/sys_ruffian.c   |  3 ++-
- arch/alpha/kernel/sys_rx164.c     |  3 ++-
- arch/alpha/kernel/sys_sx164.c     |  3 ++-
- arch/alpha/kernel/sys_wildfire.c  |  7 ++---
- arch/alpha/kernel/time.c          |  6 ++---
- arch/c6x/platforms/timer64.c      | 11 +++-----
- arch/hexagon/kernel/smp.c         | 22 ++++++++--------
- arch/hexagon/kernel/time.c        | 11 +++-----
- arch/sh/boards/mach-cayman/irq.c  | 18 +++++--------
- arch/sh/drivers/dma/dma-pvr2.c    |  9 +++----
- arch/unicore32/kernel/time.c      | 11 +++-----
- include/linux/irq.h               |  2 --
- kernel/irq/manage.c               | 44 -------------------------------
- 22 files changed, 60 insertions(+), 154 deletions(-)
-
+diff --git a/arch/hexagon/kernel/smp.c b/arch/hexagon/kernel/smp.c
+index 0bbbe652a513..619c56420aa0 100644
+--- a/arch/hexagon/kernel/smp.c
++++ b/arch/hexagon/kernel/smp.c
+@@ -114,12 +114,6 @@ void send_ipi(const struct cpumask *cpumask, enum ipi_message_type msg)
+ 	local_irq_restore(flags);
+ }
+ 
+-static struct irqaction ipi_intdesc = {
+-	.handler = handle_ipi,
+-	.flags = IRQF_TRIGGER_RISING,
+-	.name = "ipi_handler"
+-};
+-
+ void __init smp_prepare_boot_cpu(void)
+ {
+ }
+@@ -132,8 +126,8 @@ void __init smp_prepare_boot_cpu(void)
+ 
+ void start_secondary(void)
+ {
+-	unsigned int cpu;
+ 	unsigned long thread_ptr;
++	unsigned int cpu, irq;
+ 
+ 	/*  Calculate thread_info pointer from stack pointer  */
+ 	__asm__ __volatile__(
+@@ -155,7 +149,10 @@ void start_secondary(void)
+ 
+ 	cpu = smp_processor_id();
+ 
+-	setup_irq(BASE_IPI_IRQ + cpu, &ipi_intdesc);
++	irq = BASE_IPI_IRQ + cpu;
++	if (request_irq(irq, handle_ipi, IRQF_TRIGGER_RISING, "ipi_handler",
++			NULL))
++		pr_err("Failed to request irq %u (ipi_handler)\n", irq);
+ 
+ 	/*  Register the clock_event dummy  */
+ 	setup_percpu_clockdev();
+@@ -201,7 +198,7 @@ void __init smp_cpus_done(unsigned int max_cpus)
+ 
+ void __init smp_prepare_cpus(unsigned int max_cpus)
+ {
+-	int i;
++	int i, irq = BASE_IPI_IRQ;
+ 
+ 	/*
+ 	 * should eventually have some sort of machine
+@@ -213,8 +210,11 @@ void __init smp_prepare_cpus(unsigned int max_cpus)
+ 		set_cpu_present(i, true);
+ 
+ 	/*  Also need to register the interrupts for IPI  */
+-	if (max_cpus > 1)
+-		setup_irq(BASE_IPI_IRQ, &ipi_intdesc);
++	if (max_cpus > 1) {
++		if (request_irq(irq, handle_ipi, IRQF_TRIGGER_RISING,
++				"ipi_handler", NULL))
++			pr_err("Failed to request irq %d (ipi_handler)\n", irq);
++	}
+ }
+ 
+ void smp_send_reschedule(int cpu)
+diff --git a/arch/hexagon/kernel/time.c b/arch/hexagon/kernel/time.c
+index f99e9257bed4..feffe527ac92 100644
+--- a/arch/hexagon/kernel/time.c
++++ b/arch/hexagon/kernel/time.c
+@@ -143,13 +143,6 @@ static irqreturn_t timer_interrupt(int irq, void *devid)
+ 	return IRQ_HANDLED;
+ }
+ 
+-/*  This should also be pulled from devtree  */
+-static struct irqaction rtos_timer_intdesc = {
+-	.handler = timer_interrupt,
+-	.flags = IRQF_TIMER | IRQF_TRIGGER_RISING,
+-	.name = "rtos_timer"
+-};
+-
+ /*
+  * time_init_deferred - called by start_kernel to set up timer/clock source
+  *
+@@ -163,6 +156,7 @@ void __init time_init_deferred(void)
+ {
+ 	struct resource *resource = NULL;
+ 	struct clock_event_device *ce_dev = &hexagon_clockevent_dev;
++	unsigned long flag = IRQF_TIMER | IRQF_TRIGGER_RISING;
+ 
+ 	ce_dev->cpumask = cpu_all_mask;
+ 
+@@ -195,7 +189,8 @@ void __init time_init_deferred(void)
+ #endif
+ 
+ 	clockevents_register_device(ce_dev);
+-	setup_irq(ce_dev->irq, &rtos_timer_intdesc);
++	if (request_irq(ce_dev->irq, timer_interrupt, flag, "rtos_timer", NULL))
++		pr_err("Failed to register rtos_timer interrupt\n");
+ }
+ 
+ void __init time_init(void)
 -- 
 2.25.1
 
