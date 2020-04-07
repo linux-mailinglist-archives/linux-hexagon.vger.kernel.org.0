@@ -2,92 +2,81 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [209.132.180.67])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FCBA19C55C
-	for <lists+linux-hexagon@lfdr.de>; Thu,  2 Apr 2020 17:03:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6A541A062A
+	for <lists+linux-hexagon@lfdr.de>; Tue,  7 Apr 2020 07:12:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389120AbgDBPDf (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 2 Apr 2020 11:03:35 -0400
-Received: from mail27.static.mailgun.info ([104.130.122.27]:19840 "EHLO
-        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388887AbgDBPDf (ORCPT
+        id S1726934AbgDGFMm (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 7 Apr 2020 01:12:42 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:39376 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726885AbgDGFMm (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 2 Apr 2020 11:03:35 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1585839814; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=MFdcBokfw79s+7lRCHgLw9NzMSmYZr6xzGhOl6ZSO68=; b=liUyNNQsvAGxySif54oTFwi6cbi1wZSPQ/GJBXWYhDwcL7G6AiZ0LVZIGS7uSW8bDOgkjUr7
- A05wn6RwUGwuI/utuIYOc/vdcojE+YBiwTBHoTaRZjDV4LsvKnGcYo6jdk0YXbUz/lnuGNps
- 0Hdxh/vlefwsY+zYH3Y2EEM8pUY=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5e85fec5.7f860c730110-smtp-out-n01;
- Thu, 02 Apr 2020 15:03:33 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 5C71DC433F2; Thu,  2 Apr 2020 15:03:31 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: *
-X-Spam-Status: No, score=1.5 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        SUSPICIOUS_RECIPS autolearn=no autolearn_force=no version=3.4.0
-Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 866DFC43636;
-        Thu,  2 Apr 2020 15:03:29 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 866DFC43636
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=bcain@codeaurora.org
-Reply-To: <bcain@codeaurora.org>
-From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'afzal mohammed'" <afzal.mohd.ma@gmail.com>
-Cc:     "'Thomas Gleixner'" <tglx@linutronix.de>,
-        <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <x86@kernel.org>,
-        <linux-sh@vger.kernel.org>, <linux-s390@vger.kernel.org>,
-        <linuxppc-dev@lists.ozlabs.org>, <linux-parisc@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-m68k@lists.linux-m68k.org>,
-        <linux-ia64@vger.kernel.org>, <linux-hexagon@vger.kernel.org>,
-        <linux-c6x-dev@linux-c6x.org>, <linux-omap@vger.kernel.org>,
-        <linux-alpha@vger.kernel.org>
-References: <20200321174303.GA7930@afzalpc> <cover.1585320721.git.afzal.mohd.ma@gmail.com> <059b01d604ab$637355b0$2a5a0110$@codeaurora.org> <20200328073253.GA5250@afzalpc>
-In-Reply-To: <20200328073253.GA5250@afzalpc>
-Subject: RE: [PATCH 0/6] Kill setup_irq()
-Date:   Thu, 2 Apr 2020 10:03:28 -0500
-Message-ID: <0fc601d608ff$df0ea550$9d2beff0$@codeaurora.org>
+        Tue, 7 Apr 2020 01:12:42 -0400
+Received: by mail-ot1-f68.google.com with SMTP id x11so1840626otp.6
+        for <linux-hexagon@vger.kernel.org>; Mon, 06 Apr 2020 22:12:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=m9m/DCsFRus/zRmIuphflM5sHyenmkMN/TOEnECOGthbLJHVg8u2+iqtFZpNbyb2/k
+         2tLF//qwyXGtNVJKRleGUy+KbEtVjN+06Aw6FbGL98d5M/QEqB9c9SHaIsBPFlQYoUCh
+         Lj+P9EPUGdvyQRip4KeH3oSvDVhqDTV0IJcbcI66BzYP/b9Y/1y4LF++1q0teLhPl3GM
+         v15gBTxOBB8qvH4CNaCnwdm2sugBL+St8qIlm7SqBWweWj6hdsos1F0mjeWO8qJt64R9
+         xl3tya8AfljNAFdSOkZ4tC7INitomO8JQPFHHcp+JAODUsaup01At9KIYDntXEoTQZb0
+         DmdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=38NlpNEbzNFWb7RFQtfvRASB+B576yw7dNc7pozf3pc=;
+        b=qStMK6b+Tqwx6ZvIt6IvUflCFD2Vp5fyR21ZrpygRVM5mKvCPaLXBx2gMw1uBK+DvF
+         oRvdy9ox8J/UdlSPGJ89tKpDkMiWAyJpEIkg1/KUiB0sv9lhiwIFD9QvSEd4JjZVPhym
+         grMJ/I1dmew7F+o94vmYYh9CsXybX10p6Om260KwHX9S74UK/b52Yi1diLMEsJukAIfD
+         92gNL8JycoF1RKqJ2ocRSux1RQheZENokbUl+obX3VzXFRT9GtWbg5nerShKeso2nQyD
+         2VtiCQetPM4Z8FfpNLEQss4kDXH58+kM5v/Jppkwcd8+lIkzU97JqT2TmgjATAvnxfd0
+         3pmw==
+X-Gm-Message-State: AGi0PuYBvMw9rsdq1tkm1X8I1nBp9JQQvXigpGh9x97xw5dsi3h/eq/O
+        nrAXeKsi8mOsZOC49YjLC28VLhj8bEv5tP34WZglIGSbZjQ=
+X-Google-Smtp-Source: APiQypIYXniGQUHEpASwiGNjKth4Cu9ElCz4yjrJ2uXbYBYunhfz0887D/TRydUbTstl7MwaeVftG8QxF1P80ST3qos=
+X-Received: by 2002:ab0:a9:: with SMTP id 38mr504317uaj.61.1586236361040; Mon,
+ 06 Apr 2020 22:12:41 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQH+2owB65JuA03jeOLwO39OK5TmSwJQWNztApEZe3IB1U/c2KfelGEA
+Received: by 2002:ab0:4929:0:0:0:0:0 with HTTP; Mon, 6 Apr 2020 22:12:40 -0700 (PDT)
+From:   SANDRA DEWI <dewisandra154@gmail.com>
+Date:   Tue, 7 Apr 2020 05:12:40 +0000
+Message-ID: <CABRVPWys0xe4CWBkaU0ZXQW+4d=tjDOjyo8cKohc5-VFkWPkcA@mail.gmail.com>
+Subject: whether this is your correct email address or not
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-> -----Original Message-----
-> From: linux-hexagon-owner@vger.kernel.org <linux-hexagon-
-> owner@vger.kernel.org> On Behalf Of afzal mohammed
-...
-> On Fri, Mar 27, 2020 at 09:48:38PM -0500, Brian Cain wrote:
-> 
-> > > Note 2: hexagon final image creation fails even w/o my patch
-> 
-> > 	What's the nature of the failure in "Note 2"?
-> 
-> drivers/base/firmware_loader/main.o: In function `fw_is_builtin_firmware':
-> /devel/src/kernel6/drivers/base/firmware_loader/main.c:132:(.text+0xc8):
-> relocation truncated to fit: R_HEX_16_X against symbol
-`__start_builtin_fw'
-> defined in .modinfo section in .tmp_vmlinux1
-> Makefile:1077: recipe for target 'vmlinux' failed
-> make: *** [vmlinux] Error 1
+Dear ,Pastor
 
-Thanks for reporting it -- I will make a patch to fix it.
 
--Brian
+
+I have a client who is an oil business man and he made a fixed deposit
+of $26 million USD in my bank, where I am the director of the branch,
+My client died with his entire family in Jordanian
+
+50% of the fund will be for the church  for the work of God,the
+balance 50% we share it in the ratio of 50/50. Meaning 50% to you and
+50% for me
+
+intervention in the Syrian Civil War 2014 leaving behind no next of
+kin. I Propose to present you as next of kin to claim the funds, if
+interested reply me for full details and how we are to
+
+
+
+proceed to close this deal.
+
+
+
+
+Mrs. Sandra Dewi
+
+
+
+Email  mrsdewi@gmx.com
