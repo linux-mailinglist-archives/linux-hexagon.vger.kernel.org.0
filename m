@@ -2,92 +2,76 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D07E01B63A0
-	for <lists+linux-hexagon@lfdr.de>; Thu, 23 Apr 2020 20:27:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B892F1B7B94
+	for <lists+linux-hexagon@lfdr.de>; Fri, 24 Apr 2020 18:28:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730313AbgDWS1g (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 23 Apr 2020 14:27:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52828 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730275AbgDWS0y (ORCPT
+        id S1727808AbgDXQ22 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 24 Apr 2020 12:28:28 -0400
+Received: from condef-03.nifty.com ([202.248.20.68]:48894 "EHLO
+        condef-03.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728505AbgDXQ22 (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 23 Apr 2020 14:26:54 -0400
-Received: from mail-io1-xd41.google.com (mail-io1-xd41.google.com [IPv6:2607:f8b0:4864:20::d41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 881F6C025495
-        for <linux-hexagon@vger.kernel.org>; Thu, 23 Apr 2020 11:26:51 -0700 (PDT)
-Received: by mail-io1-xd41.google.com with SMTP id f3so7549865ioj.1
-        for <linux-hexagon@vger.kernel.org>; Thu, 23 Apr 2020 11:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=g40sBMuaO0eKdotmx6qgQBl63DKBmrekz5bvyEQHA4wVZtcqrxc+aFVgh/QD84O9VQ
-         7GeGJGwCstc5CQBYUut5JFB/SR9hiHRBoNucBdQ5+M/xcZE7LYnQNVriX94nlJDQQ53M
-         WWNnGuPMmJMtuCxOc6M3BOG48McWyi9pwkfv1qCbwmDhh95byI3UmcGK9ZJ59xQm/kqA
-         giNgZwxUHu+XTIAoqn/uu1orK63Ur+6hMBQW2TB101zb0oJ5HpVThkCq6id/TjpQtg27
-         HPMb1DcYsj7bM6wQaeV1UkPK6mgUhECRFNV10F5zDhvx1RXP4ikb8uuEIGMKOSNWVb51
-         vLew==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to:content-transfer-encoding;
-        bh=DHzQtr3OkXyFWXbvXEU307GvVJtF7cl8Gt7nfdQPyE8=;
-        b=O5f7Vd616Fx9XC2TNIOa9CiXnI7c0Xq40o9tUlFM1QbPJYqE158ZLfXpxNNehjiaFj
-         2Nze1ckck5857/hlw9+DZE+8kuzLamirdaPxEjbHBzbCSz0nV/XuwLySknxw9bYa7L8E
-         axnx7tFHH4Buq07qiThdGlgkIB3xUfVDCjgLnSJ7r8jRAUP+ziRFiy6+/J0i4bjCAmCu
-         0nI7XlT4whuCemRlwdoF1/3kg9YyXWwDbPCdbN+mTrs8VzmNTQAFpgMpwA0bqIp6izkq
-         VnNJlE/43WGgwSS37WZHYKGctxj4u3vYr61xXOrFgjHMS61ueA8OpjNrvQ5Cxt0pM0zF
-         mc4g==
-X-Gm-Message-State: AGi0PuZSAC5niy2Fbs3M/9zgJESlMtHD4We0zSx6GFUCt8+wJJMI27S/
-        w9lxZexPr2hP/yTeAj3l2B/Dng+7O3GcOFoHtp4F4ew=
-X-Google-Smtp-Source: APiQypKZ88CB7WlyCjo0k9+cU4PX0VcggKkKtzSKgRJHkcPGizF0yZXAjzEMBgo6XH4xzBXv0KAOMjPM9p1sgpp6/70=
-X-Received: by 2002:a5e:9416:: with SMTP id q22mr2547966ioj.93.1587666410194;
- Thu, 23 Apr 2020 11:26:50 -0700 (PDT)
+        Fri, 24 Apr 2020 12:28:28 -0400
+X-Greylist: delayed 361 seconds by postgrey-1.27 at vger.kernel.org; Fri, 24 Apr 2020 12:28:27 EDT
+Received: from conuserg-12.nifty.com ([10.126.8.75])by condef-03.nifty.com with ESMTP id 03OGFS09007293
+        for <linux-hexagon@vger.kernel.org>; Sat, 25 Apr 2020 01:15:40 +0900
+Received: from oscar.flets-west.jp (softbank126090202047.bbtec.net [126.90.202.47]) (authenticated)
+        by conuserg-12.nifty.com with ESMTP id 03OGF5bn016130;
+        Sat, 25 Apr 2020 01:15:05 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conuserg-12.nifty.com 03OGF5bn016130
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1587744905;
+        bh=0GlBarUBAH1daR/4vl1e4pT6s8xMorg/RgQVxtJPOkg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=CQObjc8eQaBXXWcSyWQ7L1swCkbnRNCAHReE8iTyHYanFeMAxVtDv2JldOakeI/+e
+         a1QkWuo5GskWbSdCkYylfNS8a4qNUugZUbnVg1QuO5u+AqjRW1+p7aJqwgGxa/xcML
+         vVQsktCCnR142NglKiqbEbLHtK2kfoQYob0zgcNllZ58rQfOlARDYVI4870sapCVN0
+         mbE3t0qmKWZgeb91EjEj/C+RaGxKsWCB0ZrNwzKnl7zIYXoxn1ndq0CLtG+XQN9BxW
+         GNGKwpEZank44r+cO38by7amNlDmXRDmemMvIoBrTdH0eDzvvwgoqRVn6w0mrqOlN1
+         YwiSoc7HyDhKg==
+X-Nifty-SrcIP: [126.90.202.47]
+From:   Masahiro Yamada <masahiroy@kernel.org>
+To:     Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org,
+        Masahiro Yamada <masahiroy@kernel.org>
+Subject: [PATCH] hexagon: suppress error message for 'make clean'
+Date:   Sat, 25 Apr 2020 01:15:02 +0900
+Message-Id: <20200424161502.656103-1-masahiroy@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Received: by 2002:a02:c845:0:0:0:0:0 with HTTP; Thu, 23 Apr 2020 11:26:49
- -0700 (PDT)
-Reply-To: boa.benin107@yahoo.com
-From:   "Mrs. Angella Michelle" <info.zennitbankplcnigerian@gmail.com>
-Date:   Thu, 23 Apr 2020 20:26:49 +0200
-Message-ID: <CABHzvr=N78snvtMHePMOa+RLFdcZEjXLPkuhkojt4VoZGNzBsQ@mail.gmail.com>
-Subject: Contact Bank of Africa-Benin to receive your payment funds transfer
- amount of $12.800.000,00 Million USD,approved this morning by IMF.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Attn Dear.
-Contact Bank of Africa-Benin to receive your payment funds transfer amount =
-of
-$12.800.000,00 Million USD,approved this morning by IMF.
-Happy to inform you, we have finally deposited your payment funds
-$12.8 million us dollars with the Paying Bank of Africa-Benin
-to transfer the payment amount of $12.800,000,00 Million Us Dollars to you
-Contact the bank immediately you receive this email now.
-Director Bank of Africa-Benin: Dr. Festus Obiara
-Email id:  boa.benin107@yahoo.com
-Tel/mobile, (229) 62819378
-BOA-BENIN | GROUPE BANK OF AFRICA, boa-benin
-Avenue Jean-Paul II - 08 BP 0879 - Cotonou - B=C3=A9nin
-Phone:(229) 62819378.
-2020 GROUPE BANK OF AFRICA
-Be advised to re-confirm your bank details to this bank as listed.
-Your account Holder's name----------------
-Bank Name----------------------------------------------------------
-Bank address----------------------------------------------
-Account Numbers---------------------------------------
-Rounting-----------------------------------------------------------------
-Your direct Phone Numbers----------------------------------------------
-Note,I have paid the deposit and insurance fees for you
-But the only money you are to send to this bank is $150.00 us dollars
-Been for the wire transfer fees of your funds
-Contact Him now to receive your transfer deposited this morning
-I wait for your reply upon confirmation
-Mrs. Angella Michelle
-Editor, Zenith Bank- Companies Benin
-mrsa9389@gmail.com
+'make ARCH=hexagon clean' emits an error message as follows:
+
+  $ make ARCH=hexagon clean
+  gcc: error: unrecognized command line option '-G0'
+
+You can suppress it by setting the correct CROSS_COMPILE=,
+but we should not require any compiler for cleaning.
+
+Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+---
+
+ arch/hexagon/Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/hexagon/Makefile b/arch/hexagon/Makefile
+index 4c5858b80f0e..c168c6980d05 100644
+--- a/arch/hexagon/Makefile
++++ b/arch/hexagon/Makefile
+@@ -30,7 +30,7 @@ TIR_NAME := r19
+ KBUILD_CFLAGS += -ffixed-$(TIR_NAME) -DTHREADINFO_REG=$(TIR_NAME) -D__linux__
+ KBUILD_AFLAGS += -DTHREADINFO_REG=$(TIR_NAME)
+ 
+-LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
++LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name 2>/dev/null)
+ libs-y += $(LIBGCC)
+ 
+ head-y := arch/hexagon/kernel/head.o
+-- 
+2.25.1
+
