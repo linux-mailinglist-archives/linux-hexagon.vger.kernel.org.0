@@ -2,104 +2,63 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3D621B7E8A
-	for <lists+linux-hexagon@lfdr.de>; Fri, 24 Apr 2020 21:06:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 38D751BA2A2
+	for <lists+linux-hexagon@lfdr.de>; Mon, 27 Apr 2020 13:41:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727059AbgDXTGg (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 24 Apr 2020 15:06:36 -0400
-Received: from mail26.static.mailgun.info ([104.130.122.26]:14561 "EHLO
-        mail26.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726793AbgDXTGg (ORCPT
+        id S1727107AbgD0Llg (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 27 Apr 2020 07:41:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36088 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727062AbgD0Llf (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 24 Apr 2020 15:06:36 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1587755196; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=Y0Xh9YwcFuchacYRPmOt5mmHgQmhT+OyA1r+OZ9piB0=; b=QRKaD2CJGHgqPpFlWiiZ5fd2krVfg9T8KE1fMlTclEVmZxykQP0wCRngqtap6ygi7c9e4i+c
- WDk6mRgfFCtGogvHYPp2aOIswrAZoa22Q5hCdBOUQBpSB6UovzCrQl8L1g6X1vBsgv3z4nhj
- +tXA+0kt2pYkZ3t0QjTD1mDxpJ8=
-X-Mailgun-Sending-Ip: 104.130.122.26
-X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171])
- by mxa.mailgun.org with ESMTP id 5ea338af.7fe1991a80a0-smtp-out-n01;
- Fri, 24 Apr 2020 19:06:23 -0000 (UTC)
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 9D18CC433D2; Fri, 24 Apr 2020 19:06:23 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
-Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E8CE7C433CB;
-        Fri, 24 Apr 2020 19:06:22 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org E8CE7C433CB
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=bcain@codeaurora.org
-Reply-To: <bcain@codeaurora.org>
-From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'Masahiro Yamada'" <masahiroy@kernel.org>,
-        <linux-hexagon@vger.kernel.org>
-Cc:     <linux-kernel@vger.kernel.org>
-References: <20200424161502.656103-1-masahiroy@kernel.org>
-In-Reply-To: <20200424161502.656103-1-masahiroy@kernel.org>
-Subject: RE: [PATCH] hexagon: suppress error message for 'make clean'
-Date:   Fri, 24 Apr 2020 14:06:21 -0500
-Message-ID: <009101d61a6b$71f93a70$55ebaf50$@codeaurora.org>
+        Mon, 27 Apr 2020 07:41:35 -0400
+Received: from mail-io1-xd44.google.com (mail-io1-xd44.google.com [IPv6:2607:f8b0:4864:20::d44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0F812C09B051
+        for <linux-hexagon@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
+Received: by mail-io1-xd44.google.com with SMTP id e9so18403551iok.9
+        for <linux-hexagon@vger.kernel.org>; Mon, 27 Apr 2020 04:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=uI1U3pP4FazEZaTfkDGgaf1Qyb1hL6AlgZB9tozzlJtw0tc2p0xAeW9BNdbY4A2XuL
+         JYn8lE6gg3HqjBgRaTT8CTSOLDZ9E79yDyBM0EGnWldSdHyzrk+BT/7frJGn/PAhMIrE
+         VCZdq7yfljhgiOOYhIeLP2AIIFXvLFMREe3IREMgf/Wimn5okrCaqK4gkS0+n2Tqfq3c
+         EFYh4cYLyK3nIET0YOm2adzDe5W5QN3hsgSvwW72euh+PRPDs3oxC82+7cfg/ZGTOz8/
+         eTagf6SblJMWIJeJ59y/zg3//EVOq9RPByBfKkQCDUJB6vE62XJLcx9qUgZNIxoYrz8S
+         JAeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=F+HbPvxQnRBlqBFKy/zn6110uxUPAWY6eSsMY6+ckPY=;
+        b=qCYYiU8v7oR9p3YM0uJoIqnjr/2siQcLHNBxCmgcL+d7nVuhnKBtYTQ7cWqkuoxGKo
+         2WJtf5LNoV+QRQYqL0AnkbrKOgAjPegmFBb/MIbFHeKpVjKra85DTvXHr1xBmEiHJhxU
+         bF3o7wnd8U+5K2QhOVwmjF8idLtv+jXjObcJvESfeQXlzss+BI+6aIvFhYeas6ICL1Hb
+         bOayC/PkX6hODz+yQ3E2g7UkvBOVOLblNJflw2W2UYznOYcdOV6pLPHFAjIdJkGbftJT
+         Kypnicy3LLo7zG2GfAi9ZLaq9ekvaICNIBxtlX4GP4A81HmeuTupAa6PgI/Kk9wVpY1S
+         6GcQ==
+X-Gm-Message-State: AGi0PuZ8PnV8+JWbi+UV9XUB5m0N7q3IKwaPddivuXqC40AiDBOjtIfS
+        P7vK/nwI3N+vJzeW82rYMg3qzmfmOKnI32MTiYU=
+X-Google-Smtp-Source: APiQypJWdjzUZMbeRoAX94bUJV0IgwyoF5kUG7iPo3CBzKxW8lStFNsM/6tz3An/TyzRuH2Qw14DtavsVumw6JVLls0=
+X-Received: by 2002:a6b:7d4a:: with SMTP id d10mr4072296ioq.70.1587987694042;
+ Mon, 27 Apr 2020 04:41:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Content-Language: en-us
-Thread-Index: AQKG+ktipLZoGTdJhMlkCcPdnKK3f6cm4gQw
+Received: by 2002:a5d:8f89:0:0:0:0:0 with HTTP; Mon, 27 Apr 2020 04:41:33
+ -0700 (PDT)
+Reply-To: convy0090@gmail.com
+From:   Ruben CONVY <andrewboccc@gmail.com>
+Date:   Mon, 27 Apr 2020 12:41:33 +0100
+Message-ID: <CAHVC0+Ag87TMCmfNNwWbxXOFxn5166q8GG5wEfPjwtixj9=EXQ@mail.gmail.com>
+Subject: Why continued silence 2
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-> -----Original Message-----
-> From: linux-hexagon-owner@vger.kernel.org <linux-hexagon-
-> owner@vger.kernel.org> On Behalf Of Masahiro Yamada
-...
-> 'make ARCH=hexagon clean' emits an error message as follows:
-> 
->   $ make ARCH=hexagon clean
->   gcc: error: unrecognized command line option '-G0'
-> 
-> You can suppress it by setting the correct CROSS_COMPILE=, but we should
-> not require any compiler for cleaning.
-> 
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-
-
-Acked-by: Brian Cain <bcain@codeaurora.org>
-
-
-> ---
-> 
->  arch/hexagon/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/arch/hexagon/Makefile b/arch/hexagon/Makefile index
-> 4c5858b80f0e..c168c6980d05 100644
-> --- a/arch/hexagon/Makefile
-> +++ b/arch/hexagon/Makefile
-> @@ -30,7 +30,7 @@ TIR_NAME := r19
->  KBUILD_CFLAGS += -ffixed-$(TIR_NAME) -
-> DTHREADINFO_REG=$(TIR_NAME) -D__linux__  KBUILD_AFLAGS += -
-> DTHREADINFO_REG=$(TIR_NAME)
-> 
-> -LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
-> +LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name
-> +2>/dev/null)
->  libs-y += $(LIBGCC)
-> 
->  head-y := arch/hexagon/kernel/head.o
-> --
-> 2.25.1
-
+Did you receive my previous email regarding your family inheritance?
+Reply strictly through: convy0090@gmail.com
+Best Regards,
+Ruben CONVY
