@@ -2,51 +2,106 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF2511C1037
-	for <lists+linux-hexagon@lfdr.de>; Fri,  1 May 2020 11:20:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 558541C0DD3
+	for <lists+linux-hexagon@lfdr.de>; Fri,  1 May 2020 07:38:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728433AbgEAJU6 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 1 May 2020 05:20:58 -0400
-Received: from [104.248.214.7] ([104.248.214.7]:54220 "EHLO narrain.in"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1728325AbgEAJU5 (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 1 May 2020 05:20:57 -0400
-Received: from 127.0.0.1 (localhost [127.0.0.1])
-        by narrain.in (Postfix) with SMTP id 54FCB5C3447;
-        Thu, 30 Apr 2020 22:00:51 +0000 (UTC)
-Received: from [79.101.166.143] by 127.0.0.1 with ESMTP id 049AF3FDBD4; Thu, 30 Apr 2020 19:54:00 -0300
-Message-ID: <25w9za$14af7@xbj.ofgv.p4zd0>
-From:   "JEAN MARIE" <fkinneyofd@tampabay.rr.com>
-Reply-To: "JEAN MARIE" <fkinneyofd@tampabay.rr.com>
-To:     lintheartist@yahoo.com
-Subject: Please Kindly Acknowledge Receipt
-Date:   Thu, 30 Apr 20 19:54:00 GMT
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
+        id S1728248AbgEAFiM (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 1 May 2020 01:38:12 -0400
+Received: from condef-01.nifty.com ([202.248.20.66]:30840 "EHLO
+        condef-01.nifty.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728174AbgEAFiL (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 1 May 2020 01:38:11 -0400
+Received: from conssluserg-06.nifty.com ([10.126.8.85])by condef-01.nifty.com with ESMTP id 0415YI6c022600
+        for <linux-hexagon@vger.kernel.org>; Fri, 1 May 2020 14:34:18 +0900
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43]) (authenticated)
+        by conssluserg-06.nifty.com with ESMTP id 0415Xv7h011238;
+        Fri, 1 May 2020 14:33:58 +0900
+DKIM-Filter: OpenDKIM Filter v2.10.3 conssluserg-06.nifty.com 0415Xv7h011238
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nifty.com;
+        s=dec2015msa; t=1588311238;
+        bh=oOUTjHbglUckIEy8WVvMgD3ZhjrrhESz7wu9wTM0qt8=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=jPIC9BRAIB9gWJZqCfy5olbgMzB5gtYjxvxZV8vB3/20I/w8YksC++qd7vBvzEYh2
+         GsSeFMclrVoYAkD8WZp0qlc+Vt5QAOYHhfjsRAThxSshwDkpgEw+12TwbY0TULiStT
+         qh6hnfD+fsDsOgsC8Uj3GgXmkwAVvbDrYWYn8RejYsv1eagVwJaMC0DQ+ThW+57Nqm
+         m94prNdcVoeJDpAa9zEcWxJwytj26VVPuBzvJ00iY/v6x2bmW518NNA3g1So15R8yz
+         TDZne2D0mkUFepXrZulc9eYmuzAQZuDhoeNNSHAhVaMAjwXsUzDZV8qZbnbgogh62e
+         TJxfU16w4E4yQ==
+X-Nifty-SrcIP: [209.85.222.43]
+Received: by mail-ua1-f43.google.com with SMTP id b6so3411581uak.6;
+        Thu, 30 Apr 2020 22:33:58 -0700 (PDT)
+X-Gm-Message-State: AGi0PubUFw4YbTpGHwci+bFRfhI7fZ27+FzGl2BWlCe2Y7X6I235wfmG
+        v+U+8FEpf+U07m1s2n1S2Z/XTmXhRZXqI3BkY+c=
+X-Google-Smtp-Source: APiQypIt+xGZssmIimHEiLPklzB0CvviZARI0GxQsMAFDkLql6zAbzBItxLWUDKzY8bQva8cbq5ggd2pjqqU32QwpLM=
+X-Received: by 2002:ab0:7298:: with SMTP id w24mr1787087uao.95.1588311237065;
+ Thu, 30 Apr 2020 22:33:57 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="4CF92E5_32._B.E_53"
-X-Priority: 3
-X-MSMail-Priority: Normal
+References: <20200424161502.656103-1-masahiroy@kernel.org> <009101d61a6b$71f93a70$55ebaf50$@codeaurora.org>
+In-Reply-To: <009101d61a6b$71f93a70$55ebaf50$@codeaurora.org>
+From:   Masahiro Yamada <masahiroy@kernel.org>
+Date:   Fri, 1 May 2020 14:33:21 +0900
+X-Gmail-Original-Message-ID: <CAK7LNAR+PjvE3yQS7xdKo5Cf_K1xDg+NijistAqWX7Ob=_irWg@mail.gmail.com>
+Message-ID: <CAK7LNAR+PjvE3yQS7xdKo5Cf_K1xDg+NijistAqWX7Ob=_irWg@mail.gmail.com>
+Subject: Re: [PATCH] hexagon: suppress error message for 'make clean'
+To:     bcain@codeaurora.org
+Cc:     linux-hexagon@vger.kernel.org,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+On Sat, Apr 25, 2020 at 4:06 AM Brian Cain <bcain@codeaurora.org> wrote:
+>
+> > -----Original Message-----
+> > From: linux-hexagon-owner@vger.kernel.org <linux-hexagon-
+> > owner@vger.kernel.org> On Behalf Of Masahiro Yamada
+> ...
+> > 'make ARCH=hexagon clean' emits an error message as follows:
+> >
+> >   $ make ARCH=hexagon clean
+> >   gcc: error: unrecognized command line option '-G0'
+> >
+> > You can suppress it by setting the correct CROSS_COMPILE=, but we should
+> > not require any compiler for cleaning.
+> >
+> > Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
+>
+>
+> Acked-by: Brian Cain <bcain@codeaurora.org>
 
---4CF92E5_32._B.E_53
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+Applied to linux-kbuild. Thanks.
 
-I 'm a Financial Consultant.  under my network as a financial consultant, =
-there are few private investors offering capital injection as project fund=
-ing or business expansion in critical areas of Investment placements such =
-as Real Estate, Healthcare, Transportation and Agriculture. 
-Get back to me for more details as you express your interest areas of spec=
-ialization.
 
-Regards.
-Mr. J. Marie
-fkinneyofd Consulting
+>
+> > ---
+> >
+> >  arch/hexagon/Makefile | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/arch/hexagon/Makefile b/arch/hexagon/Makefile index
+> > 4c5858b80f0e..c168c6980d05 100644
+> > --- a/arch/hexagon/Makefile
+> > +++ b/arch/hexagon/Makefile
+> > @@ -30,7 +30,7 @@ TIR_NAME := r19
+> >  KBUILD_CFLAGS += -ffixed-$(TIR_NAME) -
+> > DTHREADINFO_REG=$(TIR_NAME) -D__linux__  KBUILD_AFLAGS += -
+> > DTHREADINFO_REG=$(TIR_NAME)
+> >
+> > -LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name)
+> > +LIBGCC := $(shell $(CC) $(KBUILD_CFLAGS) -print-libgcc-file-name
+> > +2>/dev/null)
+> >  libs-y += $(LIBGCC)
+> >
+> >  head-y := arch/hexagon/kernel/head.o
+> > --
+> > 2.25.1
+>
+>
 
---4CF92E5_32._B.E_53--
 
+-- 
+Best Regards
+Masahiro Yamada
