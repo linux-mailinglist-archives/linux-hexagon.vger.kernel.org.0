@@ -2,178 +2,197 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EF0D1C9D29
-	for <lists+linux-hexagon@lfdr.de>; Thu,  7 May 2020 23:21:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 281021CA487
+	for <lists+linux-hexagon@lfdr.de>; Fri,  8 May 2020 08:53:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726515AbgEGVVQ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 7 May 2020 17:21:16 -0400
-Received: from smtprelay-out1.synopsys.com ([149.117.87.133]:52422 "EHLO
-        smtprelay-out1.synopsys.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726218AbgEGVVP (ORCPT
+        id S1726365AbgEHGxb (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 8 May 2020 02:53:31 -0400
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:60966 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725971AbgEHGxb (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 7 May 2020 17:21:15 -0400
-Received: from mailhost.synopsys.com (badc-mailhost2.synopsys.com [10.192.0.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (No client certificate requested)
-        by smtprelay-out1.synopsys.com (Postfix) with ESMTPS id 8ABE8C1439;
-        Thu,  7 May 2020 21:21:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=synopsys.com; s=mail;
-        t=1588886474; bh=z5B5mtoBxMQ4qTQXgNlM0Iz3rCk1YQQhrIPVEAhawio=;
-        h=From:To:CC:Subject:Date:References:In-Reply-To:From;
-        b=k9JIG1cSnNf6Woa7G9yPiHtQrQJQIddDlUR5uprgmYrScHDDORazASlQsSB8wSwEA
-         KgfzCxv+rOeo89eQDsoBzDXW8LCj1+AKyEMmSdEhOJHq5spzW2v4AcaalAHfvcxax6
-         YTI0eqCqgYzvlicRoY2YDIsxD6aDXNZ5Ax3Eoh/RVT4MsP3j77HZ/IMKitoN9tndra
-         bzPmLuTT2urO4V80ltviQ40oK9C6lMP9G/McePZ8aH5hecRbJDViuPgxns2OARXl8a
-         C+0kK3sElcTp4/WVOmUR2R90OPktn0rTWhENFRiensl6zpfJuwkkgMlQDMUxYwZx6q
-         tSFqZWuqTgZbA==
-Received: from US01WEHTC3.internal.synopsys.com (us01wehtc3.internal.synopsys.com [10.15.84.232])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mailhost.synopsys.com (Postfix) with ESMTPS id 1C8C6A0070;
-        Thu,  7 May 2020 21:21:07 +0000 (UTC)
-Received: from US01HYBRID2.internal.synopsys.com (10.15.246.24) by
- US01WEHTC3.internal.synopsys.com (10.15.84.232) with Microsoft SMTP Server
- (TLS) id 14.3.408.0; Thu, 7 May 2020 14:21:04 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (10.202.3.67) by
- mrs.synopsys.com (10.15.246.24) with Microsoft SMTP Server (TLS) id
- 14.3.487.0; Thu, 7 May 2020 14:21:04 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eseJKZ9W4zP+M6IKytX/YgxC3XeHB2LVvHyJJbOaZTExaEB0Hxhaz8IOq4hEvhVFZOA2Vo7FRw4S8u1JzH97x2Pow1jUqRWbpG4/i022epdRPGfy5gSDf7NKwiJxCKc1u4HGoajGqJNrBTP/JrYvmu8FigU+jfPCOt/4xoTn9WG1u0Kk+MTVk7mL9w1Cg1002Jgqv5QQ+OWSVHuWxbU1y+2663jcagX2wk9I0wZUPlFJ34s2PmgqnFTo2Amb3zENyH1UoRDLB3RulXHzKBe+ISfSXV3mDVfTpxBExYOsxjy55rP7ga66Q5872uVx0HXzQksULcJhaLIocjnSu6lc5g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z5B5mtoBxMQ4qTQXgNlM0Iz3rCk1YQQhrIPVEAhawio=;
- b=RFV4aNrzzKothItRWa3f0QAktXIF/IWcvvj9bo3mWMf/5ahAWCnq45eQtYBaZqHaVXhRIb6Jsy0zuzfF+R0+2Luuz/RS5HK0nuiXKkpZlhcvNpBYdsMQnUheFbyMstcOaxWbLen7HtEeUOcx3ZyDyvV0qXum8ZJVFAEABDi9O0tqpTYRE1WDQSkXtlB9Zky55a4VwJk2LHPwW+VUdKmsddIEDWqFG5efX4R19vXu8iAG+coD+cQPN39lFbMKhV4fGdAGuru5Hfy7nDui2k2BnlKBgCkAMd6b7HUzT+i8D7Y8QPDLDHAlfgFi9xoMkU2RXBY72kZOfOxJNq9P/sZ2yw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=synopsys.com; dmarc=pass action=none header.from=synopsys.com;
- dkim=pass header.d=synopsys.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=synopsys.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z5B5mtoBxMQ4qTQXgNlM0Iz3rCk1YQQhrIPVEAhawio=;
- b=wpbDXjzaR3qr178KsNcDTT5hr/droCau0aS+iqrS0XN9SOnoSIcaB8UcMvCRkQ4N6VCvH9CfaFkii+Szso2qNsNaEczkjQXvtt1XqvCVHHR9daUBkqSyRm5J4Pho+QVob/3BmvY8FY0UGxMQnMR2Wlccwd6xB3PeD2j59yLpUhg=
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com (2603:10b6:a03:dc::26)
- by BYAPR12MB3000.namprd12.prod.outlook.com (2603:10b6:a03:d7::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.2958.27; Thu, 7 May
- 2020 21:21:03 +0000
-Received: from BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af]) by BYAPR12MB3479.namprd12.prod.outlook.com
- ([fe80::a43a:7392:6fa:c6af%6]) with mapi id 15.20.2979.028; Thu, 7 May 2020
- 21:21:03 +0000
-From:   Vineet Gupta <Vineet.Gupta1@synopsys.com>
-To:     Mike Rapoport <rppt@linux.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>
-CC:     Rich Felker <dalias@libc.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Heiko Carstens <heiko.carstens@de.ibm.com>,
-        Michal Hocko <mhocko@kernel.org>,
-        "James E.J. Bottomley" <James.Bottomley@hansenpartnership.com>,
-        Max Filippov <jcmvbkbc@gmail.com>, Guo Ren <guoren@kernel.org>,
-        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        Greg Ungerer <gerg@linux-m68k.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-c6x-dev@linux-c6x.org" <linux-c6x-dev@linux-c6x.org>,
-        Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        Helge Deller <deller@gmx.de>,
-        "x86@kernel.org" <x86@kernel.org>,
+        Fri, 8 May 2020 02:53:31 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20200508065328euoutp01c6e48b3218343420fa606763be5d5508~M_w5_Zbte1038110381euoutp01B;
+        Fri,  8 May 2020 06:53:28 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20200508065328euoutp01c6e48b3218343420fa606763be5d5508~M_w5_Zbte1038110381euoutp01B
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1588920808;
+        bh=Z7m45ytXKpkmvuwQpxVLZ3SHLM3cMj1bzkRRhkTnaDw=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=pzSVIV3/v4e6lL50pBf9yQgvuF1lvhHNPmqHibxlL4qnnHlOO6Ca0kv2oDyxarTjN
+         XhrxPH3lLvQzFvDmw9NPUFKSSTxL3kVHrAUEIe01K54sMLxFlf2tG3i4RZGhacY21r
+         A0MDXGqKfAhgnG0tYNBqygHojYiWJ2fPWkwBsF2I=
+Received: from eusmges2new.samsung.com (unknown [203.254.199.244]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200508065327eucas1p2f725cefdb89745bd1d77d3dfb0ffb3d3~M_w5qPND-1155711557eucas1p2A;
+        Fri,  8 May 2020 06:53:27 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges2new.samsung.com (EUCPMTA) with SMTP id 99.CD.60679.7E105BE5; Fri,  8
+        May 2020 07:53:27 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20200508065327eucas1p21ec9f6144ed975dc1fa11d99b6dc3ffb~M_w5PabC_1674116741eucas1p2U;
+        Fri,  8 May 2020 06:53:27 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200508065327eusmtrp2d1c70c67a2854b27d77b372c8fb55774~M_w5OM_4x2329423294eusmtrp2-;
+        Fri,  8 May 2020 06:53:27 +0000 (GMT)
+X-AuditID: cbfec7f4-0cbff7000001ed07-8e-5eb501e7ebe1
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 65.7B.08375.7E105BE5; Fri,  8
+        May 2020 07:53:27 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20200508065325eusmtip1a647998be423003f3e0d8a7ff6ef6317~M_w3Sghb12877628776eusmtip1m;
+        Fri,  8 May 2020 06:53:25 +0000 (GMT)
+Subject: Re: [PATCH v4 02/14] arm: add support for folded p4d page tables
+To:     Mike Rapoport <rppt@linux.ibm.com>
+Cc:     Mike Rapoport <rppt@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Rich Felker <dalias@libc.org>, linux-ia64@vger.kernel.org,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        linux-sh@vger.kernel.org,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        linux-mm@kvack.org, Paul Mackerras <paulus@samba.org>,
+        linux-hexagon@vger.kernel.org, Will Deacon <will@kernel.org>,
+        kvmarm@lists.cs.columbia.edu, Jonas Bonn <jonas@southpole.se>,
+        linux-arch@vger.kernel.org, Brian Cain <bcain@codeaurora.org>,
+        Marc Zyngier <maz@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
         Ley Foon Tan <ley.foon.tan@intel.com>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Mike Rapoport <rppt@kernel.org>
-Subject: Re: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
- in descending order
-Thread-Topic: [PATCH v2 17/20] mm: free_area_init: allow defining max_zone_pfn
- in descending order
-Thread-Index: AQHWHiAFM1CeaVL9XUmgz0SxoJ1XgqiWp/EAgAARJQCAAV7ugIAA9yYAgAAxOACAAJOFgIAAI6gAgAMw2gCAAAYoAA==
-Date:   Thu, 7 May 2020 21:21:03 +0000
-Message-ID: <80b0c001-ea48-f5a2-e0de-19b2cc6ec2ce@synopsys.com>
-References: <20200429121126.17989-1-rppt@kernel.org>
- <20200429121126.17989-18-rppt@kernel.org>
- <20200503174138.GA114085@roeck-us.net> <20200503184300.GA154219@roeck-us.net>
- <20200504153901.GM14260@kernel.org>
- <a0b20e15-fddb-aa9c-fd67-f1c8e735b4a4@synopsys.com>
- <20200505091946.GG342687@linux.ibm.com>
- <88b9465b-6e6d-86ca-3776-ccb7a5b60b7f@synopsys.com>
- <20200505201522.GA683243@linux.ibm.com>
- <20200507205900.GH683243@linux.ibm.com>
-In-Reply-To: <20200507205900.GH683243@linux.ibm.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
-authentication-results: linux.ibm.com; dkim=none (message not signed)
- header.d=none;linux.ibm.com; dmarc=none action=none header.from=synopsys.com;
-x-originating-ip: [2601:641:c100:83a0:fee2:8ed0:e900:96d1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: def9d429-d858-4cfd-4d72-08d7f2cc8c17
-x-ms-traffictypediagnostic: BYAPR12MB3000:
-x-microsoft-antispam-prvs: <BYAPR12MB30007E2BC5A57E6510077007B6A50@BYAPR12MB3000.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 03965EFC76
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7piWYgDy+LOQAHw0I153zwqrgCuXR+lfcC6kQZa2CadYS/WIp2Q4+OO4BATOuevERZpW5TMtJPBAZGygBbv9KIfvEWeEIrR6CyC7kI556hsTRQPBxqvHnl1m01aSgghvkghQvF5uWZF9VEkkMz+xrnaR9LAD4ZphRS7Bp4vioWFJyRS6wS6C9lXj7+b1dn1EFYD5g9PzZ728xAxl96s7EBkVjMO5iY4VQZYW3XCizHGnxuXaE8iqUGSCs7SvYzqqgdoxKNX3zKi7s/p2CMpwrSgnhxNW0/F2u1PeR0l9twY4GCJ3eIdEZXazBxat++sCFdT9EmSo7JHA7PpzVm/DSk3Gfg+MvhiwLqOK/XQjWpDQxlK1dFxbCImPvoRyeQmIUDqu9JEs6Sc8sf3T3CiW7+KB206f+SxlwME74IpFEHnGMtQWf2PJ8sDAd8uchk3UK3LvCdw7ZF8MSVwwkdFy3j3GMH+aS7mlqk/nvPTZkCU8QHQxQmx0JUBK0z5yZtH+wKWmMNQlaaoaJm8OCHBf/N+fgIQmiodpb/SqQyU6tiiJJ6SSZpT34V4VxkhsO5PE
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BYAPR12MB3479.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFTY:;SFS:(136003)(366004)(346002)(39860400002)(376002)(396003)(33430700001)(186003)(66946007)(66446008)(76116006)(6486002)(66556008)(8676002)(478600001)(71200400001)(8936002)(64756008)(66476007)(6512007)(36756003)(7416002)(4326008)(2906002)(5660300002)(86362001)(6506007)(31696002)(2616005)(54906003)(83280400001)(110136005)(83320400001)(83290400001)(83310400001)(31686004)(83300400001)(53546011)(316002)(33440700001)(43740500002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: 5hwzGxNPiqGfBXZcNHT7EuwU45HJ/rXB9Cdss5tpnNdPC8OyVv1vWa43e8G+jL4WXmBWpkL5V56N7eudwO9/3fG/Fvopd1fbOHuwkcI7XrEA0usUtL5OYQ1iLLi6gBVhCcB6kcWSns83iC9XyfGwr8Iv8r39rHsHTL36GpFNnm8ns3qx0wBFMPVk8rva6xaFTDWT2CCU3u1rbgHJZIR95+ZZ6kskNVKcZoBZBKn9hLWrANYwaqj+gxCwFwA8+3QXViMQYJCYInmjaWVS/zBqY40Y9KpztolYJ+MXebR+a7kGms0Qy4KO/Bfdn9MPH+jEU0eTQWF+qX5vND8hIMNvFEdeaWoTaaG3+4jpv24InxysydzJM6kWm+NqWCiyS6DH9NXz36FoxfjDyRm9rwSWOGEHZ2I92h3oHE3FoTRcMYcgBvNQXSTR7hiZH7P7oOzeSmwGWBdkx87FYcdOJYyuDIhgPLr+a+tpEDAyOeASlbPvLEcWwhZ2zcoVBhGOOq8oKyxyRpM3D8yokHpkuqPCr6A+lStKYA0ebt4EgnjnaApEXM8jXsabTZ24989Ktr/1NewZW9lBE4DAKecFFu0v74xsxPqnutV+J0Ug8R87gpESATHvAT9oiwjapH2U96nUIz+UnrQodaeQ/XxSxKO84FPLrxZuNaoGd5W6jbEcz+s+ZEbcgxEU49VDNU14cINkuymnrFM7eXuReYbycM6jKTcyBP/wYFF7MT1LLgMyFm4rCona1mdlGrk8ez7Sc8vx+Bq1qpWyaaBdViXp1reJHZ5B+6pobS+HziVUS5KnMMqVIg9KMGGQb8iSpafuo8QuP4YXseWeZfBIJqpAfBAzUQsZ+vbTAuHbOYNlGEpVZ1Y=
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D2A13E4A32E60C448B6A7689E04CDA5C@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        Catalin Marinas <catalin.marinas@arm.com>,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>, kvm-ppc@vger.kernel.org,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        openrisc@lists.librecores.org, Stafford Horne <shorne@gmail.com>,
+        Guan Xuetao <gxt@pku.edu.cn>,
+        linux-arm-kernel@lists.infradead.org,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Tony Luck <tony.luck@intel.com>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        linux-kernel@vger.kernel.org,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        nios2-dev@lists.rocketboards.org, linuxppc-dev@lists.ozlabs.org,
+        =?UTF-8?Q?=c5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
+        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <98229ab1-fbf8-0a89-c5d6-270c828799e7@samsung.com>
+Date:   Fri, 8 May 2020 08:53:27 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.8.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-Network-Message-Id: def9d429-d858-4cfd-4d72-08d7f2cc8c17
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2020 21:21:03.1653
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: c33c9f88-1eb7-4099-9700-16013fd9e8aa
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gUNwip59pWubcMuoWMAAXW6lNDRI8xGqDBLqblWbRCw9dlftPeBwZtvWC1Woma/PGbbRFvkKSIH1v5Onlmc7VA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR12MB3000
-X-OriginatorOrg: synopsys.com
+In-Reply-To: <20200507161155.GE683243@linux.ibm.com>
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA01TbUxTZxTee+/t7W2z6m1F+8YRlzULyWaQ6TZ3Ehc/4n68Jv7wj4lZAtrp
+        DbAVMK04NPtRy0ewwQ9qEbwt4ujinNQ1Fiofs3M2aFFCh9YYUBBlGEXBYq1Tvoptr278e85z
+        nnOe5/w4HK15zS7l8gv3CMZCvUHHKpkLVydDmY+QL+eztiNZ4PS4WZi1XZXD+TqPDNrL+xiY
+        sJTTEDldhaCylIKfJ6dkUHF8A9Q7bAhm/edZmDkxQcFYdDk8vx6UQ3/gDIKhPw4k5B0vGfD+
+        c1sGkbI2FiYqn8kg3OFk4Z57TgbOGTsNgRo/gulX8YSV85oMWswBFqziQxa8B8MsuDtdcuj0
+        tFLQZzez4K+5j6DH+1vCrPceA77uCA1lA1/CkM1Prc8g7pNuRMK3b9BkesqGSPmR1ywJHz5E
+        kcZRM0OqezJJuzgoJ66LoxSpGiuTEe/ZgyzxRm1yEnJMMKSrbpohRxv/QuRvr5vekv6t8utd
+        giF/r2DMWrtDmec/UMbsHlKXVNsXmlHFQitScJj/Ao8MjyErUnIa/gzCF2tdlFTEEHZ3tjBS
+        8QLhhw9m2Xcj52ab36p+RXjq5K238xGE4z02KqlaxG/Ch5qvMEmcxmdgy0sxNUHzj5XYPNNF
+        JxssvxJbx62ptSp+LX5ku5TgOY7hP8Z+z/4kvZjPxt2uZiRJ1PjaiZHUTkUiRX3NqxRP8x/i
+        Up+DlrAW3xlpoKSkNxU4fnqZhL/BYcccI+FF+EmwRS7hdDzX3pDKhvlShB+EzsmlogrhsKUO
+        Sao1eCA0xSbD0fwn2NORJdEbcG2klUrSmF+A+8bVUoYF2HahlpZoFa6s0EjqDCwGf//P9nLv
+        Tfoo0onzLhPnXSPOu0b83/cUYs4irVBsKsgVTKsKhR9XmPQFpuLC3BU7iwq8KPEP3fFgrA11
+        zHwXQDyHdO+r4Hlzjkam32vaVxBAmKN1aarqkpYcjWqXft9+wVi03VhsEEwB9AHH6LSqzxtH
+        szV8rn6P8IMg7BaM77oUp1hqRmsMsV7nTsv299Ii0V8cQnDg3+WGrTvqT4U8yHe86EV/kyHW
+        EyU31sWv9wb7fd9vjVXlDa/eXPmT69Li0FddTxh1/mr7U1BvPBYoWTeseBa5nNN5pb1VK0aX
+        NI39mT54d7DBUjtpv5XWlLVxS4NjfP0Sf0jLbsvO/GjztrvH7o+4dIwpT7/yU9po0r8Bp3xZ
+        7AsEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sb0xTZxTGfe+/XogN1wr6hmA01ZC5hbILVA5GiSQkvvrJxX1Y5sQ1egNE
+        2pLe1igfloKtwSpqGzC0FJyyGYUulRYU2ZptnQORsanEypiAizrDoqN2Gv9Q1EI14duTc57f
+        c85JDk+rjnCZfKXBLJkMuio1l8oMvR4Yz3mIeso+drozwOv3cTDr6ldAV7Ofhcv2UQaidXYa
+        ps8eRVB/kILTL1+xcOhkCbS2uBDMhro4iLujFDyKfQRPrg0o4M/wOQST39cm7H3PGAjci7Aw
+        bevlIFr/HwsjfV4OJnxvWPDGG2kIN4UQzDx/nRjlHWSh2xrmwOF5wEHg8AgHvivtCrjiv0TB
+        aKOVg1DTXQTDgfOJYdcnGOgZmqbBdkcLk64QtSmb+Np8iIxEbtBk5pULEfvxFxwZOdZAkTNT
+        VoY4h3PIZc+4grT/MEWRo49sLAl0HOZIIOZSkN9bogy52jzDkBNnfkLkj4CP3pb1uWaDyWgx
+        S6sqjLJ5o3qHCHkasQg0eQVFGjG/cOf6PK06t3jDHqmqcp9kyi3+UlMRqrUx1ZNL9jsb06zo
+        UJoDpfBYKMDfzQYpB0rlVcK3CF/03lAkG1l48KSVTeqlOB5xcEnTY4R9fXfpucZSYQtuCP7K
+        zOl0IRvXPfPMJ9HCv6n43CnvO8JF4f+n/pl3cYKIHY/nolJ4pVCMH7p+TCTxPCOswSF/zVw5
+        Q9iJOyN2lLQswYPu+/NoSmLV1qbn83VaWIfbgn/TSb0SH+xpeaeX47H7p6gTSOVZgHsWIJ4F
+        iGcB8jViOlC6ZJH15XpZ1Mg6vWwxlGt2G/UBlHjEi/0vg73oZtf2MBJ4pF6shCfBMhWr2ycf
+        0IcR5ml1utK5v7tMpdyjO1AjmYy7TJYqSQ4jbeI2J52ZsduYeGuDeZeoFQuhSCzML8xfB+rl
+        ynrh5y9UQrnOLO2VpGrJ9J6j+JRMK2oYt3x29kK2YfRpyYPWS78wv+21hHPNvY1Ct6apN3Ys
+        frsgqq8prX0zel2/bKv2yFh/RXUs85vN/g+Ctzu/av5k4NOaOyp3WmST86+J9Mod9mFl3UTx
+        8bHB8dPD8ZvnSXvbvVnH6s4hpbEzlJPb0V4Si6zZ0uApvbVIWGsrda/oyVIzcoVO/JA2ybq3
+        og0iYZ4DAAA=
+X-CMS-MailID: 20200508065327eucas1p21ec9f6144ed975dc1fa11d99b6dc3ffb
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200507121658eucas1p240cf4a3e0fe5c22dda5ec4f72734149f
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200507121658eucas1p240cf4a3e0fe5c22dda5ec4f72734149f
+References: <20200414153455.21744-1-rppt@kernel.org>
+        <20200414153455.21744-3-rppt@kernel.org>
+        <CGME20200507121658eucas1p240cf4a3e0fe5c22dda5ec4f72734149f@eucas1p2.samsung.com>
+        <39ba8a04-d6b5-649d-c289-0c8b27cb66c5@samsung.com>
+        <20200507161155.GE683243@linux.ibm.com>
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-T24gNS83LzIwIDE6NTkgUE0sIE1pa2UgUmFwb3BvcnQgd3JvdGU6DQo+IE9uIFR1ZSwgTWF5IDA1
-LCAyMDIwIGF0IDExOjE1OjIyUE0gKzAzMDAsIE1pa2UgUmFwb3BvcnQgd3JvdGU6DQo+PiBPbiBU
-dWUsIE1heSAwNSwgMjAyMCBhdCAwNjowNzo0NlBNICswMDAwLCBWaW5lZXQgR3VwdGEgd3JvdGU6
-DQo+Pj4gT24gNS81LzIwIDI6MTkgQU0sIE1pa2UgUmFwb3BvcnQgd3JvdGU6DQo+Pj4gwqAtIElz
-IGl0IG5vdCBiZXR0ZXIgdG8gaGF2ZSB0aGUgY29yZSByZXRhaW4gdGhlIGZsZXhpYmlsaXR5IGp1
-c3QgaW4gY2FzZQ0KPj4gSWYgdGhlIHJlcXVpcmVtZW50IHRvIGhhdmUgc3VwcG9ydCBmb3IgMy1i
-YW5rcyBpcyBhIHRoZW9yZXRpY2FsDQo+PiBwb3NzaWJpbGl0eSwgSSB3b3VsZCBwcmVmZXIgdG8g
-YWRqdXN0IEFSQydzIHZlcnNpb24gb2YNCj4+IGFyY2hfaGFzX2Rlc2NlbmRpbmdfbWF4X3pvbmVf
-cGZucygpIHRvIGNvcGUgd2l0aCBlaXRoZXIgb2YgMi1iYW5rcw0KPj4gY29uZmlndXJhdGlvbiAo
-UEFFNDAgYW5kIG5vbi1QQUU0MCkgYW5kIGRlYWwgd2l0aCB0aGUgdGhpcmQgYmFuayB3aGVuL2lm
-DQo+PiBpdCBhY3R1YWxseSBtYXRlcmlhbGl6ZXMuDQoNCkZhaXIgZW5vdWdoLg0KDQo+IFRoZSBm
-aXggYmVsb3cgc2hvdWxkIHRha2UgY2FyZSBvZiBhbnkgMi1iYW5rIGNvbmZpZ3VyYXRpb25zLiAN
-Cj4gVGhpcyBpcyB2cy4gY3VycmVudCBtbW90bS4NCj4NCj4gRnJvbSBlYjgxMjRmYjM1ODQ2MDdk
-MTAzNmI3YWUwMGM4MDkyYWU0M2U0ODBkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQ0KPiBGcm9t
-OiBNaWtlIFJhcG9wb3J0IDxycHB0QGxpbnV4LmlibS5jb20+DQo+IERhdGU6IFRodSwgNyBNYXkg
-MjAyMCAyMzo0NDoxNSArMDMwMA0KPiBTdWJqZWN0OiBbUEFUQ0hdIGFyYzogZnJlZV9hcmVhX2lu
-aXQoKTogdGFrZSBpbnRvIGFjY291bnQgUEFFNDAgbW9kZQ0KPg0KPiBUaGUgYXJjaF9oYXNfZGVz
-Y2VuZGluZ19tYXhfem9uZV9wZm5zKCkgZG9lcyBub3QgdGFrZSBpbnRvIGFjY291bnQgcGh5c2lj
-YWwNCj4gbWVtb3J5IGxheW91dCBmb3IgUEFFNDAgY29uZmlndXJhdGlvbi4NCj4gV2l0aCBQQUU0
-MCBlbmFibGVkLCB0aGUgSElHSE1FTSBpcyBhY3R1YWxseSBoaWdoZXIgdGhhbiBOT1JNQUwgYW5k
-DQo+IGFyY2hfaGFzX2Rlc2NlbmRpbmdfbWF4X3pvbmVfcGZucygpIHNob3VsZCByZXR1cm4gZmFs
-c2UgaW4gdGhpcyBjYXNlLg0KPg0KPiBTaWduZWQtb2ZmLWJ5OiBNaWtlIFJhcG9wb3J0IDxycHB0
-QGxpbnV4LmlibS5jb20+DQoNCkxHVE0uDQoNCkFja2VkLWJ5OiBWaW5lZXQgR3VwdGEgPHZndXB0
-YUBzeW5vcHN5cy5jb20+DQoNClRoeCwNCg0KPiAtLS0NCj4gIGFyY2gvYXJjL21tL2luaXQuYyB8
-IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0K
-Pg0KPiBkaWZmIC0tZ2l0IGEvYXJjaC9hcmMvbW0vaW5pdC5jIGIvYXJjaC9hcmMvbW0vaW5pdC5j
-DQo+IGluZGV4IDM4Njk1OWJhYzNkMi4uZTdiZGMyYWMxYzg3IDEwMDY0NA0KPiAtLS0gYS9hcmNo
-L2FyYy9tbS9pbml0LmMNCj4gKysrIGIvYXJjaC9hcmMvbW0vaW5pdC5jDQo+IEBAIC03OSw3ICs3
-OSw3IEBAIHZvaWQgX19pbml0IGVhcmx5X2luaXRfZHRfYWRkX21lbW9yeV9hcmNoKHU2NCBiYXNl
-LCB1NjQgc2l6ZSkNCj4gIA0KPiAgYm9vbCBhcmNoX2hhc19kZXNjZW5kaW5nX21heF96b25lX3Bm
-bnModm9pZCkNCj4gIHsNCj4gLQlyZXR1cm4gdHJ1ZTsNCj4gKwlyZXR1cm4gIUlTX0VOQUJMRUQo
-Q09ORklHX0FSQ19IQVNfUEFFNDApOw0KPiAgfQ0KPiAgDQo+ICAvKg0KDQo=
+Hi Mike,
+
+On 07.05.2020 18:11, Mike Rapoport wrote:
+> On Thu, May 07, 2020 at 02:16:56PM +0200, Marek Szyprowski wrote:
+>> On 14.04.2020 17:34, Mike Rapoport wrote:
+>>> From: Mike Rapoport <rppt@linux.ibm.com>
+>>>
+>>> Implement primitives necessary for the 4th level folding, add walks of p4d
+>>> level where appropriate, and remove __ARCH_USE_5LEVEL_HACK.
+>>>
+>>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+>> Today I've noticed that kexec is broken on ARM 32bit. Bisecting between
+>> current linux-next and v5.7-rc1 pointed to this commit. I've tested this
+>> on Odroid XU4 and Raspberry Pi4 boards. Here is the relevant log:
+>>
+>> # kexec --kexec-syscall -l zImage --append "$(cat /proc/cmdline)"
+>> memory_range[0]:0x40000000..0xbe9fffff
+>> memory_range[0]:0x40000000..0xbe9fffff
+>> # kexec -e
+>> kexec_core: Starting new kernel
+>> 8<--- cut here ---
+>> Unable to handle kernel paging request at virtual address c010f1f4
+>> pgd = c6817793
+>> [c010f1f4] *pgd=4000041e(bad)
+>> Internal error: Oops: 80d [#1] PREEMPT ARM
+>> Modules linked in:
+>> CPU: 0 PID: 1329 Comm: kexec Tainted: G        W
+>> 5.7.0-rc3-00127-g6cba81ed0f62 #611
+>> Hardware name: Samsung Exynos (Flattened Device Tree)
+>> PC is at machine_kexec+0x40/0xfc
+> Any chance you have the debug info in this kernel?
+> scripts/faddr2line would come handy here.
+
+# ./scripts/faddr2line --list vmlinux machine_kexec+0x40
+machine_kexec+0x40/0xf8:
+
+machine_kexec at arch/arm/kernel/machine_kexec.c:182
+  177            reboot_code_buffer = 
+page_address(image->control_code_page);
+  178
+  179            /* Prepare parameters for reboot_code_buffer*/
+  180            set_kernel_text_rw();
+  181            kexec_start_address = image->start;
+ >182<           kexec_indirection_page = page_list;
+  183            kexec_mach_type = machine_arch_type;
+  184            kexec_boot_atags = image->arch.kernel_r2;
+  185
+  186            /* copy our kernel relocation code to the control code 
+page */
+  187            reboot_entry = fncpy(reboot_code_buffer,
+
+ > ...
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
