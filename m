@@ -2,52 +2,92 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A99D71D071E
-	for <lists+linux-hexagon@lfdr.de>; Wed, 13 May 2020 08:23:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A50CC1D50B6
+	for <lists+linux-hexagon@lfdr.de>; Fri, 15 May 2020 16:37:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729288AbgEMGXY (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 13 May 2020 02:23:24 -0400
-Received: from verein.lst.de ([213.95.11.211]:44438 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728913AbgEMGXY (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 13 May 2020 02:23:24 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id E27C468C65; Wed, 13 May 2020 08:23:18 +0200 (CEST)
-Date:   Wed, 13 May 2020 08:23:18 +0200
+        id S1726302AbgEOOg5 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 15 May 2020 10:36:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35532 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726163AbgEOOg4 (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 15 May 2020 10:36:56 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62D3CC05BD09;
+        Fri, 15 May 2020 07:36:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20170209; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=HKx/QpgyxJ6c+gcZJNfN2/GfGMIbydRitmrecAV7LdM=; b=e40fHlJwbNPK/oCRkiewUZHtoZ
+        JJJ+t1x8X3QV2n0Lukko+n8nlbWQFaqkAm9bXmAn0LEAHvsYtXA/ED46Qkhd3Wo4dC3lj9Cdjnhn4
+        2GMxO3l2bcfk8hCFGEkyKo79dCHF0dW0wzug2S7fOVDqqdxBiNErPRWKoqoW7a+vMOTzwhiXqzxde
+        yarxr8pniYHBW0nkAaHpSU30+qCnpw33gjGTv0zo9wd+L3+ubP8fVYYd3Mao0Mvo1SPygjDTG4M6W
+        uLpEub5zhVYe+GOr38SOefuPOEjNKqgIjZD47gM0x/vngs4vSjlwFW8ylRDeR9zXZutwV9Xx9BczP
+        T5GGltuQ==;
+Received: from [2001:4bb8:188:1506:c70:4a89:bc61:2] (helo=localhost)
+        by bombadil.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1jZbSC-0003n6-BC; Fri, 15 May 2020 14:36:49 +0000
 From:   Christoph Hellwig <hch@lst.de>
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     Christoph Hellwig <hch@lst.de>, akpm@linux-foundation.org,
-        Arnd Bergmann <arnd@arndb.de>, zippel@linux-m68k.org,
-        linux-arch@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        monstr@monstr.eu, jeyu@kernel.org, linux-ia64@vger.kernel.org,
-        linux-c6x-dev@linux-c6x.org, linux-sh@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, x86@kernel.org,
-        linux-um@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mips@vger.kernel.org, linux-mm@kvack.org,
-        linux-m68k@lists.linux-m68k.org, openrisc@lists.librecores.org,
-        linux-alpha@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-fsdevel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linuxppc-dev@lists.ozlabs.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 19/31] riscv: use asm-generic/cacheflush.h
-Message-ID: <20200513062318.GA24133@lst.de>
-References: <20200510075510.987823-20-hch@lst.de> <mhng-8adbedbc-0f91-4291-9471-2df5eb7b802b@palmerdabbelt-glaptop1>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Roman Zippel <zippel@linux-m68k.org>
+Cc:     Jessica Yu <jeyu@kernel.org>, Michal Simek <monstr@monstr.eu>,
+        x86@kernel.org, linux-alpha@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-c6x-dev@linux-c6x.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        linux-fsdevel@vger.kernel.org
+Subject: sort out the flush_icache_range mess v2
+Date:   Fri, 15 May 2020 16:36:17 +0200
+Message-Id: <20200515143646.3857579-1-hch@lst.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <mhng-8adbedbc-0f91-4291-9471-2df5eb7b802b@palmerdabbelt-glaptop1>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, May 12, 2020 at 04:00:26PM -0700, Palmer Dabbelt wrote:
-> Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
-> Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
->
-> Were you trying to get these all in at once, or do you want me to take it into
-> my tree?
+Hi all,
 
-Except for the small fixups at the beginning of the series this needs
-to go in together.  I'll have to do at least another resend, and after
-that I hope Andrew is going to pick it up.
+flush_icache_range is mostly used for kernel address, except for the following
+cases:
+
+ - the nommu brk and mmap implementations,
+ - the read_code helper that is only used for binfmt_flat, binfmt_elf_fdpic,
+   and binfmt_aout including the broken ia32 compat version
+ - binfmt_flat itself,
+
+none of which really are used by a typical MMU enabled kernel, as a.out can
+only be build for alpha and m68k to start with.
+
+But strangely enough commit ae92ef8a4424 ("PATCH] flush icache in correct
+context") added a "set_fs(KERNEL_DS)" around the flush_icache_range call
+in the module loader, because apparently m68k assumed user pointers.
+
+This series first cleans up the cacheflush implementations, largely by
+switching as much as possible to the asm-generic version after a few
+preparations, then moves the misnamed current flush_icache_user_range to
+a new name, to finally introduce a real flush_icache_user_range to be used
+for the above use cases to flush the instruction cache for a userspace
+address range.  The last patch then drops the set_fs in the module code
+and moves it into the m68k implementation.
+
+A git tree is available here:
+
+    git://git.infradead.org/users/hch/misc.git flush_icache_range.2
+
+Gitweb:
+
+    http://git.infradead.org/users/hch/misc.git/shortlog/refs/heads/flush_icache_range.2
+
+Changes since v1:
+ - fix pmem.c compilation on some s390 configs
+ - drop two patches picked up by the arch maintainers
