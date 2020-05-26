@@ -2,66 +2,86 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F5681DF9DC
-	for <lists+linux-hexagon@lfdr.de>; Sat, 23 May 2020 20:00:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AEAF91E257A
+	for <lists+linux-hexagon@lfdr.de>; Tue, 26 May 2020 17:30:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728379AbgEWSA2 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 23 May 2020 14:00:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55726 "EHLO
+        id S1729181AbgEZPaI (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 26 May 2020 11:30:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387814AbgEWSAW (ORCPT
+        with ESMTP id S1728166AbgEZPaH (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 23 May 2020 14:00:22 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EC64C08C5C9
-        for <linux-hexagon@vger.kernel.org>; Sat, 23 May 2020 11:00:20 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id u22so5695236plq.12
-        for <linux-hexagon@vger.kernel.org>; Sat, 23 May 2020 11:00:20 -0700 (PDT)
+        Tue, 26 May 2020 11:30:07 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D394CC03E96D;
+        Tue, 26 May 2020 08:30:07 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id ci23so1476146pjb.5;
+        Tue, 26 May 2020 08:30:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
-        b=DLUdlLdqK1bsV3DbEuTTyBWxouo7TOwyxri4APWQD3NqiMSIjirU+KuWgkxjC+SPXd
-         U5bKcUrFxXkujPWjXtLFF/k/nfilKzP5EjBajrS/8510fneO07cpMqdcHCxwrpi40/q7
-         /O0e1HoJlTbh5NB1junI0CHT5u7OlL96wLc3EVtoU1jy6h6mu/94Ij3+HmmWjDrdLWVh
-         jTwO4Rc/jE6wel14tPJDJsn6k0/UDkI9Or/XCFS691xyvyogoxyI2h7yK06Suh6ePv/U
-         +lZz7VywgsFgSxYL/B5mLPOXcZ0fktkIkUnyPxHg9tbmvqat4Bb8GZAodniIxvBVB3XB
-         mJxw==
+        h=sender:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:user-agent;
+        bh=an9KhWgQP+/Fji7KQ32EAN6LrJ7/yGHMUcaJcF1rPZo=;
+        b=Y2DzLyU7ga/1gd25vfMIXc2hsI4Jl/HI4zlSDDOkQhLjym0fyD97OT9l7rWdxoJrU/
+         Gj3F2USd8BzEhDLGRw4nN84mi1/lfHKsxlGsJm9d94hKH33e8JCz7bkqWE8HVxS4xfr4
+         kAeeO3cgUL5AngjhHOzIJtBVGgGNQTTrZiUP4eoo0qO2kjoiAgOkH9JXshk4ySA7B9nm
+         NGOAQj/xKe6K/sQFiMrsghgYJtRxXOTgrssil/3FzmV+HDJh+i+9JQgKdGxxcj1vJgg4
+         TO2EIHLXV2MBQbfLSoYVohMTVpFDuQjuWApEa67mCt0rdBj589x73BosdSLh22w07/cP
+         bVuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=F3NMDrR9dummcUXdRfruEEfbIS6yB2vx68nB8Asq/5Q=;
-        b=NQa3t40i0NVmTFr9qwM/xKXl3jVlsJz1o0aIBKnoiWuxij8wDfDAA3PwohI+bz1Iae
-         sAD2V3uG5LnV56LuXXKtPUcrvNu5N7UubkMdmA9PE52eXfB90b3vl5sqeUIVUs5yijb0
-         Wgaic5uZtf4PG0pkl++giCD2Af71J1xmIqBm6jwz/HbIFIAFGgClQ+O0aS5mNb/JuikM
-         kQsfWl9FKgOJLzmCeLAl377L9qimJQyZo2yguCwfZ0l9sZvFJkp80+sJn55NGIfBXxuH
-         bKOh3jOkDXF1NGlF0lFxcRGjfMkXfMR5qC5/zyTWA2rYhR4nM9ruTv4L5qbPRtPzTDBD
-         KYxA==
-X-Gm-Message-State: AOAM532wAqtWhV1utRsNUwf9reBlVpUxZXRlc38brwJmzxaiYIKm7DMz
-        GwcBJ3zMk/9cUnoKoBP9RIjfZY7jnN6qqHnGIgErqSMM
-X-Google-Smtp-Source: ABdhPJxI0GNvtYFRzubiNKehFnBmeNa8IdxO7hQ3TxAldsg7mTxyy0v9X6v2Fayhxp/lnxt7tCbB9QFJVJ60H98MgEQ=
-X-Received: by 2002:a0c:ed4b:: with SMTP id v11mr9120627qvq.179.1590256818769;
- Sat, 23 May 2020 11:00:18 -0700 (PDT)
+        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+         :mime-version:content-disposition:user-agent;
+        bh=an9KhWgQP+/Fji7KQ32EAN6LrJ7/yGHMUcaJcF1rPZo=;
+        b=H3p2ezEY4iU4dCARpXoi0L2dE25UDT594Op/0xu/wisewzZH1ZCl/SeWflS4KyJ8+H
+         1BALIF6udSxb0mWhWet5hwvZaGxcA80iFG9+KzBBpaF8YFuNOz2Ql7o/A1JVVTzXLWgF
+         gaRIMVNE07UVo1jjXLJnI8PqpixG1TpeNwD+jJcQuChXORpwrGkCvCZUIDoL34Z7kLPR
+         qoQKCvXVaEVcPzytbUnzs9o8iEohQTdJJboxHb/RK9gI1aTwMO4sQxH58ztIUUeJFG+u
+         86W/9IXR4i1OJB/srZssn5ixhqM0N8c1FmeWzgW6tEvwt0FitJNBY5pH36uNAYrZgFNc
+         1O0Q==
+X-Gm-Message-State: AOAM533N5ZiZ8znZKpIRfGrJGY7UOEjjkOZKdpaH6DmQufUb/KbFXA2P
+        UCKyonAyP9VKagoow3aBZno=
+X-Google-Smtp-Source: ABdhPJw607K5Yy3cpbQj7QtR27NhBpQq/vORS80zd+2iyq/bZjMIWObM4XLjhk4EssLGpG1TV8rNyw==
+X-Received: by 2002:a17:90a:297:: with SMTP id w23mr17965652pja.140.1590507007342;
+        Tue, 26 May 2020 08:30:07 -0700 (PDT)
+Received: from localhost ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id f18sm69423pga.75.2020.05.26.08.30.05
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Tue, 26 May 2020 08:30:06 -0700 (PDT)
+Date:   Tue, 26 May 2020 08:30:04 -0700
+From:   Guenter Roeck <linux@roeck-us.net>
+To:     Will Deacon <will@kernel.org>
+Cc:     Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Thomas Gleixner <tglx@linutronix.de>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH] compiler/gcc: Raise minimum GCC version for kernel
+ builds to 4.8
+Message-ID: <20200526153004.GA74229@roeck-us.net>
 MIME-Version: 1.0
-Received: by 2002:aed:3ac5:0:0:0:0:0 with HTTP; Sat, 23 May 2020 11:00:18
- -0700 (PDT)
-Reply-To: mrs.chantala2055@gmail.com
-From:   mrs chantal <mrs.chantaltwo@gmail.com>
-Date:   Sat, 23 May 2020 18:00:18 +0000
-Message-ID: <CAGVwK0UnqGdMqCxvjeR06i5Ca=SScOHB3E1kfQEUa4_tgZN-cQ@mail.gmail.com>
-Subject: jjCompliment
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.9.4 (2018-02-28)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-     Compliment of the day to you. I am Mrs.CHANTAL I am sending this brief
-    letter to solicit your partnership to transfer $13.5 Million US
-    Dollars.I shall send you more information and procedures when I receive
-    positive response From you. Please send me a message in My private
-    email address is ( mrschantal066@gmail.com  )
-    Best Regards
-    MrS.Chantal
+On Mon, May 11, 2020 at 09:41:37PM +0100, Will Deacon wrote:
+> It is very rare to see versions of GCC prior to 4.8 being used to build
+> the mainline kernel. These old compilers are also known to have codegen
+> issues which can lead to silent miscompilation:
+> 
+> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58145
+> 
+> Raise the minimum GCC version to 4.8 for building the kernel and remove
+> some tautological Kconfig dependencies as a consequence.
+
+My hexagon compiler is v4.6.1, and I have been unable to find a more
+recent version. Does anyone happen to have a pointer to a hexagon toolchain
+with gcc 4.8 or later ?
+
+Thanks,
+Guenter
