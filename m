@@ -2,108 +2,109 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97EB21E2684
-	for <lists+linux-hexagon@lfdr.de>; Tue, 26 May 2020 18:08:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DE621E31C3
+	for <lists+linux-hexagon@lfdr.de>; Tue, 26 May 2020 23:57:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388373AbgEZQIp (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 26 May 2020 12:08:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33854 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388400AbgEZQIp (ORCPT
+        id S2391566AbgEZV5M (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 26 May 2020 17:57:12 -0400
+Received: from mail27.static.mailgun.info ([104.130.122.27]:15669 "EHLO
+        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389630AbgEZV5M (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 26 May 2020 12:08:45 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B4EFC03E96D
-        for <linux-hexagon@vger.kernel.org>; Tue, 26 May 2020 09:08:45 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id cx22so32180pjb.1
-        for <linux-hexagon@vger.kernel.org>; Tue, 26 May 2020 09:08:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=NTyuk3oWFBmxwvB6ngXRDL+X9/MYc3CApnCwn/T5TSU=;
-        b=FHWbf7Wvjx5PdFz1RG7GNaycGzbTIS84kShvUC8ttI3+RmlxdUuXD1p5owVRaFhTB6
-         3tY/uF5IwyOh8mW2SAjJgmIIyM2+lCY6pDZeVJS/723twN1Gz7uEeBGd3V2K9LJC/tmw
-         CQeGteduJXQDsPw46eMazXB9C6kbV0Et9ePdVy+qS0kZLQ2QrLOyA3BxQbojCmFnxxXJ
-         +huUHYV1OZwVexvCRpVdPHtxlaEKDqdLtntbci/1NuUVYwQBD1eZ+l+MeoL/td7mGY8h
-         Hj0ranoD0nm4/MxLjwGWGljYNsivM5nRfjxsmSMLQDG+EFmhjkGEg3QUi1X9h0hpDisq
-         8UDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=NTyuk3oWFBmxwvB6ngXRDL+X9/MYc3CApnCwn/T5TSU=;
-        b=ngNqeNJGf1BLEw1TStUQokZQeNIr9TINz/ibWr+1myVowBI/jijxSEZf9tISCyFM9q
-         e4/1azY6nWC+RtCm2uVVbkaEXx4LgOdbtodNj+oQfCq5eecUThps+R/Z+yT1e0ejfBZC
-         UxmmAGtQ1PVkYtpvwQRGIMR7f6Dme0x9ogdm72Ic+N8u4HZkEEQ6uQsZiO11RIAywVac
-         IoJ4wVJsa2upQ1eRy+Rp5BG+CLVUf2BKUo4GiigiY9sNeID5wkLHouC8UB1EPXl2f32+
-         OmbGP1gPJdstijADck79azjRq14in7OUs41oHr2XlMaGVYC+I+oN8u0Gm2QSJeGRPm1C
-         PYkg==
-X-Gm-Message-State: AOAM5308I6Z79SpxwBvmHBUzB1/Kk2ivkceBghExBJx8AOIlW1/NdMF0
-        kZ1h/xNaRQVr7ncS9WUDTbEu196Vm3axAM2/hia83w==
-X-Google-Smtp-Source: ABdhPJxca/yviUIiH1otzrRCE374xvJoLYTTpyP5fD+KqaIP77dq9VyQxHvKVkl3mNCY2b7BrIfczonL/KQ+kXSRQyY=
-X-Received: by 2002:a17:90b:4c47:: with SMTP id np7mr27972131pjb.101.1590509324637;
- Tue, 26 May 2020 09:08:44 -0700 (PDT)
-MIME-Version: 1.0
+        Tue, 26 May 2020 17:57:12 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1590530231; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
+ To: From: Reply-To: Sender;
+ bh=Lx+JlsYWqs8sfPrQRTmH7W6Ju5CUj4LarP9b9J9tMIM=; b=OhiFuqL884sUy4VJsoO6MwbcPoU6ckp5T9xSYQBue688BgQhAY2/EzQu9ubxbj2MV0I+ng6L
+ hywkEjsXWdgRxYfNZAiAHy79Dk0tgnjMxwqcWKaUidIxvEYVvI6hBdYVJkdAj7ydsZIewvrU
+ zAlRLVGVuPaEU4moWtHX2HHRR/c=
+X-Mailgun-Sending-Ip: 104.130.122.27
+X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 5ecd90b6809d904967d341b7 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 May 2020 21:57:10
+ GMT
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id B3277C433A0; Tue, 26 May 2020 21:57:10 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bcain)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 074FDC433C6;
+        Tue, 26 May 2020 21:57:08 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 074FDC433C6
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=bcain@codeaurora.org
+Reply-To: <bcain@codeaurora.org>
+From:   "Brian Cain" <bcain@codeaurora.org>
+To:     "'Nick Desaulniers'" <ndesaulniers@google.com>,
+        "'Guenter Roeck'" <linux@roeck-us.net>
+Cc:     "'Will Deacon'" <will@kernel.org>, <linux-hexagon@vger.kernel.org>,
+        "'LKML'" <linux-kernel@vger.kernel.org>,
+        "'Thomas Gleixner'" <tglx@linutronix.de>,
+        "'Masahiro Yamada'" <masahiroy@kernel.org>,
+        "'Peter Zijlstra'" <peterz@infradead.org>,
+        "'Arnd Bergmann'" <arnd@arndb.de>, <sidneym@codeaurora.org>
 References: <20200526153004.GA74229@roeck-us.net> <CAKwvOdnrsCCt_HU+fows6kBCs2jGcikDtMm_otQSKFEgqfojJw@mail.gmail.com>
- <8c5f8a2c-0ca2-b2f2-4278-d02198d4dd8d@roeck-us.net>
-In-Reply-To: <8c5f8a2c-0ca2-b2f2-4278-d02198d4dd8d@roeck-us.net>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Tue, 26 May 2020 09:08:33 -0700
-Message-ID: <CAKwvOd==CjrmNcDSEWa3hs4WWPecJorY5txG4T4FsFODhaa2sA@mail.gmail.com>
-Subject: Re: [PATCH] compiler/gcc: Raise minimum GCC version for kernel builds
- to 4.8
-To:     Guenter Roeck <linux@roeck-us.net>
-Cc:     Will Deacon <will@kernel.org>, Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Arnd Bergmann <arnd@arndb.de>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAKwvOdnrsCCt_HU+fows6kBCs2jGcikDtMm_otQSKFEgqfojJw@mail.gmail.com>
+Subject: RE: [PATCH] compiler/gcc: Raise minimum GCC version for kernel builds to 4.8
+Date:   Tue, 26 May 2020 16:57:07 -0500
+Message-ID: <04ca01d633a8$9abb8070$d0328150$@codeaurora.org>
+MIME-Version: 1.0
+Content-Type: text/plain;
+        charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKN1vNw91W6igT881KSGz5ZWBjxSQIw8CjPpzoaY0A=
+Content-Language: en-us
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, May 26, 2020 at 9:03 AM Guenter Roeck <linux@roeck-us.net> wrote:
->
-> Hi Nick,
->
-> On 5/26/20 8:40 AM, Nick Desaulniers wrote:
-> > On Tue, May 26, 2020 at 8:30 AM Guenter Roeck <linux@roeck-us.net> wrote:
-> >>
-> >> On Mon, May 11, 2020 at 09:41:37PM +0100, Will Deacon wrote:
-> >>> It is very rare to see versions of GCC prior to 4.8 being used to build
-> >>> the mainline kernel. These old compilers are also known to have codegen
-> >>> issues which can lead to silent miscompilation:
-> >>>
-> >>> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=58145
-> >>>
-> >>> Raise the minimum GCC version to 4.8 for building the kernel and remove
-> >>> some tautological Kconfig dependencies as a consequence.
-> >>
-> >> My hexagon compiler is v4.6.1, and I have been unable to find a more
-> >> recent version. Does anyone happen to have a pointer to a hexagon toolchain
-> >> with gcc 4.8 or later ?
+> -----Original Message-----
+> From: linux-hexagon-owner@vger.kernel.org <linux-hexagon-
+> owner@vger.kernel.org> On Behalf Of Nick Desaulniers
+...
+> On Tue, May 26, 2020 at 8:30 AM Guenter Roeck <linux@roeck-us.net> =
+wrote:
 > >
-> > IIUC, hexagon moved to LLVM, though that target still has issues
-> > building the kernel.
-> > https://github.com/ClangBuiltLinux/linux/issues?q=is%3Aopen+is%3Aissue+label%3A%22%5BARCH%5D+hexagon%22
+> > On Mon, May 11, 2020 at 09:41:37PM +0100, Will Deacon wrote:
+> > > It is very rare to see versions of GCC prior to 4.8 being used to
+> > > build the mainline kernel. These old compilers are also known to
+> > > have codegen issues which can lead to silent miscompilation:
+> > >
+> > > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D58145
+> > >
+> > > Raise the minimum GCC version to 4.8 for building the kernel and
+> > > remove some tautological Kconfig dependencies as a consequence.
 > >
->
-> That won't help me for my build tests. It is bad enough having to maintain
-> one compiler. I don't want to add another one to the mix, and I'll happily
-> leave llvm build tests for ClangBuiltLinux. Guess I'll have to stop hexagon
+> > My hexagon compiler is v4.6.1, and I have been unable to find a more
+> > recent version. Does anyone happen to have a pointer to a hexagon
+> > toolchain with gcc 4.8 or later ?
+>=20
+> IIUC, hexagon moved to LLVM, though that target still has issues =
+building the
+> kernel.
+> =
+https://github.com/ClangBuiltLinux/linux/issues?q=3Dis%3Aopen+is%3Aissue+=
+lab
+> el%3A%22%5BARCH%5D+hexagon%22
 
-:( We could use the additional test coverage.
+Indeed, we did move to llvm.  The build works with the clang_rt-builtins =
+lib.  But that issue indicates that it's an unnecessary wart to require =
+that.  From what I understand, other arches contribute these builtins =
+content to the kernel build, so we'll do the same.
 
-> test builds starting with 5.8.
->
-> Guenter
+I'll prioritize this update.
 
+-Brian
 
-
--- 
-Thanks,
-~Nick Desaulniers
