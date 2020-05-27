@@ -2,109 +2,139 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DE621E31C3
-	for <lists+linux-hexagon@lfdr.de>; Tue, 26 May 2020 23:57:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 721671E3771
+	for <lists+linux-hexagon@lfdr.de>; Wed, 27 May 2020 06:37:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391566AbgEZV5M (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 26 May 2020 17:57:12 -0400
-Received: from mail27.static.mailgun.info ([104.130.122.27]:15669 "EHLO
-        mail27.static.mailgun.info" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389630AbgEZV5M (ORCPT
+        id S1727890AbgE0Egz (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 27 May 2020 00:36:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37308 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727881AbgE0Egy (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 26 May 2020 17:57:12 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1590530231; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=Lx+JlsYWqs8sfPrQRTmH7W6Ju5CUj4LarP9b9J9tMIM=; b=OhiFuqL884sUy4VJsoO6MwbcPoU6ckp5T9xSYQBue688BgQhAY2/EzQu9ubxbj2MV0I+ng6L
- hywkEjsXWdgRxYfNZAiAHy79Dk0tgnjMxwqcWKaUidIxvEYVvI6hBdYVJkdAj7ydsZIewvrU
- zAlRLVGVuPaEU4moWtHX2HHRR/c=
-X-Mailgun-Sending-Ip: 104.130.122.27
-X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5ecd90b6809d904967d341b7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 26 May 2020 21:57:10
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B3277C433A0; Tue, 26 May 2020 21:57:10 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 074FDC433C6;
-        Tue, 26 May 2020 21:57:08 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 074FDC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=bcain@codeaurora.org
-Reply-To: <bcain@codeaurora.org>
-From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'Nick Desaulniers'" <ndesaulniers@google.com>,
-        "'Guenter Roeck'" <linux@roeck-us.net>
-Cc:     "'Will Deacon'" <will@kernel.org>, <linux-hexagon@vger.kernel.org>,
-        "'LKML'" <linux-kernel@vger.kernel.org>,
-        "'Thomas Gleixner'" <tglx@linutronix.de>,
-        "'Masahiro Yamada'" <masahiroy@kernel.org>,
-        "'Peter Zijlstra'" <peterz@infradead.org>,
-        "'Arnd Bergmann'" <arnd@arndb.de>, <sidneym@codeaurora.org>
-References: <20200526153004.GA74229@roeck-us.net> <CAKwvOdnrsCCt_HU+fows6kBCs2jGcikDtMm_otQSKFEgqfojJw@mail.gmail.com>
-In-Reply-To: <CAKwvOdnrsCCt_HU+fows6kBCs2jGcikDtMm_otQSKFEgqfojJw@mail.gmail.com>
-Subject: RE: [PATCH] compiler/gcc: Raise minimum GCC version for kernel builds to 4.8
-Date:   Tue, 26 May 2020 16:57:07 -0500
-Message-ID: <04ca01d633a8$9abb8070$d0328150$@codeaurora.org>
+        Wed, 27 May 2020 00:36:54 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF762C061A0F;
+        Tue, 26 May 2020 21:36:54 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id 185so2988049pgb.10;
+        Tue, 26 May 2020 21:36:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=lOpmpojWwwDKmdgvBgyDR/91akL7lsEVaaRXHGRRif0=;
+        b=RhgQiHKjSFxt0e4hdk9XFdFmwXlaqqy/oTAekflZtHFdhEKO64qFc1mpKDXZr69CPy
+         jdKKGgMYF3/PwLMQqZRA0p7MJV/Go6tkta/h4swizRoRpVhai4LlQKtDfpzOQXol3xcY
+         3TW/CBGWUO1G35QH1UIuJXs9WTI3G+E29PktRQFzMSdgmMsbx+ViIkPx4XIoQKnwHjtI
+         iuFirKyvXOkp6bKvGs8xYK3w/Dn4sctZ1lOJtxsH8Aa2nP03Bsx7PgwJODEguoGDFtQe
+         EV7yB1UHGazYqjCw0y7SPUOzeb1Rx+s20xn4YP/gkyyGkm4H/LKnhLTIPlstwN50FD9J
+         kU0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lOpmpojWwwDKmdgvBgyDR/91akL7lsEVaaRXHGRRif0=;
+        b=D04p47AQjHiFVOLa1Xh9S82T1TQSXfPu4wykqPdRaEnJY3choB7Zy/8EsvzJAaIKgq
+         Rbg6/DEh5iBwjGiA3ps9Ygt67mVmPEUNfb2Yv7Ktb2XxyoDw6EVp03UAvw9fDxBVfo0+
+         8YysgchrbyChFVHXA8wh0ht8hp+uDYVkOV50iyixHGSLe584qU74hnQK8EZyNI65MBFR
+         HKuFkNlwEjxNWIUKgcJ3/q8JXhuSGzcGRLQ2gFZaJBmVRtADBfafD1T6or1QgWLUsusu
+         CKDVZ0NqgIhSMu/JIcHL32GNOG7eqXsVb+f4E4a77Q4ezQOouP6OzeNP4L/+O9looQRt
+         353w==
+X-Gm-Message-State: AOAM532ZbR1SF3hgJuyeojKsQhntXLGLx5PXTeCF5wAgIB2eawYyCiNo
+        oannJ3fyqSMhNoXMHvoFdIA=
+X-Google-Smtp-Source: ABdhPJxaG/pR1wu1n7WufrFJ+x4wcg8X7uq9rcDJKu3YRWfpwt3nhECM4aeG8mrZfzsEkO9ezvPt1w==
+X-Received: by 2002:aa7:9302:: with SMTP id 2mr2035203pfj.164.1590554214171;
+        Tue, 26 May 2020 21:36:54 -0700 (PDT)
+Received: from localhost.localdomain ([2604:1380:4111:8b00::1])
+        by smtp.gmail.com with ESMTPSA id e13sm893604pfm.103.2020.05.26.21.36.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 May 2020 21:36:53 -0700 (PDT)
+From:   Nathan Chancellor <natechancellor@gmail.com>
+To:     hch@lst.de
+Cc:     akpm@linux-foundation.org, arnd@arndb.de, jeyu@kernel.org,
+        linux-alpha@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-c6x-dev@linux-c6x.org,
+        linux-fsdevel@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+        linux-sh@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-xtensa@linux-xtensa.org, linuxppc-dev@lists.ozlabs.org,
+        monstr@monstr.eu, openrisc@lists.librecores.org,
+        sparclinux@vger.kernel.org, x86@kernel.org, zippel@linux-m68k.org,
+        Nathan Chancellor <natechancellor@gmail.com>
+Subject: [PATCH] media: omap3isp: Shuffle cacheflush.h and include mm.h
+Date:   Tue, 26 May 2020 21:34:27 -0700
+Message-Id: <20200527043426.3242439-1-natechancellor@gmail.com>
+X-Mailer: git-send-email 2.27.0.rc0
+In-Reply-To: <20200515143646.3857579-7-hch@lst.de>
+References: <20200515143646.3857579-7-hch@lst.de>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQKN1vNw91W6igT881KSGz5ZWBjxSQIw8CjPpzoaY0A=
-Content-Language: en-us
+X-Patchwork-Bot: notify
+Content-Transfer-Encoding: 8bit
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-> -----Original Message-----
-> From: linux-hexagon-owner@vger.kernel.org <linux-hexagon-
-> owner@vger.kernel.org> On Behalf Of Nick Desaulniers
-...
-> On Tue, May 26, 2020 at 8:30 AM Guenter Roeck <linux@roeck-us.net> =
-wrote:
-> >
-> > On Mon, May 11, 2020 at 09:41:37PM +0100, Will Deacon wrote:
-> > > It is very rare to see versions of GCC prior to 4.8 being used to
-> > > build the mainline kernel. These old compilers are also known to
-> > > have codegen issues which can lead to silent miscompilation:
-> > >
-> > > https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D58145
-> > >
-> > > Raise the minimum GCC version to 4.8 for building the kernel and
-> > > remove some tautological Kconfig dependencies as a consequence.
-> >
-> > My hexagon compiler is v4.6.1, and I have been unable to find a more
-> > recent version. Does anyone happen to have a pointer to a hexagon
-> > toolchain with gcc 4.8 or later ?
->=20
-> IIUC, hexagon moved to LLVM, though that target still has issues =
-building the
-> kernel.
-> =
-https://github.com/ClangBuiltLinux/linux/issues?q=3Dis%3Aopen+is%3Aissue+=
-lab
-> el%3A%22%5BARCH%5D+hexagon%22
+After mm.h was removed from the asm-generic version of cacheflush.h,
+s390 allyesconfig shows several warnings of the following nature:
 
-Indeed, we did move to llvm.  The build works with the clang_rt-builtins =
-lib.  But that issue indicates that it's an unnecessary wart to require =
-that.  From what I understand, other arches contribute these builtins =
-content to the kernel build, so we'll do the same.
+In file included from ./arch/s390/include/generated/asm/cacheflush.h:1,
+                 from drivers/media/platform/omap3isp/isp.c:42:
+./include/asm-generic/cacheflush.h:16:42: warning: 'struct mm_struct'
+declared inside parameter list will not be visible outside of this
+definition or declaration
 
-I'll prioritize this update.
+cacheflush.h does not include mm.h nor does it include any forward
+declaration of these structures hence the warning. To avoid this,
+include mm.h explicitly in this file and shuffle cacheflush.h below it.
 
--Brian
+Fixes: 19c0054597a0 ("asm-generic: don't include <linux/mm.h> in cacheflush.h")
+Signed-off-by: Nathan Chancellor <natechancellor@gmail.com>
+---
+
+I am aware the fixes tag is kind of irrelevant because that SHA will
+change in the next linux-next revision and this will probably get folded
+into the original patch anyways but still.
+
+The other solution would be to add forward declarations of these structs
+to the top of cacheflush.h, I just chose to do what Christoph did in the
+original patch. I am happy to do that instead if you all feel that is
+better.
+
+ drivers/media/platform/omap3isp/isp.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/omap3isp/isp.c b/drivers/media/platform/omap3isp/isp.c
+index a4ee6b86663e..54106a768e54 100644
+--- a/drivers/media/platform/omap3isp/isp.c
++++ b/drivers/media/platform/omap3isp/isp.c
+@@ -39,8 +39,6 @@
+  *	Troy Laramy <t-laramy@ti.com>
+  */
+ 
+-#include <asm/cacheflush.h>
+-
+ #include <linux/clk.h>
+ #include <linux/clkdev.h>
+ #include <linux/delay.h>
+@@ -49,6 +47,7 @@
+ #include <linux/i2c.h>
+ #include <linux/interrupt.h>
+ #include <linux/mfd/syscon.h>
++#include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/omap-iommu.h>
+ #include <linux/platform_device.h>
+@@ -58,6 +57,8 @@
+ #include <linux/sched.h>
+ #include <linux/vmalloc.h>
+ 
++#include <asm/cacheflush.h>
++
+ #ifdef CONFIG_ARM_DMA_USE_IOMMU
+ #include <asm/dma-iommu.h>
+ #endif
+-- 
+2.27.0.rc0
 
