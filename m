@@ -2,102 +2,122 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 98A251ED157
-	for <lists+linux-hexagon@lfdr.de>; Wed,  3 Jun 2020 15:49:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0D4B1ED67E
+	for <lists+linux-hexagon@lfdr.de>; Wed,  3 Jun 2020 21:05:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726013AbgFCNtK (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 3 Jun 2020 09:49:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50108 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726011AbgFCNsu (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 3 Jun 2020 09:48:50 -0400
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F225C008635
-        for <linux-hexagon@vger.kernel.org>; Wed,  3 Jun 2020 06:48:49 -0700 (PDT)
-Received: by mail-lf1-x142.google.com with SMTP id w15so1342693lfe.11
-        for <linux-hexagon@vger.kernel.org>; Wed, 03 Jun 2020 06:48:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
-        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
-        b=LImzFWfFZ5MGhzJT1qzCsgEXVo7xW37sUIdrDLCKiXHQE0/Tq0rYX6Af/ld5dvlhmE
-         opFt8B8vUrhAfyxGIRs7eIQZmnu+cHCt7Dz4gEu/fnBWHDlMa8iVHDbM7XgqJUtNcgor
-         I4Oj1yGJ3ygOniFn6Dr+FHDS5BV48N/ldz+eBwWbR5/ADnYCL6KuztRZu9mrKJOxMODU
-         fmVICwwGmTYXXsgICTxE6unupuMdGq6+YZvkWKysZVLYK3Wwxrg7U2ecMo3WGycHWcU1
-         w35jxyjuynpm30G3kj/I18A4vO2Y2WN0kfTajUkGc1Xe9t84eQuWhnB4AGlAS8dbrawc
-         iC3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to;
-        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
-        b=soo+NXgPw8pShvOz01INARhCP2o5osbOMJgkxNp+2x24HUZ58sWARRaeRb6l05ebor
-         +siU9q+wjfLx/oiyAD7EUNXymIkBe/Fe5YvbMBCpJsJ5L1dG+CgNhh9LW74GRqoEo7bA
-         Tgtr6u4qgpiUH4O8ZgOufS7rJr4/uPp6OY/n2jq+jsZSA1fIEKqNJzRNapWVsIoJ2JNk
-         zbZ01FdlnH4sHJHSfiOIgvVQIXwMJNPNFXuMJfpPxHUIZpCEMPSy0/nfgHyDQhBXvkMM
-         6Zz6C24v1nvECPx4Yl5pReYMbSK6IaEoQAIXT4ohii5NKoGYpu2tB1flGOzuDuh7iHhd
-         hjOw==
-X-Gm-Message-State: AOAM5303TeJL9dkeM+1XU0jXUwkdn1MbXrE79zqkGkKMpZhkNf0qk4Xx
-        0Yhb8RFVo3Z4UftnZLvQT7445jfwqJWt0HcOk2M=
-X-Google-Smtp-Source: ABdhPJzc66PsPJ7uf2JiXrqj7zfh07Ra5BpBms0TPKeexmxkWkfXYY+ch/Os+E85wJbdOE6Lm+0ANdybV/7KRG4HAcU=
-X-Received: by 2002:a05:6512:308e:: with SMTP id z14mr2566308lfd.29.1591192127287;
- Wed, 03 Jun 2020 06:48:47 -0700 (PDT)
-MIME-Version: 1.0
-Reply-To: susanjones.wife@gmail.com
-Received: by 2002:a19:a405:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:48:46 -0700 (PDT)
-From:   "Mrs.Susan Jones" <joneswife.susan@gmail.com>
-Date:   Wed, 3 Jun 2020 14:48:46 +0100
-X-Google-Sender-Auth: aH2vam-ZraP3yG1gz3ryctMgTE4
-Message-ID: <CALBhdBfusXWup1N4iFuTS3D1AZxWbZbTDS_qa-wA3FkbkE7MrQ@mail.gmail.com>
-Subject: HELLO: I AM MRS SUSAN JONES
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+        id S1725955AbgFCTFZ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 3 Jun 2020 15:05:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35062 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725821AbgFCTFZ (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Wed, 3 Jun 2020 15:05:25 -0400
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E2BA820663;
+        Wed,  3 Jun 2020 19:05:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1591211124;
+        bh=Q/m5m0oN16XVkE9B8qyre3sjNLjlsvtMr3faOM5/GEY=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=r0JH+r6+eneNzPkKh10OQRnG/QlntwU5Ile5RdgUbb4S95xZcMJwqqczR44dEoW5/
+         dXJbJhSARnLrJiGeqA21ANe/57CLpUdIlqiMBG6WT4nQbXPfCWGsOTxjBMHqOIWaG6
+         YrNwC3X4+y9pXx6gFBNVV3K2D741HNKSuj4FGwes=
+Date:   Wed, 3 Jun 2020 12:05:22 -0700
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     Mike Rapoport <rppt@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        Fenghua Yu <fenghua.yu@intel.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Guan Xuetao <gxt@pku.edu.cn>,
+        James Morse <james.morse@arm.com>,
+        Jonas Bonn <jonas@southpole.se>,
+        Julien Thierry <julien.thierry.kdev@gmail.com>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        Marc Zyngier <maz@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Paul Mackerras <paulus@samba.org>,
+        Rich Felker <dalias@libc.org>,
+        Russell King <linux@armlinux.org.uk>,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Tony Luck <tony.luck@intel.com>, Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        kvmarm@lists.cs.columbia.edu, kvm-ppc@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
+        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        Mike Rapoport <rppt@linux.ibm.com>
+Subject: Re: [PATCH v4 08/14] powerpc: add support for folded p4d page
+ tables
+Message-Id: <20200603120522.7646d56a23088416a7d3fc1a@linux-foundation.org>
+In-Reply-To: <20200414153455.21744-9-rppt@kernel.org>
+References: <20200414153455.21744-1-rppt@kernel.org>
+        <20200414153455.21744-9-rppt@kernel.org>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
--- 
-OUR GOLDEN OPPORTUNITY
+On Tue, 14 Apr 2020 18:34:49 +0300 Mike Rapoport <rppt@kernel.org> wrote:
 
-Hello Dear Friend,
+> Implement primitives necessary for the 4th level folding, add walks of p4d
+> level where appropriate and replace 5level-fixup.h with pgtable-nop4d.h.
 
-Complement of the day, i hope you are doing great today. However, I am
-Mrs.Susan Jones, an auditor with one of the new generation banks here
-in Burkina Faso.
+A bunch of new material just landed in linux-next/powerpc.
 
-I am writing you this letter based on the latest development at my
-Department. i discovered some abandoned huge amount of money, Ten
-Million, Five hundred thousand  United States Dollars.($10.500.000).
-Now I am only contacting you as a foreigner because this money cannot
-be approved to a local bank account here, but can only be approved to
-any foreign account and foreign beneficiary because the money is in US
-dollars
+The timing is awkward!  I trust this will be going into mainline during
+this merge window?  If not, please drop it and repull after -rc1.
 
-This will be  a legitimate transaction once you accept to build trust
-with me and follow simple instruction doing the transfer process,
-until the total sum transfer out of the bank here to your own bank
-account any where in the world, and I agreed to share the total money
-50/50 with you once you successful confirmed it in your bank account.
-But any expenses doing the transfer process will be deduct from the
-amount before sharing, If you are interested to work with me and
-provide a good receiving bank account, get back to me as soon as
-possible with the following details below.
+arch/powerpc/mm/ptdump/ptdump.c:walk_pagetables() was a problem. 
+Here's what I ended up with - please check.
 
-Your full name
-Your Profession
-Your direct mobile phone number
-Your Scanned International passport or any of your identity
+static void walk_pagetables(struct pg_state *st)
+{
+	unsigned int i;
+	unsigned long addr = st->start_address & PGDIR_MASK;
+	pgd_t *pgd = pgd_offset_k(addr);
 
-NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
-AVOID TIME WASTED.
+	/*
+	 * Traverse the linux pagetable structure and dump pages that are in
+	 * the hash pagetable.
+	 */
+	for (i = pgd_index(addr); i < PTRS_PER_PGD; i++, pgd++, addr += PGDIR_SIZE) {
+		p4d_t *p4d = p4d_offset(pgd, 0);
 
-As soon as I receive these data's, I will forward to you the
-application form which you will send to the bank for the claim and
-transfer of the fund into your bank account as the  new beneficial.
+		if (pgd_none(*pgd) || pgd_is_leaf(*pgd))
+			note_page(st, addr, 1, p4d_val(*p4d), PGDIR_SIZE);
+		else if (is_hugepd(__hugepd(p4d_val(*p4d))))
+			walk_hugepd(st, (hugepd_t *)pgd, addr, PGDIR_SHIFT, 1);
+		else
+			/* pgd exists */
+			walk_pud(st, p4d, addr);
+	}
+}
 
-I am waiting to hear from you soon
+Mike's series "mm: consolidate definitions of page table accessors"
+took quite a lot of damage as well.  Patches which needed rework as a
+result of this were:
 
-Yours
-Mrs.Susan Jones
+powerpc-add-support-for-folded-p4d-page-tables-fix.patch
+mm-introduce-include-linux-pgtableh.patch
+mm-reorder-includes-after-introduction-of-linux-pgtableh.patch
+mm-pgtable-add-shortcuts-for-accessing-kernel-pmd-and-pte.patch
+mm-pgtable-add-shortcuts-for-accessing-kernel-pmd-and-pte-fix-2.patch
+mm-consolidate-pte_index-and-pte_offset_-definitions.patch
+mm-consolidate-pmd_index-and-pmd_offset-definitions.patch
+mm-consolidate-pud_index-and-pud_offset-definitions.patch
+mm-consolidate-pgd_index-and-pgd_offset_k-definitions.patch
+
