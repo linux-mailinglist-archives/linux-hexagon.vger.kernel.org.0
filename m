@@ -2,46 +2,102 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 610C11E6FF6
-	for <lists+linux-hexagon@lfdr.de>; Fri, 29 May 2020 01:05:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98A251ED157
+	for <lists+linux-hexagon@lfdr.de>; Wed,  3 Jun 2020 15:49:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437469AbgE1XFT convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 28 May 2020 19:05:19 -0400
-Received: from mail.bnv.gob.ve ([201.249.200.115]:58560 "EHLO
-        correo.bnv.gob.ve" rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1728629AbgE1XFQ (ORCPT
+        id S1726013AbgFCNtK (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 3 Jun 2020 09:49:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50108 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726011AbgFCNsu (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 28 May 2020 19:05:16 -0400
-Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
-        by correo.bnv.gob.ve (Postfix) with ESMTP id 098F738E4B67;
-        Thu, 28 May 2020 14:09:20 -0400 (-04)
-Received: from correo.bnv.gob.ve ([127.0.0.1])
-        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Vc-DGBS2t-AK; Thu, 28 May 2020 14:09:19 -0400 (-04)
-Received: from localhost (localhost.bnv.gob.ve [127.0.0.1])
-        by correo.bnv.gob.ve (Postfix) with ESMTP id 1A9CA38E12BB;
-        Thu, 28 May 2020 12:58:01 -0400 (-04)
-X-Virus-Scanned: amavisd-new at bnv.gob.ve
-Received: from correo.bnv.gob.ve ([127.0.0.1])
-        by localhost (correo.bnv.gob.ve [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id Itot0IVGy2N5; Thu, 28 May 2020 12:58:01 -0400 (-04)
-Received: from [10.19.23.127] (unknown [105.0.4.230])
-        by correo.bnv.gob.ve (Postfix) with ESMTPSA id 0797938E0A22;
-        Thu, 28 May 2020 12:30:06 -0400 (-04)
-Content-Type: text/plain; charset="iso-8859-1"
+        Wed, 3 Jun 2020 09:48:50 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F225C008635
+        for <linux-hexagon@vger.kernel.org>; Wed,  3 Jun 2020 06:48:49 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id w15so1342693lfe.11
+        for <linux-hexagon@vger.kernel.org>; Wed, 03 Jun 2020 06:48:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:sender:from:date:message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=LImzFWfFZ5MGhzJT1qzCsgEXVo7xW37sUIdrDLCKiXHQE0/Tq0rYX6Af/ld5dvlhmE
+         opFt8B8vUrhAfyxGIRs7eIQZmnu+cHCt7Dz4gEu/fnBWHDlMa8iVHDbM7XgqJUtNcgor
+         I4Oj1yGJ3ygOniFn6Dr+FHDS5BV48N/ldz+eBwWbR5/ADnYCL6KuztRZu9mrKJOxMODU
+         fmVICwwGmTYXXsgICTxE6unupuMdGq6+YZvkWKysZVLYK3Wwxrg7U2ecMo3WGycHWcU1
+         w35jxyjuynpm30G3kj/I18A4vO2Y2WN0kfTajUkGc1Xe9t84eQuWhnB4AGlAS8dbrawc
+         iC3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:sender:from:date
+         :message-id:subject:to;
+        bh=H8rDQEJouwBJIElP/Vpqq+PrvTZxQQy2H7A/MvyMMB0=;
+        b=soo+NXgPw8pShvOz01INARhCP2o5osbOMJgkxNp+2x24HUZ58sWARRaeRb6l05ebor
+         +siU9q+wjfLx/oiyAD7EUNXymIkBe/Fe5YvbMBCpJsJ5L1dG+CgNhh9LW74GRqoEo7bA
+         Tgtr6u4qgpiUH4O8ZgOufS7rJr4/uPp6OY/n2jq+jsZSA1fIEKqNJzRNapWVsIoJ2JNk
+         zbZ01FdlnH4sHJHSfiOIgvVQIXwMJNPNFXuMJfpPxHUIZpCEMPSy0/nfgHyDQhBXvkMM
+         6Zz6C24v1nvECPx4Yl5pReYMbSK6IaEoQAIXT4ohii5NKoGYpu2tB1flGOzuDuh7iHhd
+         hjOw==
+X-Gm-Message-State: AOAM5303TeJL9dkeM+1XU0jXUwkdn1MbXrE79zqkGkKMpZhkNf0qk4Xx
+        0Yhb8RFVo3Z4UftnZLvQT7445jfwqJWt0HcOk2M=
+X-Google-Smtp-Source: ABdhPJzc66PsPJ7uf2JiXrqj7zfh07Ra5BpBms0TPKeexmxkWkfXYY+ch/Os+E85wJbdOE6Lm+0ANdybV/7KRG4HAcU=
+X-Received: by 2002:a05:6512:308e:: with SMTP id z14mr2566308lfd.29.1591192127287;
+ Wed, 03 Jun 2020 06:48:47 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: Spende von 2.000.000,00 Euro
-To:     Recipients <manuel@info.com>
-From:   "manuel franco" <manuel@info.com>
-Date:   Thu, 28 May 2020 18:29:51 +0200
-Reply-To: manuelfrancospende11@gmail.com
-Message-Id: <20200528163007.0797938E0A22@correo.bnv.gob.ve>
+Reply-To: susanjones.wife@gmail.com
+Received: by 2002:a19:a405:0:0:0:0:0 with HTTP; Wed, 3 Jun 2020 06:48:46 -0700 (PDT)
+From:   "Mrs.Susan Jones" <joneswife.susan@gmail.com>
+Date:   Wed, 3 Jun 2020 14:48:46 +0100
+X-Google-Sender-Auth: aH2vam-ZraP3yG1gz3ryctMgTE4
+Message-ID: <CALBhdBfusXWup1N4iFuTS3D1AZxWbZbTDS_qa-wA3FkbkE7MrQ@mail.gmail.com>
+Subject: HELLO: I AM MRS SUSAN JONES
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Ich bin Manuel Franco, ich spende Ihnen 2.000.000,00 Euro. Nehmen Sie jetzt Kontakt mit mir auf, damit wir fortfahren können.
+-- 
+OUR GOLDEN OPPORTUNITY
+
+Hello Dear Friend,
+
+Complement of the day, i hope you are doing great today. However, I am
+Mrs.Susan Jones, an auditor with one of the new generation banks here
+in Burkina Faso.
+
+I am writing you this letter based on the latest development at my
+Department. i discovered some abandoned huge amount of money, Ten
+Million, Five hundred thousand  United States Dollars.($10.500.000).
+Now I am only contacting you as a foreigner because this money cannot
+be approved to a local bank account here, but can only be approved to
+any foreign account and foreign beneficiary because the money is in US
+dollars
+
+This will be  a legitimate transaction once you accept to build trust
+with me and follow simple instruction doing the transfer process,
+until the total sum transfer out of the bank here to your own bank
+account any where in the world, and I agreed to share the total money
+50/50 with you once you successful confirmed it in your bank account.
+But any expenses doing the transfer process will be deduct from the
+amount before sharing, If you are interested to work with me and
+provide a good receiving bank account, get back to me as soon as
+possible with the following details below.
+
+Your full name
+Your Profession
+Your direct mobile phone number
+Your Scanned International passport or any of your identity
+
+NOTE: PLEASE IT YOU ARE NOT INTERESTED DON'T BORDER TO RESPOND BACK TO
+AVOID TIME WASTED.
+
+As soon as I receive these data's, I will forward to you the
+application form which you will send to the bank for the claim and
+transfer of the fund into your bank account as the  new beneficial.
+
+I am waiting to hear from you soon
+
+Yours
+Mrs.Susan Jones
