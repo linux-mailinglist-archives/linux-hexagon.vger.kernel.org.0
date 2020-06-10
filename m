@@ -2,111 +2,105 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 678C51EE1CB
-	for <lists+linux-hexagon@lfdr.de>; Thu,  4 Jun 2020 11:50:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B1161F581F
+	for <lists+linux-hexagon@lfdr.de>; Wed, 10 Jun 2020 17:48:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726711AbgFDJu0 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 4 Jun 2020 05:50:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38392 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727879AbgFDJuZ (ORCPT
+        id S1728197AbgFJPsj (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 10 Jun 2020 11:48:39 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:58164 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1728075AbgFJPsi (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 4 Jun 2020 05:50:25 -0400
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC919C03E96E
-        for <linux-hexagon@vger.kernel.org>; Thu,  4 Jun 2020 02:50:25 -0700 (PDT)
-Received: by mail-qk1-x743.google.com with SMTP id c185so5332653qke.7
-        for <linux-hexagon@vger.kernel.org>; Thu, 04 Jun 2020 02:50:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=lca.pw; s=google;
-        h=content-transfer-encoding:from:mime-version:subject:date:message-id
-         :references:cc:in-reply-to:to;
-        bh=Kg6vPoyo+bqnNzeJ15v0h+k7UDJ+CL28zwznimZSCUE=;
-        b=iTjBd5guz5HISGo2ssTQ3kdQtGEPcHruUrD+LnAE3oz6ejT5z7/X/1k6Lyhf8TKx5b
-         ochOdOSIBb3h3Y16Pi6ii3tWoOJc7cfmg89ims3xh6+Jh8IhCFODcDigvdJUGn8PoFjT
-         EkTUAsSp67YsNdsVwVT1r5Vu+evKW2mO3OAUqZvAKH38vSPvlDik/Uz5OVTy8vUxXLlw
-         M32Z0qFp1SSOkv3GtQlbFiN4KDNE4Nike0Je9+qrq8Pcg7mXbqKBqHyIM6FNfuqeEz2s
-         6n7X6JWYsNnBUTnlr9W/I3IY3mmtryZOuLjZUJqh6MakrvWInHU4vUrvtFma0HR0YPjH
-         DA+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:content-transfer-encoding:from:mime-version
-         :subject:date:message-id:references:cc:in-reply-to:to;
-        bh=Kg6vPoyo+bqnNzeJ15v0h+k7UDJ+CL28zwznimZSCUE=;
-        b=BrNPM9M87u4qjWtYUoj2vxK1Ee9o4bl8/XQF7z9y4ON3d3+nrKDPN8M6vQLiUiCm2/
-         YMISuVVFjWmmGswYgLEySfHT76mb12+7TgfQQfkip1IJ+oVjH5FhLv/7jPO1IW/m39ce
-         l57csDHsKyyeBK3MlAxICVpp8wbpJl2vPDtpAVq/tmJucWtfxpWLSWdXAezancqNISgr
-         fRhtPQ7BzaUZQvs4L2H1jcro2CAn/N08VVHqF3HCChgsmtdNyHO96ciXqfL/jy4/CCLb
-         HtQV0TJgPpMU9Kq5taxcYICIgsTSjd8xfV6OXU665Hf936qU+PZBJGGgbG0P9h4RoneO
-         oBWQ==
-X-Gm-Message-State: AOAM530QCIXa9gM9dNvlbeJ1ugOcYq4v2x4wVLYXpqHHLDxMuxzS8qF4
-        zbi4/fey+ypjsrmYt+zYBxrHHA==
-X-Google-Smtp-Source: ABdhPJxfD/CO+vni4AqlLMUrdeQZhzI4lfqDbPL9gDbqoVSPBGPQonJSf2x+4N4xRGOEhDNSqWev4g==
-X-Received: by 2002:a05:620a:1218:: with SMTP id u24mr3544315qkj.422.1591264224746;
-        Thu, 04 Jun 2020 02:50:24 -0700 (PDT)
-Received: from [192.168.1.183] (pool-71-184-117-43.bstnma.fios.verizon.net. [71.184.117.43])
-        by smtp.gmail.com with ESMTPSA id k20sm4369904qtu.16.2020.06.04.02.50.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Jun 2020 02:50:23 -0700 (PDT)
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
-From:   Qian Cai <cai@lca.pw>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v4 08/14] powerpc: add support for folded p4d page tables
-Date:   Thu, 4 Jun 2020 05:50:23 -0400
-Message-Id: <F85B8F19-D717-411A-AFA8-466A02159F27@lca.pw>
-References: <20200603120522.7646d56a23088416a7d3fc1a@linux-foundation.org>
-Cc:     Mike Rapoport <rppt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Christophe Leroy <christophe.leroy@c-s.fr>,
-        Fenghua Yu <fenghua.yu@intel.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Guan Xuetao <gxt@pku.edu.cn>,
-        James Morse <James.Morse@arm.com>,
-        Jonas Bonn <jonas@southpole.se>,
-        Julien Thierry <julien.thierry.kdev@gmail.com>,
-        Ley Foon Tan <ley.foon.tan@intel.com>,
-        Marc Zyngier <maz@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Paul Mackerras <paulus@samba.org>,
-        Rich Felker <dalias@libc.org>,
-        Russell King <linux@armlinux.org.uk>,
-        Stafford Horne <shorne@gmail.com>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Tony Luck <tony.luck@intel.com>, Will Deacon <will@kernel.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        kvmarm@lists.cs.columbia.edu, kvm-ppc@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Wed, 10 Jun 2020 11:48:38 -0400
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 05AFWZNE136637;
+        Wed, 10 Jun 2020 11:48:19 -0400
+Received: from pps.reinject (localhost [127.0.0.1])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 31k2800emm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 10 Jun 2020 11:48:18 -0400
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 05AFX7Rh138244;
+        Wed, 10 Jun 2020 11:48:18 -0400
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com [169.51.49.98])
+        by mx0a-001b2d01.pphosted.com with ESMTP id 31k2800ekw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 10 Jun 2020 11:48:18 -0400
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+        by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 05AFlSns025914;
+        Wed, 10 Jun 2020 15:48:16 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma03ams.nl.ibm.com with ESMTP id 31g2s7yyge-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 10 Jun 2020 15:48:16 +0000
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com [9.149.105.232])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 05AFkw2D393944
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Wed, 10 Jun 2020 15:46:58 GMT
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id 48E3F52051;
+        Wed, 10 Jun 2020 15:48:14 +0000 (GMT)
+Received: from thinkpad (unknown [9.171.55.252])
+        by d06av21.portsmouth.uk.ibm.com (Postfix) with SMTP id 739E752054;
+        Wed, 10 Jun 2020 15:48:13 +0000 (GMT)
+Date:   Wed, 10 Jun 2020 17:48:11 +0200
+From:   Gerald Schaefer <gerald.schaefer@de.ibm.com>
+To:     Peter Xu <peterx@redhat.com>, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        linuxppc-dev@lists.ozlabs.org, linux-sh@vger.kernel.org,
-        nios2-dev@lists.rocketboards.org, openrisc@lists.librecores.org,
-        uclinux-h8-devel@lists.sourceforge.jp,
-        Mike Rapoport <rppt@linux.ibm.com>
-In-Reply-To: <20200603120522.7646d56a23088416a7d3fc1a@linux-foundation.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-X-Mailer: iPhone Mail (17F80)
+        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
+        linux-mips@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        Guan Xuetao <gxt@pku.edu.cn>, linux-xtensa@linux-xtensa.org,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Subject: Possible duplicate page fault accounting on some archs after commit
+ 4064b9827063
+Message-ID: <20200610174811.44b94525@thinkpad>
+X-Mailer: Claws Mail 3.17.5 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.216,18.0.687
+ definitions=2020-06-10_09:2020-06-10,2020-06-10 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 impostorscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999
+ cotscore=-2147483648 malwarescore=0 clxscore=1011 lowpriorityscore=0
+ priorityscore=1501 spamscore=0 bulkscore=0 classifier=spam adjust=0
+ reason=mlx scancount=1 engine=8.12.0-2004280000
+ definitions=main-2006100115
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+Hi,
 
+Some architectures have their page fault accounting code inside the fault
+retry loop, and rely on only going through that code once. Before commit
+4064b9827063 ("mm: allow VM_FAULT_RETRY for multiple times"), that was
+ensured by testing for and clearing FAULT_FLAG_ALLOW_RETRY.
 
-> On Jun 3, 2020, at 3:05 PM, Andrew Morton <akpm@linux-foundation.org> wrot=
-e:
->=20
-> A bunch of new material just landed in linux-next/powerpc.
->=20
-> The timing is awkward!  I trust this will be going into mainline during
-> this merge window?  If not, please drop it and repull after -rc1.
+That commit had to remove the clearing of FAULT_FLAG_ALLOW_RETRY for all
+architectures, and introduced a subtle change to page fault accounting
+logic in the affected archs. It is now possible to go through the retry
+loop multiple times, and the affected archs would then account multiple
+page faults instead of just one.
 
-I have noticed the same pattern over and over again, i.e., many powerpc new m=
-aterial has only shown up in linux-next for only a few days before sending f=
-or a pull request to Linus.
+This was found by coincidence in s390 code, and a quick check showed that
+there are quite a lot of other architectures that seem to be affected in a
+similar way. I'm preparing a fix for s390, by moving the accounting behind
+the retry loop, similar to x86. It is not completely straight-forward, so
+I leave the fix for other archs to the respective maintainers.
 
-There are absolutely no safe net for this kind of practice. The main problem=
- is that Linus seems totally fine with it.=
+Added the lists for possibly affected archs on cc, but no guarantee for
+completeness.
+
+Regards,
+Gerald
