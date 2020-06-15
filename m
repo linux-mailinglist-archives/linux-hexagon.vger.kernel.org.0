@@ -2,145 +2,127 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4927A1F8F36
-	for <lists+linux-hexagon@lfdr.de>; Mon, 15 Jun 2020 09:17:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CCD81FA2D9
+	for <lists+linux-hexagon@lfdr.de>; Mon, 15 Jun 2020 23:34:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728386AbgFOHRy (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 15 Jun 2020 03:17:54 -0400
-Received: from mail.kernel.org ([198.145.29.99]:36892 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726299AbgFOHRx (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 15 Jun 2020 03:17:53 -0400
-Received: from [10.44.0.192] (unknown [103.48.210.53])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DFCCF206D7;
-        Mon, 15 Jun 2020 07:17:31 +0000 (UTC)
-Subject: Re: [PATCH 04/21] mm: free_area_init: use maximal zone PFNs rather
- than zone sizes
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Hoan@os.amperecomputing.com, James.Bottomley@hansenpartnership.com,
-        akpm@linux-foundation.org, bcain@codeaurora.org, bhe@redhat.com,
-        catalin.marinas@arm.com, corbet@lwn.net, dalias@libc.org,
-        davem@davemloft.net, deller@gmx.de, geert@linux-m68k.org,
-        green.hu@gmail.com, guoren@kernel.org, gxt@pku.edu.cn,
-        heiko.carstens@de.ibm.com, jcmvbkbc@gmail.com,
-        ley.foon.tan@intel.com, linux-alpha@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-c6x-dev@linux-c6x.org, linux-csky@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-mm@kvack.org, linux-parisc@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        linux@armlinux.org.uk, linuxppc-dev@lists.ozlabs.org,
-        mattst88@gmail.com, mhocko@kernel.org, monstr@monstr.eu,
-        mpe@ellerman.id.au, msalter@redhat.com, nickhu@andestech.com,
-        openrisc@lists.librecores.org, paul.walmsley@sifive.com,
-        richard@nod.at, rppt@linux.ibm.com, shorne@gmail.com,
-        sparclinux@vger.kernel.org, tony.luck@intel.com,
-        tsbogend@alpha.franken.de, uclinux-h8-devel@lists.sourceforge.jp,
-        vgupta@synopsys.com, x86@kernel.org, ysato@users.sourceforge.jp
-References: <20200412194859.12663-5-rppt@kernel.org>
- <f53e68db-ed81-6ef6-5087-c7246d010ea2@linux-m68k.org>
- <20200615062234.GA7882@kernel.org>
-From:   Greg Ungerer <gerg@linux-m68k.org>
-Message-ID: <24563231-ed19-6f4f-617e-4d6bfc7553e4@linux-m68k.org>
-Date:   Mon, 15 Jun 2020 17:17:28 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.8.0
+        id S1731576AbgFOVei (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 15 Jun 2020 17:34:38 -0400
+Received: from us-smtp-1.mimecast.com ([207.211.31.81]:28663 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1731513AbgFOVeh (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 15 Jun 2020 17:34:37 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1592256876;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=ItwxuioZVdA5XdCXR1QbAewm4+8qdb0KbH1lb+9ehrA=;
+        b=gVPACN6xO1SeIGsjRKFWvtdrnZBydlA/xLaXlBTA9ukZGl8rrSHTnjN2uogdd2Fc4Dt43t
+        N034oGy0lR/F8iU1msOQSncDNnrtFpLzDG+Yj7bkEUSC/23fQh5XZcOAkeqq2c9/GUp5z8
+        vlzphSUVDu2xnhW42LAOptOJw/OIneY=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-263-rOxlXJR_MAqrb4taeiERbA-1; Mon, 15 Jun 2020 17:34:34 -0400
+X-MC-Unique: rOxlXJR_MAqrb4taeiERbA-1
+Received: by mail-qt1-f200.google.com with SMTP id o11so15046261qti.23
+        for <linux-hexagon@vger.kernel.org>; Mon, 15 Jun 2020 14:34:34 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ItwxuioZVdA5XdCXR1QbAewm4+8qdb0KbH1lb+9ehrA=;
+        b=LXhODhnDb2nNTNEhR9VeaiIkbb4LmuzEBrN6/yoXs9JGyLqromRgC0ALgWL89Ri/h1
+         17jwiMU2zQR17TH1RuU7o1lhRyDpHgJJoaKufIgS+XufVfZVD2F8KoYxXL5F4qlzB22X
+         JqHgAe+lVdp1CcC91mPj+eiT1p9fXLsQuRGHvcaoKS2L8zgddoq9FkcF95DplglZl0WW
+         t9+toL0J4HGvCVOvjB8RvaflJL7J7lPRN89xjTS07dtpCAfeWhSjLnj/ir9hncDpQuJA
+         TcK63XhnxU0xp9uqA3Dh1Ta7kuJfCua7eFjbOckEdYOeu7HTZYdqoEeI9D13wNCQ2Sr3
+         Wksg==
+X-Gm-Message-State: AOAM533AZaAdBDMg9rDKMbG7zRJKIj8AcfzL2aJEsaeigeaybsz6nDpi
+        a11E1uEHKDqSYvo07onL/A7VMUz+Iitvj1ftpdC49wMA2lyy0bsi1j8HlrAYRqo0ijHQJ51JvPq
+        qNlF4oPfwgpYBI+YBbW7CyGt/4g==
+X-Received: by 2002:a0c:ed31:: with SMTP id u17mr25540578qvq.117.1592256874108;
+        Mon, 15 Jun 2020 14:34:34 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz0iHGiHde51cucRTUPE7NzfM/1jQRbNlFV4ChXmFExBXup/Ay4TPRKGywEeToUwHIWcL2Psg==
+X-Received: by 2002:a0c:ed31:: with SMTP id u17mr25540552qvq.117.1592256873805;
+        Mon, 15 Jun 2020 14:34:33 -0700 (PDT)
+Received: from xz-x1 ([2607:9880:19c0:32::2])
+        by smtp.gmail.com with ESMTPSA id f30sm12961493qtb.9.2020.06.15.14.34.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Jun 2020 14:34:33 -0700 (PDT)
+Date:   Mon, 15 Jun 2020 17:34:31 -0400
+From:   Peter Xu <peterx@redhat.com>
+To:     Gerald Schaefer <gerald.schaefer@de.ibm.com>
+Cc:     linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
+        linux-mips@vger.kernel.org, Nick Hu <nickhu@andestech.com>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        Guan Xuetao <gxt@pku.edu.cn>, linux-xtensa@linux-xtensa.org,
+        Heiko Carstens <heiko.carstens@de.ibm.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrea Arcangeli <aarcange@redhat.com>
+Subject: Re: Possible duplicate page fault accounting on some archs after
+ commit 4064b9827063
+Message-ID: <20200615213431.GC111927@xz-x1>
+References: <20200610174811.44b94525@thinkpad>
+ <20200610165023.GA67179@xz-x1>
 MIME-Version: 1.0
-In-Reply-To: <20200615062234.GA7882@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20200610165023.GA67179@xz-x1>
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi Mike,
+On Wed, Jun 10, 2020 at 12:50:23PM -0400, Peter Xu wrote:
+> On Wed, Jun 10, 2020 at 05:48:11PM +0200, Gerald Schaefer wrote:
+> > Hi,
+> 
+> Hi, Gerald,
+> 
+> > 
+> > Some architectures have their page fault accounting code inside the fault
+> > retry loop, and rely on only going through that code once. Before commit
+> > 4064b9827063 ("mm: allow VM_FAULT_RETRY for multiple times"), that was
+> > ensured by testing for and clearing FAULT_FLAG_ALLOW_RETRY.
+> > 
+> > That commit had to remove the clearing of FAULT_FLAG_ALLOW_RETRY for all
+> > architectures, and introduced a subtle change to page fault accounting
+> > logic in the affected archs. It is now possible to go through the retry
+> > loop multiple times, and the affected archs would then account multiple
+> > page faults instead of just one.
+> > 
+> > This was found by coincidence in s390 code, and a quick check showed that
+> > there are quite a lot of other architectures that seem to be affected in a
+> > similar way. I'm preparing a fix for s390, by moving the accounting behind
+> > the retry loop, similar to x86. It is not completely straight-forward, so
+> > I leave the fix for other archs to the respective maintainers.
+> 
+> Sorry for not noticing this before.  The accounting part should definitely be
+> put at least into a check against fault_flag_allow_retry_first() to mimic what
+> was done before.  And I agree it would be even better to put it after the retry
+> logic, so if any of the page faults gets a major fault, it'll be accounted as a
+> major fault which makes more sense to me, just like what x86 is doing now with:
+> 
+> 	major |= fault & VM_FAULT_MAJOR;
+> 
+> I'm not sure what's the preference of the arch maintainers, just let me know if
+> it's preferred to use a single series to address this issue for all affected
+> archs (or the archs besides s390), then I'll do.
 
-On 15/6/20 4:22 pm, Mike Rapoport wrote:
-> On Mon, Jun 15, 2020 at 01:53:42PM +1000, Greg Ungerer wrote:
->> From: Mike Rapoport <rppt@linux.ibm.com>
->>> Currently, architectures that use free_area_init() to initialize memory map
->>> and node and zone structures need to calculate zone and hole sizes. We can
->>> use free_area_init_nodes() instead and let it detect the zone boundaries
->>> while the architectures will only have to supply the possible limits for
->>> the zones.
->>>
->>> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
->>
->> This is causing some new warnings for me on boot on at least one non-MMU m68k target:
-> 
-> There were a couple of changes that cause this. The free_area_init()
-> now relies on memblock data and architectural limits for zone sizes
-> rather than on explisit pfns calculated by the arch code. I've update
-> motorola variant and missed coldfire. Angelo sent a fix for mcfmmu.c
-> [1] and I've updated it to include nommu as well
-> 
-> [1] https://lore.kernel.org/linux-m68k/20200614225119.777702-1-angelo.dureghello@timesys.com
-> 
->>From 55b8523df2a5c4565b132c0691990f0821040fec Mon Sep 17 00:00:00 2001
-> From: Angelo Dureghello <angelo.dureghello@timesys.com>
-> Date: Mon, 15 Jun 2020 00:51:19 +0200
-> Subject: [PATCH] m68k: fix registration of memory regions with memblock
-> 
-> Commit 3f08a302f533 ("mm: remove CONFIG_HAVE_MEMBLOCK_NODE_MAP option")
-> introduced assumption that UMA systems have their memory at node 0 and
-> updated most of them, but it forgot nommu and coldfire variants of m68k.
-> 
-> The later change in free area initialization in commit fa3354e4ea39 ("mm:
-> free_area_init: use maximal zone PFNs rather than zone sizes") exposed that
-> and caused a lot of "BUG: Bad page state in process swapper" reports.
+To make sure this won't fall through the cracks... I'll give it a shot with a
+single series to address this issue for all archs.  Although it might not be
+easy to do accounting directly in handle_mm_fault(), it might be still a chance
+to introduce a helper so the accounting can be done in general code.
 
-Even with this patch applied I am still seeing the same messages.
+Thanks,
 
-Regards
-Greg
+-- 
+Peter Xu
 
-
-
-> Using memblock_add_node() with nid = 0 to register memory banks solves the
-> problem.
-> 
-> Fixes: 3f08a302f533 ("mm: remove CONFIG_HAVE_MEMBLOCK_NODE_MAP option")
-> Fixes: fa3354e4ea39 ("mm: free_area_init: use maximal zone PFNs rather than zone sizes")
-> Signed-off-by: Angelo Dureghello <angelo.dureghello@timesys.com>
-> Co-developed-by: Mike Rapoport <rppt@linux.ibm.com>
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
-> ---
->   arch/m68k/kernel/setup_no.c | 2 +-
->   arch/m68k/mm/mcfmmu.c       | 2 +-
->   2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/arch/m68k/kernel/setup_no.c b/arch/m68k/kernel/setup_no.c
-> index e779b19e0193..0c4589a39ba9 100644
-> --- a/arch/m68k/kernel/setup_no.c
-> +++ b/arch/m68k/kernel/setup_no.c
-> @@ -138,7 +138,7 @@ void __init setup_arch(char **cmdline_p)
->   	pr_debug("MEMORY -> ROMFS=0x%p-0x%06lx MEM=0x%06lx-0x%06lx\n ",
->   		 __bss_stop, memory_start, memory_start, memory_end);
->   
-> -	memblock_add(memory_start, memory_end - memory_start);
-> +	memblock_add_node(memory_start, memory_end - memory_start, 0);
->   
->   	/* Keep a copy of command line */
->   	*cmdline_p = &command_line[0];
-> diff --git a/arch/m68k/mm/mcfmmu.c b/arch/m68k/mm/mcfmmu.c
-> index 29f47923aa46..7d04210d34f0 100644
-> --- a/arch/m68k/mm/mcfmmu.c
-> +++ b/arch/m68k/mm/mcfmmu.c
-> @@ -174,7 +174,7 @@ void __init cf_bootmem_alloc(void)
->   	m68k_memory[0].addr = _rambase;
->   	m68k_memory[0].size = _ramend - _rambase;
->   
-> -	memblock_add(m68k_memory[0].addr, m68k_memory[0].size);
-> +	memblock_add_node(m68k_memory[0].addr, m68k_memory[0].size, 0);
->   
->   	/* compute total pages in system */
->   	num_pages = PFN_DOWN(_ramend - _rambase);
-> 
