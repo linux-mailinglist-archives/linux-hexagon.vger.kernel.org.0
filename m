@@ -2,133 +2,59 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F26022013F8
-	for <lists+linux-hexagon@lfdr.de>; Fri, 19 Jun 2020 18:08:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2088203BF7
+	for <lists+linux-hexagon@lfdr.de>; Mon, 22 Jun 2020 18:02:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394235AbgFSQGw (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 19 Jun 2020 12:06:52 -0400
-Received: from us-smtp-1.mimecast.com ([207.211.31.81]:54645 "EHLO
-        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2405543AbgFSQF5 (ORCPT
+        id S1729572AbgFVQCz (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 22 Jun 2020 12:02:55 -0400
+Received: from sonic302-21.consmr.mail.ne1.yahoo.com ([66.163.186.147]:42765
+        "EHLO sonic302-21.consmr.mail.ne1.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729578AbgFVQCW (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 19 Jun 2020 12:05:57 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1592582756;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=SagB2x6xDXMHuNfH0nszNoiVH7/+fXWLgMfhv8WOo7E=;
-        b=SXuQscfIp84Jam/3SNag7zZHTrGwnKri/xm+9Yk4bv7VuxQWefJbFQq4NZY2De8nCxOs6R
-        1mXbMC6ZG3ckJuBNrVEiNUYsea5P6aOF4kG2MDm8bfcnqAku/gO6u2oh3RECEVxm3CVA9s
-        FER3YW8QvV85Uw3gyq4cDyy2Z8+IJp4=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-65-ryki6p4POCea9VPWqphaFQ-1; Fri, 19 Jun 2020 12:05:54 -0400
-X-MC-Unique: ryki6p4POCea9VPWqphaFQ-1
-Received: by mail-qt1-f200.google.com with SMTP id e8so7376720qtq.22
-        for <linux-hexagon@vger.kernel.org>; Fri, 19 Jun 2020 09:05:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=SagB2x6xDXMHuNfH0nszNoiVH7/+fXWLgMfhv8WOo7E=;
-        b=lXnlT9W6v61giDbDPjmeNSeYsu92Sv3+XfTWSNHKO2WfIPD0mnw3i+uiM/myk6AMGG
-         4AkkyeeaE+3tsQgvkccsPJz9e0joVdQmUlvHNcRegNDcc/rJr3xDrXbMxx6TiUH3Ry6k
-         /nhbTqYE6evw4R/t2r1BFMxgomJzJWnoExQjoonFU3Hmy6m12RTfa0qoilyK4v4LUald
-         ojY8hnwnjKVUAo3SGrehsCQQR7wj11oX3qwnRoHh6DjKzbqTgam6gHGrBMEcXor2FZdk
-         8wRFI21c4We8Ar3ECvgz+UJLfLjW0rgiR4aHpM194fUUo6tU2ZLan1PVSy5jo/dpKFwj
-         7oMA==
-X-Gm-Message-State: AOAM531cMDU4ZlHxIGL9LgndtlCksWfoY5Q2lbuDh3BpBSFANvLpbDbJ
-        aUDwBMTRaSmHIiSmb21xrtQIP75NQll7VUYBUEWhh+fL3i+uakq2JNllh8lzq1B/19r63cGmWhq
-        R47wsy4VbTrWvGMakg5mHIG0tVQ==
-X-Received: by 2002:a37:9e52:: with SMTP id h79mr3975290qke.467.1592582753476;
-        Fri, 19 Jun 2020 09:05:53 -0700 (PDT)
-X-Google-Smtp-Source: ABdhPJzd2Ml6f1U4IsoXVUG+sGmbZtZswjvwyuO+DQ4aozpetfpM522QVCnolfKkgB3x792Y2yKCcA==
-X-Received: by 2002:a37:9e52:: with SMTP id h79mr3975266qke.467.1592582753231;
-        Fri, 19 Jun 2020 09:05:53 -0700 (PDT)
-Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
-        by smtp.gmail.com with ESMTPSA id g11sm6412604qkk.123.2020.06.19.09.05.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 19 Jun 2020 09:05:52 -0700 (PDT)
-From:   Peter Xu <peterx@redhat.com>
-To:     linux-kernel@vger.kernel.org, linux-mm@kvack.org
-Cc:     Gerald Schaefer <gerald.schaefer@de.ibm.com>, peterx@redhat.com,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        Will Deacon <will@kernel.org>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org
-Subject: [PATCH 07/26] mm/hexagon: Use general page fault accounting
-Date:   Fri, 19 Jun 2020 12:05:19 -0400
-Message-Id: <20200619160538.8641-8-peterx@redhat.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200619160538.8641-1-peterx@redhat.com>
-References: <20200619160538.8641-1-peterx@redhat.com>
+        Mon, 22 Jun 2020 12:02:22 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1592841741; bh=cK2qy9Lv5SAgMg9nAvfVmkJPj46H3ss3vOVyjpHm6Nk=; h=Date:From:Reply-To:Subject:References:From:Subject; b=imnMzKvnrwdEkzevY9v55JCHWrS7mFcRp2xLflBpdsWBX5v32iTt1Jwj292Sqyxc6zTWfVf6UW3RltjDxv8H8ZAxxFg96tpPBoXA2f/GRkfTuiNcUr3yDzOGiHeT9IqR//B+9C8c9YoGDJPnAeuuKcQvLl1HS8J+STK4/r0WZ3jbtWFF0MKDjydg+AbeXShoRDHqwsqAaAi7D9jDq8wNDWBIR81puaAh7APGDPK32RqjpFS85hxXrbmotW59Gm/gC9SoLB52q4udtwMI++FS4HYmIHt+kUh9tNcMAsNUvFYo0HWMN59EiLf7lYGm/4AR40adfmghUfkmt4dYpTZmZQ==
+X-YMail-OSG: AhKkJLAVM1lDQ3XPPTTJWpEw.A_YPk4v7tBrtMEv9XTYrBN0vKxPyUyPokZyCLH
+ 0NPJEnbM.Ixt5u0eXkMwZesEBqS.rCtCLJgnod2Yg.I9TXOm0suNzcmJ92mBaA3mHgRFUusjI.6E
+ 3Gu4LEq019.le8uhDgpgUZ.YgtmiKAQJK6Bd4WPLqozbdEc8urSPipLpvwJTvKec65xmptWyRiVv
+ 5wejfhjut7ltVV2EWvbGnxpPsKrHXW63gZY0z7W.qC8yTTTM6xXIAPM6OYdYDYNn.6t5yJFWlC1P
+ OIdbZEYbWLsjaYGAZ3nhw68imywZs7JgVqTzxfR4ZQQxpuo3K8t9CM9O0hpOCt10FP__XXwyrmrD
+ TCoCE7B_Edu3G.zjOUn_rksR4jYB.m1Rp.1vZ_bLxnQwCiAul5Wqfj8PNdUGzT.zvxnBCUVqWq9J
+ 8hXM6oMyn8gklCF.R8KCTVo6NRJRq4thjGWIexrpJEGu0QolvkJTIALFEd6_slAReLmAOEup3xKy
+ .77XY9y0L2WZlQcf1QY4ryEv90HkLK9R59Zd1MxuC8qefRgY6y6xUFmVBWO8SDJCCjnQpB48PRDP
+ pRTSfD8hEjxrcMoyLQRR8ik6SRBEuL1N.zoJ2juJT7TtdJItukcqyaFlw7VOC6cm49vWb13NtnZ0
+ gQ2bWEWTG5v0uAlc54_ulltpKs.Fgm6hkagBtyzunEJ52PGAuturV.LPWyLoBYPiB1KC1HlV8gI8
+ yJqtTplsyPL2eALndgi_xv5WXRslUdVun50zfx9iDK5v_kT1lyZrnl7BpPa5N7roHYs5FCR3fGlt
+ 00HJ7sf.lnan3Im8PEbT96k38NwI6o6wqQk3XTx1x0TOib38VwKLgaWNY916uiRI1upzFCMVqmW6
+ hKW.i_z2qDWeeQaZVyBhDmfLTpSCKpEZXqJt.HWEa0uB7F6lyRoT1rQEzhMY_zbISz6YbRmtNDlq
+ VLlEzjYA6uILpMVD7EkmwXGP0XOJgDIix93HShigByDXDbmOlbnVPelpKvxPRFg3gnhpf.0Rc47i
+ 08Ic.liUMCD9zHGFCga9cXgoGaM8kFbRyDB3CB8uLHuuV8rIwOstkm24RLt0t3H1wtfuP85AC7r8
+ v042NbRsPX1Mj80LTxFt.KStV8ND4Dc1.IiPBslhVUpEA9f2YrGnkjCHG4.U4j0M0U489djAouYX
+ y9F8lECiGIH30pwUi5p9NUzViYBtaTM7ID67rbGjIKdkEdFs14rCm3KSzct0U2izLUB1NerwsRiF
+ IQWasnNhp61WOxqpf4zyo6bEJMCV1B8QkTG.8HvHCcJtAwYQhWHkE5SwAzxSGopkwGBC4.Xf9
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.ne1.yahoo.com with HTTP; Mon, 22 Jun 2020 16:02:21 +0000
+Date:   Mon, 22 Jun 2020 16:02:19 +0000 (UTC)
+From:   Karim Zakari <kariim1960z@gmail.com>
+Reply-To: kzakari04@gmail.com
+Message-ID: <1507214802.1850985.1592841739314@mail.yahoo.com>
+Subject: URGENT REPLY.
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+References: <1507214802.1850985.1592841739314.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16138 YMailNodin Mozilla/5.0 (Windows NT 6.1; ) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36
+To:     unlisted-recipients:; (no To-header on input)
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Use the general page fault accounting by passing regs into handle_mm_fault().
-It naturally solve the issue of multiple page fault accounting when page fault
-retry happened.
 
-Add the missing PERF_COUNT_SW_PAGE_FAULTS perf events too.  Note, the other two
-perf events (PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN]) were done in handle_mm_fault().
 
-CC: Brian Cain <bcain@codeaurora.org>
-CC: linux-hexagon@vger.kernel.org
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- arch/hexagon/mm/vm_fault.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+Good-Day Friend,
 
-diff --git a/arch/hexagon/mm/vm_fault.c b/arch/hexagon/mm/vm_fault.c
-index f04cd0a6d905..1b1802f30862 100644
---- a/arch/hexagon/mm/vm_fault.c
-+++ b/arch/hexagon/mm/vm_fault.c
-@@ -19,6 +19,7 @@
- #include <linux/signal.h>
- #include <linux/extable.h>
- #include <linux/hardirq.h>
-+#include <linux/perf_event.h>
- 
- /*
-  * Decode of hardware exception sends us to one of several
-@@ -54,6 +55,8 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
- 
- 	if (user_mode(regs))
- 		flags |= FAULT_FLAG_USER;
-+
-+	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
- retry:
- 	down_read(&mm->mmap_sem);
- 	vma = find_vma(mm, address);
-@@ -89,7 +92,7 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
- 		break;
- 	}
- 
--	fault = handle_mm_fault(vma, address, flags, NULL);
-+	fault = handle_mm_fault(vma, address, flags, regs);
- 
- 	if (fault_signal_pending(fault, regs))
- 		return;
-@@ -97,10 +100,6 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
- 	/* The most common case -- we are done. */
- 	if (likely(!(fault & VM_FAULT_ERROR))) {
- 		if (flags & FAULT_FLAG_ALLOW_RETRY) {
--			if (fault & VM_FAULT_MAJOR)
--				current->maj_flt++;
--			else
--				current->min_flt++;
- 			if (fault & VM_FAULT_RETRY) {
- 				flags |= FAULT_FLAG_TRIED;
- 				goto retry;
--- 
-2.26.2
+ Hope you are doing great Today. I have a proposed business deal worthy (US$16.5 Million Dollars) that will benefit both parties. This is legitimate' legal and your personality will not be compromised.
 
+Waiting for your response for more details, As you are willing to execute this business opportunity with me.
+
+Sincerely Yours,
+Mr. Karim Zakari.
