@@ -2,88 +2,105 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CBD920449E
-	for <lists+linux-hexagon@lfdr.de>; Tue, 23 Jun 2020 01:46:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 85E8A20504C
+	for <lists+linux-hexagon@lfdr.de>; Tue, 23 Jun 2020 13:15:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731166AbgFVXqO (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 22 Jun 2020 19:46:14 -0400
-Received: from youngberry.canonical.com ([91.189.89.112]:54800 "EHLO
-        youngberry.canonical.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731100AbgFVXqM (ORCPT
+        id S1732482AbgFWLPf (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 23 Jun 2020 07:15:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52524 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732473AbgFWLPd (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 22 Jun 2020 19:46:12 -0400
-Received: from ip5f5af08c.dynamic.kabel-deutschland.de ([95.90.240.140] helo=wittgenstein.fritz.box)
-        by youngberry.canonical.com with esmtpsa (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-        (Exim 4.86_2)
-        (envelope-from <christian.brauner@ubuntu.com>)
-        id 1jnW8f-0005DO-F7; Mon, 22 Jun 2020 23:46:09 +0000
-From:   Christian Brauner <christian.brauner@ubuntu.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
-        Christian Brauner <christian.brauner@ubuntu.com>,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org
-Subject: [PATCH 11/17] hexagon: switch to copy_thread_tls()
-Date:   Tue, 23 Jun 2020 01:43:20 +0200
-Message-Id: <20200622234326.906346-12-christian.brauner@ubuntu.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20200622234326.906346-1-christian.brauner@ubuntu.com>
-References: <20200622234326.906346-1-christian.brauner@ubuntu.com>
+        Tue, 23 Jun 2020 07:15:33 -0400
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3C33C061795
+        for <linux-hexagon@vger.kernel.org>; Tue, 23 Jun 2020 04:15:32 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id q15so964395wmj.2
+        for <linux-hexagon@vger.kernel.org>; Tue, 23 Jun 2020 04:15:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=PJKPxXqTINZvTfqWI/Nyh/TJOhvqGB/OhABtFT4nbzPDCiGF+D4/JVs6KFWqW2iLYE
+         w2ZMCF3GVXyRhHVxTn9Gq7+AztzdSAkqbpEQ6uqocHrwy1HSJq7m/KhY9BUJRArBsIIf
+         wXLyMPqoAtg+3chnNmgB61aeszpKGM/ynCpLJxuBfXSBIaEoz2ZSRdy2MWdUkqU987iD
+         qDYbEZ5c60vfWKKdxii9EImLLhoSNhp4CNF7Pc37EN+/7gHXIMHbcroJenD3wpDCfoIn
+         SuAvQBPHgZ4OfhgbDCBPf83GD7HtTrFolp5XCNvAQHJIWS5tLSteGzRV1f5shE9gJ5aR
+         Wm8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=D7l/Y2nU4ivOXB3kYNarWKNDy1SUWuawPt7q4q/Bhv4=;
+        b=bjQZQDZDGHUWXFEtw98UAH2Ppc1XaAmnkSdRrQ5wqHUPAmc2xay5uLK7FxN5C+nV9K
+         SaK5Fm09XxmiWSTbDthKY1cTlEISByZqMqVpVght5uOR0lo0Kq2o0kORYetnEu7pD1GI
+         r3/ISV7qyFvy0QUg5V9uiXFj/9baPpI3b2gjmfJYq0ULXPYUui4YQIq1POrTFcexOIo4
+         rQNmu3qeyHYej/vswm93xBe1p63swbl8n+8nawfT3Trr9CEVrmyMa2PG51vKMYWJctJb
+         UwbMLOp5FIES3uPUahJkan61tHq/ocfnkxWi3egNlBFSAwgxjLm1nF/4Bl8AuSyo4JAb
+         xgRg==
+X-Gm-Message-State: AOAM5316earylY4VGD6+uCYRHtG2PCWN+GiG0eSwJ6rue5l7EOX4rX1v
+        zG08w4fywCODuA4C+V6ktFzw9K2Jj5wbyoBRYss=
+X-Google-Smtp-Source: ABdhPJx/cjVcTDE9H2tlgA8DPdiIaM7na0b4h/BT34AezyhA9x4rdyJOUISGW2x5t/JhTK/gG+Qi/wg5t6yBtE6heh8=
+X-Received: by 2002:a1c:4e10:: with SMTP id g16mr22644952wmh.98.1592910931527;
+ Tue, 23 Jun 2020 04:15:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: by 2002:a1c:f002:0:0:0:0:0 with HTTP; Tue, 23 Jun 2020 04:15:30
+ -0700 (PDT)
+Reply-To: sarahkoffi389@yahoo.co.jp
+From:   Sarah Koffi <paulwiliam782@gmail.com>
+Date:   Tue, 23 Jun 2020 12:15:30 +0100
+Message-ID: <CAHqcnY3uztg=hnF-RE7HUkdLHGJjnU94LpTkHp23AV2ruu=Rcg@mail.gmail.com>
+Subject: Greetings From Mrs. Sarah Koffi
+To:     sarahkoffi389@yahoo.co.jp
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Use the copy_thread_tls() calling convention which passes tls through a
-register. This is required so we can remove the copy_thread{_tls}() split
-and remove the HAVE_COPY_THREAD_TLS macro.
+Greetings From Mrs. Sarah Koffi
 
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: linux-hexagon@vger.kernel.org
-Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
----
- arch/hexagon/Kconfig          | 1 +
- arch/hexagon/kernel/process.c | 6 +++---
- 2 files changed, 4 insertions(+), 3 deletions(-)
+I'm contacting you based on your good profiles I read and for a good
+reasons, I am in search of a property to buy in your country as I
+intended to come over to your
+country for investment, Though I have not meet with you before but I
+believe that one has to risk confiding in someone to succeed sometimes
+in life.
 
-diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-index 667cfc511cf9..19bc2f2ee331 100644
---- a/arch/hexagon/Kconfig
-+++ b/arch/hexagon/Kconfig
-@@ -31,6 +31,7 @@ config HEXAGON
- 	select GENERIC_CLOCKEVENTS_BROADCAST
- 	select MODULES_USE_ELF_RELA
- 	select GENERIC_CPU_DEVICES
-+	select HAVE_COPY_THREAD_TLS
- 	help
- 	  Qualcomm Hexagon is a processor architecture designed for high
- 	  performance and low power across a wide variety of applications.
-diff --git a/arch/hexagon/kernel/process.c b/arch/hexagon/kernel/process.c
-index ac07f5f4b76b..d756f9556dd7 100644
---- a/arch/hexagon/kernel/process.c
-+++ b/arch/hexagon/kernel/process.c
-@@ -50,8 +50,8 @@ void arch_cpu_idle(void)
- /*
-  * Copy architecture-specific thread state
-  */
--int copy_thread(unsigned long clone_flags, unsigned long usp,
--		unsigned long arg, struct task_struct *p)
-+int copy_thread_tls(unsigned long clone_flags, unsigned long usp,
-+		    unsigned long arg, struct task_struct *p, unsigned long tls)
- {
- 	struct thread_info *ti = task_thread_info(p);
- 	struct hexagon_switch_stack *ss;
-@@ -100,7 +100,7 @@ int copy_thread(unsigned long clone_flags, unsigned long usp,
- 	 * ugp is used to provide TLS support.
- 	 */
- 	if (clone_flags & CLONE_SETTLS)
--		childregs->ugp = childregs->r04;
-+		childregs->ugp = tls;
- 
- 	/*
- 	 * Parent sees new pid -- not necessary, not even possible at
--- 
-2.27.0
+My name is Mrs. Sarah Koffi. My late husband deals on Crude Oil with
+Federal Government of Sudan and he has a personal Oil firm in Bentiu
+Oil zone town and Upper
+Nile city. What I have experience physically, I don't wish to
+experience it again in my life due to the recent civil Ethnic war
+cause by our President Mr. Salva Kiir
+and the rebel leader Mr Riek Machar, I have been Under United Nation
+refuge camp in chad to save my life and that of my little daughter.
 
+Though, I do not know how you will feel to my proposal, but the truth
+is that I sneaked into Chad our neighboring country where I am living
+now as a refugee.
+I escaped with my little daughter when the rebels bust into our house
+and killed my husband as one of the big oil dealers in the country,
+ever since then, I have being on the run.
+
+I left my country and move to Chad our neighboring country with the
+little ceasefire we had, due to the face to face peace meeting accord
+coordinated by the US Secretary of State, Mr John Kerry and United
+Nations in Ethiopia (Addis Ababa) between our President Mr Salva Kiir
+and the rebel leader Mr Riek Machar to stop this war.
+
+I want to solicit for your partnership with trust to invest the $8
+million dollars deposited by my late husband in Bank because my life
+is no longer safe in our country, since the rebels are looking for the
+families of all the oil business men in the country to kill, saying
+that they are they one that is milking the country dry.
+
+I will offer you 20% of the total fund for your help while I will
+partner with you for the investment in your country.
+If I get your reply.
+
+I will wait to hear from you so as to give you details.With love from
+
+ i need you to contact me here sarahkoffi389@yahoo.co.jp
+
+Mrs. Sarah Koffi
