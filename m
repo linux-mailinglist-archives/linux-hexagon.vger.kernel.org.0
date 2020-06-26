@@ -2,119 +2,133 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CAF82056CF
-	for <lists+linux-hexagon@lfdr.de>; Tue, 23 Jun 2020 18:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD00620BC88
+	for <lists+linux-hexagon@lfdr.de>; Sat, 27 Jun 2020 00:31:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732347AbgFWQMO (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 23 Jun 2020 12:12:14 -0400
-Received: from m43-7.mailgun.net ([69.72.43.7]:19238 "EHLO m43-7.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728472AbgFWQMN (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 23 Jun 2020 12:12:13 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1592928732; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=tpu3koTLioptT4rbuRuixAw5FvFwl/Ar2ZGPQtaJuds=; b=kgyHKYH+dbE973OMmJOgxjlEYM46qO8kiD+2UznxXkvdjFYV32X+6NkvL96ktlltwhx8a/tm
- pnFSVUByeSzRjDxabF1SaNGXQP/bJnW38nHwRElx1JsDG2K4RUxrbTlK2sN/a3B5ycoQQz9K
- Z9kmeR+QRn9MWqiEy31eTu4bgD4=
-X-Mailgun-Sending-Ip: 69.72.43.7
-X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 5ef229bb3a8a8b20b8e2f66d (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 23 Jun 2020 16:11:39
- GMT
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 5B052C43391; Tue, 23 Jun 2020 16:11:39 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.0 required=2.0 tests=ALL_TRUSTED,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5DBDEC433C6;
-        Tue, 23 Jun 2020 16:11:38 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5DBDEC433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=none smtp.mailfrom=bcain@codeaurora.org
-Reply-To: <bcain@codeaurora.org>
-From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'Christian Brauner'" <christian.brauner@ubuntu.com>,
-        <linux-kernel@vger.kernel.org>
-Cc:     "'Linus Torvalds'" <torvalds@linux-foundation.org>,
-        <linux-hexagon@vger.kernel.org>
-References: <20200622234326.906346-1-christian.brauner@ubuntu.com> <20200622234326.906346-12-christian.brauner@ubuntu.com>
-In-Reply-To: <20200622234326.906346-12-christian.brauner@ubuntu.com>
-Subject: RE: [PATCH 11/17] hexagon: switch to copy_thread_tls()
-Date:   Tue, 23 Jun 2020 11:11:37 -0500
-Message-ID: <14e701d64978$f9a2af60$ece80e20$@codeaurora.org>
+        id S1726139AbgFZWbt (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 26 Jun 2020 18:31:49 -0400
+Received: from us-smtp-1.mimecast.com ([205.139.110.61]:36149 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726079AbgFZWbt (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 26 Jun 2020 18:31:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593210707;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=SagB2x6xDXMHuNfH0nszNoiVH7/+fXWLgMfhv8WOo7E=;
+        b=ITTHlah05ti68Dmea6pvbfrSpIyEqzFahnBKVvy6CbARQBX702+qlXM452R7OJi0lUrfLB
+        LMNhZpSZjw6ksyON/bkLo4nVq5xuwmxAjo0PudQ42gU0z8IF4D/iB8M+HRlKR7U3EdWcPd
+        3PArpMvMASFxqP5vdS5GGGru6Qr7hOc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-226-lZQWw4J2NeO_ym6hn7iYJQ-1; Fri, 26 Jun 2020 18:31:44 -0400
+X-MC-Unique: lZQWw4J2NeO_ym6hn7iYJQ-1
+Received: by mail-qt1-f199.google.com with SMTP id y5so7504524qto.10
+        for <linux-hexagon@vger.kernel.org>; Fri, 26 Jun 2020 15:31:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=SagB2x6xDXMHuNfH0nszNoiVH7/+fXWLgMfhv8WOo7E=;
+        b=Hb1ehJV0cotrnxLb0mWiLJ5ZbUyTbnXxgmM2kceJNqCuQhfSLHFotgt5I+Ev2Xs8yh
+         gsDJey7Qx4ReF0DpIvFjUoriLwccUW2/dhgO3IymlX8Vi+d08N/jnHvPiLNEplBxXmg3
+         DUlJX+h2hBlleWU6qaU4Lh2zsGntTlxO+SKW2ib1YfZGWwNlR5UspB/SRibw1l53xhmf
+         rsFdqVnSaQd3d+kOmD/nxWvB+pENZtLaSYo6wlHHilkgazYMh7tZUfJc0+0G+Vdb2r0/
+         bdmdtv3E1baWS9YCdOf+OrvKR+icYWObIpk5ihXhM13KU2wQeLPh2F04SIoUZoUXFGut
+         zozw==
+X-Gm-Message-State: AOAM530F0RHjFdPGbWWcLE2gh9uAGLQuGFhIOTb+5aANTs3B0kGPFmzN
+        KfNwy+kw3sKmVc/BjgkLJ3j0ukaOrCQOhhsr+Xib3UyGxT7Id6rgH5fvJQtJtPJkNkTDRz2RInx
+        UViY4Du4roPkU5/fhRA95QZW6IA==
+X-Received: by 2002:ac8:382b:: with SMTP id q40mr5158473qtb.11.1593210703553;
+        Fri, 26 Jun 2020 15:31:43 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJz+3FP1V/Ad++bjiADIsOLnYLtWDzv+gtA2qG8ikbYulDNDze8olEwJ20DxbWqD1R+2IL+N9g==
+X-Received: by 2002:ac8:382b:: with SMTP id q40mr5158456qtb.11.1593210703343;
+        Fri, 26 Jun 2020 15:31:43 -0700 (PDT)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+        by smtp.gmail.com with ESMTPSA id f203sm9903311qke.135.2020.06.26.15.31.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 26 Jun 2020 15:31:42 -0700 (PDT)
+From:   Peter Xu <peterx@redhat.com>
+To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Will Deacon <will@kernel.org>, peterx@redhat.com,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org
+Subject: [PATCH 07/26] mm/hexagon: Use general page fault accounting
+Date:   Fri, 26 Jun 2020 18:31:11 -0400
+Message-Id: <20200626223130.199227-8-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20200626223130.199227-1-peterx@redhat.com>
+References: <20200626223130.199227-1-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQHblW6eodCfbmmuDWKuTMw/1BiW7AJ/OGz0qMfM2cA=
-Content-Language: en-us
+Content-Transfer-Encoding: 8bit
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-...
-> Cc: Brian Cain <bcain@codeaurora.org>
-> Cc: linux-hexagon@vger.kernel.org
-> Signed-off-by: Christian Brauner <christian.brauner@ubuntu.com>
-> ---
->  arch/hexagon/Kconfig          | 1 +
->  arch/hexagon/kernel/process.c | 6 +++---
->  2 files changed, 4 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig index
-> 667cfc511cf9..19bc2f2ee331 100644
-> --- a/arch/hexagon/Kconfig
-> +++ b/arch/hexagon/Kconfig
-> @@ -31,6 +31,7 @@ config HEXAGON
->  	select GENERIC_CLOCKEVENTS_BROADCAST
->  	select MODULES_USE_ELF_RELA
->  	select GENERIC_CPU_DEVICES
-> +	select HAVE_COPY_THREAD_TLS
->  	help
->  	  Qualcomm Hexagon is a processor architecture designed for high
->  	  performance and low power across a wide variety of applications.
-> diff --git a/arch/hexagon/kernel/process.c b/arch/hexagon/kernel/process.c
-> index ac07f5f4b76b..d756f9556dd7 100644
-> --- a/arch/hexagon/kernel/process.c
-> +++ b/arch/hexagon/kernel/process.c
-> @@ -50,8 +50,8 @@ void arch_cpu_idle(void)
->  /*
->   * Copy architecture-specific thread state
->   */
-> -int copy_thread(unsigned long clone_flags, unsigned long usp,
-> -		unsigned long arg, struct task_struct *p)
-> +int copy_thread_tls(unsigned long clone_flags, unsigned long usp,
-> +		    unsigned long arg, struct task_struct *p, unsigned long
-tls)
->  {
->  	struct thread_info *ti = task_thread_info(p);
->  	struct hexagon_switch_stack *ss;
-> @@ -100,7 +100,7 @@ int copy_thread(unsigned long clone_flags, unsigned
-> long usp,
->  	 * ugp is used to provide TLS support.
->  	 */
->  	if (clone_flags & CLONE_SETTLS)
-> -		childregs->ugp = childregs->r04;
-> +		childregs->ugp = tls;
-> 
->  	/*
->  	 * Parent sees new pid -- not necessary, not even possible at
-> --
-> 2.27.0
+Use the general page fault accounting by passing regs into handle_mm_fault().
+It naturally solve the issue of multiple page fault accounting when page fault
+retry happened.
 
-Acked-by: Brian Cain <bcain@codeaurora.org>
+Add the missing PERF_COUNT_SW_PAGE_FAULTS perf events too.  Note, the other two
+perf events (PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN]) were done in handle_mm_fault().
 
+CC: Brian Cain <bcain@codeaurora.org>
+CC: linux-hexagon@vger.kernel.org
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ arch/hexagon/mm/vm_fault.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/arch/hexagon/mm/vm_fault.c b/arch/hexagon/mm/vm_fault.c
+index f04cd0a6d905..1b1802f30862 100644
+--- a/arch/hexagon/mm/vm_fault.c
++++ b/arch/hexagon/mm/vm_fault.c
+@@ -19,6 +19,7 @@
+ #include <linux/signal.h>
+ #include <linux/extable.h>
+ #include <linux/hardirq.h>
++#include <linux/perf_event.h>
+ 
+ /*
+  * Decode of hardware exception sends us to one of several
+@@ -54,6 +55,8 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
+ 
+ 	if (user_mode(regs))
+ 		flags |= FAULT_FLAG_USER;
++
++	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+ retry:
+ 	down_read(&mm->mmap_sem);
+ 	vma = find_vma(mm, address);
+@@ -89,7 +92,7 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
+ 		break;
+ 	}
+ 
+-	fault = handle_mm_fault(vma, address, flags, NULL);
++	fault = handle_mm_fault(vma, address, flags, regs);
+ 
+ 	if (fault_signal_pending(fault, regs))
+ 		return;
+@@ -97,10 +100,6 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
+ 	/* The most common case -- we are done. */
+ 	if (likely(!(fault & VM_FAULT_ERROR))) {
+ 		if (flags & FAULT_FLAG_ALLOW_RETRY) {
+-			if (fault & VM_FAULT_MAJOR)
+-				current->maj_flt++;
+-			else
+-				current->min_flt++;
+ 			if (fault & VM_FAULT_RETRY) {
+ 				flags |= FAULT_FLAG_TRIED;
+ 				goto retry;
+-- 
+2.26.2
 
