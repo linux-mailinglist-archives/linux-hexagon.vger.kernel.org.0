@@ -2,105 +2,131 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC93220D637
-	for <lists+linux-hexagon@lfdr.de>; Mon, 29 Jun 2020 22:05:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1D7E120FDF5
+	for <lists+linux-hexagon@lfdr.de>; Tue, 30 Jun 2020 22:45:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732007AbgF2TSW (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 29 Jun 2020 15:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44294 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731870AbgF2TRm (ORCPT
+        id S1730134AbgF3Upa (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 30 Jun 2020 16:45:30 -0400
+Received: from us-smtp-2.mimecast.com ([207.211.31.81]:30024 "EHLO
+        us-smtp-delivery-1.mimecast.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1730114AbgF3Up2 (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 29 Jun 2020 15:17:42 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8E7C0307A1;
-        Mon, 29 Jun 2020 08:42:39 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id t18so3124611otq.5;
-        Mon, 29 Jun 2020 08:42:39 -0700 (PDT)
+        Tue, 30 Jun 2020 16:45:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1593549926;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=0oSiaS0i/TrG3B4WZW/K39VImBtqNKePW8X1XXaS114=;
+        b=PTcb8VCOlgCDHBpzS41F6ZA2tnwsdq7D+KRtffXAmpbjcY4Z07+uuQysYUvbkPON0vLL2B
+        hhtaRRjv67EiguIwO/sPQbl9uKk79XHn+i15HETFRcXpKVYpy0JdNjiTHW+OkBflgwRrcF
+        H5nSa3HQC3tqBqqiknsWmTcrVO6x594=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-429-O9QEj8aZPeSXVbkZUnJFLQ-1; Tue, 30 Jun 2020 16:45:24 -0400
+X-MC-Unique: O9QEj8aZPeSXVbkZUnJFLQ-1
+Received: by mail-qv1-f70.google.com with SMTP id m18so1555344qvt.8
+        for <linux-hexagon@vger.kernel.org>; Tue, 30 Jun 2020 13:45:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=ByBiz3Yf8Ie7OVrqv/Mz9cEMnJyRfxViWcmC4BsTpCo=;
-        b=hE0uYABTBummnjR4Ws7/8m9VVzWu3XAHX7c2WGmbGrae6o+12esgMGqEHBl4sl73+C
-         AToMRiaGu1UVkN6DOweDnKiho6a8hv9J3XvoKydijrHEboTGALRT/TGeQckwC85r+b4J
-         2Zw18I8VuJDeNxe3bifM4EJtPrXvUqSlhjN1qO2qKunLb61XO2XoQcnD32wfqTCgt4M4
-         qD5BwJwOaUF+gQPy18XRVJlH05V+T7VbWoBAjJKR6IJZzaQwjLTk14QaP1C47epEVNId
-         N8NjARUfAf/n6uX5Qr3IgkkCHJdghf7za3mZIYyyIDv8CttxvvDCJw+1wK4I4eGBWt50
-         P2cA==
-X-Gm-Message-State: AOAM533m/nSIvlk6XUAXMgV8JRrLeMfpbqqzPNRNzbHEdYH+T3ZNHbdE
-        MVvWhQJ4846m4ksPjwoaF6YS5nNSR8//g+GmAMg=
-X-Google-Smtp-Source: ABdhPJzZv9yrcqjQPIqNSuZYxDZ0MHssHdmPppPpB4X3a0jGl41oFltbqUVWyGPYv/nioiv+o7pFkroyCV6uhkj/ZSQ=
-X-Received: by 2002:a05:6830:1451:: with SMTP id w17mr1241594otp.250.1593445359003;
- Mon, 29 Jun 2020 08:42:39 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0oSiaS0i/TrG3B4WZW/K39VImBtqNKePW8X1XXaS114=;
+        b=oTH4hrZAKqDLzC4biR1ZNI1b0LYvVc3a5pQ4xEvg5B8Rdmqj4qsko1kCRbcMuV1cML
+         8mSYtnjhlJ0C6po0FAJQxw9Vx9VEYpSzuosNxNlEcZJfKRa5XdwhJrAym/WvLKhsdLFZ
+         AyujgzSDRU4bbQ6nJ9cEMQBcXYZV2XC53rRCWB/V3t7K5OaCGWDXb5tvzYFAViYMdWrJ
+         SNktFMpA8JLYSekaDbqNpZErVzvVcRdMoLVY64MIp1B/njNmgqnBrsaE2/oUrH5VLGhB
+         f2JnCRA1/+NoXz+2pYVzMbPuDRHUJLI2E+NkYllF5xi8fU931Af09N2tfY2Q97ShvYWG
+         Inkw==
+X-Gm-Message-State: AOAM531bxooUTiEQf95h6GVUhjmKnoEQ6ig805xzb+JkDWiCsAp13a1A
+        J0rZOOkXfEUkdEIi+n2znmvuwSg80dvd4JM4BxBUD8W8KongitBI0hCWo36WNG0mq1unR8K0vrb
+        S/TBdelQ7SjquAoVelOuWGA4+cQ==
+X-Received: by 2002:ae9:ef4f:: with SMTP id d76mr21557579qkg.423.1593549924292;
+        Tue, 30 Jun 2020 13:45:24 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJwiCIZOd0SFhyDP1RMP34PE1DDliFCmZMFzYzAiXHV+Itj+3kk75rVqggZCe39IF1oIv79/dg==
+X-Received: by 2002:ae9:ef4f:: with SMTP id d76mr21557403qkg.423.1593549922268;
+        Tue, 30 Jun 2020 13:45:22 -0700 (PDT)
+Received: from xz-x1.redhat.com ([2607:9880:19c0:32::2])
+        by smtp.gmail.com with ESMTPSA id s71sm4176169qke.0.2020.06.30.13.45.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2020 13:45:21 -0700 (PDT)
+From:   Peter Xu <peterx@redhat.com>
+To:     linux-mm@kvack.org, linux-kernel@vger.kernel.org
+Cc:     Andrew Morton <akpm@linux-foundation.org>, peterx@redhat.com,
+        John Hubbard <jhubbard@nvidia.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Gerald Schaefer <gerald.schaefer@de.ibm.com>,
+        Andrea Arcangeli <aarcange@redhat.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Will Deacon <will@kernel.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org
+Subject: [PATCH v4 07/26] mm/hexagon: Use general page fault accounting
+Date:   Tue, 30 Jun 2020 16:45:19 -0400
+Message-Id: <20200630204519.38809-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20200627143453.31835-1-rppt@kernel.org> <20200627143453.31835-7-rppt@kernel.org>
-In-Reply-To: <20200627143453.31835-7-rppt@kernel.org>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 29 Jun 2020 17:42:28 +0200
-Message-ID: <CAMuHMdWP07XqvgrXjCG+n5FssH3BwdDEWA4fD9TQgvVy93uMhQ@mail.gmail.com>
-Subject: Re: [PATCH 6/8] asm-generic: pgalloc: provide generic pgd_free()
-To:     Mike Rapoport <rppt@kernel.org>
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Abdul Haleem <abdhalee@linux.vnet.ibm.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Joerg Roedel <joro@8bytes.org>,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Mike Rapoport <rppt@linux.ibm.com>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Stephen Rothwell <sfr@canb.auug.org.au>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        alpha <linux-alpha@vger.kernel.org>,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-csky@vger.kernel.org,
-        "open list:QUALCOMM HEXAGON..." <linux-hexagon@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        linux-m68k <linux-m68k@lists.linux-m68k.org>,
-        "open list:BROADCOM NVRAM DRIVER" <linux-mips@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Parisc List <linux-parisc@vger.kernel.org>,
-        linux-riscv <linux-riscv@lists.infradead.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Linux-sh list <linux-sh@vger.kernel.org>,
-        arcml <linux-snps-arc@lists.infradead.org>,
-        linux-um <linux-um@lists.infradead.org>,
-        "open list:TENSILICA XTENSA PORT (xtensa)" 
-        <linux-xtensa@linux-xtensa.org>,
-        linuxppc-dev <linuxppc-dev@lists.ozlabs.org>,
-        Openrisc <openrisc@lists.librecores.org>,
-        sparclinux <sparclinux@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Sat, Jun 27, 2020 at 4:36 PM Mike Rapoport <rppt@kernel.org> wrote:
-> From: Mike Rapoport <rppt@linux.ibm.com>
->
-> Most architectures define pgd_free() as a wrapper for free_page().
->
-> Provide a generic version in asm-generic/pgalloc.h and enable its use for
-> most architectures.
->
-> Signed-off-by: Mike Rapoport <rppt@linux.ibm.com>
+Use the general page fault accounting by passing regs into handle_mm_fault().
+It naturally solve the issue of multiple page fault accounting when page fault
+retry happened.
 
-For the m68k part:
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Add the missing PERF_COUNT_SW_PAGE_FAULTS perf events too.  Note, the other two
+perf events (PERF_COUNT_SW_PAGE_FAULTS_[MAJ|MIN]) were done in handle_mm_fault().
 
-Gr{oetje,eeting}s,
+CC: Brian Cain <bcain@codeaurora.org>
+CC: linux-hexagon@vger.kernel.org
+Signed-off-by: Peter Xu <peterx@redhat.com>
+---
+ arch/hexagon/mm/vm_fault.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-                        Geert
-
+diff --git a/arch/hexagon/mm/vm_fault.c b/arch/hexagon/mm/vm_fault.c
+index f12f330e7946..ef32c5a84ff3 100644
+--- a/arch/hexagon/mm/vm_fault.c
++++ b/arch/hexagon/mm/vm_fault.c
+@@ -18,6 +18,7 @@
+ #include <linux/signal.h>
+ #include <linux/extable.h>
+ #include <linux/hardirq.h>
++#include <linux/perf_event.h>
+ 
+ /*
+  * Decode of hardware exception sends us to one of several
+@@ -53,6 +54,8 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
+ 
+ 	if (user_mode(regs))
+ 		flags |= FAULT_FLAG_USER;
++
++	perf_sw_event(PERF_COUNT_SW_PAGE_FAULTS, 1, regs, address);
+ retry:
+ 	mmap_read_lock(mm);
+ 	vma = find_vma(mm, address);
+@@ -88,7 +91,7 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
+ 		break;
+ 	}
+ 
+-	fault = handle_mm_fault(vma, address, flags, NULL);
++	fault = handle_mm_fault(vma, address, flags, regs);
+ 
+ 	if (fault_signal_pending(fault, regs))
+ 		return;
+@@ -96,10 +99,6 @@ void do_page_fault(unsigned long address, long cause, struct pt_regs *regs)
+ 	/* The most common case -- we are done. */
+ 	if (likely(!(fault & VM_FAULT_ERROR))) {
+ 		if (flags & FAULT_FLAG_ALLOW_RETRY) {
+-			if (fault & VM_FAULT_MAJOR)
+-				current->maj_flt++;
+-			else
+-				current->min_flt++;
+ 			if (fault & VM_FAULT_RETRY) {
+ 				flags |= FAULT_FLAG_TRIED;
+ 				goto retry;
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.26.2
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
