@@ -2,63 +2,63 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD0D2253287
-	for <lists+linux-hexagon@lfdr.de>; Wed, 26 Aug 2020 16:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9596259127
+	for <lists+linux-hexagon@lfdr.de>; Tue,  1 Sep 2020 16:47:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727831AbgHZO46 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 26 Aug 2020 10:56:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34028 "EHLO
+        id S1728657AbgIAOpC (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 1 Sep 2020 10:45:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726793AbgHZOxZ (ORCPT
+        with ESMTP id S1727116AbgIAOQQ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 26 Aug 2020 10:53:25 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFF49C061757;
-        Wed, 26 Aug 2020 07:53:24 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id g33so1146932pgb.4;
-        Wed, 26 Aug 2020 07:53:24 -0700 (PDT)
+        Tue, 1 Sep 2020 10:16:16 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47070C061262;
+        Tue,  1 Sep 2020 07:16:16 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id n3so700633pjq.1;
+        Tue, 01 Sep 2020 07:16:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
         bh=eCO6eQrXV/q62wlJ5dCHYkGXNXvcNXkjUmp1GwIXZy0=;
-        b=RRiXPLTMXyNxkd/Q7cSppCEX4ypohtTUouPii1Ko6lFloN8J5gkEMLinRU6wt4LQS6
-         DESO9NUZRxUwuB//GtGcpHfxW+jUTGTO+b9WiHCTCM8XE7h69ydPbdwyRu0lgf/+ThZM
-         MhP2CJ1kDWYtrGOrgaTF7J899dRXB31I05zBRy6Xd2VkwBUGM2m1zNGgWueXOBWSDlOv
-         /Dn9Vhk1Wddl8VNkvumE7XqIoCaS9zLYW5TvXZLkV7PiqQ4zedbHYaIJdfKdSfz/Dj6n
-         903g+aLWs0KDriJmB34o2kFI8OwDEwuliPN/BaEMCUVrlfjBI0hj+YIWs+XeT4GhJ3uk
-         sIaA==
+        b=jY0Xaw9JClMjKguKr4toi3p2h52MIKL8klJRnYZgFU374fx+7NSFwezgNkVvksRVOy
+         DYkQbHh7OHKuhcayw9z3bY5GcYg3oGuCrZLLRFoB/4MZq3ZzD4tuKb048U8PY8HJPD3G
+         WkGilznMqAHXKZWW5arP54iwQAqH+klI5v08g+l3XG4qDb39FE7bdubGz787QJKoEjSu
+         Q0hRLmVw+tp2JsWReiv9abKKc6uOy/oAhdh1NYAXW+W8LPsIa5SNCDXVCxlP54ntb8qu
+         cXcSVccpvMjq65/ErNO7QIUO9gnI+msCcv1artDIopurRB/jlS5gQB4fO6Dxm7udd3PF
+         yOtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
         bh=eCO6eQrXV/q62wlJ5dCHYkGXNXvcNXkjUmp1GwIXZy0=;
-        b=scPk87WFwHhU/f+qBmVvAvWGpRpzNZO1sle1CdYoXxzTAeH15vTNHlRhCo/A6bQtVY
-         DhQyBaBeLVZObLNURXa3XAuTl1F3tKFftNDVPsD6Qj5rOw80VoFbkXYb4XkGrIyDXn5l
-         +UbDSy8xlndE5hyI0wuaOjNFqNZntPX+l+ewWDOPR7ndIQ6SNS03uJCuwSgaKHIqNJ7e
-         A7As1lh+R2/yL65IMUvdBUNUNDlWskWoouhkkLoNJHwFoPgcoS0e8s16CbOrbSrkfvGF
-         FSWE5MR4x7dZYraDDLFm9Ore37NB/3cDr0gazHDA6VbmfJ4Zy6IoLLI+dlXEZS3qhyyw
-         Cn6g==
-X-Gm-Message-State: AOAM532khPedh4He+pHnCIP0QtxJ5jsB59BskWLLIfYR0sSq9MVXrRhK
-        3PlVIwWM9BC3UIIRRllhbV5K8MPLYKQ=
-X-Google-Smtp-Source: ABdhPJwSsJSzHc5MrbWpVkgrWNfzinki2wen6Dkyz8lDpl+VZJPEoGoFwALbjOyC7T503VBERSVgoQ==
-X-Received: by 2002:a63:36c6:: with SMTP id d189mr10171323pga.392.1598453604300;
-        Wed, 26 Aug 2020 07:53:24 -0700 (PDT)
-Received: from bobo.ozlabs.ibm.com (61-68-212-105.tpgi.com.au. [61.68.212.105])
-        by smtp.gmail.com with ESMTPSA id r7sm3327140pfl.186.2020.08.26.07.53.21
+        b=HvxaILdum9UAHkIoUmUttw8DADoRGjl9COEUvKPOVuU4HQqJpsDdlm8OBqr2dERssM
+         Pk6iuIzntG3QxlAp4pUn19I+56d0qLaK9wp4yoXCaLUcXT69PubpYGu8cwhwLx62JcOs
+         Rz52E4uzSgY9kXaqeSlglGWCPelKvsGhjX8C+qrNjKcX1dONFtjP+ELKBQgNzhQd9RW5
+         qrMcfvqYfOD5RzSe5YtQvpfqdNDbKXGfdZ2aLPgou5thFODyH149H1m+P7g0SgXOu2xR
+         JEvf3G6HMbKotDNXtqIeAL5MxKTJ++3e1UEzm77B95XHvV0lZFjPW7pSCUEsKRXjPplo
+         5DvA==
+X-Gm-Message-State: AOAM530Jh+urRF++CYxEpVxcxgi/nfD3pMU+6BNc2rtiMCfLiV6M4Wo6
+        cidHh37ztSwEvhPlIoRg2o4a30MNiNU=
+X-Google-Smtp-Source: ABdhPJzDhqPmNMs02kXqTuJ5TNQPQLwR0ghPHSND126V9lWl/ABU+Fbr19n8k+R38sdwk7u1/fCSsQ==
+X-Received: by 2002:a17:90b:1b45:: with SMTP id nv5mr1839791pjb.35.1598969775636;
+        Tue, 01 Sep 2020 07:16:15 -0700 (PDT)
+Received: from bobo.ibm.com ([203.185.249.227])
+        by smtp.gmail.com with ESMTPSA id w9sm2212816pgg.76.2020.09.01.07.16.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Aug 2020 07:53:23 -0700 (PDT)
+        Tue, 01 Sep 2020 07:16:15 -0700 (PDT)
 From:   Nicholas Piggin <npiggin@gmail.com>
 To:     linux-arch@vger.kernel.org
 Cc:     Nicholas Piggin <npiggin@gmail.com>, linux-kernel@vger.kernel.org,
         linux-mm@kvack.org, Arnd Bergmann <arnd@arndb.de>,
         linux-hexagon@vger.kernel.org, Brian Cain <bcain@codeaurora.org>
-Subject: [PATCH v2 07/23] hexagon: use asm-generic/mmu_context.h for no-op implementations
-Date:   Thu, 27 Aug 2020 00:52:33 +1000
-Message-Id: <20200826145249.745432-8-npiggin@gmail.com>
+Subject: [PATCH v3 07/23] hexagon: use asm-generic/mmu_context.h for no-op implementations
+Date:   Wed,  2 Sep 2020 00:15:23 +1000
+Message-Id: <20200901141539.1757549-8-npiggin@gmail.com>
 X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20200826145249.745432-1-npiggin@gmail.com>
-References: <20200826145249.745432-1-npiggin@gmail.com>
+In-Reply-To: <20200901141539.1757549-1-npiggin@gmail.com>
+References: <20200901141539.1757549-1-npiggin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: linux-hexagon-owner@vger.kernel.org
