@@ -2,35 +2,60 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7394C26C9E3
-	for <lists+linux-hexagon@lfdr.de>; Wed, 16 Sep 2020 21:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F0A726CB8C
+	for <lists+linux-hexagon@lfdr.de>; Wed, 16 Sep 2020 22:29:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727254AbgIPTZu (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 16 Sep 2020 15:25:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50806 "EHLO
+        id S1726796AbgIPU3o (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 16 Sep 2020 16:29:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727326AbgIPTYE (ORCPT
+        with ESMTP id S1728331AbgIPU3T (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 16 Sep 2020 15:24:04 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3111DC06174A;
-        Wed, 16 Sep 2020 12:24:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=Lu9AW4PaP4+ghxOf92Z5TIuOtrZJHfVdt4GP1kALmko=; b=qie+Isc1xWiVTOH0FpnUHhEdVO
-        U/jpqcMvDRllAqn5p1U7GdefAxVM84Yy20b0cEM1bgiBf5hCnk01e9MB0TfKNwOXtWN1U1K+TKZoh
-        Bf7eW6kpPKuWJAr92A4pFo4s9J4/zlCT/ZybRGMdVlaWMx2Lk0KLJY3uqYA5myPxU7z9T0QBID7Dv
-        QCPTePB01BBKw0BUKhTbux2is2J6jnziOkr8sFb2qrhMyKZ9JnMFHBYx4uJoB16mYi9Z0C/a5HCRA
-        DVWm6Js19jJdrChlv68PKTMdyYhgXX++ENCqsExKeuZiA9F/oE7zG8P2cfvR8n7McmH85zDTJUYAn
-        sSR0hzAg==;
-Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kId20-0006tV-87; Wed, 16 Sep 2020 19:23:52 +0000
-Date:   Wed, 16 Sep 2020 20:23:52 +0100
-From:   Matthew Wilcox <willy@infradead.org>
-To:     Thomas Gleixner <tglx@linutronix.de>
+        Wed, 16 Sep 2020 16:29:19 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66B45C061788
+        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 13:29:18 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id c10so7893219otm.13
+        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 13:29:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=jfgJnSB2bhKQDSQtNR/O8X7GsVYOAbT1ea08kPi1xE8=;
+        b=Hg8y851ePYZ8WQiMJoPwyU+sXO5H1E4m1YWgJB25Vi80MlW/sWDUqOxp2mcpnbFjRA
+         JQaXwZKjvCdBn7KFi5t/HBjntwthC3FY/aIkSk+md/+gwxuei9VHD6ldDA1E5QelovRK
+         REsPW2xBPjZrnpKbi5tB6r38dw//jdnXVvQX4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=jfgJnSB2bhKQDSQtNR/O8X7GsVYOAbT1ea08kPi1xE8=;
+        b=EtHjyyuAPZRCG74Kw9Q2VhNgi5L9Q4HoNBSf5su139C9/pWi2vKGHfp3lFxq/Z/LQm
+         as8+V6ToDQYnfbtvZDOPmFgyto0010/acBiCNiiRT2bLSSYNcTzkNJrJhuVJWTuqZj50
+         QVm11wCDPsgmRicHxcuFINGlGSJ728Fp9e1onRRzGYMmAiI1daaO16z6thHrCz3q3oX8
+         ixYeMAwlYa+4y+8sgLpf25QSsdEgicXgvwQYne9pyLyBMkZ738k00gG9IjjkUBtH1oA+
+         arXgpmXyKRhb4v+HHOU09w/YbxbKUbWxSV3ntDISqUfHz5kSjBKucGo9190WIdm1IPIK
+         elvA==
+X-Gm-Message-State: AOAM532fc9XDk9S2ujDJNCPKhGGVp5EF/lc+XxFew0Jay9ep4h4pcZQa
+        8XwaBfeys/VbAao03Q6UiZ/vTPGShd5Sf9JroSMoag==
+X-Google-Smtp-Source: ABdhPJyp9Of+LYn6qLPki7Nl/8rfmMLDV2B7cI3AVOwAQ4KqtvLG8pHiS+TQrmOMl+LluaOA2Eov6ysFmH7fg1w3xeE=
+X-Received: by 2002:a05:6830:14d9:: with SMTP id t25mr18605193otq.188.1600288157601;
+ Wed, 16 Sep 2020 13:29:17 -0700 (PDT)
+MIME-Version: 1.0
+References: <20200914204209.256266093@linutronix.de> <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
+ <871rj4owfn.fsf@nanos.tec.linutronix.de> <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
+ <87bli75t7v.fsf@nanos.tec.linutronix.de> <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
+ <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com> <20200916152956.GV29330@paulmck-ThinkPad-P72>
+In-Reply-To: <20200916152956.GV29330@paulmck-ThinkPad-P72>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 16 Sep 2020 22:29:06 +0200
+Message-ID: <CAKMK7uGFyfhEyt=jmdk2jDO-hq0_Pf0ck+cKSELHjr2U3rPuYQ@mail.gmail.com>
+Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
+To:     "Paul E. McKenney" <paulmck@kernel.org>
 Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ard Biesheuvel <ardb@kernel.org>,
+        Herbert Xu <herbert@gondor.apana.org.au>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
         Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
@@ -67,63 +92,139 @@ Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
         Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
         David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
         intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
         Josh Triplett <josh@joshtriplett.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
         Shuah Khan <shuah@kernel.org>, rcu@vger.kernel.org,
         "open list:KERNEL SELFTEST FRAMEWORK" 
         <linux-kselftest@vger.kernel.org>
-Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-Message-ID: <20200916192352.GO5449@casper.infradead.org>
-References: <20200914204209.256266093@linutronix.de>
- <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
- <871rj4owfn.fsf@nanos.tec.linutronix.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <871rj4owfn.fsf@nanos.tec.linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 Sender: linux-hexagon-owner@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Mon, Sep 14, 2020 at 11:55:24PM +0200, Thomas Gleixner wrote:
-> But just look at any check which uses preemptible(), especially those
-> which check !preemptible():
+On Wed, Sep 16, 2020 at 5:29 PM Paul E. McKenney <paulmck@kernel.org> wrote:
+>
+> On Wed, Sep 16, 2020 at 09:37:17AM +0200, Daniel Vetter wrote:
+> > On Tue, Sep 15, 2020 at 7:35 PM Linus Torvalds
+> > <torvalds@linux-foundation.org> wrote:
+> > >
+> > > On Tue, Sep 15, 2020 at 1:39 AM Thomas Gleixner <tglx@linutronix.de> wrote:
+> > > >
+> > > > OTOH, having a working 'preemptible()' or maybe better named
+> > > > 'can_schedule()' check makes tons of sense to make decisions about
+> > > > allocation modes or other things.
+> > >
+> > > No. I think that those kinds of decisions about actual behavior are
+> > > always simply fundamentally wrong.
+> > >
+> > > Note that this is very different from having warnings about invalid
+> > > use. THAT is correct. It may not warn in all configurations, but that
+> > > doesn't matter: what matters is that it warns in common enough
+> > > configurations that developers will catch it.
+> > >
+> > > So having a warning in "might_sleep()" that doesn't always trigger,
+> > > because you have a limited configuration that can't even detect the
+> > > situation, that's fine and dandy and intentional.
+> > >
+> > > But having code like
+> > >
+> > >        if (can_schedule())
+> > >            .. do something different ..
+> > >
+> > > is fundamentally complete and utter garbage.
+> > >
+> > > It's one thing if you test for "am I in hardware interrupt context".
+> > > Those tests aren't great either, but at least they make sense.
+> > >
+> > > But a driver - or some library routine - making a difference based on
+> > > some nebulous "can I schedule" is fundamentally and basically WRONG.
+> > >
+> > > If some code changes behavior, it needs to be explicit to the *caller*
+> > > of that code.
+> > >
+> > > So this is why GFP_ATOMIC is fine, but "if (!can_schedule())
+> > > do_something_atomic()" is pure shite.
+> > >
+> > > And I am not IN THE LEAST interested in trying to help people doing
+> > > pure shite. We need to fix them. Like the crypto code is getting
+> > > fixed.
+> >
+> > Just figured I'll throw my +1 in from reading too many (gpu) drivers.
+> > Code that tries to cleverly adjust its behaviour depending upon the
+> > context it's running in is harder to understand and blows up in more
+> > interesting ways. We still have drm_can_sleep() and it's mostly just
+> > used for debug code, and I've largely ended up just deleting
+> > everything that used it because when you're driver is blowing up the
+> > last thing you want is to realize your debug code and output can't be
+> > relied upon. Or worse, that the only Oops you have is the one in the
+> > debug code, because the real one scrolled away - the original idea
+> > behind drm_can_sleep was to make all the modeset code work
+> > automagically both in normal ioctl/kworker context and in the panic
+> > handlers or kgdb callbacks. Wishful thinking at best.
+> >
+> > Also at least for me that extends to everything, e.g. I much prefer
+> > explicit spin_lock and spin_lock_irq vs magic spin_lock_irqsave for
+> > locks shared with interrupt handlers, since the former two gives me
+> > clear information from which contexts such function can be called.
+> > Other end is the memalloc_no*_save/restore functions, where I recently
+> > made a real big fool of myself because I didn't realize how much that
+> > impacts everything that's run within - suddenly "GFP_KERNEL for small
+> > stuff never fails" is wrong everywhere.
+> >
+> > It's all great for debugging and sanity checks (and we run with all
+> > that stuff enabled in our CI), but really semantic changes depending
+> > upon magic context checks freak my out :-)
+>
+> All fair, but some of us need to write code that must handle being
+> invoked from a wide variety of contexts.  Now perhaps you like the idea of
+> call_rcu() for schedulable contexts, call_rcu_nosched() when preemption
+> is disabled, call_rcu_irqs_are_disabled() when interrupts are disabled,
+> call_rcu_raw_atomic() from contexts where (for example) raw spinlocks
+> are held, and so on.  However, from what I can see, most people instead
+> consistently prefer that the RCU API instead be consolidated.
+>
+> Some in-flight cache-efficiency work for kvfree_rcu() and call_rcu()
+> needs to be able to allocate memory occasionally.  It can do that when
+> invoked from some contexts, but not when invoked from others.  Right now,
+> in !PREEMPT kernels, it cannot tell, and must either do things to the
+> memory allocators that some of the MM hate or must unnecessarily invoke
+> workqueues.  Thomas's patches would allow the code to just allocate in
+> the common case when these primitives are invoked from contexts where
+> allocation is permitted.
+>
+> If we want to restrict access to the can_schedule() or whatever primitive,
+> fine and good.  We can add a check to checkpatch.pl, for example.  Maybe
+> we can go back to the old brlock approach of requiring certain people's
+> review for each addition to the kernel.
+>
+> But there really are use cases that it would greatly help.
 
-hmm.
+We can deadlock in random fun places if random stuff we're calling
+suddenly starts allocating. Sometimes. Maybe once in a blue moon, to
+make it extra fun to reproduce. Maybe most driver subsystems are less
+brittle, but gpu drivers definitely need to know about the details for
+exactly this example. And yes gpu drivers use rcu for freeing
+dma_fence structures, and that tends to happen in code that we only
+recently figured out should really not allocate memory.
 
-+++ b/include/linux/preempt.h
-@@ -180,7 +180,9 @@ do { \
- 
- #define preempt_enable_no_resched() sched_preempt_enable_no_resched()
- 
-+#ifndef MODULE
- #define preemptible()  (preempt_count() == 0 && !irqs_disabled())
-+#endif
- 
- #ifdef CONFIG_PREEMPTION
- #define preempt_enable() \
+I think minimally you need to throw in an unconditional
+fs_reclaim_acquire();fs_reclaim_release(); so that everyone who runs
+with full debugging knows what might happen. It's kinda like
+might_sleep, but a lot more specific. might_sleep() alone is not
+enough, because in the specific code paths I'm thinking of (and
+created special lockdep annotations for just recently) sleeping is
+allowed, but any memory allocations with GFP_RECLAIM set are no-go.
+
+Cheers, Daniel
 
 
-$ git grep -w preemptible drivers
-(slightly trimmed by hand to remove, eg, comments)
-drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
-drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
-drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
-drivers/firmware/arm_sdei.c:    WARN_ON_ONCE(preemptible());
-drivers/firmware/arm_sdei.c:    WARN_ON(preemptible());
-drivers/firmware/efi/efi-pstore.c:                            preemptible(), record->size, record->psi->buf);
-drivers/irqchip/irq-gic-v4.c:   WARN_ON(preemptible());
-drivers/irqchip/irq-gic-v4.c:   WARN_ON(preemptible());
-drivers/scsi/hisi_sas/hisi_sas_main.c:          if (!preemptible())
-drivers/xen/time.c:     BUG_ON(preemptible());
 
-That only looks like two drivers that need more than WARNectomies.
 
-Although maybe rcu_read_load_sched_held() or rcu_read_lock_any_held()
-might get called from a module ...
+--
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
