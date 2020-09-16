@@ -2,69 +2,67 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E64EB26C812
-	for <lists+linux-hexagon@lfdr.de>; Wed, 16 Sep 2020 20:40:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4A62C26C7DA
+	for <lists+linux-hexagon@lfdr.de>; Wed, 16 Sep 2020 20:35:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727828AbgIPSk1 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 16 Sep 2020 14:40:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43970 "EHLO
+        id S1728220AbgIPSfm (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 16 Sep 2020 14:35:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727940AbgIPSkO (ORCPT
+        with ESMTP id S1728200AbgIPSfJ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 16 Sep 2020 14:40:14 -0400
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE869C06174A
-        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 11:40:11 -0700 (PDT)
-Received: by mail-lj1-x243.google.com with SMTP id k25so6780413ljg.9
-        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 11:40:11 -0700 (PDT)
+        Wed, 16 Sep 2020 14:35:09 -0400
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E57BC06174A
+        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 11:35:09 -0700 (PDT)
+Received: by mail-lj1-x241.google.com with SMTP id y4so6782646ljk.8
+        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 11:35:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linux-foundation.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=oa2KOKBruJIa8JzwEuXDvn8lq/AyW8Gh05WzKpjKQjk=;
-        b=UEueMUHZ3w1bML4TffC03SPtwmMbG26ZS04QoHTBFtkbazq0zj1LMx+FyboyvzzASg
-         nydFo8G58LEHhfHuiZfy7mbpmIDsIlzAJfeeTzYG6VJXbIqW/NS9VqvGKvKAt1o7QE3H
-         aEBuUY03yHBMaYNPFFjhHL22z9bGvgl38mViw=
+        bh=AxuwlCpSO8TsaLIcauC4aS5tgqsK9SeD3UYfP7DN7g0=;
+        b=ZKGyeh6DjOj0P0poUJri2yvAXd4omTbSKkycPwhZ3i+69eOgCicq7HjntIxGCUS9d/
+         zNZFDIECDK4GwkaKDrKuGgCWjAAnhqqHdcPPPF/38HaA25t0OpynH7kdnV1WYZaxFMxz
+         W50ov+r+RFsylVih7TsRScGj6r7RgJSz63qJs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=oa2KOKBruJIa8JzwEuXDvn8lq/AyW8Gh05WzKpjKQjk=;
-        b=sICqIOFKbFSfaRzPujjZEmpX0gB7V5hA5qf4wskUspoZD+og9Ngu7+3+sOcUHB8+E2
-         XMWX6NEVOqz1W4FHuHENVmkV7apNKbQbjEVosohD74tBgU9xlmbZw7L8Up4tWjEMEUB8
-         892fjpc45Hk2cM+8C86+MsCAOSqAGOsuQNZqbhjvDTOjn7qsI4CEdTgSkm2SwsAr2uMc
-         +/FzS6tcg/fTwB67GRTWAc7qqCJs9meNbTAWEVRW9Q6vwwLYsXcNfTxnKU78vF279Jst
-         D5jrckOsMoIgwlsLwzT8Cbwn1u5TuyxHBD9TapM6mjM5/Qc3XkkqpyjXdUSDaZiHRL5d
-         0oBA==
-X-Gm-Message-State: AOAM531ilorkh2OAJ8gRZQnbwPxVgdnt6X8P/dbnXLiAN9hV0MmfVN3h
-        KCq8vJ8nGrJ/NEdLDMBiqMzuUW2CXOiKOA==
-X-Google-Smtp-Source: ABdhPJyBRWMclM/iELq4P9px9HL+WVUBuzWS+VUHpwSEqSo0OfltYqPiAY6Dv2u3jesRtaBlssRV2g==
-X-Received: by 2002:a2e:b00e:: with SMTP id y14mr8406459ljk.427.1600281610065;
-        Wed, 16 Sep 2020 11:40:10 -0700 (PDT)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com. [209.85.208.180])
-        by smtp.gmail.com with ESMTPSA id l16sm5486308ljb.72.2020.09.16.11.40.09
+        bh=AxuwlCpSO8TsaLIcauC4aS5tgqsK9SeD3UYfP7DN7g0=;
+        b=fTP2kHZm7AwEa7C1MUZMuOXvaesiJ61EhASesydFaeNEvAaX4/xSYMCmGNkSU1aYRB
+         Y/WvIes22UNiI+wx2zPm57vQrgv2+QcyJksx3jKxAU+IHXh0uodp13I0uggDmq5R9J0x
+         I3vRAJSxDNnJW32FxFZoSjp0hyGnSyYf3OCThH6ob/oHsvjDZxx5+/vm2e3J1K4Z0n68
+         Ka4lBdTsy5Ofwt7nebAlbQudxrW9CFfxbC3HlxynGvJ+ZZ3zEuCjKTNo6EcXm7uxqPTG
+         pUSHkPzNkbwoCC8ydA/UYnDFWruKuMoOzEuFrK+dTKYXDmPiQX3PMnMKmZU6Tcspr1AG
+         IbdQ==
+X-Gm-Message-State: AOAM530OQOJABr9BLfUdGxvflXQ/yHyrlX35IzrtG7EGhyErXrp1+eEK
+        1CZD+TTGGhhSMJsmXQ0qpJTeeV2x/9aorQ==
+X-Google-Smtp-Source: ABdhPJxtd0CMXzfTams1hayj3z77gBWn3JNDoZOLrvWvl6n/quV2rgWG/RbsBViKbqTc+X7VsaNZYQ==
+X-Received: by 2002:a2e:86c7:: with SMTP id n7mr9301836ljj.229.1600281307844;
+        Wed, 16 Sep 2020 11:35:07 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id h11sm5065280lfd.21.2020.09.16.11.35.07
         for <linux-hexagon@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2020 11:40:09 -0700 (PDT)
-Received: by mail-lj1-f180.google.com with SMTP id b19so6782976lji.11
-        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 11:40:09 -0700 (PDT)
-X-Received: by 2002:a19:e00a:: with SMTP id x10mr9071213lfg.603.1600281136741;
- Wed, 16 Sep 2020 11:32:16 -0700 (PDT)
+        Wed, 16 Sep 2020 11:35:07 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id z17so8018028lfi.12
+        for <linux-hexagon@vger.kernel.org>; Wed, 16 Sep 2020 11:35:07 -0700 (PDT)
+X-Received: by 2002:a19:521a:: with SMTP id m26mr9002648lfb.133.1600281306776;
+ Wed, 16 Sep 2020 11:35:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20200914204209.256266093@linutronix.de> <CAHk-=win80rdof8Pb=5k6gT9j_v+hz-TQzKPVastZDvBe9RimQ@mail.gmail.com>
  <871rj4owfn.fsf@nanos.tec.linutronix.de> <CAHk-=wj0eUuVQ=hRFZv_nY7g5ZLt7Fy3K7SMJL0ZCzniPtsbbg@mail.gmail.com>
  <87bli75t7v.fsf@nanos.tec.linutronix.de> <CAHk-=wht7kAeyR5xEW2ORj7m0hibVxZ3t+2ie8vNHLQfdbN2_g@mail.gmail.com>
- <CAKMK7uHAk9-Vy2cof0ws=DrcD52GHiCDiyHbjLd19CgpBU2rKQ@mail.gmail.com> <20200916152956.GV29330@paulmck-ThinkPad-P72>
-In-Reply-To: <20200916152956.GV29330@paulmck-ThinkPad-P72>
+ <87y2la4xu6.fsf@nanos.tec.linutronix.de>
+In-Reply-To: <87y2la4xu6.fsf@nanos.tec.linutronix.de>
 From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Wed, 16 Sep 2020 11:32:00 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wjsMycgMHJrCmeetR3r+K5bpSRtmVWfd8iaoQCYd_VYAg@mail.gmail.com>
-Message-ID: <CAHk-=wjsMycgMHJrCmeetR3r+K5bpSRtmVWfd8iaoQCYd_VYAg@mail.gmail.com>
+Date:   Wed, 16 Sep 2020 11:34:50 -0700
+X-Gmail-Original-Message-ID: <CAHk-=whvULv3M2dQzPra1W-uGiX=_6Z_YeGnRDodbtXgJpihWA@mail.gmail.com>
+Message-ID: <CAHk-=whvULv3M2dQzPra1W-uGiX=_6Z_YeGnRDodbtXgJpihWA@mail.gmail.com>
 Subject: Re: [patch 00/13] preempt: Make preempt count unconditional
-To:     "Paul E. McKenney" <paulmck@kernel.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ard Biesheuvel <ardb@kernel.org>,
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Ard Biesheuvel <ardb@kernel.org>,
         Herbert Xu <herbert@gondor.apana.org.au>,
         LKML <linux-kernel@vger.kernel.org>,
         linux-arch <linux-arch@vger.kernel.org>,
@@ -102,8 +100,10 @@ Cc:     Daniel Vetter <daniel@ffwll.ch>,
         Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
         Rodrigo Vivi <rodrigo.vivi@intel.com>,
         David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
         intel-gfx <intel-gfx@lists.freedesktop.org>,
         dri-devel <dri-devel@lists.freedesktop.org>,
+        "Paul E. McKenney" <paulmck@kernel.org>,
         Josh Triplett <josh@joshtriplett.org>,
         Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
         Lai Jiangshan <jiangshanlai@gmail.com>,
@@ -116,35 +116,23 @@ Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Wed, Sep 16, 2020 at 8:29 AM Paul E. McKenney <paulmck@kernel.org> wrote:
+On Tue, Sep 15, 2020 at 12:57 PM Thomas Gleixner <tglx@linutronix.de> wrote:
 >
-> All fair, but some of us need to write code that must handle being
-> invoked from a wide variety of contexts.
+> You wish. I just found a 7 year old bug in a 10G network driver which
+> surely would have been found if people would enable debug configs and
+> not just run the crap on their PREEMPT_NONE, all debug off kernel. And
+> that driver is not subject to bitrot, it gets regular bug fixes from
+> people who seem to care (distro folks).
 
-Note that I think that core functionality is different from random drivers.
+That driver clearly cannot be very well maintained. All the distro
+kernels have the basic debug checks in place, afaik.
 
-Of course core code can (and will) look at things like
+Is it some wonderful "enterprise hardware" garbage again that only
+gets used in special data centers?
 
-        if (in_interrupt())
-            .. schedule work asynchronously ..
+Becasue the "enterprise" people really are special. Very much in the
+"short bus" special kind of way. The fact that they have fooled so
+much of the industry into thinking that they are the competent and
+serious people is a disgrace.
 
-because core code ends up being called from odd places, and code like
-that is expected to have understanding of the rules it plays with.
-
-But something like RCU is a very different beast from some "walk the
-scatter-gather list" code.
-
-RCU does its work in the background, and works with lots of different
-things. And it's so core and used everywhere that it knows about these
-things. I mean, we literally have special code explicitly to let RCU
-know "we entered kernel context now".
-
-But something like a driver list walking thing should not be doing
-different things behind peoples back depending on whether they hold
-spinlocks or not. It should either just work regardless, or there
-should be a flag (or special interface) for the "you're being called
-in a crtitical region".
-
-Because dynamically changing behavior really is very confusing.
-
-               Linus
+              Linus
