@@ -2,84 +2,95 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C026270E1F
-	for <lists+linux-hexagon@lfdr.de>; Sat, 19 Sep 2020 15:29:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2F9CA273675
+	for <lists+linux-hexagon@lfdr.de>; Tue, 22 Sep 2020 01:12:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726312AbgISN3K (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 19 Sep 2020 09:29:10 -0400
-Received: from sonic302-2.consmr.mail.bf2.yahoo.com ([74.6.135.41]:38473 "EHLO
-        sonic302-2.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726159AbgISN3K (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 19 Sep 2020 09:29:10 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1600522149; bh=QGYjayu/LHmWn6Oqzo8IfdgC/lTGP9gCPY5aQ14ZMf0=; h=Date:From:Reply-To:Subject:References:From:Subject; b=Lh6bFhJQ0mTrwpfzYo2NXfcrobTI4agqPkeajXNtae6yGhu/eufVDR2DnO7x0pkJ+ouraL2OnMr9o+NgwgLM1wdHsfdxSOMVgJEBzA8EbNq5+5N+MYuv+2ig0cqDoXBZJ8rG/g/PdlIixcXfWDRSv5XnxiUy3+FyjDq7gdFvlh3XG92cGNcOtgeiJPn1D2AMmMkWyUjh1PzP6YCmr3Pya0BJF3fmQNXZwnO1BJka36w1PtCdu9ViUVYH+4jZjw8Lz0Q1I8uvn/gjhLFrWQ6Mj5HjDw1QOlQsMMO4JFMjTc5j435mzwhaPd1cJmjAAkNgF9hgPIkleGY+FTW05ehuog==
-X-YMail-OSG: gPqIrvcVM1n6sDEa2yEeIqqud0OBF8g9Zk6ebeeLfRHZOmJZ01Zi4Th9B91EdWn
- PDM7fKEAN9uLm19vR3VTy4oMwCA1jh16qfyGPUuDmAtKW1dCjvkF5xrRMHfiFvhvCLJmcX7wE2cd
- LATqub0M25UFTZCwM4OPPQ2fE8yqRRgg5X.8bOWystfvm7BYK0kb4eZnGBM4nlGyUwY56ToPvigj
- OOc9c0AgrgZKhilRHWRAhWMqSvLAdzJToWtp6wFjtZG0hUmnAb5rlVqptAGc8vAdSwvPtZqVzQWN
- pCkW0GwaKeVeJbcl.8GxnpEm5jn3FHUW9GBCVovKg8hiK.dEIM1rBz5Ql9W5ApXNsUrOpwcYUC2J
- IwgCghVNymDjMNHPSiH0l9UheQHxKVSAfV60c.k9hSfQDrZJCl_1Ju8J39_bOrQqM57AbcVWWUaK
- b4cbQcJS_.re.004UTTw9bWa6XOcHcHyRdbKJmWLGcSAug8aebjRma9C88oBjE2rgYj0xhO3cfrx
- pVO3aVpV6q8o.j3v0LSD5YVf_C8BW_RZ8pOJQMP6hZuyoMvXtXacAZxKIiCfwUcCYdx8nALbjT3a
- Rt_RjdNLeoOlgIFt6LyGrXpHcTIP9flwK8WiJMQb1GHkQXrk7Tq0Vkpq.myj87HarLIQygoKNuNE
- xwzT6c6pNEDbhiC1e9pfC9.kgg_6audmk1bULkIxCSpV073p7HOWOBoHWLfcqkkYhichsO6.6xeM
- k39FlEPzoS6qMWLdOcxFf_DhKAI4dcGhiR30tJhKrOEm6lyX46WQC33vMldKU1CFw_rDmQ.msITT
- OjCVkgqT1WHF_YZcttKm_tii3MOJXXs9dy4unO.7zCdb7129AxOwPdGwfCqKtKJriMAVtnUszCc9
- _FGqFzkuuxj00PL0VkS7I260mziA8T0XuQJEZF8WifsFViSQWARyjbMDY5W1tnaGihv.4jky0sHN
- 5e2NtPRapckQH8HOPuiNDS3nV3ed.GARWxiG2ToSKq3_PekQ8tZIA.q1X2kNAro68nMB.PYJLk9c
- VaVN0Iw624X3UqRmO8e.Eel8vPxKFgWJ2Djiclwfgq0uTxaY4vBjV6KxOnWU3mzZR1k.1audRpyc
- LZlu2QjZQco8vYobxgYAiRraJCVShiX9ai1cTkceV5qGoX0wOfa81jOSxxbRJsA.qQQh4cez2t2K
- pBfUIbAmiFiQ2qvQuIydyngxqnC5owZ7tsilymKqUCV2uxxMRnGzRlzIxD0JEgdF.ApYXhzaPM2l
- YZDuUvVPJ9dMsiD.OVstGcQBl6v3ZoqoCUiW770INJs7sNYfDWxHeCidARtdNs6VzaKXVJ_cN2cO
- neGrULaV5LMpL.OjrxZRMGn03hVJEra55weSzDDp5FRGy2NCSc2G4CzwVwHqhFrNim1IuevP0.Sr
- HxMlrYGAkp2IchmIMWEYChvcKOScUmnRd9Wq.kazyi6KqZIEGb4URgnSPzQ--
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic302.consmr.mail.bf2.yahoo.com with HTTP; Sat, 19 Sep 2020 13:29:09 +0000
-Date:   Sat, 19 Sep 2020 13:29:06 +0000 (UTC)
-From:   Romane Matheo <romanematheo1@gmail.com>
-Reply-To: romanematheo0@gmail.com
-Message-ID: <2049817183.3866750.1600522146069@mail.yahoo.com>
-Subject: Hello Dear.
+        id S1728849AbgIUXMW (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 21 Sep 2020 19:12:22 -0400
+Received: from mail.rusoil.net ([188.128.114.25]:58282 "EHLO mail.rusoil.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728741AbgIUXMV (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 21 Sep 2020 19:12:21 -0400
+X-Greylist: delayed 421 seconds by postgrey-1.27 at vger.kernel.org; Mon, 21 Sep 2020 19:12:11 EDT
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 9EF1840C07;
+        Tue, 22 Sep 2020 04:08:14 +0500 (YEKT)
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id SVpSP78GR2pZ; Tue, 22 Sep 2020 04:08:14 +0500 (YEKT)
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by mail.rusoil.net (Postfix) with ESMTP id 3D89E40D78;
+        Tue, 22 Sep 2020 04:08:13 +0500 (YEKT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.rusoil.net 3D89E40D78
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rusoil.net;
+        s=maildkim; t=1600729693;
+        bh=6R3BgBYiA7fkqGiiNDuwPskBnpH9JXyNAW/l3ZEA+wY=;
+        h=Date:From:Message-ID:MIME-Version;
+        b=Vnjy6nBVnSTcINEW6kER3ugTxQ4KBYKS36YiGFr6YA3B4INc+KiGVhbak8MS9Qjs4
+         d1hbAool1vpcT5tqzIahdEndE3qiAPgBOX6jsmCcvHSMZhz19GFDJ1aQySn107enqY
+         lwxWqbZRY2a+BQ8VxoJh3Rpje7MgA+/fhr9SupmU=
+X-Virus-Scanned: amavisd-new at mail.rusoil.net
+Received: from mail.rusoil.net ([127.0.0.1])
+        by localhost (mail.rusoil.net [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id KLkCjnFIcNrK; Tue, 22 Sep 2020 04:08:12 +0500 (YEKT)
+Received: from mail.rusoil.net (mail.rusoil.net [172.16.7.34])
+        by mail.rusoil.net (Postfix) with ESMTP id 6147940C07;
+        Tue, 22 Sep 2020 04:08:10 +0500 (YEKT)
+Date:   Tue, 22 Sep 2020 04:08:09 +0500 (YEKT)
+From:   Blue Oak Mortgage and Loans <em@rusoil.net>
+Reply-To: Blue Oak Mortgage and Loans <info@bluelmtg.net>
+Message-ID: <2020026523.907101.1600729689731.JavaMail.zimbra@rusoil.net>
+Subject: Wir finanzieren Projekte und Unternehmen
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-References: <2049817183.3866750.1600522146069.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16583 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:80.0) Gecko/20100101 Firefox/80.0
+X-Originating-IP: [192.210.183.69]
+X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF79 (Win)/8.8.12_GA_3794)
+Thread-Index: IhGK+mMcCqn+S/Et9t28g8ApaUDaLg==
+Thread-Topic: Wir finanzieren Projekte und Unternehmen
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello Dear.
 
-Please forgive me for stressing you with my predicaments as I know that thi=
-s letter may come to you as big surprise.  Actually, I came across your E-m=
-ail from my personal search afterward I decided to email you directly belie=
-ving that you will be honest to fulfill my final wish before i die. Meanwhi=
-le, I am Mrs.Romane Matheo, 62 years old, from France, and I am  suffering =
-from a long time cancer and from all indication my condition is really dete=
-riorating as my doctors have confirmed and courageously Advised me that I m=
-ay not live beyond two months from now for the reason that my tumor has rea=
-ched a  critical stage which has defiled all forms of medical treatment, As=
- a matter of fact, registered nurse by profession while my  husband was dea=
-ling on Gold Dust and Gold Dory Bars till his sudden death the year 2018 th=
-en I took over his business till date. In fact, at this moment I have a dep=
-osit sum of Seven million five hundred thousand US dollars[$7,500,000.00] w=
-ith one of the leading bank but unfortunately I cannot visit the bank since=
- I=E2=80=99m critically sick and powerless to do anything myself but my ban=
-k account officer advised me to assign any of my trustworthy relative, frie=
-nds or partner with authorization letter to stand as the recipient of my mo=
-ney but sorrowfully I don=E2=80=99t have any reliable relative and no child=
-.
 
-Therefore, I want you to receive the money and take 50% to take care of you=
-rself and family while 50% should be use basically on humanitarian purposes=
- mostly to orphanages home, Motherless babies home, less privileged and dis=
-able citizens and widows around the world. And as soon as I receive your re=
-spond I shall send you the full details with my pictures, banking records a=
-nd with full contacts of my banking institution to communicate them on the =
-matter.
+Dies ist ein Newsletter von Blue Oak Mortgage and Loans. Bitte melden Sie s=
+ich ab, wenn Sie keine E-Mail mehr von uns erhalten m=C3=B6chten.
 
-Hope to hear from you soon.
 
-Yours Faithfully,
-Mrs. Romane Matheo
+Eine kurze Einf=C3=BChrung.
+
+Wir sind ein f=C3=BChrendes Finanzierungsunternehmen in Europa. Wir finanzi=
+eren Startups / etablierte Unternehmen, finanzieren Gro=C3=9Fprojekte (Bau,=
+ Landwirtschaft, Immobilien und dergleichen) zu einem niedrigen Zinssatz vo=
+n 2% pro Jahr.
+
+
+Darlehensverfahren
+
+1. Sie m=C3=BCssen das Online-Bewerbungsformular ausf=C3=BCllen und eine or=
+dnungsgem=C3=A4=C3=9F unterschriebene Kopie an uns zur=C3=BCcksenden.
+
+2. M=C3=B6glicherweise m=C3=BCssen Sie Finanzdokumente als unterst=C3=BCtze=
+nden Nachweis f=C3=BCr die F=C3=A4higkeit zur R=C3=BCckzahlung von Krediten=
+ vorlegen.
+
+3. Wenn Ihr Darlehen genehmigt wurde, m=C3=BCssen Sie eine Versicherungsgar=
+antie f=C3=BCr die Darlehenssicherheit vorlegen. Wir empfehlen eine Versich=
+erungsgesellschaft. Sie sind allein verantwortlich f=C3=BCr die Zahlung und=
+ den Erwerb der Anleihe, die als Sicherheit dienen. Die H=C3=B6he der Anlei=
+he h=C3=A4ngt von Ihrem Darlehensbetrag ab. Die Versicherungsgesellschaft w=
+ird Sie durch den Prozess f=C3=BChren. (F=C3=BCr Gro=C3=9Fprojekte)
+
+4. Ihr =C3=9Cberweisungsprozess wird eingeleitet, sobald die Versicherungsa=
+nleihe =C3=BCberpr=C3=BCft wurde. Ihr Darlehensr=C3=BCckzahlungsplan wird i=
+m NC-Darlehensvertragsformular aufgef=C3=BChrt.
+
+Wenn die Bedingungen Sie beruhigen, k=C3=B6nnen Sie uns =C3=BCber die Whats=
+App-Nummer / E-Mail kontaktieren und auch unsere Website besuchen, um weite=
+re Informationen zu erhalten. Wir freuen uns darauf, von Ihnen zu h=C3=B6re=
+n.
+
+WhatsApp: + 90-552-365-3483
+E-Mail: info@bluelmtg.net
