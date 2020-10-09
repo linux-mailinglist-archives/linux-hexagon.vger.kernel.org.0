@@ -2,54 +2,95 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE639287DC7
-	for <lists+linux-hexagon@lfdr.de>; Thu,  8 Oct 2020 23:18:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 14A48288711
+	for <lists+linux-hexagon@lfdr.de>; Fri,  9 Oct 2020 12:37:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729986AbgJHVS3 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 8 Oct 2020 17:18:29 -0400
-Received: from [58.87.100.240] ([58.87.100.240]:45364 "EHLO
-        mail.hebei-kuixing.com" rhost-flags-FAIL-FAIL-OK-OK)
-        by vger.kernel.org with ESMTP id S1726766AbgJHVS1 (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 8 Oct 2020 17:18:27 -0400
-X-Greylist: delayed 668 seconds by postgrey-1.27 at vger.kernel.org; Thu, 08 Oct 2020 17:18:22 EDT
-Received: from localhost (unknown [127.0.0.1])
-        by mail.hebei-kuixing.com (Postfix) with ESMTP id AC1A460E64;
-        Thu,  8 Oct 2020 21:07:07 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at hebei-kuixing.com
-Received: from mail.hebei-kuixing.com ([127.0.0.1])
-        by localhost (mail.hebei-kuixing.com [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 2baZvT9QzwCy; Fri,  9 Oct 2020 05:07:06 +0800 (CST)
-Received: from User (unknown [185.248.12.71])
-        by mail.hebei-kuixing.com (Postfix) with ESMTPA id 0E9CB60E6A;
-        Fri,  9 Oct 2020 05:06:50 +0800 (CST)
-Reply-To: <kim.leang2011@yahoo.com>
-From:   " Kim Leang" <sales@hebei-kuixing.com>
-Subject: Greeting!
-Date:   Fri, 9 Oct 2020 00:07:05 +0300
+        id S2387735AbgJIKhd (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 9 Oct 2020 06:37:33 -0400
+Received: from mx2.suse.de ([195.135.220.15]:34910 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725979AbgJIKhd (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 9 Oct 2020 06:37:33 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1602239851;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=PSnE8Z6vmo+QjfFMOr8IzsEeysZ+b2m8XiyzgtxyjuU=;
+        b=TBEkdamhFsMR6aQi1th0/8dXZLXYyqk5xISPS7talJ6YDCQgCm/iVWjysiiw7bONwuX4IT
+        gpaSi8QFNmbXeDNV5vq+E+NauqSVoU//Kjf9/qOHetw3vQr0tF0HyDgv9hNj8Fs9TDYrt9
+        B5EJ74pYx1zFCHSIQVIQnRK9ZCJToVc=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 9C276AC2F;
+        Fri,  9 Oct 2020 10:37:31 +0000 (UTC)
+Date:   Fri, 9 Oct 2020 12:37:30 +0200
+From:   Michal Hocko <mhocko@suse.com>
+To:     Peter Zijlstra <peterz@infradead.org>
+Cc:     Thomas Gleixner <tglx@linutronix.de>,
+        Frederic Weisbecker <fweisbecker@suse.de>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
+        Richard Henderson <rth@twiddle.net>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
+        Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org, Jeff Dike <jdike@addtoit.com>,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        linux-um@lists.infradead.org
+Subject: Re: [RFC PATCH] kernel: allow to configure PREEMPT_NONE,
+ PREEMPT_VOLUNTARY on kernel command line
+Message-ID: <20201009103730.GJ4967@dhcp22.suse.cz>
+References: <20201007120401.11200-1-mhocko@kernel.org>
+ <20201009091218.GF4967@dhcp22.suse.cz>
+ <20201009094245.GG2628@hirez.programming.kicks-ass.net>
+ <20201009101044.GH4967@dhcp22.suse.cz>
+ <20201009101431.GJ2628@hirez.programming.kicks-ass.net>
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20201008210707.AC1A460E64@mail.hebei-kuixing.com>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201009101431.GJ2628@hirez.programming.kicks-ass.net>
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Greeting!
+On Fri 09-10-20 12:14:31, Peter Zijlstra wrote:
+> On Fri, Oct 09, 2020 at 12:10:44PM +0200, Michal Hocko wrote:
+> > On Fri 09-10-20 11:42:45, Peter Zijlstra wrote:
+> > > On Fri, Oct 09, 2020 at 11:12:18AM +0200, Michal Hocko wrote:
+> > > > Is there any additional feedback? Should I split up the patch and repost
+> > > > for inclusion?
+> > > 
+> > > Maybe remove PREEMPT_NONE after that?  Since that's then equivalent to
+> > > building with VOLUNTARY and booting with preempt=none.
+> > 
+> > So do you mean that I should post an additional patch which does this on
+> > top? With a justification that there is one option less to chose from?
+> 
+> Exactly!
 
-I am contacting you to receive and share with me an abandoned fund ( $21,537.000.00 ) left in our bank by a deceased customer. I was going through the Internet search when I found your email address. My name is Mr. Kim Leang.
+It seems we have to get rid of CONFIG_NO_PREEMPT first
+$ git grep ARCH_NO_PREEMPT
+arch/Kconfig:config ARCH_NO_PREEMPT
+arch/alpha/Kconfig:     select ARCH_NO_PREEMPT
+arch/hexagon/Kconfig:   select ARCH_NO_PREEMPT
+arch/m68k/Kconfig:      select ARCH_NO_PREEMPT if !COLDFIRE
+arch/um/Kconfig:        select ARCH_NO_PREEMPT
+kernel/Kconfig.preempt: depends on !ARCH_NO_PREEMPT
+kernel/Kconfig.preempt: depends on !ARCH_NO_PREEMPT
+lib/Kconfig.debug:      select PREEMPT_COUNT if !ARCH_NO_PREEMPT
+lib/Kconfig.debug:      depends on !ARCH_NO_PREEMPT
 
-I want to utilize this opportunity and make use of this fund if I should present your name to the bank to stand as his business associate/ trustee for the fund to be released to you via Visa card for easy withdrawals in any VISA ATM machine anywhere in the World.
-
-The bank will also give you international online transfer options. With these you can transfer the funds without any risk.
-
-Should you be interested in working with me in this project? Please reply back and let's benefit from this golden opportunity.You are my first contact. I shall wait a few days and if I do not hear from you, I shall look for another person.
-
-Thanks and have a nice day,
-Mr. Kim Leang.
+Is there anybody working on that. Is this even possible? I can see it
+has been added by 87a4c375995e ("kconfig: include kernel/Kconfig.preempt
+from init/Kconfig") but this looks more like a mechanical change and it
+has defined ARCH_NO_PREEMPT all arches which haven't included
+Kconfig.preempt. But is there any reason why those cannot support
+preemption for some reason? Cc respective maintainer (the email thread
+starts http://lkml.kernel.org/r/20201007120401.11200-1-mhocko@kernel.org
+-- 
+Michal Hocko
+SUSE Labs
