@@ -2,108 +2,63 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BB0FC288801
-	for <lists+linux-hexagon@lfdr.de>; Fri,  9 Oct 2020 13:42:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B072928CA2F
+	for <lists+linux-hexagon@lfdr.de>; Tue, 13 Oct 2020 10:25:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388190AbgJILmg (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 9 Oct 2020 07:42:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55696 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731908AbgJILmc (ORCPT
+        id S2390894AbgJMIZB (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 13 Oct 2020 04:25:01 -0400
+Received: from mail.fastestway24.com ([5.249.159.217]:34936 "EHLO
+        mail.fastestway24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387655AbgJMIZB (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 9 Oct 2020 07:42:32 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FE26C0613D2;
-        Fri,  9 Oct 2020 04:42:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=RcamcxMM04cAFejMyuerox9iFyryVbfUvRjDUF6K+9E=; b=rV/73fj+p5/T3eYZYDymfCt5SP
-        EGKltICU3UJgzJot3PlAdj3AbR+gk5Fu9ALysyRXUjXz1Zz9lkn1oy67SKaaUgwwoVb88K0SV7Bsh
-        FqvpyAsddMNfO/uaOg5us46reQYdxoaw4V+Z56lK4XPhIyX56i/ukTdBdBh7EvlM1NHScvtTABqpo
-        znLocfz8vCn//mXjXUAto9jooaYcx8KnZYLrEJUFEaEecZwQ67rFlXOnv+PAUplGmjypRkBw6zEJZ
-        e0yFWzBMPGuSmWRNegKe32QuMxAhYnEeqk1p16v+xTaCE9aMZ0ypzDv+kqeYOcTeyxLPICzHhq0Jp
-        54eNIb9Q==;
-Received: from j217100.upc-j.chello.nl ([24.132.217.100] helo=noisy.programming.kicks-ass.net)
-        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kQqmw-0003xU-UC; Fri, 09 Oct 2020 11:42:19 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id E04B9300455;
-        Fri,  9 Oct 2020 13:42:16 +0200 (CEST)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 8A6E02B08A0EA; Fri,  9 Oct 2020 13:42:16 +0200 (CEST)
-Date:   Fri, 9 Oct 2020 13:42:16 +0200
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Michal Hocko <mhocko@suse.com>
-Cc:     Thomas Gleixner <tglx@linutronix.de>,
-        Frederic Weisbecker <fweisbecker@suse.de>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Mel Gorman <mgorman@suse.de>, Ingo Molnar <mingo@redhat.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org, Jeff Dike <jdike@addtoit.com>,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        linux-um@lists.infradead.org
-Subject: Re: [RFC PATCH] kernel: allow to configure PREEMPT_NONE,
- PREEMPT_VOLUNTARY on kernel command line
-Message-ID: <20201009114216.GM2628@hirez.programming.kicks-ass.net>
-References: <20201007120401.11200-1-mhocko@kernel.org>
- <20201009091218.GF4967@dhcp22.suse.cz>
- <20201009094245.GG2628@hirez.programming.kicks-ass.net>
- <20201009101044.GH4967@dhcp22.suse.cz>
- <20201009101431.GJ2628@hirez.programming.kicks-ass.net>
- <20201009103730.GJ4967@dhcp22.suse.cz>
+        Tue, 13 Oct 2020 04:25:01 -0400
+X-Greylist: delayed 488 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Oct 2020 04:25:00 EDT
+Received: by mail.fastestway24.com (Postfix, from userid 1001)
+        id 36A5EA2E56; Tue, 13 Oct 2020 09:16:31 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fastestway24.com;
+        s=mail; t=1602577011;
+        bh=YGOlxoddnI3PXnh41XMWUfU0z9xsorZLZcAPNbcZr/c=;
+        h=Date:From:To:Subject:From;
+        b=DbzIO9X5ytyoyIhh8sTXT4uGOjHwDwcVghvORF1iIN3D3yaomY7TeZzKFAN3vgfzZ
+         jRSL1fxeg4ne00OaR5EKycbWfmTkVIVfz6KUOUkLmkP3drDnwpBap1kXevHC35ku7M
+         2ZvihoCAtprMsbGEdydLoVzvdYUZWc+ItVTpM9w7ZUqD/K3t2G1llwptbEPCDmloF/
+         54pbPLc4/SCSOhAEd00mcGPBd6WQf7RX1TZN062iTtWvzlGJ5PaYfSU086j44cvVJg
+         1FMOChoLjSTFmw5ATnnMK64M/cT/v5CSNdmzVF4XBhvEi2/jFDXFE3Fyz7ttzFAMng
+         eZb5IkNjIrrgQ==
+Received: by mail.fastestway24.com for <linux-hexagon@vger.kernel.org>; Tue, 13 Oct 2020 08:16:22 GMT
+Message-ID: <20201013074502-0.1.4d.9l9x.0.kmdelcfxoc@fastestway24.com>
+Date:   Tue, 13 Oct 2020 08:16:22 GMT
+From:   "William Jones" <william.jones@fastestway24.com>
+To:     <linux-hexagon@vger.kernel.org>
+Subject: Disinfectant
+X-Mailer: mail.fastestway24.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201009103730.GJ4967@dhcp22.suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 12:37:30PM +0200, Michal Hocko wrote:
-> On Fri 09-10-20 12:14:31, Peter Zijlstra wrote:
-> > On Fri, Oct 09, 2020 at 12:10:44PM +0200, Michal Hocko wrote:
-> > > On Fri 09-10-20 11:42:45, Peter Zijlstra wrote:
-> > > > On Fri, Oct 09, 2020 at 11:12:18AM +0200, Michal Hocko wrote:
-> > > > > Is there any additional feedback? Should I split up the patch and repost
-> > > > > for inclusion?
-> > > > 
-> > > > Maybe remove PREEMPT_NONE after that?  Since that's then equivalent to
-> > > > building with VOLUNTARY and booting with preempt=none.
-> > > 
-> > > So do you mean that I should post an additional patch which does this on
-> > > top? With a justification that there is one option less to chose from?
-> > 
-> > Exactly!
-> 
-> It seems we have to get rid of CONFIG_NO_PREEMPT first
-> $ git grep ARCH_NO_PREEMPT
-> arch/Kconfig:config ARCH_NO_PREEMPT
-> arch/alpha/Kconfig:     select ARCH_NO_PREEMPT
-> arch/hexagon/Kconfig:   select ARCH_NO_PREEMPT
-> arch/m68k/Kconfig:      select ARCH_NO_PREEMPT if !COLDFIRE
-> arch/um/Kconfig:        select ARCH_NO_PREEMPT
-> kernel/Kconfig.preempt: depends on !ARCH_NO_PREEMPT
-> kernel/Kconfig.preempt: depends on !ARCH_NO_PREEMPT
-> lib/Kconfig.debug:      select PREEMPT_COUNT if !ARCH_NO_PREEMPT
-> lib/Kconfig.debug:      depends on !ARCH_NO_PREEMPT
-> 
-> Is there anybody working on that. Is this even possible? I can see it
-> has been added by 87a4c375995e ("kconfig: include kernel/Kconfig.preempt
-> from init/Kconfig") but this looks more like a mechanical change and it
-> has defined ARCH_NO_PREEMPT all arches which haven't included
-> Kconfig.preempt. But is there any reason why those cannot support
-> preemption for some reason? Cc respective maintainer (the email thread
-> starts http://lkml.kernel.org/r/20201007120401.11200-1-mhocko@kernel.org
+Good morning,
 
-I suspect we can drop ARCH_NO_PREEMPT from VOLUNTARY, IIRC there's no
-arch dependency there. PREEMPT itself obviously needs arch help.
+looking for companies interested in raising additional capital by diversi=
+fying their offer in soaps, liquids and gels for hand disinfection and co=
+smetics for body and hair care.
+
+The distribution of innovative products corresponding to the current pref=
+erences of customers in the field of hygiene and preventive healthcare al=
+lows our partners to gain new markets and achieve better economic results=
+=2E
+
+In addition to products with bactericidal action, our range includes show=
+er gels, shampoos and hair conditioners, as well as efficient, concentrat=
+ed detergents.
+
+The versatility (suitable for all skin types) combined with an affordable=
+ price means that customers make an informed choice of a product among ot=
+hers available on the market.
+
+Are you interested in cooperation?
+
+
+William Jones
