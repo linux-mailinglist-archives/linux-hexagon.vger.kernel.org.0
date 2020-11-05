@@ -2,48 +2,61 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D12442A12A3
-	for <lists+linux-hexagon@lfdr.de>; Sat, 31 Oct 2020 02:27:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83A8A2A7963
+	for <lists+linux-hexagon@lfdr.de>; Thu,  5 Nov 2020 09:31:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726321AbgJaB1R (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 30 Oct 2020 21:27:17 -0400
-Received: from 93804.cloudwaysapps.com ([178.62.255.238]:56716 "EHLO
-        93804.cloudwaysapps.com" rhost-flags-OK-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726112AbgJaB1P (ORCPT
+        id S1726400AbgKEIbS (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 5 Nov 2020 03:31:18 -0500
+Received: from mail.fullbizgoal.com ([80.211.27.207]:52752 "EHLO
+        server1.mail.fullbizgoal.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725320AbgKEIbS (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 30 Oct 2020 21:27:15 -0400
-X-Greylist: delayed 12185 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 21:27:03 EDT
-Received: from 127.0.0.1 (93804.cloudwaysapps.com [127.0.0.1])
-        by 93804.cloudwaysapps.com (Postfix) with SMTP id C0065220DE;
-        Fri, 30 Oct 2020 19:28:41 +0000 (UTC)
-Received: from [10.92.248.238] by 127.0.0.1 with ESMTP id <744952-75524> for <linux-acpi@vger.kernel.org>; Sat, 31 Oct 2020 02:20:53 +0600
-Message-ID: <dic5wasb-2c8kb$78@lu916y>
-From:   "JOHN PHIL" <gerradfinancialplanning@gmail.com>
-Reply-To: "JOHN PHIL" <gerradfinancialplanning@gmail.com>
-To:     linux-acpi@vger.kernel.org
-Subject: November Equity Investment 20-20 
-Date:   Sat, 31 Oct 20 02:20:53 GMT
-X-Mailer: Microsoft Outlook IMO, Build 9.0.2416 (9.0.2910.0)
+        Thu, 5 Nov 2020 03:31:18 -0500
+Received: by server1.mail.fullbizgoal.com (Postfix, from userid 1001)
+        id F315BA523D; Thu,  5 Nov 2020 08:30:56 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fullbizgoal.com;
+        s=mail; t=1604565076;
+        bh=1A+RQztZunBjkjQlXgr2uQY18vlGaIq8j7jGOmWqiI0=;
+        h=Date:From:To:Subject:From;
+        b=Da/rNf/ViQK2g14zIe9IUiEYYgU31xqb4z+Qp3ead8oOUQS1a9ydZNoJa/MT0z+vF
+         DSzdVFiJ/cQChNgP7bXt1AGChc72z3WLGdXZCxgIOP9hMy2U68Y+vB5XioLa98UTcX
+         I7IKUNaHOHHvdcK3q6DycWZzR4K2kU+tS6vcD+QOAtextZxMiD+H2HCgOm/w3u5kcN
+         vglFdThlEn1UrV3aPTzq/6OOfpE9xbQXsykVEz6jfWI4WjWOwjAUheB33WWV3prFBQ
+         sISpxurZzj0XzhjzAESCVOa4SJMlysIAAU7OgeQ814qgGS+GHL0uhiqmm1VPpY2/3e
+         8r3xK4RLAVM1A==
+Received: by mail.fullbizgoal.com for <linux-hexagon@vger.kernel.org>; Thu,  5 Nov 2020 08:30:14 GMT
+Message-ID: <20201105074501-0.1.2o.ezyg.0.d4gb9dmmro@fullbizgoal.com>
+Date:   Thu,  5 Nov 2020 08:30:14 GMT
+From:   "Ethan Smith" <ethan.smith@fullbizgoal.com>
+To:     <linux-hexagon@vger.kernel.org>
+Subject: Disinfectant
+X-Mailer: mail.fullbizgoal.com
 MIME-Version: 1.0
-Content-Type: multipart/alternative;
-        boundary="07B_9ED_4_"
-X-Priority: 1
-X-MSMail-Priority: High
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+Good morning,
 
---07B_9ED_4_
-Content-Type: text/plain;
-Content-Transfer-Encoding: quoted-printable
+looking for companies interested in raising additional capital by diversi=
+fying their offer in soaps, liquids and gels for hand disinfection and co=
+smetics for body and hair care.
 
-How are you doing today I have a proposal which i think may interest you a=
-nd benefit you.I will like to give you full details of this via email:  ge=
-rradfinancialplanning@gmail.com
-Thanks.
+The distribution of innovative products corresponding to the current pref=
+erences of customers in the field of hygiene and preventive healthcare al=
+lows our partners to gain new markets and achieve better economic results=
+=2E
 
-John PHIL
+In addition to products with bactericidal action, our range includes show=
+er gels, shampoos and hair conditioners, as well as efficient, concentrat=
+ed detergents.
 
---07B_9ED_4_--
+The versatility (suitable for all skin types) combined with an affordable=
+ price means that customers make an informed choice of a product among ot=
+hers available on the market.
 
+Are you interested in cooperation?
+
+Ethan Smith
