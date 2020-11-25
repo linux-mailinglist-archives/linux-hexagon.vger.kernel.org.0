@@ -2,69 +2,78 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A1EA02BFB0B
-	for <lists+linux-hexagon@lfdr.de>; Sun, 22 Nov 2020 22:53:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 620322C4221
+	for <lists+linux-hexagon@lfdr.de>; Wed, 25 Nov 2020 15:24:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726682AbgKVVui (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 22 Nov 2020 16:50:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33860 "EHLO
+        id S1729265AbgKYOXx (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 25 Nov 2020 09:23:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38932 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726136AbgKVVui (ORCPT
+        with ESMTP id S1729904AbgKYOXx (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 22 Nov 2020 16:50:38 -0500
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8095C0613CF;
-        Sun, 22 Nov 2020 13:50:37 -0800 (PST)
-Received: by mail-ej1-x641.google.com with SMTP id f23so20637057ejk.2;
-        Sun, 22 Nov 2020 13:50:37 -0800 (PST)
+        Wed, 25 Nov 2020 09:23:53 -0500
+Received: from mail-qk1-x72f.google.com (mail-qk1-x72f.google.com [IPv6:2607:f8b0:4864:20::72f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B86DDC061A52
+        for <linux-hexagon@vger.kernel.org>; Wed, 25 Nov 2020 06:23:52 -0800 (PST)
+Received: by mail-qk1-x72f.google.com with SMTP id v143so4729118qkb.2
+        for <linux-hexagon@vger.kernel.org>; Wed, 25 Nov 2020 06:23:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=message-id:sender:from:mime-version:content-transfer-encoding
-         :content-description:subject:to:date:reply-to;
-        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
-        b=dSVIRJFQOVG1sVOLC/C1WxAw383yh+m555fVXF+QzZTZAQYXhzHuJeyDkF1M/G/5rx
-         ZzPkp1lTixc1ejSvHNx1rIduwzzK0K/yBoHpxf8z6UUwvgH69DqKcewp+m5znOHhhC54
-         0NQNfn6tuXprZ30SyrYPh6nGHPKkLddlHLlDfdPmfQmqfy2aKHYOTHMj0BkOPRrkQPkf
-         SOP+EJynGhM2nDxAVxSLKz1bq8OreE/pfX4HZ8BGVRacAHc4iQzsVMqDG1MOZ9lEl4nj
-         k3uF44HvuxtUScMKO2PcrjKERcaMYmENuUWFmN4IEQE8Q2sgx3RqRlGoXfhHWs1iG6sM
-         4HeQ==
+        h=mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=PRRgtDeJ+IvmmClG2za3Gd9Kir7u7xhjXshxMoJsi+o=;
+        b=SHhPkqqhiA1qpZgiqIE1OExx/SvwtbPd1XEBHuyyO2SHkirsAOr+RQ/dQU6iARXywn
+         TP2Vwiwv8mDVB9UylQLQh1I65yQPUMUtmy08vYzSNa2aTMxdJH0ZbI+w3rWUyJnT/FAP
+         e02tnBqIz+P6rSWBaFvdHYy60bwtAoX08Ht2x0EkgSrkrezhhDf8VhO4gNcswDPXIZOz
+         VK8yawdQioMI+VyP3WZp4KAoS5g4dfCV64wi5+xDlXEFqOQ1Xfc3gTVlClzh9nSG0Unk
+         x00Fi0IwkpfPyI8/cbCtskaZK9NU5BBLfskucKg5MM97ZaX/KuqmXywHEyCa23zkbAPg
+         tqWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:sender:from:mime-version
-         :content-transfer-encoding:content-description:subject:to:date
-         :reply-to;
-        bh=holMzMixu6L4mPkY4KLX0AXrH3B7KLU6Q1+gVZ1hbDo=;
-        b=e9OJ+wV5EtQk1A/bACVn1dMiekRnmKxyZroPmeGvEQu7f5byyiKQanfeEef3mvDaxX
-         s8xhuQAHdWlT5G+5wEoNjjxoywSVb+WStnH8XySCJyJkPSTLqE78UuZTQ5DDMdZPMOkx
-         nJpQdh9p/Kt+Yy5V4fSJbkkf21z1vwcToO+NHxX1UVDvnYB5CI4472rt/ngqooKHcXOI
-         1gC9b0v5wlTitGjr8TnzDmagJON37NuDwtNO5rGvWGEdov12DdthdWM7H5QzbPCrB1br
-         IDGPxSIINDKqcs/V0K4SDrzqP7BTUEn+LVYiCJ2/FYhah2FtYQt2NM1Vd3418mDFItVb
-         lYRA==
-X-Gm-Message-State: AOAM533VXH8aQj3i35qnJL3JJnAefGuKBALaGj09rHGNyBgXGwWtex1g
-        Euo2RHEXb9tPSu96BQLklT8=
-X-Google-Smtp-Source: ABdhPJwhaEOJvW5kQrrswGkgLJ9vZPQAJxYc8ArYEJvPLnCvzEdij1c5aP9USZyDGKHDABDRBIAdng==
-X-Received: by 2002:a17:906:af12:: with SMTP id lx18mr15459844ejb.324.1606081836586;
-        Sun, 22 Nov 2020 13:50:36 -0800 (PST)
-Received: from [192.168.43.48] ([197.210.35.67])
-        by smtp.gmail.com with ESMTPSA id e17sm4016232edc.45.2020.11.22.13.50.31
-        (version=TLS1 cipher=AES128-SHA bits=128/128);
-        Sun, 22 Nov 2020 13:50:35 -0800 (PST)
-Message-ID: <5fbadd2b.1c69fb81.8dfc7.11d6@mx.google.com>
-Sender: Baniko Diallo <banidiallo23@gmail.com>
-From:   Adelina Zeuki <adelinazeuki@gmail.com>
-X-Google-Original-From: "Adelina Zeuki" <  adelinazeuki@gmail.comm >
-Content-Type: text/plain; charset="iso-8859-1"
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=PRRgtDeJ+IvmmClG2za3Gd9Kir7u7xhjXshxMoJsi+o=;
+        b=ccK3ZKjFKf0/5fkvl+jOwccsJudKClS9KztAzFzPUi8GbmIswUdSYp1NdIt8UPeA0X
+         FtNcXLOAjCbAP8ZwN9mo15UlavK3zqUmLDarE0Hr2m7v5EAgOTul9XuUsEslhcSpVpQX
+         yMbjkc+TWXrExu7aFqGR/iqzSemqs3Erh50BVqord/Zzt1wnqL3BgeF7KtZmL7NC+wLD
+         xt4wPTy9k/w5O1DiEOQHQgKCfFponrKJtkH8OayxhaWn2Vv9Ii+9i0KINf/6C57c7F7f
+         iXnEF209tTeWKAWmTvEMhwUHVnVC88cgDyUb3V1PzRW6Kftxo8vd/lfVg2Oe7Ga5QH9N
+         dHaQ==
+X-Gm-Message-State: AOAM530ym43zq8py76Ll12h4EeXrFZoRcwaZs0AvANfuYvkcEhVisGSj
+        oeLHtIejsvfOR4DnqGztp4ajdNYLEIrjoOS2bx4=
+X-Google-Smtp-Source: ABdhPJz7qPjTZU155G2hh9eCyhnS2iS2r1T97QGUfkJbW6gio9NzVBkqeRZnAiORvMaILOdWjXat/bTcJtPIhOK+iGA=
+X-Received: by 2002:a25:2c92:: with SMTP id s140mr6032043ybs.64.1606314231825;
+ Wed, 25 Nov 2020 06:23:51 -0800 (PST)
 MIME-Version: 1.0
+Received: by 2002:a05:7110:3250:b029:2f:4aed:a58b with HTTP; Wed, 25 Nov 2020
+ 06:23:51 -0800 (PST)
+From:   carlos tayi <tayicarlos@gmail.com>
+Date:   Wed, 25 Nov 2020 15:23:51 +0100
+Message-ID: <CADZxQ+N5zC1jKm0wmaOSp1GUEf-=qsiJ7uEx5zJSbKdqvvYLyQ@mail.gmail.com>
+Subject: =?UTF-8?Q?F=C3=9CR_IHRE_KREDITANWENDUNGEN?=
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Hello !!
-To:     Recipients <adelinazeuki@gmail.comm>
-Date:   Sun, 22 Nov 2020 21:50:25 +0000
-Reply-To: adelinazeuki@gmail.com
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi dear,
+Hallo Herr / Frau
 
-Can i talk with you ?
+Angesichts der regelm=C3=A4=C3=9Figen Verweigerung von Kreditinstituten, Ku=
+nden
+Kredite zu gew=C3=A4hren, bieten wir unsere Kreditdienstleistungen an.
+
+Wir bieten Darlehen von 5.000 bis 17.000.000 =E2=82=AC mit einer
+2% R=C3=BCckzahlungsrate und basierend auf der f=C3=BCr Sie geeigneten
+R=C3=BCckzahlungsfrist, wenden Sie sich bitte an unsere
+Management f=C3=BCr Ihre kurz- und langfristigen Kreditanfragen
+
+Wenn Sie auch gro=C3=9Fe Projekte haben, die Investitionen erfordern,
+k=C3=B6nnen wir Sie auch mit Investoren in Kontakt bringen
+abh=C3=A4ngig von der Menge, die Sie w=C3=BCnschen
+
+F=C3=BCr alle Ihre Kredit- und Investitionsanfragen bitte
+Kontaktieren Sie unser Management
+
+financialintercreditficsarl@ficsarl.com
