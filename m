@@ -2,109 +2,101 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA3772F7F9C
-	for <lists+linux-hexagon@lfdr.de>; Fri, 15 Jan 2021 16:31:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 916BE307F81
+	for <lists+linux-hexagon@lfdr.de>; Thu, 28 Jan 2021 21:24:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727719AbhAOPb3 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 15 Jan 2021 10:31:29 -0500
-Received: from so254-31.mailgun.net ([198.61.254.31]:46071 "EHLO
-        so254-31.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729568AbhAOPb2 (ORCPT
+        id S231324AbhA1UX4 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 28 Jan 2021 15:23:56 -0500
+Received: from spe9-3.ucebox.co.za ([197.242.159.170]:35296 "EHLO
+        spe9-3.ucebox.co.za" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S229817AbhA1UXz (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 15 Jan 2021 10:31:28 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1610724672; h=Content-Transfer-Encoding: Content-Type:
- MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
- To: From: Reply-To: Sender;
- bh=q0/ru+LfZr7L2kRVGdNGG4rvKSg/SVssCMScCzWIjSY=; b=L+IsKs8FwKx9jG3pS2hifEwVuvWvX3MyL+QBXbTVekZMD9FQzRf7Pt8AHlPxa99fWKBHBYBi
- vEciTf9FsE/MAlHaZplkQnKJmZHfefMa8LDJLO+NEOSGBWqzIupkiu4yozB8zxGQ9sDFlgXo
- gnJrZzDXEmdN+tn6m/Pl1iON0AQ=
-X-Mailgun-Sending-Ip: 198.61.254.31
-X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n10.prod.us-east-1.postgun.com with SMTP id
- 6001b524e23dedcc3a07a746 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 15 Jan 2021 15:30:44
- GMT
-Sender: bcain=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 34457C43463; Fri, 15 Jan 2021 15:30:44 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
-        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
-Received: from BCAIN (104-54-226-75.lightspeed.austtx.sbcglobal.net [104.54.226.75])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 5B562C433C6;
-        Fri, 15 Jan 2021 15:30:42 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 5B562C433C6
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=bcain@codeaurora.org
-Reply-To: <bcain@codeaurora.org>
-From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'Viresh Kumar'" <viresh.kumar@linaro.org>,
-        "'Linus Torvalds'" <torvalds@linux-foundation.org>,
-        "'Robert Richter'" <rric@kernel.org>
-Cc:     "'Vincent Guittot'" <vincent.guittot@linaro.org>,
-        "'Arnd Bergmann'" <arnd@kernel.org>, <oprofile-list@lists.sf.net>,
-        "'William Cohen'" <wcohen@redhat.com>,
-        "'Alexander Viro'" <viro@zeniv.linux.org.uk>,
-        <anmar.oueja@linaro.org>,
-        "'Christoph Hellwig'" <hch@infradead.org>,
-        <linux-hexagon@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <cover.1610622251.git.viresh.kumar@linaro.org> <041ab89e12a71c1bf40d08926c3914c68af1504c.1610622251.git.viresh.kumar@linaro.org>
-In-Reply-To: <041ab89e12a71c1bf40d08926c3914c68af1504c.1610622251.git.viresh.kumar@linaro.org>
-Subject: RE: [PATCH 04/18] arch: hexagon: Don't select HAVE_OPROFILE
-Date:   Fri, 15 Jan 2021 09:30:41 -0600
-Message-ID: <003a01d6eb53$63313330$29939990$@codeaurora.org>
+        Thu, 28 Jan 2021 15:23:55 -0500
+Received: from cornucopia.aserv.co.za ([154.0.175.203])
+        by spe5.ucebox.co.za with esmtps (TLSv1.2:AES128-GCM-SHA256:128)
+        (Exim 4.92)
+        (envelope-from <manornutgrovemanor@gmail.com>)
+        id 1l5BoE-0000tT-KY; Thu, 28 Jan 2021 20:14:51 +0200
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by cornucopia.aserv.co.za (Postfix) with ESMTPA id 3AB20C2E22;
+        Thu, 28 Jan 2021 20:13:33 +0200 (SAST)
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQED93X9Awx87JGfByaHSF5A6x5muQJxd0TPq7sr7rA=
-Content-Language: en-us
+Date:   Thu, 28 Jan 2021 20:13:33 +0200
+From:   Nut Grove Manor <manornutgrovemanor@gmail.com>
+To:     undisclosed-recipients:;
+Subject: Invitation To Quote
+User-Agent: Roundcube Webmail/1.4.1
+Message-ID: <6b6afbe17591d2cf6354daa881775586@gmail.com>
+X-Sender: manornutgrovemanor@gmail.com
+X-Originating-IP: 154.0.175.203
+X-Afrihost-Domain: pesci.aserv.co.za
+X-Afrihost-Username: 154.0.175.203
+Authentication-Results: ucebox.co.za; auth=pass smtp.auth=154.0.175.203@pesci.aserv.co.za
+X-Afrihost-Outgoing-Class: unsure
+X-Afrihost-Outgoing-Evidence: Combined (0.71)
+X-Recommended-Action: accept
+X-Filter-ID: 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
+ 3Rcn
+X-Report-Abuse-To: spam@spe1.ucebox.co.za
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-> -----Original Message-----
-> From: Viresh Kumar <viresh.kumar@linaro.org>
-> Sent: Thursday, January 14, 2021 5:35 AM
-...
-> The "oprofile" user-space tools don't use the kernel OPROFILE support any
-> more, and haven't in a long time. User-space has been converted to the
-perf
-> interfaces.
-> 
-> Don't select HAVE_OPROFILE for hexagon anymore.
+Good Day Sir
 
-Acked-by: Brian Cain <bcain@codeaurora.org>
+We are please to invite you/your company to quote the following item
+listed
+below:
 
-> Suggested-by: Christoph Hellwig <hch@infradead.org>
-> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
-> Signed-off-by: Viresh Kumar <viresh.kumar@linaro.org>
-> ---
->  arch/hexagon/Kconfig | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig index
-> 6e00c16a36b5..44a409967af1 100644
-> --- a/arch/hexagon/Kconfig
-> +++ b/arch/hexagon/Kconfig
-> @@ -7,7 +7,6 @@ config HEXAGON
->  	select ARCH_32BIT_OFF_T
->  	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
->  	select ARCH_NO_PREEMPT
-> -	select HAVE_OPROFILE
->  	# Other pending projects/to-do items.
->  	# select HAVE_REGS_AND_STACK_ACCESS_API
->  	# select HAVE_HW_BREAKPOINT if PERF_EVENTS
-> --
-> 2.25.0.rc1.19.g042ed3e048af
+Product/Model No: TM9653 PRESSURE REGULATOR
+Product Name:MEKO
+Qty. 30 units
 
+Compulsory,Kindly send your quotation
+for immediate approval.
 
+Kind Regards,
+Albert Bourla
+PFIZER B.V Supply Chain Manager
+Tel: +31(0)208080 880
+ADDRESS: Rivium Westlaan 142, 2909 LD
+Capelle aan den IJssel, Netherlands
