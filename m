@@ -2,64 +2,69 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2233630CDA9
-	for <lists+linux-hexagon@lfdr.de>; Tue,  2 Feb 2021 22:10:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E974330DE60
+	for <lists+linux-hexagon@lfdr.de>; Wed,  3 Feb 2021 16:40:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233991AbhBBVKX (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 2 Feb 2021 16:10:23 -0500
-Received: from [20.39.40.203] ([20.39.40.203]:65313 "EHLO optinix.in"
-        rhost-flags-FAIL-FAIL-OK-OK) by vger.kernel.org with ESMTP
-        id S231256AbhBBVKS (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 2 Feb 2021 16:10:18 -0500
-dkim-signature: v=1; a=rsa-sha256; d=digitalsol.in; s=dkim;
-        c=relaxed/relaxed; q=dns/txt; h=From:Reply-To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
-        bh=wK2neTcOXNiSQ+RBxrnFed+mRrGUU/ndLGEgvo8IMCc=;
-        b=TP5ImnyHcJd6ZOutD2G4fr5f8wWoUQwQgOLW2PI/280OHeTqlZLToIxAIofahXeo75Wu3EjCyPUkWCAvONVwZu0fevODO9NabCWAisW+z0dGu9MXtR6qZycknhfK+mQQvORufc2uJdOyxsLmIaqgju02ah6NTaY7MUrrDAsnypqV/dHvFc1ZCeNq9M9cnBgI6P8moRvB3Uy5b0Di8H1i0zAyCi2Ui0iRGfGkTkO0ugXob5Evs8zBCz+bQn
-        OGNJsvkyEuoIiGf1dhK8ZygeNRPTDeubCEGrI3iP2v+CePRDNJj0O+GADoZLV93dYARi5DbbBgbqte2GtdOqu1KHIrhw==
-Received: from User (Unknown [52.231.31.5])
-        by optinix.in with ESMTP
-        ; Sat, 30 Jan 2021 02:13:52 +0000
-Message-ID: <8F335769-7194-475D-8960-10F7C26454EB@optinix.in>
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <support@digitalsol.in>
-Subject: Re:read
-Date:   Sat, 30 Jan 2021 02:13:50 -0000
+        id S234255AbhBCPhg (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 3 Feb 2021 10:37:36 -0500
+Received: from 198-20-226-115.unifiedlayer.com ([198.20.226.115]:56722 "EHLO
+        198-20-226-115.unifiedlayer.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S234512AbhBCPgR (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Wed, 3 Feb 2021 10:36:17 -0500
+X-Greylist: delayed 29383 seconds by postgrey-1.27 at vger.kernel.org; Wed, 03 Feb 2021 10:35:24 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=carnivalassure.com.bd; s=default; h=Content-Transfer-Encoding:Content-Type:
+        Message-ID:Reply-To:Subject:To:From:Date:MIME-Version:Sender:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=miRpAdBSO5eDo01VDX+EK9bqGCmqMjXHS3kO16T6iWw=; b=BeRp52iTZNZnIj6Yk4q4qmVg1o
+        TGW3OyQQDqdIygbFzrOvnb1VFlTwDZeYzPg7x0gcAhNqpY+RPOU8XZPJCHVzHp7N6NMkd40+DlrAZ
+        BxMd0S46HbScvjeaenOH3+S94exP2AbS+FzziGjhE87mUv7G1Yf3DGvnuFRQOMF8rB7m0VxjRMPDd
+        55/dxUiSnVbBa0JImuQYYXUpRt83SOvMPmEy3tm7HhC6eVNF+f6Wxow3WBSbpKE+vZC1jXRKKl9C1
+        bK6OQxLWFq7P4uMl6BygkP9QC4QklVZQU7qWYFjfzBfV8UP2ROnwJjNJGJIyClrEEjRpgcDNFfVIx
+        4EKHpC7g==;
+Received: from [127.0.0.1] (port=46990 helo=dot.dotlines.com.sg)
+        by dot.dotlines.com.sg with esmtpa (Exim 4.93)
+        (envelope-from <noreply@carnivalassure.com.bd>)
+        id 1l7CVy-0005dS-7D; Wed, 03 Feb 2021 01:23:50 -0600
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-To:     unlisted-recipients:; (no To-header on input)
+Date:   Wed, 03 Feb 2021 01:23:49 -0600
+From:   Francois Pinault <noreply@carnivalassure.com.bd>
+To:     undisclosed-recipients:;
+Subject: Hello/Hallo
+Organization: Donation
+Reply-To: francoispinault1936@outlook.com
+Mail-Reply-To: francoispinault1936@outlook.com
+Message-ID: <6b70d71c493b5c027dd3ef878f38d028@carnivalassure.com.bd>
+X-Sender: noreply@carnivalassure.com.bd
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - dot.dotlines.com.sg
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - carnivalassure.com.bd
+X-Get-Message-Sender-Via: dot.dotlines.com.sg: authenticated_id: noreply@carnivalassure.com.bd
+X-Authenticated-Sender: dot.dotlines.com.sg: noreply@carnivalassure.com.bd
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello,
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+-- 
+Hallo, ich bin Herr Francois Pinault, ich habe Ihnen gespendet. Sie 
+können mein Profil auf Wikipedia, Google oder Forbes überprüfen.
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+Für Ihren Spendenanspruch und weitere Informationen kontaktieren Sie 
+mich umgehend unter francoispinault1936@outlook.com
 
-Regards,
-Ms. Reem.
-
+Mit freundlichen Grüßen,
+Herr Francois Pinault
