@@ -2,60 +2,55 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5FEA326F46
-	for <lists+linux-hexagon@lfdr.de>; Sat, 27 Feb 2021 23:36:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53DEC333608
+	for <lists+linux-hexagon@lfdr.de>; Wed, 10 Mar 2021 07:54:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230167AbhB0WfC (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 27 Feb 2021 17:35:02 -0500
-Received: from mail.jvpinto.com ([65.49.11.60]:42077 "EHLO mail.JVPinto.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S230001AbhB0We7 (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 27 Feb 2021 17:34:59 -0500
-Received: from RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) by
- RW-EXC1.JVPinto.com (2002:ac20:10d::ac20:10d) with Microsoft SMTP Server
- (TLS) id 15.0.1497.2; Sat, 27 Feb 2021 14:33:46 -0800
-Received: from User (52.231.198.195) by RW-EXC1.JVPinto.com (172.32.1.13) with
- Microsoft SMTP Server id 15.0.1497.2 via Frontend Transport; Sat, 27 Feb 2021
- 14:33:32 -0800
-Reply-To: <ms.reem@yandex.com>
-From:   "Ms. Reem" <johnpinto@jvpinto.com>
-Subject: Hello okay
-Date:   Sat, 27 Feb 2021 22:33:46 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-ID: <837a988e66554c5d95b18ae85648d3d7@RW-EXC1.JVPinto.com>
-To:     Undisclosed recipients:;
+        id S230373AbhCJGyD (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 10 Mar 2021 01:54:03 -0500
+Received: from out4436.biz.mail.alibaba.com ([47.88.44.36]:27817 "EHLO
+        out4436.biz.mail.alibaba.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S229499AbhCJGxr (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Wed, 10 Mar 2021 01:53:47 -0500
+X-Alimail-AntiSpam: AC=PASS;BC=-1|-1;BR=01201311R121e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=e01e04395;MF=jiapeng.chong@linux.alibaba.com;NM=1;PH=DS;RN=4;SR=0;TI=SMTPD_---0URCZoLM_1615359220;
+Received: from j63c13417.sqa.eu95.tbsite.net(mailfrom:jiapeng.chong@linux.alibaba.com fp:SMTPD_---0URCZoLM_1615359220)
+          by smtp.aliyun-inc.com(127.0.0.1);
+          Wed, 10 Mar 2021 14:53:46 +0800
+From:   Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+To:     bcain@codeaurora.org
+Cc:     linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+Subject: [PATCH] hexagon: fix warning comparing pointer to 0
+Date:   Wed, 10 Mar 2021 14:53:39 +0800
+Message-Id: <1615359219-1528-1-git-send-email-jiapeng.chong@linux.alibaba.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello,
+Fix the following coccicheck warning:
 
-My name is Ms. Reem Ebrahim Al-Hashimi, I am the "Minister of state
-and Petroleum" also "Minister of State for International Cooperation"
-in UAE. I write to you on behalf of my other "three (3) colleagues"
-who has approved me to solicit for your "partnership in claiming of
-{us$47=Million}" from a Financial Home in Cambodia on their behalf and
-for our "Mutual Benefits".
+./arch/hexagon/kernel/traps.c:142:6-7: WARNING comparing pointer to 0.
 
-The Fund {us$47=Million} is our share from the (over-invoiced) Oil/Gas
-deal with Cambodian/Vietnam Government within 2013/2014, however, we
-don't want our government to know about the fund. If this proposal
-interests you, let me know, by sending me an email and I will send to
-you detailed information on how this business would be successfully
-transacted. Be informed that nobody knows about the secret of this
-fund except us, and we know how to carry out the entire transaction.
-So I am compelled to ask, that you will stand on our behalf and
-receive this fund into any account that is solely controlled by you.
+Reported-by: Abaci Robot <abaci@linux.alibaba.com>
+Signed-off-by: Jiapeng Chong <jiapeng.chong@linux.alibaba.com>
+---
+ arch/hexagon/kernel/traps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-We will compensate you with 15% of the total amount involved as
-gratification for being our partner in this transaction. Reply to:
-ms.reem@yandex.com
+diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
+index 904134b..58083df 100644
+--- a/arch/hexagon/kernel/traps.c
++++ b/arch/hexagon/kernel/traps.c
+@@ -139,7 +139,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
+ 		}
+ 
+ 		/* Attempt to continue past exception. */
+-		if (0 == newfp) {
++		if (!newfp) {
+ 			struct pt_regs *regs = (struct pt_regs *) (((void *)fp)
+ 						+ 8);
+ 
+-- 
+1.8.3.1
 
-Regards,
-Ms. Reem.
