@@ -2,104 +2,89 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81490339EBA
-	for <lists+linux-hexagon@lfdr.de>; Sat, 13 Mar 2021 16:02:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B29AB33C2BC
+	for <lists+linux-hexagon@lfdr.de>; Mon, 15 Mar 2021 17:58:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233486AbhCMPBc (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 13 Mar 2021 10:01:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36278 "EHLO
+        id S234140AbhCOQ5j (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 15 Mar 2021 12:57:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55384 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232904AbhCMPBc (ORCPT
+        with ESMTP id S234572AbhCOQ5c (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 13 Mar 2021 10:01:32 -0500
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3BAFC061574
-        for <linux-hexagon@vger.kernel.org>; Sat, 13 Mar 2021 07:01:31 -0800 (PST)
-Received: by mail-ej1-x630.google.com with SMTP id r17so58906470ejy.13
-        for <linux-hexagon@vger.kernel.org>; Sat, 13 Mar 2021 07:01:31 -0800 (PST)
+        Mon, 15 Mar 2021 12:57:32 -0400
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F215CC06175F
+        for <linux-hexagon@vger.kernel.org>; Mon, 15 Mar 2021 09:57:31 -0700 (PDT)
+Received: by mail-lj1-x22e.google.com with SMTP id y1so17087094ljm.10
+        for <linux-hexagon@vger.kernel.org>; Mon, 15 Mar 2021 09:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=jSorVtVLxWH4J3kb7k+aZrEFl8ESk4ScoIOSEgr3UXs=;
-        b=uB/oy6PU+4GxOmZi3YJbM/6bddxOrFQsjy7WMYfGJjLurJcgw1hzPTsAGnC/+Yqpll
-         FKrdWdLdip3WrPZHwvO98vNuJkFCDn9xVdrPEG49CvXUgPM/RiLrLuzoo9fRHfKDsce2
-         4FCs+o44PTrtrz39LHG2ZgvgbuR4z8JeoyyLwdw5rw0hSAqnVmKO4q/9zxajxFoqygN/
-         hqNAnoqqeu0Xtz52eUpZxgNItLKB6Kp4S309lOUkeNhkmQ8rQQPGQlSz7VUOnG2ugtyS
-         PmM6A4C8tXq+Xb0pWSfQWrL6H+hEdKxgmApXinsckjpFzZWbtE82G1jtxfpsAI0jsFye
-         hiZA==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=nn1W9Wc+k1CJYE8WxkSJGXK0N+qf/mcCb4Whw81sCBc=;
+        b=BIMjWOao9frgVbcpay5qI62+w1opUeeGkf64/DKbjZX8QSXYJdOYvSodsThbvXicVU
+         FkZ1fJEyH9S2hNUdMhpRCLZ+MrPlOrEUgkjAQKUJhMV9O+G5EnCVQRt/wp0DKeeNItIZ
+         kujZqhKqiPjg49G0SszenGPvTTnvZzbjLT9P1wOFjJN8Hus+y/y3GLyKNRR/Wh8zsXDi
+         ISWIzvQMks4EP21IbiIdEV4iDruz3BO8X9x4+QF8a8J/ZOLlszhhqi+4SU2HoD8lNoG7
+         mIEcIBTvYnpheevrasX934Xelgyy6KDRZ5q+pSioEeFbEmA6XjzuZYLfZr28/TslQIQ0
+         jb0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=jSorVtVLxWH4J3kb7k+aZrEFl8ESk4ScoIOSEgr3UXs=;
-        b=IwiT0mIrK3ic0IVjQcw5MtFGi4pb8JJVuBdXvpo6BIMdV1XtPwTLAZGD3O3tx+cpBc
-         UW7B4QLNp6901Uik74L0QqL6P/5dRf1dr2fF0p3RQ5xcwo/8IdbQVskSBHJtT2nteWlh
-         /U4iVvU55LccYGccDXqSck8zpujUYhMJuL5YqWy0/8llG9Yps7prbt+6JSXp4Bl+WO98
-         GkU6gIVdqErONKpPGD9dHWvcuqF6MPkU/DPJpCDqAGUUTOrZKa38Ho9pYpVvo8ePGZPK
-         e+oi6it4i17t4/wZOiKt6+8fnzGvje2P+bZ0vRbS3UEqnt2ZSrvjtP5XadMKrvvcYBGY
-         vmPA==
-X-Gm-Message-State: AOAM531cV6vNdVJ+odQcfIOSjNCUBKYtUUZqRiQm13TMgUlwLk0O0IAa
-        p5GCJhQrt0FG/0d856oYET6VqWluONXByNsu677PmvmCGVVaoQ==
-X-Google-Smtp-Source: ABdhPJy9wsiJF+96Zzi8ib1bjSR37wJ5LnPlON9HD5KdTT3BzKeh4lm0kcqHpK8nEQ4EKh/Ej5C+93j/wDTX7ptUaW0=
-X-Received: by 2002:a17:906:d938:: with SMTP id rn24mr15006318ejb.87.1615647687995;
- Sat, 13 Mar 2021 07:01:27 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=nn1W9Wc+k1CJYE8WxkSJGXK0N+qf/mcCb4Whw81sCBc=;
+        b=SruUg+wHXgHenCSpd1e4sexZfzlZGx8AQiGDa1Qf5CMTdjkUOOgpCweej3AuAjtwSW
+         rxoq91BufL/zv4FRm0uqB0bBBQJgHjn3PMA1ik+/M9ns9yN0UxZpYmkyB7l5lONsHTTC
+         CcMLjbUQpf98nTJAqfpN4/vzfDYMwCqs6SrDu2VYCFl9dgyHv5bCeVVCU76jnr6Qvk0z
+         tk1xApp5+75Yl8l4meoyUeqESTDm1qAYdi1Lpf0Gih0lQBw+7Au55lreg+JMtZDuYJ/T
+         BfusgKgZWKG09Zm99za/QjYbHyp5NvaCxGMeUWBf5AY8K8rPTzFfKWatTi8NBc8a2pjo
+         wS6Q==
+X-Gm-Message-State: AOAM533jMzsdfNAF2WJfJmFrBtoFQt68LQevVjywi7NCCwaocLIwiW7H
+        e2R9nOsVDF57tJKS9u64EEa7DFMgC2M4Szelv/M=
+X-Google-Smtp-Source: ABdhPJysA+FxGGdMgHOeOPBrQRxmSb9j1ZTA/VmeMGGO7qzAv38tcv8HPJZL6086Ph7N1QIY7wawemp53bKWDWCkvAA=
+X-Received: by 2002:a2e:96d5:: with SMTP id d21mr16075ljj.148.1615827450526;
+ Mon, 15 Mar 2021 09:57:30 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a05:6402:358e:0:0:0:0 with HTTP; Sat, 13 Mar 2021 07:01:26
- -0800 (PST)
-In-Reply-To: <CAKN5=TYGX1HK-Y16mi2pG5BAaYZ9xbeBXmpk4to4fpFb1yTb-w@mail.gmail.com>
-References: <CAKN5=TYGX1HK-Y16mi2pG5BAaYZ9xbeBXmpk4to4fpFb1yTb-w@mail.gmail.com>
-From:   willson mutanda <ftyr13232@gmail.com>
-Date:   Sat, 13 Mar 2021 07:01:26 -0800
-Message-ID: <CAKN5=TbAWe5Yoa7Oa+QVjM_sRnh325eAmp5HndaSUjhKM-C8Ow@mail.gmail.com>
-Subject: 
+Received: by 2002:a05:651c:1382:0:0:0:0 with HTTP; Mon, 15 Mar 2021 09:57:30
+ -0700 (PDT)
+Reply-To: ezbtg22@gmail.com
+From:   "Mrs.Glenn" <mrganuserge@gmail.com>
+Date:   Mon, 15 Mar 2021 09:57:30 -0700
+Message-ID: <CA+Wfa7bDeotE=-vFErxqg-nrVF4g9r4VgZkh7cEN-5NvoJ7vkw@mail.gmail.com>
+Subject: From Mrs.Glenn
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello Dear  Ivanov
+-- 
+Dear Beloved,
 
-I am sorry for the inconveniences; my name is Willson J. Mutanda, from
-pretoria, a Personal assistance to (Mr. Andrew Ivanov ) as I have
-earlier explained to you.  Mr. Andrew Ivanov,  is Gold and Diamond
-mining contractor and a business man here in South Africa who passed
-away a few years ago. I am writing to you due to the urgency of the
-same matter, all effort to locate his relatives after his sudden death
-failed.
+I am Mrs Elizabet Glenn from Israel. I am a missionary but right now
+in a hospital bed in Israel. I am 59 years and childless; my husband
+is dead. I was diagnosed with terminal cancer. And my doctor just
+predicted that I have but very limited time to live due to damages in
+my system and as a result of that I decided to dispose my 10.5 million
+US dollars to a God-fearing one for the continuation of charitable
+work. This is why I located you.My guess about you may not be accurate
+because I came across your contact at the humanitarian calendar event
+of the year but I believe in God who  divinely directed me to you for
+this solemn proposal of charitable work. I wholeheartedly wish to
+bequeath my fortune to you as a God-fearing person for the
+continuation of charitable work anywhere around the world.
 
-Since I could not locate any of his relative until now and the
-Investment is about to be moved to the state treasury as unclaimed
-bill, Please, I demand your consent to contact the company as his heir
-as you have the same last name with him; I want you to stand as his
-relative to possess his capital investment valued at (7 Million two
-hundred British Pounds) with the Investment company as recorded in the
-file before it will be confiscated. The fund has been dormant for long
-time waiting for his successor which until now no one has showed up
-and I cannot find his direct relative.
+I shall be going in for a surgery operations soonest and desire this
+money to be transferred to you as I do not wish to leave this money in
+the bank because bankers might misuse it for their own interest after
+my death. As soon as I receive your quick reply assuring me that you
+will utilize the money as I instructed you for the benefit of the less
+privilege, I shall give you more details and also instruct my bank to
+release the money to you for the charity project. I hope you receive
+this mail in good health.
 
-I got your contact on the internet and decided to contact you as you
-have the same name as my master. And I hope you will not expose me
-even if you don=E2=80=99t want to help. This deal should be a secret betwee=
-n
-me and you even after archiving this aim.
+Because I don t know what will be my situation in next minute,
 
- I can guarantee that this case will be executed under a legitimate
-arrangement that will protect you and me from any breach of law if we
-can put heads together to discuss on what to do about it.  All I
-require from you is your honest cooperation to enable us to see this
-transaction through; I hope to hear from you immediately after you
-read this message for more details.
+I am waiting for your reply.
 
-Kindly, contact my private email below for security reasons if you are
-willing to contact the institution regarding this urgent matter. I
-learnt your language is not English; please respond to me with English
-if you can write with English
-
-Thanks in advance and God bless you,
-
-Willson J. Mutanda
-
-Email:   mutanda.j.willson@gmail.com
+Yours sincerely,
+Mrs Elizabet Glenn.
