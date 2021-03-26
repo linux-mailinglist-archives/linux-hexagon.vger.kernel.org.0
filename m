@@ -2,388 +2,190 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30FA5347604
-	for <lists+linux-hexagon@lfdr.de>; Wed, 24 Mar 2021 11:26:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E99D34A85D
+	for <lists+linux-hexagon@lfdr.de>; Fri, 26 Mar 2021 14:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235756AbhCXKZe (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 24 Mar 2021 06:25:34 -0400
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22996 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S233440AbhCXKZD (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 24 Mar 2021 06:25:03 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1616581502;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=qHfx8vK2bJ6NiabtEYVlGbcTEXhja7jcY1TtUw9aT1c=;
-        b=Nz9JQi0m/Dq4a3Rx3nxRyvX+pXqP2ozoCsY5/Yw+hixYX7wj7ecxqXTa+0K8UAvkCmkLkM
-        Fdh2vIspGEeDDMGJ/F1l3uzvmhKo6mj2TSAFKuzeN59mmrZSura8ylfDtVpxBpWzbA+JCV
-        0gJVPziDpHQ5g6h1JubW/oefaj3EzKs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-WeC2-sRROcW_Vt2GyF9Hlw-1; Wed, 24 Mar 2021 06:25:00 -0400
-X-MC-Unique: WeC2-sRROcW_Vt2GyF9Hlw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com [10.5.11.22])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BA1E1013729;
-        Wed, 24 Mar 2021 10:24:56 +0000 (UTC)
-Received: from t480s.redhat.com (ovpn-115-66.ams2.redhat.com [10.36.115.66])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 33BEE10013D7;
-        Wed, 24 Mar 2021 10:24:42 +0000 (UTC)
-From:   David Hildenbrand <david@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, David Hildenbrand <david@redhat.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Brian Cain <bcain@codeaurora.org>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
-        Helge Deller <deller@gmx.de>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Vasily Gorbik <gor@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@de.ibm.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Mikulas Patocka <mpatocka@redhat.com>,
-        Luc Van Oostenryck <luc.vanoostenryck@gmail.com>,
-        Mike Rapoport <rppt@kernel.org>,
-        Palmer Dabbelt <palmerdabbelt@google.com>,
-        Luis Chamberlain <mcgrof@kernel.org>,
-        Greentime Hu <green.hu@gmail.com>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Randy Dunlap <rdunlap@infradead.org>,
-        Jiaxun Yang <jiaxun.yang@flygoat.com>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Christophe Leroy <christophe.leroy@csgroup.eu>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Niklas Schnelle <schnelle@linux.ibm.com>,
-        Pierre Morel <pmorel@linux.ibm.com>,
-        Ingo Molnar <mingo@kernel.org>,
-        Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-        linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-arch@vger.kernel.org
-Subject: [PATCH v1 2/3] mm: remove xlate_dev_kmem_ptr()
-Date:   Wed, 24 Mar 2021 11:23:50 +0100
-Message-Id: <20210324102351.6932-3-david@redhat.com>
-In-Reply-To: <20210324102351.6932-1-david@redhat.com>
-References: <20210324102351.6932-1-david@redhat.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+        id S230231AbhCZNpp (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 26 Mar 2021 09:45:45 -0400
+Received: from pegase1.c-s.fr ([93.17.236.30]:58788 "EHLO pegase1.c-s.fr"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230083AbhCZNoz (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Fri, 26 Mar 2021 09:44:55 -0400
+Received: from localhost (mailhub1-int [192.168.12.234])
+        by localhost (Postfix) with ESMTP id 4F6NWL3t9Tz9tyyW;
+        Fri, 26 Mar 2021 14:44:46 +0100 (CET)
+X-Virus-Scanned: Debian amavisd-new at c-s.fr
+Received: from pegase1.c-s.fr ([192.168.12.234])
+        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
+        with ESMTP id kIulHNAnYVH6; Fri, 26 Mar 2021 14:44:46 +0100 (CET)
+Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
+        by pegase1.c-s.fr (Postfix) with ESMTP id 4F6NWL2lGwz9tyyV;
+        Fri, 26 Mar 2021 14:44:46 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id 33E0E8B8C9;
+        Fri, 26 Mar 2021 14:44:47 +0100 (CET)
+X-Virus-Scanned: amavisd-new at c-s.fr
+Received: from messagerie.si.c-s.fr ([127.0.0.1])
+        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
+        with ESMTP id 5JtG0C39F4IQ; Fri, 26 Mar 2021 14:44:47 +0100 (CET)
+Received: from po16121vm.idsi0.si.c-s.fr (unknown [192.168.4.90])
+        by messagerie.si.c-s.fr (Postfix) with ESMTP id C055F8B8C7;
+        Fri, 26 Mar 2021 14:44:46 +0100 (CET)
+Received: by po16121vm.idsi0.si.c-s.fr (Postfix, from userid 0)
+        id 31C9867611; Fri, 26 Mar 2021 13:44:47 +0000 (UTC)
+Message-Id: <cover.1616765869.git.christophe.leroy@csgroup.eu>
+From:   Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [PATCH v3 00/17] Implement GENERIC_CMDLINE
+To:     will@kernel.org, danielwa@cisco.com, robh@kernel.org,
+        daniel@gimpelevich.san-francisco.ca.us
+Cc:     linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        linux-arm-kernel@lists.infradead.org,
+        microblaze <monstr@monstr.eu>, linux-mips@vger.kernel.org,
+        nios2 <ley.foon.tan@intel.com>, openrisc@lists.librecores.org,
+        linux-hexagon@vger.kernel.org, linux-riscv@lists.infradead.org,
+        x86@kernel.org, linux-xtensa@linux-xtensa.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
+Date:   Fri, 26 Mar 2021 13:44:47 +0000 (UTC)
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Since /dev/kmem has been removed, let's remove the xlate_dev_kmem_ptr()
-leftovers.
+The purpose of this series is to improve and enhance the
+handling of kernel boot arguments.
 
-Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Richard Henderson <rth@twiddle.net>
-Cc: Ivan Kokshaysky <ink@jurassic.park.msu.ru>
-Cc: Matt Turner <mattst88@gmail.com>
-Cc: Russell King <linux@armlinux.org.uk>
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
-Cc: Helge Deller <deller@gmx.de>
-Cc: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-Cc: Paul Mackerras <paulus@samba.org>
-Cc: Heiko Carstens <hca@linux.ibm.com>
-Cc: Vasily Gorbik <gor@linux.ibm.com>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>
-Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
-Cc: Rich Felker <dalias@libc.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Arnd Bergmann <arnd@arndb.de>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mikulas Patocka <mpatocka@redhat.com>
-Cc: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-Cc: Mike Rapoport <rppt@kernel.org>
-Cc: Palmer Dabbelt <palmerdabbelt@google.com>
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Greentime Hu <green.hu@gmail.com>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-Cc: Niklas Schnelle <schnelle@linux.ibm.com>
-Cc: Pierre Morel <pmorel@linux.ibm.com>
-Cc: Ingo Molnar <mingo@kernel.org>
-Cc: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
-Cc: linux-alpha@vger.kernel.org
-Cc: linux-arm-kernel@lists.infradead.org
-Cc: linux-hexagon@vger.kernel.org
-Cc: linux-ia64@vger.kernel.org
-Cc: linux-m68k@lists.linux-m68k.org
-Cc: linux-mips@vger.kernel.org
-Cc: linux-parisc@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: linux-s390@vger.kernel.org
-Cc: linux-sh@vger.kernel.org
-Cc: sparclinux@vger.kernel.org
-Cc: linux-arch@vger.kernel.org
-Signed-off-by: David Hildenbrand <david@redhat.com>
----
- arch/alpha/include/asm/io.h     |  5 -----
- arch/arm/include/asm/io.h       |  5 -----
- arch/hexagon/include/asm/io.h   |  1 -
- arch/ia64/include/asm/io.h      |  1 -
- arch/ia64/include/asm/uaccess.h | 18 ------------------
- arch/m68k/include/asm/io_mm.h   |  5 -----
- arch/mips/include/asm/io.h      |  5 -----
- arch/parisc/include/asm/io.h    |  5 -----
- arch/powerpc/include/asm/io.h   |  5 -----
- arch/s390/include/asm/io.h      |  5 -----
- arch/sh/include/asm/io.h        |  5 -----
- arch/sparc/include/asm/io_64.h  |  5 -----
- include/asm-generic/io.h        | 11 -----------
- 13 files changed, 76 deletions(-)
+It is first focussed on powerpc but also extends the capability
+for other arches.
 
-diff --git a/arch/alpha/include/asm/io.h b/arch/alpha/include/asm/io.h
-index 1f6a909d1fa5..0fab5ac90775 100644
---- a/arch/alpha/include/asm/io.h
-+++ b/arch/alpha/include/asm/io.h
-@@ -602,11 +602,6 @@ extern void outsl (unsigned long port, const void *src, unsigned long count);
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- #endif /* __KERNEL__ */
- 
- #endif /* __ALPHA_IO_H */
-diff --git a/arch/arm/include/asm/io.h b/arch/arm/include/asm/io.h
-index fc748122f1e0..f74944c6fe8d 100644
---- a/arch/arm/include/asm/io.h
-+++ b/arch/arm/include/asm/io.h
-@@ -430,11 +430,6 @@ extern void pci_iounmap(struct pci_dev *dev, void __iomem *addr);
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- #include <asm-generic/io.h>
- 
- #ifdef CONFIG_MMU
-diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
-index bda2a9c2df78..c33241425a5c 100644
---- a/arch/hexagon/include/asm/io.h
-+++ b/arch/hexagon/include/asm/io.h
-@@ -64,7 +64,6 @@ static inline void *phys_to_virt(unsigned long address)
-  * convert a physical pointer to a virtual kernel pointer for
-  * /dev/mem access.
-  */
--#define xlate_dev_kmem_ptr(p)    __va(p)
- #define xlate_dev_mem_ptr(p)    __va(p)
- 
- /*
-diff --git a/arch/ia64/include/asm/io.h b/arch/ia64/include/asm/io.h
-index 3d666a11a2de..6d93b923b379 100644
---- a/arch/ia64/include/asm/io.h
-+++ b/arch/ia64/include/asm/io.h
-@@ -277,7 +277,6 @@ extern void memset_io(volatile void __iomem *s, int c, long n);
- #define memcpy_fromio memcpy_fromio
- #define memcpy_toio memcpy_toio
- #define memset_io memset_io
--#define xlate_dev_kmem_ptr xlate_dev_kmem_ptr
- #define xlate_dev_mem_ptr xlate_dev_mem_ptr
- #include <asm-generic/io.h>
- #undef PCI_IOBASE
-diff --git a/arch/ia64/include/asm/uaccess.h b/arch/ia64/include/asm/uaccess.h
-index 179243c3dfc7..e19d2dcc0ced 100644
---- a/arch/ia64/include/asm/uaccess.h
-+++ b/arch/ia64/include/asm/uaccess.h
-@@ -272,22 +272,4 @@ xlate_dev_mem_ptr(phys_addr_t p)
- 	return ptr;
- }
- 
--/*
-- * Convert a virtual cached kernel memory pointer to an uncached pointer
-- */
--static __inline__ void *
--xlate_dev_kmem_ptr(void *p)
--{
--	struct page *page;
--	void *ptr;
--
--	page = virt_to_page((unsigned long)p);
--	if (PageUncached(page))
--		ptr = (void *)__pa(p) + __IA64_UNCACHED_OFFSET;
--	else
--		ptr = p;
--
--	return ptr;
--}
--
- #endif /* _ASM_IA64_UACCESS_H */
-diff --git a/arch/m68k/include/asm/io_mm.h b/arch/m68k/include/asm/io_mm.h
-index 819f611dccf2..d41fa488453b 100644
---- a/arch/m68k/include/asm/io_mm.h
-+++ b/arch/m68k/include/asm/io_mm.h
-@@ -397,11 +397,6 @@ static inline void isa_delay(void)
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- #define readb_relaxed(addr)	readb(addr)
- #define readw_relaxed(addr)	readw(addr)
- #define readl_relaxed(addr)	readl(addr)
-diff --git a/arch/mips/include/asm/io.h b/arch/mips/include/asm/io.h
-index 78537aa23500..e6373e7ac892 100644
---- a/arch/mips/include/asm/io.h
-+++ b/arch/mips/include/asm/io.h
-@@ -552,11 +552,6 @@ extern void (*_dma_cache_inv)(unsigned long start, unsigned long size);
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- void __ioread64_copy(void *to, const void __iomem *from, size_t count);
- 
- #endif /* _ASM_IO_H */
-diff --git a/arch/parisc/include/asm/io.h b/arch/parisc/include/asm/io.h
-index 8a11b8cf4719..0b5259102319 100644
---- a/arch/parisc/include/asm/io.h
-+++ b/arch/parisc/include/asm/io.h
-@@ -316,11 +316,6 @@ extern void iowrite64be(u64 val, void __iomem *addr);
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- extern int devmem_is_allowed(unsigned long pfn);
- 
- #endif
-diff --git a/arch/powerpc/include/asm/io.h b/arch/powerpc/include/asm/io.h
-index 273edd208ec5..f130783c8301 100644
---- a/arch/powerpc/include/asm/io.h
-+++ b/arch/powerpc/include/asm/io.h
-@@ -662,11 +662,6 @@ static inline void name at					\
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- /*
-  * We don't do relaxed operations yet, at least not with this semantic
-  */
-diff --git a/arch/s390/include/asm/io.h b/arch/s390/include/asm/io.h
-index 28664ee0abc1..e3882b012bfa 100644
---- a/arch/s390/include/asm/io.h
-+++ b/arch/s390/include/asm/io.h
-@@ -20,11 +20,6 @@ void *xlate_dev_mem_ptr(phys_addr_t phys);
- #define unxlate_dev_mem_ptr unxlate_dev_mem_ptr
- void unxlate_dev_mem_ptr(phys_addr_t phys, void *addr);
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- #define IO_SPACE_LIMIT 0
- 
- void __iomem *ioremap_prot(phys_addr_t addr, size_t size, unsigned long prot);
-diff --git a/arch/sh/include/asm/io.h b/arch/sh/include/asm/io.h
-index 6d5c6463bc07..cf9a3ec32406 100644
---- a/arch/sh/include/asm/io.h
-+++ b/arch/sh/include/asm/io.h
-@@ -283,11 +283,6 @@ static inline void __iomem *ioremap_prot(phys_addr_t offset, unsigned long size,
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- #define ARCH_HAS_VALID_PHYS_ADDR_RANGE
- int valid_phys_addr_range(phys_addr_t addr, size_t size);
- int valid_mmap_phys_addr_range(unsigned long pfn, size_t size);
-diff --git a/arch/sparc/include/asm/io_64.h b/arch/sparc/include/asm/io_64.h
-index 9bb27e5c22f1..ff6fe387d78c 100644
---- a/arch/sparc/include/asm/io_64.h
-+++ b/arch/sparc/include/asm/io_64.h
-@@ -450,11 +450,6 @@ void sbus_set_sbus64(struct device *, int);
-  */
- #define xlate_dev_mem_ptr(p)	__va(p)
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#define xlate_dev_kmem_ptr(p)	p
--
- #endif
- 
- #endif /* !(__SPARC64_IO_H) */
-diff --git a/include/asm-generic/io.h b/include/asm-generic/io.h
-index c6af40ce03be..33d4746b086f 100644
---- a/include/asm-generic/io.h
-+++ b/include/asm-generic/io.h
-@@ -1045,17 +1045,6 @@ static inline void pci_iounmap(struct pci_dev *dev, void __iomem *p)
- #endif
- #endif /* CONFIG_GENERIC_IOMAP */
- 
--/*
-- * Convert a virtual cached pointer to an uncached pointer
-- */
--#ifndef xlate_dev_kmem_ptr
--#define xlate_dev_kmem_ptr xlate_dev_kmem_ptr
--static inline void *xlate_dev_kmem_ptr(void *addr)
--{
--	return addr;
--}
--#endif
--
- #ifndef xlate_dev_mem_ptr
- #define xlate_dev_mem_ptr xlate_dev_mem_ptr
- static inline void *xlate_dev_mem_ptr(phys_addr_t addr)
+This is based on suggestion from Daniel Walker <danielwa@cisco.com>
+
+Main changes in V3:
+- Also accept destination equal to source in cmdline_build() by setting a tmp buffer in __initdata. Powerpc provides different source and destination and call __cmdline_build() directly.
+- Taken comments received from Will and Rob
+- Converted all architectures (Only tested on powerpc)
+
+Christophe Leroy (17):
+  cmdline: Add generic function to build command line.
+  drivers: of: use cmdline building function
+  cmdline: Gives architectures opportunity to use generically defined
+    boot cmdline manipulation
+  powerpc: Convert to GENERIC_CMDLINE
+  arm: Convert to GENERIC_CMDLINE
+  arm64: Convert to GENERIC_CMDLINE
+  hexagon: Convert to GENERIC_CMDLINE
+  microblaze: Convert to GENERIC_CMDLINE
+  nios2: Convert to GENERIC_CMDLINE
+  openrisc: Convert to GENERIC_CMDLINE
+  riscv: Convert to GENERIC_CMDLINE
+  sh: Convert to GENERIC_CMDLINE
+  sparc: Convert to GENERIC_CMDLINE
+  xtensa: Convert to GENERIC_CMDLINE
+  x86: Convert to GENERIC_CMDLINE
+  mips: Convert to GENERIC_CMDLINE
+  cmdline: Remove CONFIG_CMDLINE_EXTEND
+
+ arch/arm/Kconfig                            | 38 +-------------
+ arch/arm/kernel/atags_parse.c               | 15 ++----
+ arch/arm64/Kconfig                          | 33 +-----------
+ arch/arm64/kernel/idreg-override.c          |  9 ++--
+ arch/hexagon/Kconfig                        | 11 +---
+ arch/hexagon/kernel/setup.c                 | 10 +---
+ arch/microblaze/Kconfig                     | 24 +--------
+ arch/microblaze/configs/mmu_defconfig       |  2 +-
+ arch/microblaze/kernel/head.S               |  4 +-
+ arch/mips/Kconfig                           |  1 +
+ arch/mips/Kconfig.debug                     | 44 ----------------
+ arch/mips/configs/ar7_defconfig             |  1 -
+ arch/mips/configs/bcm47xx_defconfig         |  1 -
+ arch/mips/configs/bcm63xx_defconfig         |  1 -
+ arch/mips/configs/bmips_be_defconfig        |  1 -
+ arch/mips/configs/bmips_stb_defconfig       |  1 -
+ arch/mips/configs/capcella_defconfig        |  1 -
+ arch/mips/configs/ci20_defconfig            |  1 -
+ arch/mips/configs/cu1000-neo_defconfig      |  1 -
+ arch/mips/configs/cu1830-neo_defconfig      |  1 -
+ arch/mips/configs/e55_defconfig             |  1 -
+ arch/mips/configs/generic_defconfig         |  1 -
+ arch/mips/configs/gpr_defconfig             |  1 -
+ arch/mips/configs/loongson3_defconfig       |  1 -
+ arch/mips/configs/mpc30x_defconfig          |  1 -
+ arch/mips/configs/rt305x_defconfig          |  1 -
+ arch/mips/configs/tb0219_defconfig          |  1 -
+ arch/mips/configs/tb0226_defconfig          |  1 -
+ arch/mips/configs/tb0287_defconfig          |  1 -
+ arch/mips/configs/workpad_defconfig         |  1 -
+ arch/mips/configs/xway_defconfig            |  1 -
+ arch/mips/kernel/relocate.c                 |  4 +-
+ arch/mips/kernel/setup.c                    | 40 +--------------
+ arch/mips/pic32/pic32mzda/early_console.c   |  2 +-
+ arch/mips/pic32/pic32mzda/init.c            |  2 -
+ arch/nios2/Kconfig                          | 24 +--------
+ arch/nios2/kernel/setup.c                   | 13 ++---
+ arch/openrisc/Kconfig                       | 10 +---
+ arch/powerpc/Kconfig                        | 37 +------------
+ arch/powerpc/kernel/prom_init.c             | 17 +++---
+ arch/riscv/Kconfig                          | 44 +---------------
+ arch/riscv/kernel/setup.c                   |  5 +-
+ arch/sh/Kconfig                             | 30 +----------
+ arch/sh/configs/ap325rxa_defconfig          |  2 +-
+ arch/sh/configs/dreamcast_defconfig         |  2 +-
+ arch/sh/configs/ecovec24-romimage_defconfig |  2 +-
+ arch/sh/configs/ecovec24_defconfig          |  2 +-
+ arch/sh/configs/edosk7760_defconfig         |  2 +-
+ arch/sh/configs/espt_defconfig              |  2 +-
+ arch/sh/configs/j2_defconfig                |  2 +-
+ arch/sh/configs/kfr2r09-romimage_defconfig  |  2 +-
+ arch/sh/configs/kfr2r09_defconfig           |  2 +-
+ arch/sh/configs/lboxre2_defconfig           |  2 +-
+ arch/sh/configs/microdev_defconfig          |  2 +-
+ arch/sh/configs/migor_defconfig             |  2 +-
+ arch/sh/configs/polaris_defconfig           |  2 +-
+ arch/sh/configs/r7780mp_defconfig           |  2 +-
+ arch/sh/configs/r7785rp_defconfig           |  2 +-
+ arch/sh/configs/rsk7201_defconfig           |  2 +-
+ arch/sh/configs/rsk7203_defconfig           |  2 +-
+ arch/sh/configs/rts7751r2d1_defconfig       |  2 +-
+ arch/sh/configs/rts7751r2dplus_defconfig    |  2 +-
+ arch/sh/configs/sdk7780_defconfig           |  2 +-
+ arch/sh/configs/sdk7786_defconfig           |  2 +-
+ arch/sh/configs/se7206_defconfig            |  2 +-
+ arch/sh/configs/se7343_defconfig            |  2 +-
+ arch/sh/configs/se7712_defconfig            |  2 +-
+ arch/sh/configs/se7721_defconfig            |  2 +-
+ arch/sh/configs/se7724_defconfig            |  2 +-
+ arch/sh/configs/se7751_defconfig            |  2 +-
+ arch/sh/configs/se7780_defconfig            |  2 +-
+ arch/sh/configs/sh03_defconfig              |  2 +-
+ arch/sh/configs/sh2007_defconfig            |  2 +-
+ arch/sh/configs/sh7757lcr_defconfig         |  2 +-
+ arch/sh/configs/sh7763rdp_defconfig         |  2 +-
+ arch/sh/configs/shmin_defconfig             |  2 +-
+ arch/sh/configs/shx3_defconfig              |  2 +-
+ arch/sh/configs/titan_defconfig             |  2 +-
+ arch/sh/configs/ul2_defconfig               |  2 +-
+ arch/sh/kernel/setup.c                      | 11 +---
+ arch/sparc/Kconfig                          | 18 +------
+ arch/sparc/prom/bootstr_64.c                |  2 +-
+ arch/x86/Kconfig                            | 45 +---------------
+ arch/x86/kernel/setup.c                     | 17 +-----
+ arch/xtensa/Kconfig                         | 15 +-----
+ arch/xtensa/configs/audio_kc705_defconfig   |  1 -
+ arch/xtensa/configs/common_defconfig        |  1 -
+ arch/xtensa/configs/generic_kc705_defconfig |  1 -
+ arch/xtensa/configs/iss_defconfig           |  1 -
+ arch/xtensa/configs/nommu_kc705_defconfig   |  1 -
+ arch/xtensa/configs/smp_lx200_defconfig     |  1 -
+ arch/xtensa/configs/virt_defconfig          |  1 -
+ arch/xtensa/configs/xip_kc705_defconfig     |  1 -
+ arch/xtensa/kernel/setup.c                  | 10 +---
+ drivers/firmware/efi/libstub/x86-stub.c     | 26 +++++-----
+ drivers/of/fdt.c                            | 23 ++-------
+ include/linux/cmdline.h                     | 57 +++++++++++++++++++++
+ init/Kconfig                                | 46 +++++++++++++++++
+ 98 files changed, 209 insertions(+), 580 deletions(-)
+ create mode 100644 include/linux/cmdline.h
+
 -- 
-2.29.2
+2.25.0
 
