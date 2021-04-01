@@ -2,123 +2,56 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74762352C6C
-	for <lists+linux-hexagon@lfdr.de>; Fri,  2 Apr 2021 18:09:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C7F335335D
+	for <lists+linux-hexagon@lfdr.de>; Sat,  3 Apr 2021 12:20:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235343AbhDBPgS (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 2 Apr 2021 11:36:18 -0400
-Received: from pegase1.c-s.fr ([93.17.236.30]:19745 "EHLO pegase1.c-s.fr"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229553AbhDBPgR (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 2 Apr 2021 11:36:17 -0400
-Received: from localhost (mailhub1-int [192.168.12.234])
-        by localhost (Postfix) with ESMTP id 4FBkfh6syMz9v2m9;
-        Fri,  2 Apr 2021 17:36:12 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at c-s.fr
-Received: from pegase1.c-s.fr ([192.168.12.234])
-        by localhost (pegase1.c-s.fr [192.168.12.234]) (amavisd-new, port 10024)
-        with ESMTP id SsC2ob6kJi6G; Fri,  2 Apr 2021 17:36:12 +0200 (CEST)
-Received: from messagerie.si.c-s.fr (messagerie.si.c-s.fr [192.168.25.192])
-        by pegase1.c-s.fr (Postfix) with ESMTP id 4FBkfh5PDlz9v2m8;
-        Fri,  2 Apr 2021 17:36:12 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id A97528BB77;
-        Fri,  2 Apr 2021 17:36:14 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at c-s.fr
-Received: from messagerie.si.c-s.fr ([127.0.0.1])
-        by localhost (messagerie.si.c-s.fr [127.0.0.1]) (amavisd-new, port 10023)
-        with ESMTP id dzRgT34PMsr4; Fri,  2 Apr 2021 17:36:14 +0200 (CEST)
-Received: from [192.168.4.90] (unknown [192.168.4.90])
-        by messagerie.si.c-s.fr (Postfix) with ESMTP id BA9038BB6F;
-        Fri,  2 Apr 2021 17:36:13 +0200 (CEST)
-Subject: Re: [PATCH v3 12/17] sh: Convert to GENERIC_CMDLINE
-From:   Christophe Leroy <christophe.leroy@csgroup.eu>
-To:     will@kernel.org, danielwa@cisco.com, robh@kernel.org,
-        daniel@gimpelevich.san-francisco.ca.us
-Cc:     linux-arch@vger.kernel.org, devicetree@vger.kernel.org,
-        microblaze <monstr@monstr.eu>, linux-xtensa@linux-xtensa.org,
-        linux-sh@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        x86@kernel.org, linux-kernel@vger.kernel.org,
-        nios2 <ley.foon.tan@intel.com>, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, sparclinux@vger.kernel.org,
-        linux-riscv@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
-        linux-arm-kernel@lists.infradead.org
-References: <cover.1616765869.git.christophe.leroy@csgroup.eu>
- <6b76649009943f2893fdfded22becd41db2fe1f7.1616765870.git.christophe.leroy@csgroup.eu>
-Message-ID: <d672dec1-6fcb-d5dc-a551-2a99e6dd6976@csgroup.eu>
-Date:   Fri, 2 Apr 2021 17:36:12 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.9.0
+        id S236214AbhDCKUD (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 3 Apr 2021 06:20:03 -0400
+Received: from 93804.cloudwaysapps.com ([178.62.255.238]:19318 "EHLO
+        93804.cloudwaysapps.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S235256AbhDCKUA (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Sat, 3 Apr 2021 06:20:00 -0400
+Received: from 127.0.0.1 (93804.cloudwaysapps.com [127.0.0.1])
+        by 93804.cloudwaysapps.com (Postfix) with SMTP id 1E47527B72;
+        Thu,  1 Apr 2021 22:32:59 +0000 (UTC)
+Received: from [169.200.169.180] by 127.0.0.1 with ESMTP id 07269287 for <linux-cluster@redhat.com>; Thu, 01 Apr 2021 17:26:04 -0600
+Message-ID: <ok46pq$gxb3$wa$6$-6$48uy42b@k1ka6cg>
+From:   "FM CONSULTING LTD" <fkinneyofd@tampabay.rr.com>
+Reply-To: "FM CONSULTING LTD" <fkinneyofd@tampabay.rr.com>
+To:     linux-cluster@redhat.com
+Subject: WE OFFER  INVESTMENT FUNDING
+Date:   Thu, 01 Apr 21 17:26:04 GMT
+X-Mailer: QUALCOMM Windows Eudora Version 5.1
 MIME-Version: 1.0
-In-Reply-To: <6b76649009943f2893fdfded22becd41db2fe1f7.1616765870.git.christophe.leroy@csgroup.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/alternative;
+        boundary="F9C_16BD7D_06DC0"
+X-Priority: 3
+X-MSMail-Priority: Normal
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
 
+--F9C_16BD7D_06DC0
+Content-Type: text/plain;
+Content-Transfer-Encoding: quoted-printable
 
-Le 26/03/2021 à 14:44, Christophe Leroy a écrit :
-> This converts the architecture to GENERIC_CMDLINE.
-> 
-> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
-> ---
+We introduce ourselves as mandated capital providers. 
+We are interested in having your company represents us exclusively in your=
+ jurisdiction for the placement of loan and investment financing.
+Being direct financiers we offer financing for businesses for expansion, w=
+orking capital, construction projects, factoring, energy, manufacturing, t=
+elecommunications and the real estate sector to name a few.
+Our pool of funds is provided by high net worth individuals, trust funds, =
+family office funds as well as corporate and institutional funds. We act a=
+s the direct custodian of these funds provided by our clients who request =
+that we operate with the utmost of privacy and discretion. As a result we =
+normally fund individual projects starting from USD3 million well into the=
+ 100 to 200 million dollar range.
+Sincerely 
+Rix Anthony
+FM Consultant New Zealand
 
-> diff --git a/arch/sh/Kconfig b/arch/sh/Kconfig
-> index e798e55915c2..fab84f62448c 100644
-> --- a/arch/sh/Kconfig
-> +++ b/arch/sh/Kconfig
-> @@ -16,6 +16,7 @@ config SUPERH
->   	select CPU_NO_EFFICIENT_FFS
->   	select DMA_DECLARE_COHERENT
->   	select GENERIC_ATOMIC64
-> +	select GENERIC_CMDLINE
->   	select GENERIC_CMOS_UPDATE if SH_SH03 || SH_DREAMCAST
->   	select GENERIC_IDLE_POLL_SETUP
->   	select GENERIC_IRQ_SHOW
-> @@ -742,35 +743,6 @@ config ROMIMAGE_MMCIF
->   	  first part of the romImage which in turn loads the rest the kernel
->   	  image to RAM using the MMCIF hardware block.
->   
-> -choice
-> -	prompt "Kernel command line"
-> -	optional
-> -	default CMDLINE_OVERWRITE
-> -	help
-> -	  Setting this option allows the kernel command line arguments
-> -	  to be set.
-> -
-> -config CMDLINE_OVERWRITE
-> -	bool "Overwrite bootloader kernel arguments"
-> -	help
-> -	  Given string will overwrite any arguments passed in by
-> -	  a bootloader.
-> -
-> -config CMDLINE_EXTEND
-> -	bool "Extend bootloader kernel arguments"
-> -	help
-> -	  Given string will be concatenated with arguments passed in
-> -	  by a bootloader.
-> -
-> -endchoice
-> -
-> -config CMDLINE
-> -	string "Kernel command line arguments string"
-> -	depends on CMDLINE_OVERWRITE || CMDLINE_EXTEND
-> -	default "console=ttySC1,115200"
-> -
-> -endmenu
-> -
+--F9C_16BD7D_06DC0--
 
-That "endmenu" shall not be removed.
-
-Fixed in v4,
-
-Thanks to Rob L. for the report.
-Christophe
-
->   menu "Bus options"
->   
->   config SUPERHYWAY
