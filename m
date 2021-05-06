@@ -2,96 +2,62 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24E9F375850
-	for <lists+linux-hexagon@lfdr.de>; Thu,  6 May 2021 18:17:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BAEC1375886
+	for <lists+linux-hexagon@lfdr.de>; Thu,  6 May 2021 18:35:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235881AbhEFQSz (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 6 May 2021 12:18:55 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:40822 "EHLO
-        so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235395AbhEFQSz (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 6 May 2021 12:18:55 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1620317877; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=Ayfl19XdqX6m/TbOtD8KiL0xKcwzcp5FHJ6ltxor5Ow=;
- b=wl9fbbgJEf7xP1tF1jic2QuQYYN7vxYdhamEW/sySgqDB+KWP8vHaaKmvJAdaryE97tDCXUM
- zrCXeldTiMba9A0lfRYix5Y2n3d8+VFKiQroRw2Ex8QxTbROoRJlBCOF3CPstWbJ27UwOcvi
- l6BLdRBFExDIofzhRdXD617fs20=
-X-Mailgun-Sending-Ip: 198.61.254.9
-X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 609416b4febcffa80f4ef8b2 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 06 May 2021 16:17:56
- GMT
-Sender: bcain=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 92389C433F1; Thu,  6 May 2021 16:17:56 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 18D19C433D3;
-        Thu,  6 May 2021 16:17:56 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 06 May 2021 11:17:56 -0500
-From:   bcain@codeaurora.org
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     linux-hexagon <linux-hexagon@vger.kernel.org>,
+        id S235896AbhEFQgZ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 6 May 2021 12:36:25 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35022 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235556AbhEFQgZ (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Thu, 6 May 2021 12:36:25 -0400
+Received: by mail.kernel.org (Postfix) with ESMTPS id 329F761132;
+        Thu,  6 May 2021 16:35:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1620318927;
+        bh=8cAOdvUqhQfHXYwCEXdKdzPlgP1mmd/p5EceFdHrfnc=;
+        h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
+        b=XwzEX+0j3jv7srbwXouFXkhtqllDG6/HUdmriaehQDoz3ISIPMUL7zBZphSpVDx6k
+         zay/e/K9xKwNB9AIcbMFLu62H5h/hjPpHEHqsj+iTGauDLjmPY2z98CxU4hx3gWxKs
+         NZiXQxyW8SeEWUkwej1COJdJUMsXJBL358z1hWYM02meayD+vgHEJ4zJIuptlKUyxl
+         l3uq0nHiWVs7Ty1TwzG4vtL8FRqdM/EKLaDCWKj3lWCAZhSR1pTO+Vqbq29O1YyS8g
+         k87y8ne32CGe2ViKxZ2eT6c1Za6HCz9P60Ce8raHqzMFS0MvtNDd6Tz7YzXdXrmhWp
+         ho5mOrm28v27Q==
+Received: from pdx-korg-docbuild-2.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by pdx-korg-docbuild-2.ci.codeaurora.org (Postfix) with ESMTP id 28C1C609AC;
+        Thu,  6 May 2021 16:35:27 +0000 (UTC)
+Subject: Re: [GIT PULL] hexagon changes for v5.13
+From:   pr-tracker-bot@kernel.org
+In-Reply-To: <a81e116ba3d64aab8d379703bedcf032@codeaurora.org>
+References: <a81e116ba3d64aab8d379703bedcf032@codeaurora.org>
+X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
+X-PR-Tracked-Message-Id: <a81e116ba3d64aab8d379703bedcf032@codeaurora.org>
+X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux tags/hexagon-5.13-0
+X-PR-Tracked-Commit-Id: f1f99adf05f2138ff2646d756d4674e302e8d02d
+X-PR-Merge-Tree: torvalds/linux.git
+X-PR-Merge-Refname: refs/heads/master
+X-PR-Merge-Commit-Id: 5e5948e57e4381c770931be2c070f3bb894a1a52
+Message-Id: <162031892716.29346.17799405488750985218.pr-tracker-bot@kernel.org>
+Date:   Thu, 06 May 2021 16:35:27 +0000
+To:     bcain@codeaurora.org
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        linux-hexagon <linux-hexagon@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
         sidneym@codeaurora.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Subject: Re: [GIT PULL] hexagon changes for v5.13
-In-Reply-To: <81ecc015b1bd773f583cc86490e392a0@codeaurora.org>
-References: <a81e116ba3d64aab8d379703bedcf032@codeaurora.org>
- <CAHk-=wgU-ERpeM0CJnN8JTVVUsBRtgpvU33sKke67V6pZj6A=g@mail.gmail.com>
- <81ecc015b1bd773f583cc86490e392a0@codeaurora.org>
-Message-ID: <43df6483efd78b46f53e865bd75d75a4@codeaurora.org>
-X-Sender: bcain@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+        'clang-built-linux' <clang-built-linux@googlegroups.com>
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On 2021-05-06 11:16, bcain@codeaurora.org wrote:
-> On 2021-05-06 11:03, Linus Torvalds wrote:
->> On Wed, May 5, 2021 at 2:10 PM <bcain@codeaurora.org> wrote:
->>> 
->>> Please pull the following changes for Hexagon: they contain build 
->>> fixes.
->> 
->> The pull looks fine, but I'm wondering what key you've signed this 
->> with?
->> 
->> I find your key 175C464E541B6D47 in the kernel.org pgpkeys archive,
->> but your tag was signed with RSA key 1A54AFB8E5646C32, which I don't
->> find.
->> 
->> And the standard keyservers are - as usual - not very helpful.
-> 
-> I apologize -- in my initial account setup I'd done the key creation
-> without a signing feature/capability.  So in order to sign the tag I
-> realized I needed a new subkey for signing.  I tried broadcasting the
-> new key but perhaps I did not send it correctly.  I'll try it again
-> today.
-> 
-> http://keyserver.ubuntu.com/pks/lookup?search=bcain&fingerprint=on&op=index
-> 
-> ^^^ this shows one that has 3d66aae474594824c88ce0f81a54afb8e5646c32
-> but I'm not quite sure if this is a good keyserver or not.
+The pull request you sent on Wed, 05 May 2021 16:09:59 -0500:
 
-Oh, but the new signing subkey has not been signed by anyone yet.  I 
-will see about that.
+> git://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux tags/hexagon-5.13-0
 
--Brian
+has been merged into torvalds/linux.git:
+https://git.kernel.org/torvalds/c/5e5948e57e4381c770931be2c070f3bb894a1a52
+
+Thank you!
+
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/prtracker.html
