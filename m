@@ -2,41 +2,41 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25C8738258B
-	for <lists+linux-hexagon@lfdr.de>; Mon, 17 May 2021 09:42:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AB6723825D2
+	for <lists+linux-hexagon@lfdr.de>; Mon, 17 May 2021 09:50:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235396AbhEQHna (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 17 May 2021 03:43:30 -0400
-Received: from mail-vs1-f49.google.com ([209.85.217.49]:40880 "EHLO
-        mail-vs1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235393AbhEQHna (ORCPT
+        id S235235AbhEQHvP (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 17 May 2021 03:51:15 -0400
+Received: from mail-ua1-f41.google.com ([209.85.222.41]:35487 "EHLO
+        mail-ua1-f41.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235230AbhEQHvO (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 17 May 2021 03:43:30 -0400
-Received: by mail-vs1-f49.google.com with SMTP id o192so2628897vsd.7;
-        Mon, 17 May 2021 00:42:14 -0700 (PDT)
+        Mon, 17 May 2021 03:51:14 -0400
+Received: by mail-ua1-f41.google.com with SMTP id n61so1816797uan.2;
+        Mon, 17 May 2021 00:49:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=UQCnCHnuTGOUv4Xn5a0Aiay+N+Nu4F56YkpDcV2EHAE=;
-        b=VLDmaGdCMqhscOxI87MqKVv5Y47JnitlYD3/hgPosIeCv2kayjl3OfV5UwKObJCuVY
-         iiaauH9LO32cVCZTMNRJbQNjeY2SSGRgiH0RoBQNA15p30A7OZDRPcUTbzDVt/DChrpn
-         gfcsfFGE13zygnHRzUTbDCnhUDQpg2gmluG72HuArhsTRnZFwhnNbIbMiKtm4LtbhpUf
-         rxYMmHQYvj/oFSDyA66SIRk2rnxDxVZxFavVygLIsZqudloS7ivqyS77KUXdrCM8QOVK
-         v+n7w4xIvLL11UB52P8ybkiLNdpShntzDhVuu1H40VTo6LPAJ7Vs6zapeUsde3+BM0pR
-         yiMg==
-X-Gm-Message-State: AOAM531OQh5F9MF2xmxaNcXHq6QvBZgjiLQ7TEgM7TtENx1pE05TdCK9
-        TuUgG8jG1jAJSTLTVu6Un6+lZfXLN4lVhl6f46o=
-X-Google-Smtp-Source: ABdhPJw1uawrtdGC5r811ckzuqrHCuKa2aLYEPaEyXVqSRjYUArXfwswdvyXpadVLtTHBByRvBxAhX2BvK3dzp74coo=
-X-Received: by 2002:a67:f84f:: with SMTP id b15mr9140633vsp.40.1621237334116;
- Mon, 17 May 2021 00:42:14 -0700 (PDT)
+        bh=Wm1leRczzFOwOFaSNT2IC1vyfbeH7BGd9FvIHYCsh/w=;
+        b=CpX4nJZ0xQ+qCL0hsY5+pyieu90VHU3tQCSnspR6kXgmozyl4YvwqZSKFy2F4YjWN7
+         zX1PYHEqH3z75ysGzaRh3NTZSafJyHfBa7oXLJ44yl7oXUOVdkLincPPA8R3uNPiGKi/
+         +ZdAPUOmRjQICeVQn0Xvym5P5TvBeYSHY6LYaEucWCagAhQGOiY77PGG+ceJjjzJvJvU
+         gIMdGawghORqiqs3Z1jEg2wbY24Mdi3gACew6JtM+at5GYb83Hy6HQN96rprf1yvCy8n
+         euQxbf/IAJ/20fp1aBtfr+bWirPU39M/R5vAarQ7VlhX/qZFXrplSkq3mnxRZeTMp8mu
+         DzHA==
+X-Gm-Message-State: AOAM5338yq5Dt/vDQJk2W8g7VoK+Y1DA7sZr+l/Bf5qfdgylr97uOqPC
+        c/Mm7qK6q8HzMX2wKTxg/I216oSCPhkRLTSXxVw=
+X-Google-Smtp-Source: ABdhPJxMkbz10U6Jg7YSgioxoN/77aKbpd9YpL153uII/i6U1HGzQThHJEqUHqKW1WMKKAc41kkz+IhZpWsMRXHngY4=
+X-Received: by 2002:ab0:f5:: with SMTP id 108mr16323124uaj.106.1621237797742;
+ Mon, 17 May 2021 00:49:57 -0700 (PDT)
 MIME-Version: 1.0
-References: <20210514220942.879805-1-arnd@kernel.org> <20210514220942.879805-2-arnd@kernel.org>
-In-Reply-To: <20210514220942.879805-2-arnd@kernel.org>
+References: <20210514220942.879805-1-arnd@kernel.org> <20210514220942.879805-5-arnd@kernel.org>
+In-Reply-To: <20210514220942.879805-5-arnd@kernel.org>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Mon, 17 May 2021 09:42:02 +0200
-Message-ID: <CAMuHMdXr6gxbJu+otHV=PhoXvM7aoshs_A-SVpTmYw1iDdiqsg@mail.gmail.com>
-Subject: Re: [PATCH 1/5] asm-generic/uaccess.h: remove __strncpy_from_user/__strnlen_user
+Date:   Mon, 17 May 2021 09:49:45 +0200
+Message-ID: <CAMuHMdXPWdNqeeyCuKheOyTT-DSqrhKQyotmY5YBhdbz-VgfwA@mail.gmail.com>
+Subject: Re: [PATCH 4/5] asm-generic: uaccess: remove inline strncpy_from_user/strnlen_user
 To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Linux-Arch <linux-arch@vger.kernel.org>,
         Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
@@ -66,23 +66,18 @@ Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Sat, May 15, 2021 at 12:10 AM Arnd Bergmann <arnd@kernel.org> wrote:
+On Sat, May 15, 2021 at 12:11 AM Arnd Bergmann <arnd@kernel.org> wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
 >
-> This is a preparation for changing over architectures to the
-> generic implementation one at a time. As there are no callers
-> of either __strncpy_from_user() or __strnlen_user(), fold these
-> into the strncpy_from_user() strnlen_user() functions to make
-
-... and ...
-
-> each implementation independent of the others.
->
-> Many of these implementations have known bugs, but the intention
-> here is to not change behavior at all and stay compatible with
-> those bugs for the moment.
+> Consolidate the asm-generic implementation with the library version
+> that is used everywhere else.
 >
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+
+>  arch/m68k/Kconfig             |  4 +--
+
+Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
 Gr{oetje,eeting}s,
 
