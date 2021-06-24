@@ -2,67 +2,54 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D5883B5793
-	for <lists+linux-hexagon@lfdr.de>; Mon, 28 Jun 2021 05:01:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0B843B72ED
+	for <lists+linux-hexagon@lfdr.de>; Tue, 29 Jun 2021 15:06:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231753AbhF1DDv (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 27 Jun 2021 23:03:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52916 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231678AbhF1DDu (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 27 Jun 2021 23:03:50 -0400
-Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E06BC061574;
-        Sun, 27 Jun 2021 20:01:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-        Content-ID:Content-Description:In-Reply-To:References;
-        bh=i5WxxZc8tT6cAucoU1opsevqwz38zO18+wH7avWZ1ME=; b=LoTq6T4vTYCjcuEk8An7PXx+ki
-        EVh7Fj0g6XxkO9VUNH7eNpn8zk5yMoXfjwGYgnljQaDCpu1eIDJsDVnYkRghwnYSa1Zhw0/WrEyeq
-        NjIeBFdB8JJ1cZpyiP6u40xYkGAoC8GzQARnuGo3Q1z9d9hBGqGBCVdxeEZ9bhyd4N2r92Et4TurM
-        +rUv8r/4EWLnIyBYUFnKpU17zg4rkg4ctAwhgEb9Wma9UNHte8Xtb1pJn+B60drnJap5KwjFgzgR9
-        j8sJCoKj6IrzPvUvoR1pBT8vvHSJH0iXAk2uuHA/nkmivkwcRVNTc8vGGLBMcaWj/SowDAlXEPo6i
-        wVDF0cQQ==;
-Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
-        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1lxhWV-006bE9-S0; Mon, 28 Jun 2021 03:01:24 +0000
-From:   Randy Dunlap <rdunlap@infradead.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Randy Dunlap <rdunlap@infradead.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        linux-hexagon@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: [PATCH] hexagon: cmpxchg: fix comment after rename of a documentation file
-Date:   Sun, 27 Jun 2021 20:01:22 -0700
-Message-Id: <20210628030122.11180-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.26.2
+        id S233665AbhF2NIo convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 29 Jun 2021 09:08:44 -0400
+Received: from [218.75.92.58] ([218.75.92.58]:49683 "EHLO WIN-VTPUBHNS72V"
+        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
+        id S233692AbhF2NIn (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Tue, 29 Jun 2021 09:08:43 -0400
+Received: from [192.168.43.47] (Unknown [197.210.84.10])
+        by WIN-VTPUBHNS72V with ESMTPA
+        ; Thu, 24 Jun 2021 20:47:05 +0800
+Message-ID: <D3DE00E6-28E8-4F7B-B3AE-36A9388A0B07@WIN-VTPUBHNS72V>
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: URGENT ATTENTION
+To:     Recipients <wjjt@wjjt.cn>
+From:   "Andres Auchincloss" <wjjt@wjjt.cn>
+Date:   Thu, 24 Jun 2021 14:46:36 +0200
+Reply-To: andresauchincloss926@gmail.com
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Fix comment text after the rename of a document file from .txt to .rst.
+Hi,
 
-Fixes: 387b14684f94 ("docs: locking: convert docs to ReST and rename to *.rst")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Brian Cain <bcain@codeaurora.org>
-Cc: linux-hexagon@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
----
- arch/hexagon/include/asm/cmpxchg.h |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
 
---- linux-next-20210625.orig/arch/hexagon/include/asm/cmpxchg.h
-+++ linux-next-20210625/arch/hexagon/include/asm/cmpxchg.h
-@@ -46,7 +46,7 @@ static inline unsigned long __xchg(unsig
- 	sizeof(*(ptr))))
- 
- /*
-- *  see rt-mutex-design.txt; cmpxchg supposedly checks if *ptr == A and swaps.
-+ *  see rt-mutex-design.rst; cmpxchg supposedly checks if *ptr == A and swaps.
-  *  looks just like atomic_cmpxchg on our arch currently with a bunch of
-  *  variable casting.
-  */
+I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
+
+Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
+
+
+
+Best Regards
+
+
+
+
+Tel: +1 (587) 770-0485
+Andres .B. Auchincloss
+Chief financial officerBP Petroleum p.l.c.
+
+
+
+
+                                  Copyright ©? 1996-2021
+
