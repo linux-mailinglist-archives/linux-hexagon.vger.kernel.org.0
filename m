@@ -2,42 +2,67 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 18E423B5346
-	for <lists+linux-hexagon@lfdr.de>; Sun, 27 Jun 2021 14:22:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4D5883B5793
+	for <lists+linux-hexagon@lfdr.de>; Mon, 28 Jun 2021 05:01:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229702AbhF0MZV convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 27 Jun 2021 08:25:21 -0400
-Received: from [210.180.118.67] ([210.180.118.67]:58548 "EHLO blank.cafe24.com"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S229927AbhF0MZT (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 27 Jun 2021 08:25:19 -0400
-Received: from IP-130-143.dataclub.eu (ip-130-143.dataclub.info [84.38.130.143] (may be forged))
-        (authenticated bits=0)
-        by blank.cafe24.com (8.14.7/8.14.7) with ESMTP id 15H5Y1Oi001813
-        for <linux-hexagon@vger.kernel.org>; Thu, 17 Jun 2021 14:34:42 +0900
-Message-Id: <202106170534.15H5Y1Oi001813@blank.cafe24.com>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S231753AbhF1DDv (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 27 Jun 2021 23:03:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52916 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S231678AbhF1DDu (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Sun, 27 Jun 2021 23:03:50 -0400
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:e::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E06BC061574;
+        Sun, 27 Jun 2021 20:01:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+        MIME-Version:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=i5WxxZc8tT6cAucoU1opsevqwz38zO18+wH7avWZ1ME=; b=LoTq6T4vTYCjcuEk8An7PXx+ki
+        EVh7Fj0g6XxkO9VUNH7eNpn8zk5yMoXfjwGYgnljQaDCpu1eIDJsDVnYkRghwnYSa1Zhw0/WrEyeq
+        NjIeBFdB8JJ1cZpyiP6u40xYkGAoC8GzQARnuGo3Q1z9d9hBGqGBCVdxeEZ9bhyd4N2r92Et4TurM
+        +rUv8r/4EWLnIyBYUFnKpU17zg4rkg4ctAwhgEb9Wma9UNHte8Xtb1pJn+B60drnJap5KwjFgzgR9
+        j8sJCoKj6IrzPvUvoR1pBT8vvHSJH0iXAk2uuHA/nkmivkwcRVNTc8vGGLBMcaWj/SowDAlXEPo6i
+        wVDF0cQQ==;
+Received: from [2601:1c0:6280:3f0::aefb] (helo=bombadil.infradead.org)
+        by bombadil.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1lxhWV-006bE9-S0; Mon, 28 Jun 2021 03:01:24 +0000
+From:   Randy Dunlap <rdunlap@infradead.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Randy Dunlap <rdunlap@infradead.org>,
+        Brian Cain <bcain@codeaurora.org>,
+        linux-hexagon@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: [PATCH] hexagon: cmpxchg: fix comment after rename of a documentation file
+Date:   Sun, 27 Jun 2021 20:01:22 -0700
+Message-Id: <20210628030122.11180-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: BUSINESS LOAN/PROJECT FUNDING...67
-To:     linux-hexagon@vger.kernel.org
-From:   "Smith Green" <ssbinvestmentsllc@citromail.hu>
-Date:   Thu, 17 Jun 2021 08:34:35 +0300
-Reply-To: ssbinvestmentsllc@citromail.hu
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Dear Sir/Madam,
+Fix comment text after the rename of a document file from .txt to .rst.
 
-Our Investors are based in the middle east with a profound track record. We invite you to take advantage of our investment loan program to fund your existing or intending projects. We offer a straight or convertible loan investment program for projects with high-returns and payback prospects without the usual rigid procedures of conventional lenders.
- 
-Kindly forward a copy of your Executive business summary for our review: info@ssbinvestmentsllc.us
+Fixes: 387b14684f94 ("docs: locking: convert docs to ReST and rename to *.rst")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Brian Cain <bcain@codeaurora.org>
+Cc: linux-hexagon@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+---
+ arch/hexagon/include/asm/cmpxchg.h |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+--- linux-next-20210625.orig/arch/hexagon/include/asm/cmpxchg.h
++++ linux-next-20210625/arch/hexagon/include/asm/cmpxchg.h
+@@ -46,7 +46,7 @@ static inline unsigned long __xchg(unsig
+ 	sizeof(*(ptr))))
  
-Best Regards.
-Smith Green
-E:info@ssbinvestmentsllc.us
-International investment broker
+ /*
+- *  see rt-mutex-design.txt; cmpxchg supposedly checks if *ptr == A and swaps.
++ *  see rt-mutex-design.rst; cmpxchg supposedly checks if *ptr == A and swaps.
+  *  looks just like atomic_cmpxchg on our arch currently with a bunch of
+  *  variable casting.
+  */
