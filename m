@@ -2,54 +2,78 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B843B72ED
-	for <lists+linux-hexagon@lfdr.de>; Tue, 29 Jun 2021 15:06:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A58DF3BE973
+	for <lists+linux-hexagon@lfdr.de>; Wed,  7 Jul 2021 16:11:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233665AbhF2NIo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 29 Jun 2021 09:08:44 -0400
-Received: from [218.75.92.58] ([218.75.92.58]:49683 "EHLO WIN-VTPUBHNS72V"
-        rhost-flags-FAIL-FAIL-OK-FAIL) by vger.kernel.org with ESMTP
-        id S233692AbhF2NIn (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 29 Jun 2021 09:08:43 -0400
-Received: from [192.168.43.47] (Unknown [197.210.84.10])
-        by WIN-VTPUBHNS72V with ESMTPA
-        ; Thu, 24 Jun 2021 20:47:05 +0800
-Message-ID: <D3DE00E6-28E8-4F7B-B3AE-36A9388A0B07@WIN-VTPUBHNS72V>
-Content-Type: text/plain; charset="iso-8859-1"
+        id S231753AbhGGONj (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 7 Jul 2021 10:13:39 -0400
+Received: from verein.lst.de ([213.95.11.211]:37099 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S230509AbhGGONj (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Wed, 7 Jul 2021 10:13:39 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id 9B32B68BFE; Wed,  7 Jul 2021 16:10:54 +0200 (CEST)
+Date:   Wed, 7 Jul 2021 16:10:54 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     Nathan Chancellor <nathan@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>, Christoph Hellwig <hch@lst.de>,
+        Brian Cain <bcain@codeaurora.org>,
+        Sid Manning <sidneym@codeaurora.org>,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        clang-built-linux@googlegroups.com
+Subject: Re: how can we test the hexagon port in mainline
+Message-ID: <20210707141054.GA24828@lst.de>
+References: <20210623141854.GA32155@lst.de> <08df01d7683d$8f5b7b70$ae127250$@codeaurora.org> <CAK8P3a28_0KJpcLRQrDhFk8-ndxmfk7-Q2_qcRRiYkyh-NNZUQ@mail.gmail.com> <08e101d76842$94f78a60$bee69f20$@codeaurora.org> <20210623151746.GA4247@lst.de> <CAK8P3a2bG64ARjpwQ0ZhQ9P0g8B-=AwcHHAbYBXBS4B6Fy9pQw@mail.gmail.com> <YNQE0YJzC2xmWg+2@Ryzen-9-3900X.localdomain>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8BIT
-Content-Description: Mail message body
-Subject: URGENT ATTENTION
-To:     Recipients <wjjt@wjjt.cn>
-From:   "Andres Auchincloss" <wjjt@wjjt.cn>
-Date:   Thu, 24 Jun 2021 14:46:36 +0200
-Reply-To: andresauchincloss926@gmail.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <YNQE0YJzC2xmWg+2@Ryzen-9-3900X.localdomain>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi,
+On Wed, Jun 23, 2021 at 09:06:41PM -0700, Nathan Chancellor wrote:
+> On Wed, Jun 23, 2021 at 05:35:38PM +0200, Arnd Bergmann wrote:
+> > On Wed, Jun 23, 2021 at 5:17 PM Christoph Hellwig <hch@lst.de> wrote:
+> > >
+> > > It seem like it still isn't complete enought for a kernel build, though:
+> > >
+> > > $ export CROSS_COMPILE=/opt/clang+llvm-12.0.0-cross-hexagon-unknown-linux-musl/x86_64-linux-gnu/bin/hexagon-unknown-linux-musl-
+> > > $ make ARCH=hexagon LLVM=1 oldconfig
+> > > ...
+> > > scripts/Kconfig.include:40: linker 'ld.lld' not found
+> > 
+> > I tried this using the prebuilt binaries from apt.llvm.org:
+> > 
+> > $ make ARCH=hexagon LLVM=1 O=obj-hexagon CROSS_COMPILE=hexagon-linux-
+> > LLVM_IAS=1 CC=llvm-12 defconfig modules vmlinux
+> > <stdin>:1515:2: warning: syscall clone3 not implemented [-W#warnings]
+> > #warning syscall clone3 not implemented
+> >  ^
+> > 1 warning generated.
+> > 
+> > Doing the same thing with allmodconfig results in an internal error
+> > with clang-12
+> > while compiling kernel/locking/lockdep.c. Same thing with clang-13.
+> > After turning
+> > off lock debugging, it seems fine.
+> 
+> I've reported this upstream with you on CC:
+> 
+> https://bugs.llvm.org/show_bug.cgi?id=50838
 
-I will like to use this opportunity to wish you a productive time in 2021 and also confide in you to finalize this transaction of mutual benefits. It may seem strange to you, but it is real. This is a transaction that has no risk at all, due process shall be followed and it shall be carried out under the ambit of the financial laws. Being the Chief Financial Officer, BP Plc. I want to trust and put in your care Eighteen Million British Pounds Sterling, The funds were acquired from an over-invoiced payment from a past contract executed in one of my departments.
+I've not actually got any mail from that Cc..
 
-I can't successfully achieve this transaction without presenting you as foreign contractor who will provide a bank account to receive the funds.
+> Christoph, that toolchain should work (I had to install libtinfo5 and
+> libc++1-7 on Debian Buster):
+> 
+> $ export PATH=$HOME/tmp/clang+llvm-12.0.0-cross-hexagon-unknown-linux-musl/x86_64-linux-gnu/bin:$PATH
+> 
+> $ make -skj"$(nproc)" ARCH=hexagon CROSS_COMPILE=hexagon-unknown-linux-musl LLVM=1 LLVM_IAS=1 defconfig all
 
-Documentation for the claim of the funds will be legally processed and documented, so I will need your full cooperation on this matter for our mutual benefits. We will discuss details if you are interested to work with me to secure this funds. I will appreciate your prompt response in every bit of our communication. Stay Blessed and Stay Safe.
-
-
-
-Best Regards
-
-
-
-
-Tel: +1 (587) 770-0485
-Andres .B. Auchincloss
-Chief financial officerBP Petroleum p.l.c.
-
-
-
-
-                                  Copyright ©? 1996-2021
-
+hch@brick:~/work/linux$ make -j4 ARCH=hexagon
+CROSS_COMPILE=hexagon-unknown-linux-musl LLVM=1 LLVM_IAS=1 defconfig all
+HOSTCC  scripts/basic/fixdep
+clang: error while loading shared libraries: libtinfo.so.5: cannot open shared object file: No such file or directory
