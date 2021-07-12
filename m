@@ -2,100 +2,64 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C0C6C3C1C31
-	for <lists+linux-hexagon@lfdr.de>; Fri,  9 Jul 2021 01:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D0D03C4745
+	for <lists+linux-hexagon@lfdr.de>; Mon, 12 Jul 2021 12:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229497AbhGHXmf (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 8 Jul 2021 19:42:35 -0400
-Received: from mail.kernel.org ([198.145.29.99]:55902 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S229491AbhGHXmf (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 8 Jul 2021 19:42:35 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1BB7D61409;
-        Thu,  8 Jul 2021 23:39:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1625787592;
-        bh=kfQyKRysnqk2rwMhGbwxmhAhfrh6e/bHBlkPvbh8xX4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lXpCmUHcL3GCOKWWsZ4Svs6avH76vsfB03TkOw1vTUFKjontO124Snt0vckmqQjcs
-         xjbip2YWWHxMODSWKSW5eaeAsRi4HToYsdZb95JNmHrnY0ZPDb2/4XDG8vdjViXjOG
-         2FGN5UxPbSZE/UcnaLCCe0Ve0ZpXrdkQyaNVvvPlWcoIFSAfQrJu9WtDV7HMYpnuIb
-         I4zFaMHlRi59Uvn2SHhj8khwUnfi7NkudrU6D5roXj5LM9alMnH2xDoRI3D2SQRfUJ
-         oswtYDfgD4svfdARUgfnVuIumG2F+1ub8Kygt5DV9JJTfGjQtPs6elbk3WHEsYdTRO
-         s6mzNkRPsAhyw==
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Brian Cain <bcain@codeaurora.org>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Nathan Chancellor <nathan@kernel.org>
-Subject: [PATCH] Hexagon: Export raw I/O routines for modules
-Date:   Thu,  8 Jul 2021 16:38:50 -0700
-Message-Id: <20210708233849.3140194-1-nathan@kernel.org>
-X-Mailer: git-send-email 2.32.0.93.g670b81a890
+        id S236761AbhGLGb6 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 12 Jul 2021 02:31:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55878 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S235756AbhGLG3b (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 12 Jul 2021 02:29:31 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0897C08EC89;
+        Sun, 11 Jul 2021 23:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=tB53rqP9UurlO9Ubjzx5fIdyCBO9p4biSEwOPXSsFqo=; b=dzMdOtVbZVRxxudw8++DeGPLtl
+        rWxB7mGdvYuZ4AETWUbLfJHkL5g99xedhkEC8KrVXGsmNoSlWEJYkmw27IQ2HCHwgxqPeyGuF6n4z
+        QV9wDQYnD8Xvq+2OvZbS9BxxcfMtaMQm31nocFhIQsHL5sNTFpkFdq0RGPmo9w8EKt5Sgyqz2YJDp
+        Jmzgs5iBpf32uKiThPw9SABqwTDqjLZ3uoaQgfcF9XbmQu1cTVLTe2CGbZLHz2/AmYKVGEylaRWKo
+        T3qxVMUSY97ijE+OPbZ1AVZZwp8QbsOyfdmqGMkxYq8pjsTM7FWsjS9/wwxeczXm49LAbQbsFgFOu
+        2WwsE6Uw==;
+Received: from [2001:4bb8:184:8b7c:bd9:61b8:39ba:d78a] (helo=localhost)
+        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1m2pFZ-00Gws5-69; Mon, 12 Jul 2021 06:17:22 +0000
+From:   Christoph Hellwig <hch@lst.de>
+To:     iommu@lists.linux-foundation.org,
+        Russell King <linux@armlinux.org.uk>,
+        Brian Cain <bcain@codeaurora.org>
+Cc:     Dillon Min <dillon.minfei@gmail.com>,
+        Vladimir Murzin <vladimir.murzin@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: add support for the global coherent pool to the dma core
+Date:   Mon, 12 Jul 2021 08:16:57 +0200
+Message-Id: <20210712061704.4162464-1-hch@lst.de>
+X-Mailer: git-send-email 2.30.2
 MIME-Version: 1.0
-X-Patchwork-Bot: notify
 Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-When building ARCH=hexagon allmodconfig, the following errors occur:
+Hi all,
 
-ERROR: modpost: "__raw_readsl" [drivers/i3c/master/svc-i3c-master.ko] undefined!
-ERROR: modpost: "__raw_writesl" [drivers/i3c/master/dw-i3c-master.ko] undefined!
-ERROR: modpost: "__raw_readsl" [drivers/i3c/master/dw-i3c-master.ko] undefined!
-ERROR: modpost: "__raw_writesl" [drivers/i3c/master/i3c-master-cdns.ko] undefined!
-ERROR: modpost: "__raw_readsl" [drivers/i3c/master/i3c-master-cdns.ko] undefined!
+this series adds support for using the global coherent (aka uncached)
+pool to the generic dma-direct code and then switches arm-nommu and
+hexagon over to it, together with a bunch of cleanups.
 
-Export these symbols so that modules can use them without any errors.
-
-Fixes: 013bf24c3829 ("Hexagon: Provide basic implementation and/or stubs for I/O routines.")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-
-It would be nice if this could get into 5.14 at some point so that we
-can build ARCH=hexagon allmodconfig in our CI.
-
- arch/hexagon/lib/io.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/arch/hexagon/lib/io.c b/arch/hexagon/lib/io.c
-index d35d69d6588c..55f75392857b 100644
---- a/arch/hexagon/lib/io.c
-+++ b/arch/hexagon/lib/io.c
-@@ -27,6 +27,7 @@ void __raw_readsw(const void __iomem *addr, void *data, int len)
- 		*dst++ = *src;
- 
- }
-+EXPORT_SYMBOL(__raw_readsw);
- 
- /*
-  * __raw_writesw - read words a short at a time
-@@ -47,6 +48,7 @@ void __raw_writesw(void __iomem *addr, const void *data, int len)
- 
- 
- }
-+EXPORT_SYMBOL(__raw_writesw);
- 
- /*  Pretty sure len is pre-adjusted for the length of the access already */
- void __raw_readsl(const void __iomem *addr, void *data, int len)
-@@ -62,6 +64,7 @@ void __raw_readsl(const void __iomem *addr, void *data, int len)
- 
- 
- }
-+EXPORT_SYMBOL(__raw_readsl);
- 
- void __raw_writesl(void __iomem *addr, const void *data, int len)
- {
-@@ -76,3 +79,4 @@ void __raw_writesl(void __iomem *addr, const void *data, int len)
- 
- 
- }
-+EXPORT_SYMBOL(__raw_writesl);
-
-base-commit: f55966571d5eb2876a11e48e798b4592fa1ffbb7
--- 
-2.32.0.93.g670b81a890
-
+Diffstat:
+ arch/arm/Kconfig                |    5 -
+ arch/arm/mm/dma-mapping-nommu.c |  173 +---------------------------------------
+ arch/hexagon/Kconfig            |    1 
+ arch/hexagon/kernel/dma.c       |   57 ++-----------
+ include/linux/dma-map-ops.h     |   18 ++--
+ kernel/dma/Kconfig              |    4 
+ kernel/dma/coherent.c           |  159 +++++++++++++++++-------------------
+ kernel/dma/direct.c             |   15 +++
+ 8 files changed, 124 insertions(+), 308 deletions(-)
