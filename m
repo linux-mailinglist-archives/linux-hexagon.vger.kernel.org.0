@@ -2,148 +2,77 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BBA9B3C474C
-	for <lists+linux-hexagon@lfdr.de>; Mon, 12 Jul 2021 12:27:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 670D73CA425
+	for <lists+linux-hexagon@lfdr.de>; Thu, 15 Jul 2021 19:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236727AbhGLGcK (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 12 Jul 2021 02:32:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55842 "EHLO
+        id S235231AbhGOR2T (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 15 Jul 2021 13:28:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37306 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237388AbhGLGa5 (ORCPT
+        with ESMTP id S234083AbhGOR2P (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 12 Jul 2021 02:30:57 -0400
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EAB5CC08EBB1;
-        Sun, 11 Jul 2021 23:26:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:MIME-Version:
-        References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-        Content-Type:Content-ID:Content-Description;
-        bh=O5uvaUdSp6FqM7+gNK9rRhzVPwV15QaVwrDrGAsNxTE=; b=MPGmLxDmFoDvPr/4xVjyljFCs6
-        PDpD7Wh/Kz3P1srVFgaLrTGJFNPSNDy5RwoYZmGin1LSUarfbaXpHeoi0PlOQasi/bNJEi/FGBxdY
-        J0s+qJzBJgLR2eWdUTlq5NcTRoUgqMDtMB2vGqg28SBuMQc/Pbf/df7DTTN5UE0QVVXB3ms1rsyQG
-        alV6Bd37KPiIk9iWHzeF7V8vWN5OimVFPnperLg0u9w9XiIpy0DC6zrZi1qsfOYbhXjBWLD5MBOHn
-        S4db/57uJgbhhrh1a28hv2/7X9dLOgYWBZvg4rFITMtbIAPpW//hur9uDqM+hvIhj96jqsJt3Qeio
-        eK3oWRwg==;
-Received: from [2001:4bb8:184:8b7c:bd9:61b8:39ba:d78a] (helo=localhost)
-        by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
-        id 1m2pNR-00Gxne-2Z; Mon, 12 Jul 2021 06:25:36 +0000
-From:   Christoph Hellwig <hch@lst.de>
-To:     iommu@lists.linux-foundation.org,
-        Russell King <linux@armlinux.org.uk>,
-        Brian Cain <bcain@codeaurora.org>
-Cc:     Dillon Min <dillon.minfei@gmail.com>,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        linux-arm-kernel@lists.infradead.org,
-        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 7/7] hexagon: use the generic global coherent pool
-Date:   Mon, 12 Jul 2021 08:17:04 +0200
-Message-Id: <20210712061704.4162464-8-hch@lst.de>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20210712061704.4162464-1-hch@lst.de>
-References: <20210712061704.4162464-1-hch@lst.de>
+        Thu, 15 Jul 2021 13:28:15 -0400
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07512C0613DB
+        for <linux-hexagon@vger.kernel.org>; Thu, 15 Jul 2021 10:25:22 -0700 (PDT)
+Received: by mail-qk1-x72b.google.com with SMTP id c68so1209300qkf.9
+        for <linux-hexagon@vger.kernel.org>; Thu, 15 Jul 2021 10:25:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
+        b=VEbievBeLXzXz2IFTCJlfsSW3SGnPx5BRLHAunZVXukgfJX3HSSAUxCtdiKf61hv/8
+         dEjk1vTJjxHihT0WA1OL/uEOLbisu+eOZ9QBM+pSgOr0g3iviST/L7UaXer3M8NeFmjI
+         cUcDXANijM5RzePSgHNEUg4tiAZJvw7xY2717+o5bCXGYbN3j0in5RSdJSiv5QmZpfXV
+         xJwXiiE0C1Gs4ldNfG+SItE+RoyPJtAgR4hB34JMXRrPZxzy82ifiVVChBVQnRUKYafC
+         pLvyRURLCMNCEs5zTTafGrQe1zI12ARsnWy7gNJNMcFCKTa1+89JJPFI0mohmLMeae0x
+         ASdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=Ibb5KNEw1DKqJEg9n4gJy5KnzVasBofn6QaWYsu9UCQ=;
+        b=XmOGQ37i01HoQvewiMHBwiFp8r7GIQbJMYLjIe/MMGvFh5q+GJklbVZYPmjdwFZmQb
+         oCboSTC+VlHSK7+W74GKBA1FFgqO7DDrtJAJNntH+fHWa1EUah7SxuASyo+BkXgdkG8/
+         4GgH5RR1FAVcVoAQciR9sqx6vOUKQobv0IbX/Glv82N6MHs7NrRpBO7pyU6+AbAJ09Kb
+         rqE01BuFGLtsxGGDWXRSfOMYbYIkIKtraRghMftULRkAaotTit7geY2Rc/ldU10+1jJU
+         JdawrMu5o55kMrgLK1y01eKY5BRiZH4EDqfF9pBmykfPvII5DDwH/O7RVdbd9VUbyFPL
+         Ck1g==
+X-Gm-Message-State: AOAM533OVtVf9irnwn3mAJyaW7UcOmQ5djiP1imr7uyffXW9hD+TTHeg
+        8E0J6cpaXYJbMLye8THkD2VvUri6A+d03rXzgTM=
+X-Google-Smtp-Source: ABdhPJyVA6gR/njuabWs2C2fW8gelCsYJFEl6/1qckwAKb5sFvak5SWUy5PHC6/Yk0GlmffBpcH6FQwcd62hdQoqBbA=
+X-Received: by 2002:a37:9947:: with SMTP id b68mr5263725qke.56.1626369920992;
+ Thu, 15 Jul 2021 10:25:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Received: by 2002:a0c:e502:0:0:0:0:0 with HTTP; Thu, 15 Jul 2021 10:25:20
+ -0700 (PDT)
+Reply-To: faty.muhamad@gmail.com
+From:   Ms Fatima Muhammad <steveokoh.fedexdeliveryagent@gmail.com>
+Date:   Thu, 15 Jul 2021 17:25:20 +0000
+Message-ID: <CAFKwDuBfMzCdHqoenSL2rqjnW5tE27dPjiWKbgxM_hjsa-G7pg@mail.gmail.com>
+Subject: Hello Dear
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Switch hexagon to use the generic code for dma_alloc_coherent from
-a global pre-filled pool.
+Hello Dear,
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
----
- arch/hexagon/Kconfig      |  1 +
- arch/hexagon/kernel/dma.c | 57 ++++++++-------------------------------
- 2 files changed, 12 insertions(+), 46 deletions(-)
+My name is Ms.Fatima Muhammad., Please forgive me for stressing you
+with my predicaments and I sorry to approach you through this media
+because is serves the fastest means of  my communication right now,
 
-diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-index e5a852080730..aab1a40eb653 100644
---- a/arch/hexagon/Kconfig
-+++ b/arch/hexagon/Kconfig
-@@ -7,6 +7,7 @@ config HEXAGON
- 	select ARCH_32BIT_OFF_T
- 	select ARCH_HAS_SYNC_DMA_FOR_DEVICE
- 	select ARCH_NO_PREEMPT
-+	select DMA_GLOBAL_POOL
- 	# Other pending projects/to-do items.
- 	# select HAVE_REGS_AND_STACK_ACCESS_API
- 	# select HAVE_HW_BREAKPOINT if PERF_EVENTS
-diff --git a/arch/hexagon/kernel/dma.c b/arch/hexagon/kernel/dma.c
-index 00b9a81075dd..882680e81a30 100644
---- a/arch/hexagon/kernel/dma.c
-+++ b/arch/hexagon/kernel/dma.c
-@@ -7,54 +7,8 @@
- 
- #include <linux/dma-map-ops.h>
- #include <linux/memblock.h>
--#include <linux/genalloc.h>
--#include <linux/module.h>
- #include <asm/page.h>
- 
--static struct gen_pool *coherent_pool;
--
--
--/* Allocates from a pool of uncached memory that was reserved at boot time */
--
--void *arch_dma_alloc(struct device *dev, size_t size, dma_addr_t *dma_addr,
--		gfp_t flag, unsigned long attrs)
--{
--	void *ret;
--
--	/*
--	 * Our max_low_pfn should have been backed off by 16MB in
--	 * mm/init.c to create DMA coherent space.  Use that as the VA
--	 * for the pool.
--	 */
--
--	if (coherent_pool == NULL) {
--		coherent_pool = gen_pool_create(PAGE_SHIFT, -1);
--
--		if (coherent_pool == NULL)
--			panic("Can't create %s() memory pool!", __func__);
--		else
--			gen_pool_add(coherent_pool,
--				(unsigned long)pfn_to_virt(max_low_pfn),
--				hexagon_coherent_pool_size, -1);
--	}
--
--	ret = (void *) gen_pool_alloc(coherent_pool, size);
--
--	if (ret) {
--		memset(ret, 0, size);
--		*dma_addr = (dma_addr_t) virt_to_phys(ret);
--	} else
--		*dma_addr = ~0;
--
--	return ret;
--}
--
--void arch_dma_free(struct device *dev, size_t size, void *vaddr,
--		dma_addr_t dma_addr, unsigned long attrs)
--{
--	gen_pool_free(coherent_pool, (unsigned long) vaddr, size);
--}
--
- void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
- 		enum dma_data_direction dir)
- {
-@@ -77,3 +31,14 @@ void arch_sync_dma_for_device(phys_addr_t paddr, size_t size,
- 		BUG();
- 	}
- }
-+
-+/*
-+ * Our max_low_pfn should have been backed off by 16MB in mm/init.c to create
-+ * DMA coherent space.  Use that for the pool.
-+ */
-+static int __init hexagon_dma_init(void)
-+{
-+	return dma_init_global_coherent(PFN_PHYS(max_low_pfn),
-+					hexagon_coherent_pool_size);
-+}
-+core_initcall(hexagon_dma_init);
--- 
-2.30.2
+I came across your Email from my personal search and I decided to
+contact you believing you will be honest to fulfill my business
+proposal which I believe that will be a very good opportunity for both
+of us. Please it is my pleasure to contact you today for a business
+partnership investments projects worth $4.6 million USD which I intend
+to establish in your country..
 
+Pls If this business proposal offends your moral and ethic values do
+accept my apology. therefore kindly contact me immediately if you are
+interested for more details.
+
+Thank you for your wiliness to help me
+Yours Sincerely Fatima Muhammad
