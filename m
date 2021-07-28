@@ -2,34 +2,34 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B4E03D9188
-	for <lists+linux-hexagon@lfdr.de>; Wed, 28 Jul 2021 17:10:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0758E3D91BA
+	for <lists+linux-hexagon@lfdr.de>; Wed, 28 Jul 2021 17:20:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236993AbhG1PKF (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 28 Jul 2021 11:10:05 -0400
-Received: from so254-9.mailgun.net ([198.61.254.9]:49188 "EHLO
+        id S237198AbhG1PU6 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 28 Jul 2021 11:20:58 -0400
+Received: from so254-9.mailgun.net ([198.61.254.9]:50664 "EHLO
         so254-9.mailgun.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235664AbhG1PIr (ORCPT
+        with ESMTP id S236711AbhG1PU5 (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 28 Jul 2021 11:08:47 -0400
+        Wed, 28 Jul 2021 11:20:57 -0400
 DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1627484925; h=Content-Transfer-Encoding: Content-Type:
+ s=smtp; t=1627485655; h=Content-Transfer-Encoding: Content-Type:
  MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
  To: From: Reply-To: Sender;
- bh=3wwq0AErdGICOZ9un5uPRzTUaZOh9Woef+N1yP+Q6P8=; b=b/5f4x2MhMlsO17H3cmBueKURKOEaWiF9gQ2ZjCXUQqKCPFoQLUGDhhGyLkXy+X/aXvKkCi1
- TTgmW9YxzyNKMBeg/6UH6/N1wo29KbGA8d5wlrKAh/5Hy5f2a3B5wBjPs5MSDpqaUKtr4585
- xjknPWmUa4GmdFPj0XTq4Huze4k=
+ bh=NMBA6eMZ2++sBypZUxc6pdznV/MW5syE3FBstf0UH5I=; b=c8QNd+dWyXTnxvW4I+wgldCCEjqgVWgDMj5xN0xWmvy6aAOhkgo1IibcwKfBDO3Q5gTahp26
+ K/Kpm3nA2NwiLOrSluZry7jYj1PTrPEceHavV5SrZXoKGjzmWx+Yl1h0ZulFJ4xUWxGn4pso
+ a0sIlCbR0w7yM3Zto3U74iZAxQI=
 X-Mailgun-Sending-Ip: 198.61.254.9
 X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
 Received: from smtp.codeaurora.org
  (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 610172f196a66e66b2ac446b (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 15:08:33
+ smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
+ 610175c7e81205dd0aa482b6 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 15:20:39
  GMT
 Sender: bcain=codeaurora.org@mg.codeaurora.org
 Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 88174C4338A; Wed, 28 Jul 2021 15:08:33 +0000 (UTC)
+        id 28087C4323A; Wed, 28 Jul 2021 15:20:39 +0000 (UTC)
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
         aws-us-west-2-caf-mail-1.web.codeaurora.org
 X-Spam-Level: 
@@ -39,31 +39,33 @@ Received: from BCAIN (i-global254.qualcomm.com [199.106.103.254])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
         (Authenticated sender: bcain)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 74E43C433D3;
-        Wed, 28 Jul 2021 15:08:32 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 74E43C433D3
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1CDC3C433D3;
+        Wed, 28 Jul 2021 15:20:34 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 1CDC3C433D3
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
 Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=bcain@codeaurora.org
 Reply-To: <bcain@codeaurora.org>
 From:   "Brian Cain" <bcain@codeaurora.org>
-To:     "'Nathan Chancellor'" <nathan@kernel.org>,
-        "'Andrew Morton'" <akpm@linux-foundation.org>
-Cc:     "'Nick Desaulniers'" <ndesaulniers@google.com>,
+To:     "'Christoph Hellwig'" <hch@lst.de>,
+        <iommu@lists.linux-foundation.org>,
+        "'Russell King'" <linux@armlinux.org.uk>
+Cc:     "'Dillon Min'" <dillon.minfei@gmail.com>,
+        "'Vladimir Murzin'" <vladimir.murzin@arm.com>,
+        <linux-arm-kernel@lists.infradead.org>,
         <linux-hexagon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <clang-built-linux@googlegroups.com>,
         "'Manning, Sid'" <sidneym@quicinc.com>
-References: <20210708233849.3140194-1-nathan@kernel.org> <YQCiZSj1gfnF5x/d@Ryzen-9-3900X.localdomain>
-In-Reply-To: <YQCiZSj1gfnF5x/d@Ryzen-9-3900X.localdomain>
-Subject: RE: [PATCH] Hexagon: Export raw I/O routines for modules
-Date:   Wed, 28 Jul 2021 10:08:31 -0500
-Message-ID: <03be01d783c2$6e684420$4b38cc60$@codeaurora.org>
+References: <20210712061704.4162464-1-hch@lst.de>
+In-Reply-To: <20210712061704.4162464-1-hch@lst.de>
+Subject: RE: add support for the global coherent pool to the dma core
+Date:   Wed, 28 Jul 2021 10:20:34 -0500
+Message-ID: <03d501d783c4$1d3f10e0$57bd32a0$@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain;
         charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Mailer: Microsoft Outlook 16.0
 Content-Language: en-us
-Thread-Index: AQFUlYLPOGQsXIMzH6S1xuiFiwykdgGu9yYgrFDh67A=
+Thread-Index: AQGLBLs9KUWyWP2l5ibPYuIecai1XKvxfn8g
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
@@ -71,68 +73,37 @@ X-Mailing-List: linux-hexagon@vger.kernel.org
 
 
 > -----Original Message-----
-> From: Nathan Chancellor <nathan@kernel.org>
-...
-> On Thu, Jul 08, 2021 at 04:38:50PM -0700, Nathan Chancellor wrote:
-...
-> > Export these symbols so that modules can use them without any errors.
-> >
-> > Fixes: 013bf24c3829 ("Hexagon: Provide basic implementation and/or stubs
-> for I/O routines.")
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >
-> > It would be nice if this could get into 5.14 at some point so that we
-> > can build ARCH=hexagon allmodconfig in our CI.
-> >
-> >  arch/hexagon/lib/io.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/arch/hexagon/lib/io.c b/arch/hexagon/lib/io.c
-> > index d35d69d6588c..55f75392857b 100644
-> > --- a/arch/hexagon/lib/io.c
-> > +++ b/arch/hexagon/lib/io.c
-> > @@ -27,6 +27,7 @@ void __raw_readsw(const void __iomem *addr, void
-> *data, int len)
-> >  		*dst++ = *src;
-> >
-> >  }
-> > +EXPORT_SYMBOL(__raw_readsw);
-> >
-> >  /*
-> >   * __raw_writesw - read words a short at a time
-> > @@ -47,6 +48,7 @@ void __raw_writesw(void __iomem *addr, const void
-> *data, int len)
-> >
-> >
-> >  }
-> > +EXPORT_SYMBOL(__raw_writesw);
-> >
-> >  /*  Pretty sure len is pre-adjusted for the length of the access
-already */
-> >  void __raw_readsl(const void __iomem *addr, void *data, int len)
-> > @@ -62,6 +64,7 @@ void __raw_readsl(const void __iomem *addr, void
-> *data, int len)
-> >
-> >
-> >  }
-> > +EXPORT_SYMBOL(__raw_readsl);
-> >
-> >  void __raw_writesl(void __iomem *addr, const void *data, int len)
-> >  {
-> > @@ -76,3 +79,4 @@ void __raw_writesl(void __iomem *addr, const void
-> *data, int len)
-> >
-> >
-> >  }
-> > +EXPORT_SYMBOL(__raw_writesl);
-> >
-> > base-commit: f55966571d5eb2876a11e48e798b4592fa1ffbb7
-> > --
-> > 2.32.0.93.g670b81a890
+> From: Christoph Hellwig <hch@lst.de>
+> Sent: Monday, July 12, 2021 1:17 AM
+> To: iommu@lists.linux-foundation.org; Russell King
+<linux@armlinux.org.uk>;
+> Brian Cain <bcain@codeaurora.org>
+> Cc: Dillon Min <dillon.minfei@gmail.com>; Vladimir Murzin
+> <vladimir.murzin@arm.com>; linux-arm-kernel@lists.infradead.org; linux-
+> hexagon@vger.kernel.org; linux-kernel@vger.kernel.org
+> Subject: add support for the global coherent pool to the dma core
 > 
-> Ping? Brian, if you do not want to carry this, can you give an ack so
-> that Andrew can?
+> Hi all,
+> 
+> this series adds support for using the global coherent (aka uncached)
+> pool to the generic dma-direct code and then switches arm-nommu and
+> hexagon over to it, together with a bunch of cleanups.
 
-Acked-by: Brian Cain <bcain@codeaurora.org>
+Christoph,
+
+Thanks for sending this -- I will take a look and give some feedback soon.
+
+> Diffstat:
+>  arch/arm/Kconfig                |    5 -
+>  arch/arm/mm/dma-mapping-nommu.c |  173
++--------------------------------------
+> -
+>  arch/hexagon/Kconfig            |    1
+>  arch/hexagon/kernel/dma.c       |   57 ++-----------
+>  include/linux/dma-map-ops.h     |   18 ++--
+>  kernel/dma/Kconfig              |    4
+>  kernel/dma/coherent.c           |  159
++++++++++++++++++-------------------
+>  kernel/dma/direct.c             |   15 +++
+>  8 files changed, 124 insertions(+), 308 deletions(-)
 
