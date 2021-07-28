@@ -2,113 +2,205 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6645A3D8921
-	for <lists+linux-hexagon@lfdr.de>; Wed, 28 Jul 2021 09:53:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 018093D9184
+	for <lists+linux-hexagon@lfdr.de>; Wed, 28 Jul 2021 17:08:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234003AbhG1HxT (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 28 Jul 2021 03:53:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60064 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233407AbhG1HxS (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 28 Jul 2021 03:53:18 -0400
-Received: from mail-ot1-x32f.google.com (mail-ot1-x32f.google.com [IPv6:2607:f8b0:4864:20::32f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2261C061757
-        for <linux-hexagon@vger.kernel.org>; Wed, 28 Jul 2021 00:53:16 -0700 (PDT)
-Received: by mail-ot1-x32f.google.com with SMTP id h63-20020a9d14450000b02904ce97efee36so1215147oth.7
-        for <linux-hexagon@vger.kernel.org>; Wed, 28 Jul 2021 00:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=landley-net.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=FerKPdNaFDKCfscT4TU+H3pHmBs7p/zLOTgpsEPpRyc=;
-        b=Gv11WphHbOsIk+BuBIB8WxPTOdewbcOmi2CQEmVUbTH43p3buIqGkAOvHs/kF1fLh5
-         ST6o5fM6U/gF9f5waUfHNJ+uhjRJojFvpkuQSQw8zht+Zegt8RDqisYAkboZE/KpBOpq
-         59YCYfwekcbiU81okOZNPWq+HZIsTKvfnY/5PwntQDESQLve1xNbXWFEsS0OK3+NXz6X
-         aiCKPN4/Mkn0CACeJn1dVWaYkFU8LGi1HXJmKK1lZ1EZ8SNCbzSpLD88Y+mkz8x13Q3X
-         aRkIE4G3inHNlX28Q5Pw6GhBiNU7QHlioZrU0bbzqz4SuElJdvvKgSjK4hpuoiq09XGq
-         0nFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=FerKPdNaFDKCfscT4TU+H3pHmBs7p/zLOTgpsEPpRyc=;
-        b=q+kC3IfjAXY/ed8PUYxZ4o+jXg9P58yiPOYEpaENU6vpfU6SYJ2rsIiplpVb3UxsPQ
-         BKHo9y6audd8qodfRk0hV/JCjKYs8ufrrOMH4WZdeEEsnpDESiv7A7T/nFozWBWjUJiS
-         sr66ts+3ceRY+EJkZgcrdteM7Y6vMBLdlXrE8YJ/5WDQmeEgkviqxghg1AxjOscUdEu1
-         GzooNCIb70NZB43HoVdz4BnJkNTKAQRcyI/SORhiKQdEqSzwNSmQj7bPQBVaw5a96vbV
-         e3P4Rio/Zv+Zy0BOpvRwqtj5DLAr/K1fBSKYyQwSQK1coEt0eLcx5hvu15mzZVzEeBLy
-         rOnw==
-X-Gm-Message-State: AOAM531s1kSXRIXRHSCTuSWEfF2RIYFkaUtNUM3DpuFGoPmWgrdOFmhi
-        hwYeyKiNYQ6LNHUmdelpB5nj/Q==
-X-Google-Smtp-Source: ABdhPJxiAnAXYW7cpc2jt+bzVAQGVqgfDJGlXPpwmDDgeEdmrvc4OGxvN0UcPZbElDk1DDPBI2YULA==
-X-Received: by 2002:a9d:7a8e:: with SMTP id l14mr18003709otn.304.1627458796387;
-        Wed, 28 Jul 2021 00:53:16 -0700 (PDT)
-Received: from [192.168.147.11] ([172.58.97.139])
-        by smtp.gmail.com with ESMTPSA id b6sm9734oib.51.2021.07.28.00.53.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 28 Jul 2021 00:53:15 -0700 (PDT)
-Subject: Re: [PATCH 01/20] Hexagon HVX (target/hexagon) README
-To:     Taylor Simpson <tsimpson@quicinc.com>,
-        Sid Manning <sidneym@quicinc.com>,
-        Brian Cain <bcain@quicinc.com>,
-        "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>
-Cc:     "ale@rev.ng" <ale@rev.ng>,
-        "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-        "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
-        "philmd@redhat.com" <philmd@redhat.com>
-References: <1625528074-19440-1-git-send-email-tsimpson@quicinc.com>
- <1625528074-19440-2-git-send-email-tsimpson@quicinc.com>
- <1b632e88-43d4-3034-cf7b-d42be056d842@landley.net>
- <SN6PR02MB42054B50C60ABA378256492DB8159@SN6PR02MB4205.namprd02.prod.outlook.com>
- <553c32e8-188c-5b2c-2f4a-a8cfd7b903a9@landley.net>
- <BN7PR02MB4194007550E66EBE877625A6B8E19@BN7PR02MB4194.namprd02.prod.outlook.com>
- <BYAPR02MB55091DE5B976956075B46FADBEE19@BYAPR02MB5509.namprd02.prod.outlook.com>
- <8845de00-ddc7-86a3-600f-6ede81e168c2@landley.net>
- <8192e9bb-a0de-1b2a-271c-ac7323be8244@landley.net>
- <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
-From:   Rob Landley <rob@landley.net>
-Message-ID: <b902f367-d911-7e58-2b7e-8a753431eb6c@landley.net>
-Date:   Wed, 28 Jul 2021 03:11:09 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.11.0
+        id S235651AbhG1PIL (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 28 Jul 2021 11:08:11 -0400
+Received: from m43-7.mailgun.net ([69.72.43.7]:43464 "EHLO m43-7.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235555AbhG1PII (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Wed, 28 Jul 2021 11:08:08 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1627484887; h=Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Message-ID: Date: Subject: In-Reply-To: References: Cc:
+ To: From: Reply-To: Sender;
+ bh=sj2A2zR3rcI8P9VUMF3/9Yk8xk+GhmmV1rwmsS/dDMU=; b=CVTKNZX0zf/VZ559LAZHMt2Q+lRGGVHK3v+fmNNZw6UqmPXN3twBryx6H+cwbrOi1nHfuD8W
+ QYEfjRtV0zlZKhPRKxT7qeV6qZ89HhhRFsc9oC7q6YFuvDXblR4VmlsO5U07pSTjVtPPJKGg
+ WrESKOTQbHnQGgEwra1iwgP7tRk=
+X-Mailgun-Sending-Ip: 69.72.43.7
+X-Mailgun-Sid: WyIwOTBiMiIsICJsaW51eC1oZXhhZ29uQHZnZXIua2VybmVsLm9yZyIsICJiZTllNGEiXQ==
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-east-1.postgun.com with SMTP id
+ 610172c5b653fbdadd4e6ad4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 28 Jul 2021 15:07:48
+ GMT
+Sender: bcain=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 33600C433F1; Wed, 28 Jul 2021 15:07:48 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,SPF_FAIL,
+        URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.0
+Received: from BCAIN (i-global254.qualcomm.com [199.106.103.254])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: bcain)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 497DBC433F1;
+        Wed, 28 Jul 2021 15:07:46 +0000 (UTC)
+DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 497DBC433F1
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
+Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=bcain@codeaurora.org
+Reply-To: <bcain@codeaurora.org>
+From:   "Brian Cain" <bcain@codeaurora.org>
+To:     "'Nathan Chancellor'" <nathan@kernel.org>,
+        "'Andrew Morton'" <akpm@linux-foundation.org>
+Cc:     "'Nick Desaulniers'" <ndesaulniers@google.com>,
+        <linux-hexagon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <clang-built-linux@googlegroups.com>,
+        "'Manning, Sid'" <sidneym@quicinc.com>
+References: <20210728001729.1960182-1-nathan@kernel.org>
+In-Reply-To: <20210728001729.1960182-1-nathan@kernel.org>
+Subject: RE: [PATCH] hexagon: Clean up timer-regs.h
+Date:   Wed, 28 Jul 2021 10:07:45 -0500
+Message-ID: <03bc01d783c2$52e6f200$f8b4d600$@codeaurora.org>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB48863186EDD71439C60792A0DEE89@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="us-ascii"
 Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Content-Language: en-us
+Thread-Index: AQHsvcFl/v/yGvN+KqOPEWg6PsqxiKsuCMEw
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On 7/26/21 8:59 AM, Taylor Simpson wrote:
->> Anyway, I still hope somebody else has already done most of this in a git
->> tree somewhere. :)
->
-> We're working on system mode support for Hexagon, and we plan to upstream it when it is ready.
+> -----Original Message-----
+> From: Nathan Chancellor <nathan@kernel.org>
+...
+> When building allmodconfig, there is a warning about TIMER_ENABLE being
+> redefined:
+> 
+>  drivers/clocksource/timer-oxnas-rps.c:39:9: warning: 'TIMER_ENABLE'
+>  macro redefined [-Wmacro-redefined]
+>  #define TIMER_ENABLE            BIT(7)
+>          ^
+>  arch/hexagon/include/asm/timer-regs.h:13:9: note: previous definition
+>  is here
+>  #define TIMER_ENABLE            0
+>          ^
+>  1 warning generated.
+> 
+> The values in this header are only used in one file each, if they are
+> used at all. Remove the header and sink all of the constants into their
+> respective files.
+> 
+> TCX0_CLK_RATE is only used in arch/hexagon/include/asm/timex.h
+> 
+> TIMER_ENABLE, RTOS_TIMER_INT, RTOS_TIMER_REGS_ADDR are only used in
+> arch/hexagon/kernel/time.c.
+> 
+> SLEEP_CLK_RATE and TIMER_CLR_ON_MATCH have both been unused since
+> the
+> file's introduction in commit 71e4a47f32f4 ("Hexagon: Add time and timer
+> functions").
+> 
+> TIMER_ENABLE is redefined as BIT(0) so the shift is moved into the
+> definition, rather than its use.
+> 
+> Signed-off-by: Nathan Chancellor <nathan@kernel.org>
+> ---
+>  arch/hexagon/include/asm/timer-regs.h | 26 --------------------------
+>  arch/hexagon/include/asm/timex.h      |  3 +--
+>  arch/hexagon/kernel/time.c            | 12 ++++++++++--
+>  3 files changed, 11 insertions(+), 30 deletions(-)
+>  delete mode 100644 arch/hexagon/include/asm/timer-regs.h
+> 
+> diff --git a/arch/hexagon/include/asm/timer-regs.h
+> b/arch/hexagon/include/asm/timer-regs.h
+> deleted file mode 100644
+> index ee6c61423a05..000000000000
+> --- a/arch/hexagon/include/asm/timer-regs.h
+> +++ /dev/null
+> @@ -1,26 +0,0 @@
+> -/* SPDX-License-Identifier: GPL-2.0-only */
+> -/*
+> - * Timer support for Hexagon
+> - *
+> - * Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
+> - */
+> -
+> -#ifndef _ASM_TIMER_REGS_H
+> -#define _ASM_TIMER_REGS_H
+> -
+> -/*  This stuff should go into a platform specific file  */
+> -#define TCX0_CLK_RATE		19200
+> -#define TIMER_ENABLE		0
+> -#define TIMER_CLR_ON_MATCH	1
+> -
+> -/*
+> - * 8x50 HDD Specs 5-8.  Simulator co-sim not fixed until
+> - * release 1.1, and then it's "adjustable" and probably not defaulted.
+> - */
+> -#define RTOS_TIMER_INT		3
+> -#ifdef CONFIG_HEXAGON_COMET
+> -#define RTOS_TIMER_REGS_ADDR	0xAB000000UL
+> -#endif
+> -#define SLEEP_CLK_RATE		32000
+> -
+> -#endif
+> diff --git a/arch/hexagon/include/asm/timex.h
+> b/arch/hexagon/include/asm/timex.h
+> index 8d4ec76fceb4..dfe69e118b2b 100644
+> --- a/arch/hexagon/include/asm/timex.h
+> +++ b/arch/hexagon/include/asm/timex.h
+> @@ -7,11 +7,10 @@
+>  #define _ASM_TIMEX_H
+> 
+>  #include <asm-generic/timex.h>
+> -#include <asm/timer-regs.h>
+>  #include <asm/hexagon_vm.h>
+> 
+>  /* Using TCX0 as our clock.  CLOCK_TICK_RATE scheduled to be removed. */
+> -#define CLOCK_TICK_RATE              TCX0_CLK_RATE
+> +#define CLOCK_TICK_RATE              19200
+> 
+>  #define ARCH_HAS_READ_CURRENT_TIMER
+> 
+> diff --git a/arch/hexagon/kernel/time.c b/arch/hexagon/kernel/time.c
+> index feffe527ac92..febc95714d75 100644
+> --- a/arch/hexagon/kernel/time.c
+> +++ b/arch/hexagon/kernel/time.c
+> @@ -17,9 +17,10 @@
+>  #include <linux/of_irq.h>
+>  #include <linux/module.h>
+> 
+> -#include <asm/timer-regs.h>
+>  #include <asm/hexagon_vm.h>
+> 
+> +#define TIMER_ENABLE		BIT(0)
+> +
+>  /*
+>   * For the clocksource we need:
+>   *	pcycle frequency (600MHz)
+> @@ -33,6 +34,13 @@ cycles_t	pcycle_freq_mhz;
+>  cycles_t	thread_freq_mhz;
+>  cycles_t	sleep_clk_freq;
+> 
+> +/*
+> + * 8x50 HDD Specs 5-8.  Simulator co-sim not fixed until
+> + * release 1.1, and then it's "adjustable" and probably not defaulted.
+> + */
+> +#define RTOS_TIMER_INT		3
+> +#define RTOS_TIMER_REGS_ADDR	0xAB000000UL
+> +
+>  static struct resource rtos_timer_resources[] = {
+>  	{
+>  		.start	= RTOS_TIMER_REGS_ADDR,
+> @@ -80,7 +88,7 @@ static int set_next_event(unsigned long delta, struct
+> clock_event_device *evt)
+>  	iowrite32(0, &rtos_timer->clear);
+> 
+>  	iowrite32(delta, &rtos_timer->match);
+> -	iowrite32(1 << TIMER_ENABLE, &rtos_timer->enable);
+> +	iowrite32(TIMER_ENABLE, &rtos_timer->enable);
+>  	return 0;
+>  }
+> 
+> 
+> base-commit: 7d549995d4e0d99b68e8a7793a0d23da6fc40fe8
 
-Yay! Thanks.
+Acked-by: Brian Cain <bcain@codeaurora.org>
 
-While you're at it, why is llvm's cmake config unable to do:
-
-  $ cccnext/cross_bin/hexagon-unknown-linux-musl-cc \
-    -Xpreprocessor -P -E - <<< __SIZEOF_POINTER__
-  4
-
-I'm trying to genericize that llvm build script to do all the targets musl and
-llvm agree on supporting, which means not passing in -DCMAKE_SIZEOF_VOID_P=4
-because the compiler ALREADY KNOWS THIS... but cmake/config-ix.cmake line 196 is
-REALLY going to barf if we didn't explicitly specify it on the command line? Are
-the llvm developers not _aware_ of the "cc -E -dM - < /dev/null" trick? Even if
-they aren't, why couldn't they just sizeof(void *) in a header file?
-
-*shrug* I can do the above trick in the wrapper script and then provide
--DCMAKE_SIZEOF_VOID_P=$BLAH on the command line, it just seems DEEPLY pointless
-to go to all the trouble of having a ./configure that has to be manually told
-stuff the compiler already knows.
-
-Confused,
-
-Rob
