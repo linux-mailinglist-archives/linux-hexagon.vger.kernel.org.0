@@ -2,187 +2,190 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 456393E07A1
-	for <lists+linux-hexagon@lfdr.de>; Wed,  4 Aug 2021 20:31:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 138723E0F9C
+	for <lists+linux-hexagon@lfdr.de>; Thu,  5 Aug 2021 09:50:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238897AbhHDSb3 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 4 Aug 2021 14:31:29 -0400
-Received: from mail.kernel.org ([198.145.29.99]:54376 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S231197AbhHDSb3 (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 4 Aug 2021 14:31:29 -0400
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 94A4C60F35;
-        Wed,  4 Aug 2021 18:31:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1628101876;
-        bh=dA9albDNHjmnEUuUUEGet3tMJ5oUy+/d4FLXbY1CZuQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DpDZH+KFgtU8Kl1ygeTU2R3tMl+E6fPZohcD38Xo7eh7HCMt8/Puyi4ubAxhe2KnG
-         28XE3vWuG42L4i2lyQ9h/u4c2vb0buzAnFpmSXu/HmJNWtqGl/MAxNTn3HLyRcreMM
-         YQKP8TimGS58oRrGiEYi1Rxfz5dOEq8otH6HFm0VH2woLkmr2CEgz/nED/K4FH7tg3
-         5w73rHNgpJ9g6aIYT1UAKziTa55o41lX39r6LSxQ3ry3ob0K1w3/EEJnjx+l6BpDym
-         TuR1uWqgPf+Im1bZijzCHCuB3pbPR2A+WORn0UaMj8NO3rpaeCp/i+Vx8I1LMrdVzY
-         cxvdPtBWr2xyA==
-Date:   Wed, 4 Aug 2021 11:31:13 -0700
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Andrew Morton <akpm@linux-foundation.org>
-Cc:     Nick Desaulniers <ndesaulniers@google.com>,
-        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        clang-built-linux@googlegroups.com,
-        Sid Manning <sidneym@quicinc.com>,
-        Brian Cain <bcain@codeaurora.org>
-Subject: Re: [PATCH] hexagon: Clean up timer-regs.h
-Message-ID: <YQrc8SE+T7++BLaG@Ryzen-9-3900X.localdomain>
-References: <20210728001729.1960182-1-nathan@kernel.org>
- <03bc01d783c2$52e6f200$f8b4d600$@codeaurora.org>
+        id S238894AbhHEHux (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 5 Aug 2021 03:50:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S238826AbhHEHuv (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Thu, 5 Aug 2021 03:50:51 -0400
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74A77C061765
+        for <linux-hexagon@vger.kernel.org>; Thu,  5 Aug 2021 00:50:37 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id z4so5245948wrv.11
+        for <linux-hexagon@vger.kernel.org>; Thu, 05 Aug 2021 00:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Os9VBo5ol0/OE/zsUlv+66XdPO6lV3sKgplzYRLLhU=;
+        b=dthuYtFBHhD3kr3ForYIFvZSUVRL+g4AvqqJ5MqApy7GwqLEWJD3FrctTfuA/tYCpx
+         sNlgxyx8sXHQzq89b9u747HAwdEzj71m31DAEjlOG4IqiLXyya660ZghaSD7+gnKMnU7
+         CHSvH2cOEP9AnKaBxJCKZ0NlqS7ZaSFDoptZ9EgPjxRwVWbSl/2PJ56sjS6SUkW+X0O6
+         Ev2dNvflaVoteEN2KzSSdFNpcJpkxuD3jT9ftBEozrIwoGOSjpGgiyC7agZv6GyQQhpF
+         DLkjSoc0Xat8zqIdRl9NoSFJ5NLqQoX9ttPJ8DWoB97sP3VtcZzD/pkBZHXH7KMl1fKB
+         GcCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=1Os9VBo5ol0/OE/zsUlv+66XdPO6lV3sKgplzYRLLhU=;
+        b=Y+PByMrF9cbcwii4A2E0omUNKlRguFBcHh7jBu3CAHDVOsT0eFK9OpBGwXIKs6bJY8
+         Ooqm6mzytfOvxp10lUh6S5LuxPkE5cVW73e0GNZCGivCQydXEqVXWp6VIdwJJBgWtUUf
+         7JZxrBLLRipWu1Vag2TKO/FwTCgxp5KKAHL7AhbHk5L1+4KQLO0WnEkCSnTDoic0sOkK
+         Zke9Dht2+sg3PUvEstmD7bDuP5cgA3dYgzTYLPDxTw2lEmuxHWOTv7vrpQHGFkYAOnd+
+         pW9KUcA4YY5EBBrE0YcpvTm+YXO7F9ZCqbMridotQq5jwQrtdM78IXSPL+AdcAa2ezx1
+         RPpg==
+X-Gm-Message-State: AOAM531y+hDqQKqVs7BYgmHEP6S2AjZYPV43fhdcUbM4QY7c9hEoVqKp
+        d9VBPwgL0PSlQAogNzt7ca0LlQ==
+X-Google-Smtp-Source: ABdhPJw8HrMNDFxDvHEKsrTuUr73DV6B7ZEHdGYK/OgbJyv26WO2sghDmY9iYMdlRWWqluqCuDH5CA==
+X-Received: by 2002:adf:ed4f:: with SMTP id u15mr3439300wro.423.1628149836117;
+        Thu, 05 Aug 2021 00:50:36 -0700 (PDT)
+Received: from localhost.localdomain ([109.180.115.228])
+        by smtp.gmail.com with ESMTPSA id h16sm5154491wre.52.2021.08.05.00.50.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Aug 2021 00:50:35 -0700 (PDT)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Brian Cain <bcain@codeaurora.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Christian Borntraeger <borntraeger@de.ibm.com>,
+        Chris Zankel <chris@zankel.net>,
+        "David S . Miller" <davem@davemloft.net>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Guo Ren <guoren@kernel.org>,
+        Heiko Carstens <hca@linux.ibm.com>,
+        Helge Deller <deller@gmx.de>, Ingo Molnar <mingo@redhat.com>,
+        "James E . J . Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Jeff Dike <jdike@addtoit.com>, John Crispin <john@phrozen.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Ley Foon Tan <ley.foon.tan@intel.com>,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, linux-snps-arc@lists.infradead.org,
+        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Simek <monstr@monstr.eu>, openrisc@lists.librecores.org,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Richard Weinberger <richard@nod.at>,
+        Rich Felker <dalias@libc.org>, sparclinux@vger.kernel.org,
+        Stafford Horne <shorne@gmail.com>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        uclinux-h8-devel@lists.sourceforge.jp,
+        Vasily Gorbik <gor@linux.ibm.com>,
+        Vineet Gupta <vgupta@synopsys.com>,
+        Will Deacon <will@kernel.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>
+Subject: [PATCH 0/3] power: reset: Convert Power-Off driver to tristate
+Date:   Thu,  5 Aug 2021 08:50:29 +0100
+Message-Id: <20210805075032.723037-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.32.0.605.g8dce9f2422-goog
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <03bc01d783c2$52e6f200$f8b4d600$@codeaurora.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Wed, Jul 28, 2021 at 10:07:45AM -0500, Brian Cain wrote:
-> > -----Original Message-----
-> > From: Nathan Chancellor <nathan@kernel.org>
-> ...
-> > When building allmodconfig, there is a warning about TIMER_ENABLE being
-> > redefined:
-> > 
-> >  drivers/clocksource/timer-oxnas-rps.c:39:9: warning: 'TIMER_ENABLE'
-> >  macro redefined [-Wmacro-redefined]
-> >  #define TIMER_ENABLE            BIT(7)
-> >          ^
-> >  arch/hexagon/include/asm/timer-regs.h:13:9: note: previous definition
-> >  is here
-> >  #define TIMER_ENABLE            0
-> >          ^
-> >  1 warning generated.
-> > 
-> > The values in this header are only used in one file each, if they are
-> > used at all. Remove the header and sink all of the constants into their
-> > respective files.
-> > 
-> > TCX0_CLK_RATE is only used in arch/hexagon/include/asm/timex.h
-> > 
-> > TIMER_ENABLE, RTOS_TIMER_INT, RTOS_TIMER_REGS_ADDR are only used in
-> > arch/hexagon/kernel/time.c.
-> > 
-> > SLEEP_CLK_RATE and TIMER_CLR_ON_MATCH have both been unused since
-> > the
-> > file's introduction in commit 71e4a47f32f4 ("Hexagon: Add time and timer
-> > functions").
-> > 
-> > TIMER_ENABLE is redefined as BIT(0) so the shift is moved into the
-> > definition, rather than its use.
-> > 
-> > Signed-off-by: Nathan Chancellor <nathan@kernel.org>
-> > ---
-> >  arch/hexagon/include/asm/timer-regs.h | 26 --------------------------
-> >  arch/hexagon/include/asm/timex.h      |  3 +--
-> >  arch/hexagon/kernel/time.c            | 12 ++++++++++--
-> >  3 files changed, 11 insertions(+), 30 deletions(-)
-> >  delete mode 100644 arch/hexagon/include/asm/timer-regs.h
-> > 
-> > diff --git a/arch/hexagon/include/asm/timer-regs.h
-> > b/arch/hexagon/include/asm/timer-regs.h
-> > deleted file mode 100644
-> > index ee6c61423a05..000000000000
-> > --- a/arch/hexagon/include/asm/timer-regs.h
-> > +++ /dev/null
-> > @@ -1,26 +0,0 @@
-> > -/* SPDX-License-Identifier: GPL-2.0-only */
-> > -/*
-> > - * Timer support for Hexagon
-> > - *
-> > - * Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
-> > - */
-> > -
-> > -#ifndef _ASM_TIMER_REGS_H
-> > -#define _ASM_TIMER_REGS_H
-> > -
-> > -/*  This stuff should go into a platform specific file  */
-> > -#define TCX0_CLK_RATE		19200
-> > -#define TIMER_ENABLE		0
-> > -#define TIMER_CLR_ON_MATCH	1
-> > -
-> > -/*
-> > - * 8x50 HDD Specs 5-8.  Simulator co-sim not fixed until
-> > - * release 1.1, and then it's "adjustable" and probably not defaulted.
-> > - */
-> > -#define RTOS_TIMER_INT		3
-> > -#ifdef CONFIG_HEXAGON_COMET
-> > -#define RTOS_TIMER_REGS_ADDR	0xAB000000UL
-> > -#endif
-> > -#define SLEEP_CLK_RATE		32000
-> > -
-> > -#endif
-> > diff --git a/arch/hexagon/include/asm/timex.h
-> > b/arch/hexagon/include/asm/timex.h
-> > index 8d4ec76fceb4..dfe69e118b2b 100644
-> > --- a/arch/hexagon/include/asm/timex.h
-> > +++ b/arch/hexagon/include/asm/timex.h
-> > @@ -7,11 +7,10 @@
-> >  #define _ASM_TIMEX_H
-> > 
-> >  #include <asm-generic/timex.h>
-> > -#include <asm/timer-regs.h>
-> >  #include <asm/hexagon_vm.h>
-> > 
-> >  /* Using TCX0 as our clock.  CLOCK_TICK_RATE scheduled to be removed. */
-> > -#define CLOCK_TICK_RATE              TCX0_CLK_RATE
-> > +#define CLOCK_TICK_RATE              19200
-> > 
-> >  #define ARCH_HAS_READ_CURRENT_TIMER
-> > 
-> > diff --git a/arch/hexagon/kernel/time.c b/arch/hexagon/kernel/time.c
-> > index feffe527ac92..febc95714d75 100644
-> > --- a/arch/hexagon/kernel/time.c
-> > +++ b/arch/hexagon/kernel/time.c
-> > @@ -17,9 +17,10 @@
-> >  #include <linux/of_irq.h>
-> >  #include <linux/module.h>
-> > 
-> > -#include <asm/timer-regs.h>
-> >  #include <asm/hexagon_vm.h>
-> > 
-> > +#define TIMER_ENABLE		BIT(0)
-> > +
-> >  /*
-> >   * For the clocksource we need:
-> >   *	pcycle frequency (600MHz)
-> > @@ -33,6 +34,13 @@ cycles_t	pcycle_freq_mhz;
-> >  cycles_t	thread_freq_mhz;
-> >  cycles_t	sleep_clk_freq;
-> > 
-> > +/*
-> > + * 8x50 HDD Specs 5-8.  Simulator co-sim not fixed until
-> > + * release 1.1, and then it's "adjustable" and probably not defaulted.
-> > + */
-> > +#define RTOS_TIMER_INT		3
-> > +#define RTOS_TIMER_REGS_ADDR	0xAB000000UL
-> > +
-> >  static struct resource rtos_timer_resources[] = {
-> >  	{
-> >  		.start	= RTOS_TIMER_REGS_ADDR,
-> > @@ -80,7 +88,7 @@ static int set_next_event(unsigned long delta, struct
-> > clock_event_device *evt)
-> >  	iowrite32(0, &rtos_timer->clear);
-> > 
-> >  	iowrite32(delta, &rtos_timer->match);
-> > -	iowrite32(1 << TIMER_ENABLE, &rtos_timer->enable);
-> > +	iowrite32(TIMER_ENABLE, &rtos_timer->enable);
-> >  	return 0;
-> >  }
-> > 
-> > 
-> > base-commit: 7d549995d4e0d99b68e8a7793a0d23da6fc40fe8
-> 
-> Acked-by: Brian Cain <bcain@codeaurora.org>
+Provide support to compile the Power-Off driver as a module.
 
-Thanks Brian. Andrew, if you would not mind picking this up, I would
-appreciate it!
+Elliot Berman (2):
+  reboot: Export reboot_mode
+  power: reset: Enable tristate on restart power-off driver
 
-Cheers,
-Nathan
+Lee Jones (1):
+  arch: Export machine_restart() instances so they can be called from
+    modules
+
+ arch/arc/kernel/reset.c            | 1 +
+ arch/arm/kernel/reboot.c           | 1 +
+ arch/arm64/kernel/process.c        | 1 +
+ arch/csky/kernel/power.c           | 1 +
+ arch/h8300/kernel/process.c        | 1 +
+ arch/hexagon/kernel/reset.c        | 1 +
+ arch/m68k/kernel/process.c         | 1 +
+ arch/microblaze/kernel/reset.c     | 1 +
+ arch/mips/kernel/reset.c           | 1 +
+ arch/mips/lantiq/falcon/reset.c    | 1 +
+ arch/mips/sgi-ip27/ip27-reset.c    | 1 +
+ arch/nios2/kernel/process.c        | 1 +
+ arch/openrisc/kernel/process.c     | 1 +
+ arch/parisc/kernel/process.c       | 1 +
+ arch/powerpc/kernel/setup-common.c | 1 +
+ arch/riscv/kernel/reset.c          | 1 +
+ arch/s390/kernel/setup.c           | 1 +
+ arch/sh/kernel/reboot.c            | 1 +
+ arch/sparc/kernel/process_32.c     | 1 +
+ arch/sparc/kernel/reboot.c         | 1 +
+ arch/um/kernel/reboot.c            | 1 +
+ arch/x86/kernel/reboot.c           | 1 +
+ arch/xtensa/kernel/setup.c         | 1 +
+ drivers/power/reset/Kconfig        | 2 +-
+ kernel/reboot.c                    | 2 ++
+ 25 files changed, 26 insertions(+), 1 deletion(-)
+
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Brian Cain <bcain@codeaurora.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Christian Borntraeger <borntraeger@de.ibm.com>
+Cc: Chris Zankel <chris@zankel.net>
+Cc: David S. Miller <davem@davemloft.net>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Guo Ren <guoren@kernel.org>
+Cc: Heiko Carstens <hca@linux.ibm.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: James E.J. Bottomley <James.Bottomley@HansenPartnership.com>
+Cc: Jeff Dike <jdike@addtoit.com>
+Cc: John Crispin <john@phrozen.org>
+Cc: Jonas Bonn <jonas@southpole.se>
+Cc: Ley Foon Tan <ley.foon.tan@intel.com>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-csky@vger.kernel.org
+Cc: linux-hexagon@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-s390@vger.kernel.org
+Cc: linux-sh@vger.kernel.org
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-um@lists.infradead.org
+Cc: linux-xtensa@linux-xtensa.org
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Michal Simek <monstr@monstr.eu>
+Cc: openrisc@lists.librecores.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Rich Felker <dalias@libc.org>
+Cc: sparclinux@vger.kernel.org
+Cc: Stafford Horne <shorne@gmail.com>
+Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: uclinux-h8-devel@lists.sourceforge.jp
+Cc: Vasily Gorbik <gor@linux.ibm.com>
+Cc: Vineet Gupta <vgupta@synopsys.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+-- 
+2.32.0.605.g8dce9f2422-goog
+
