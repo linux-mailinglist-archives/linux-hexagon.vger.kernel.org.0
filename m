@@ -2,38 +2,39 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C3103EC109
-	for <lists+linux-hexagon@lfdr.de>; Sat, 14 Aug 2021 09:03:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D113C3F06AE
+	for <lists+linux-hexagon@lfdr.de>; Wed, 18 Aug 2021 16:27:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236542AbhHNHDr (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 14 Aug 2021 03:03:47 -0400
-Received: from verein.lst.de ([213.95.11.211]:49408 "EHLO verein.lst.de"
+        id S234069AbhHRO1x (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 18 Aug 2021 10:27:53 -0400
+Received: from verein.lst.de ([213.95.11.211]:34110 "EHLO verein.lst.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S236519AbhHNHDq (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 14 Aug 2021 03:03:46 -0400
+        id S233320AbhHRO1x (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Wed, 18 Aug 2021 10:27:53 -0400
 Received: by verein.lst.de (Postfix, from userid 2407)
-        id 3258767373; Sat, 14 Aug 2021 09:03:16 +0200 (CEST)
-Date:   Sat, 14 Aug 2021 09:03:16 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     iommu@lists.linux-foundation.org,
-        Russell King <linux@armlinux.org.uk>,
-        Brian Cain <bcain@codeaurora.org>
-Cc:     linux-hexagon@vger.kernel.org,
-        Vladimir Murzin <vladimir.murzin@arm.com>,
-        Dillon Min <dillon.minfei@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: add support for the global coherent pool to the dma core
-Message-ID: <20210814070316.GA20875@lst.de>
-References: <20210712061704.4162464-1-hch@lst.de>
+        id E380967373; Wed, 18 Aug 2021 16:27:15 +0200 (CEST)
+Date:   Wed, 18 Aug 2021 16:27:15 +0200
+From:   'Christoph Hellwig' <hch@lst.de>
+To:     Brian Cain <bcain@codeaurora.org>
+Cc:     'Christoph Hellwig' <hch@lst.de>, iommu@lists.linux-foundation.org,
+        'Russell King' <linux@armlinux.org.uk>,
+        'Dillon Min' <dillon.minfei@gmail.com>,
+        'Vladimir Murzin' <vladimir.murzin@arm.com>,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        "'Manning, Sid'" <sidneym@quicinc.com>
+Subject: Re: [PATCH 7/7] hexagon: use the generic global coherent pool
+Message-ID: <20210818142715.GA10755@lst.de>
+References: <20210712061704.4162464-1-hch@lst.de> <20210712061704.4162464-8-hch@lst.de> <00a901d790af$b05165c0$10f43140$@codeaurora.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210712061704.4162464-1-hch@lst.de>
+In-Reply-To: <00a901d790af$b05165c0$10f43140$@codeaurora.org>
 User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Any more comments?
+Thanks,
 
-Otherwise I'm going to pull this into the dma-mapping tree next week.
+I've pulled the whole series into the dma-mapping for-next tree.
