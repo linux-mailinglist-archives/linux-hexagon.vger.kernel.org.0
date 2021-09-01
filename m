@@ -2,107 +2,92 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EFCB3F6DE0
-	for <lists+linux-hexagon@lfdr.de>; Wed, 25 Aug 2021 05:50:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2E683FE1ED
+	for <lists+linux-hexagon@lfdr.de>; Wed,  1 Sep 2021 20:11:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238555AbhHYDui (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 24 Aug 2021 23:50:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34496 "EHLO
+        id S1344963AbhIASMZ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 1 Sep 2021 14:12:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238618AbhHYDu3 (ORCPT
+        with ESMTP id S1346816AbhIASMU (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 24 Aug 2021 23:50:29 -0400
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8B16C061796
-        for <linux-hexagon@vger.kernel.org>; Tue, 24 Aug 2021 20:49:38 -0700 (PDT)
-Received: by mail-pl1-x62f.google.com with SMTP id n12so2090486plk.10
-        for <linux-hexagon@vger.kernel.org>; Tue, 24 Aug 2021 20:49:38 -0700 (PDT)
+        Wed, 1 Sep 2021 14:12:20 -0400
+Received: from mail-qv1-xf34.google.com (mail-qv1-xf34.google.com [IPv6:2607:f8b0:4864:20::f34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 713D3C061226
+        for <linux-hexagon@vger.kernel.org>; Wed,  1 Sep 2021 11:11:22 -0700 (PDT)
+Received: by mail-qv1-xf34.google.com with SMTP id eh1so296933qvb.11
+        for <linux-hexagon@vger.kernel.org>; Wed, 01 Sep 2021 11:11:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
-        h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-         :content-transfer-encoding;
-        bh=CbvF3gcMl15CsJvEJlvAwV4jg0kS7/1c0/243X9NmVQ=;
-        b=nS8Xfv5Np514ewOr71qM5OVYQ4om375+9iia5AAYDaK3OM+hzJenuJr7dAU5cYremk
-         lMJSdk/H6gRuWyoAZ38Dxo4xTOwzwlYBTQ7mHvrJGvY2eRlpd9btrTwCc/T4R+lnp2Oz
-         tfjjB9XYA84IA+sxs7E0+0bjR3ImZY/NCblTCqWV1vz8ngiUx+QRlaWbVMisVRWW3rOO
-         yK85Pgi7JMY0nVAg9WrPZrM52PG/5lW+DmvVcQIgBTfNfdcKCdUHJCl4J+hHtwrGzLzq
-         JQXK/nMftIjnNhxqPt/IHdPMmbV0SixoX/iiQ7rUV+IDNkS5Y0uflbsJwBJg2KghrkLe
-         Gahg==
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=LD3mpzy1s09M3e/Eheelu/QMtbN6lrYJQ+S1BsYhmG4zP9OQuKOeD1zHV2lZaK7Hdt
+         vXoBMumPRACuZhnwd8TYAFIvdImPe0Zn4DA41GnzHGsnpDZPE0wUFWVFNzgpxF6bh6D8
+         CVxTiiIN7w8BVpPirFLytZKK2cFqqV6q9qR8cw4XmdYYgGZs+MdnDeP+neEr/SbnLI2h
+         mwT6gqJ8+HvNCQei5Zu6b3U+/YcUOepEDfVn6t0IkNG5YzxTV8mH8IqZ4zEsqBchdgxI
+         E/zGH3KCiuS7UdfEMBVKPbpzhhPyh4quLRALvE4iCHtswqSZDgWUuzksodIw8OWwGR1Z
+         0RlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-         :mime-version:content-transfer-encoding;
-        bh=CbvF3gcMl15CsJvEJlvAwV4jg0kS7/1c0/243X9NmVQ=;
-        b=Mp52empfq+yUbo92rol0ytnwbT/YvLWOaekD2obIc5Cs7fuFqwbPyEx/e07MtEOX6S
-         Cz+tO7nLOWhZYdJjrQrrlLQEt77HCKG2xz0TSqGyTrxbsB7VvfEXX3vG1u0sNTJUCw4s
-         +0x3drBsY6Jy7yahATADCsKivXObkUaXP91xz4Lx9y+8e2zlmOBhs3Rdxv49PqYkHWYw
-         8//pRr/xTSXPih83T8rq3WhFTzi9O2CENxOT7a/P1nhJs6dg+HO7Z+Taga/EujJVrjaB
-         +O8i8pB3AEnmZ3a3b5KNViRPwpd1k79ZAwgPE0gkbABqzZUoNVARl00/Va21lsfDJ9u/
-         U95g==
-X-Gm-Message-State: AOAM530LrP6S62iY6lzxwBFOmp3dcvi8exg1YFO/A7skQMRM6CTI4aX7
-        k8mWD/IyWvNJsWxB+CI2xUO/HQ==
-X-Google-Smtp-Source: ABdhPJyuW0xG5fzwlVnm+V74njUWhK4iHoDYuJqptloS8iraqWcj5+LzzcKnLTPVDHS2p7IwfcePKA==
-X-Received: by 2002:a17:90a:428f:: with SMTP id p15mr8241589pjg.75.1629863378109;
-        Tue, 24 Aug 2021 20:49:38 -0700 (PDT)
-Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net. [76.210.143.223])
-        by smtp.gmail.com with ESMTPSA id q21sm23393107pgk.71.2021.08.24.20.49.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Aug 2021 20:49:37 -0700 (PDT)
-Date:   Tue, 24 Aug 2021 20:49:37 -0700 (PDT)
-X-Google-Original-Date: Tue, 24 Aug 2021 20:42:18 PDT (-0700)
-Subject:     Re: [PATCH 2/3] trace: refactor TRACE_IRQFLAGS_SUPPORT in Kconfig
-In-Reply-To: <20210731052233.4703-2-masahiroy@kernel.org>
-CC:     rostedt@goodmis.org, mingo@redhat.com, masahiroy@kernel.org,
-        Arnd Bergmann <arnd@arndb.de>, ardb@kernel.org, bp@alien8.de,
-        linus.walleij@linaro.org, ley.foon.tan@intel.com, x86@kernel.org,
-        linux-mips@vger.kernel.org, sparclinux@vger.kernel.org,
-        anshuman.khandual@arm.com, nickhu@andestech.com,
-        tglx@linutronix.de, rppt@kernel.org, geert@linux-m68k.org,
-        peterz@infradead.org, catalin.marinas@arm.com,
-        linux-riscv@lists.infradead.org, yifeifz2@illinois.edu,
-        green.hu@gmail.com, monstr@monstr.eu, deller@gmx.de,
-        linux-sh@vger.kernel.org, vgupta@synopsys.com,
-        u.kleine-koenig@pengutronix.de, guoren@kernel.org,
-        samitolvanen@google.com, richard@nod.at, borntraeger@de.ibm.com,
-        dalias@libc.org, aou@eecs.berkeley.edu, hca@linux.ibm.com,
-        jdike@addtoit.com, jcmvbkbc@gmail.com,
-        linux-hexagon@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        hpa@zytor.com, will@kernel.org, tsbogend@alpha.franken.de,
-        stefan.kristiansson@saunalahti.fi, linux-s390@vger.kernel.org,
-        ysato@users.sourceforge.jp, James.Bottomley@HansenPartnership.com,
-        linux-um@lists.infradead.org, andreyknvl@gmail.com,
-        frederic@kernel.org, npiggin@gmail.com, benh@kernel.crashing.org,
-        bcain@codeaurora.org, linux-csky@vger.kernel.org, shorne@gmail.com,
-        linux@armlinux.org.uk, linux-arm-kernel@lists.infradead.org,
-        Paul Walmsley <paul.walmsley@sifive.com>, chris@zankel.net,
-        gor@linux.ibm.com, linux-snps-arc@lists.infradead.org,
-        jonas@southpole.se, linux-parisc@vger.kernel.org,
-        keescook@chromium.org, krzysztof.kozlowski@canonical.com,
-        colin.king@canonical.com, davem@davemloft.net,
-        linux-kernel@vger.kernel.org, deanbo422@gmail.com,
-        anton.ivanov@cambridgegreys.com, akpm@linux-foundation.org,
-        mpe@ellerman.id.au, paulus@samba.org, mark.rutland@arm.com,
-        viresh.kumar@linaro.org, linuxppc-dev@lists.ozlabs.org,
-        openrisc@lists.librecores.org
-From:   Palmer Dabbelt <palmer@dabbelt.com>
-To:     masahiroy@kernel.org
-Message-ID: <mhng-fae2ea79-c261-4e5d-8eae-21e60810a957@palmerdabbelt-glaptop>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+        bh=2joGkq8i8C5vglZO1FYNTlWqLyr4vSiCXKQYXBVnv4Q=;
+        b=qwxPBCQ2b6K8HvoQRqq3h1OAl789ZlaR6Zul/mXSMMKzx6kDVl9tM4x2nGJb8cewGk
+         6gXtiOdhHhl/Ni1vacM8CaqxJ4R1z+4eQeSSvfdYmqA8/YO8ufEMp7ZFHgDs/sUIQXPy
+         xWnfkZErokDLXu8hSSd2rOpFhMre0yHBb++Fx/VNVYV9jDDc4lRk0D3xzGCdNwgfZCrY
+         ng2k17rR0rVETPQkdxTsniMyXNU7yG67iWZKCLLYMbQbT0YEvslRzxwmMvGNW76XjF2N
+         9eKPGl7QKFN+2N8HO5rASpLQU4lqYhat0Ga6gOeGBJS6OpTH1++xoe2KKFrEjILwDAig
+         LnmQ==
+X-Gm-Message-State: AOAM5312g6lj33Fm33nxFpv5Er8cfSbkJh1XDM03GwY9e3VkYBaC53IU
+        M5lMsRG3PaceGsdC+eI8giWEK6VmSkRzxrXrHlMY0oFvvXGwrQ==
+X-Google-Smtp-Source: ABdhPJwbbBYGjUEQSS3Bb7EfYk34O3AVuG22pVIF78fkATQG8c+PQmeHgcc35+YrriS74Wl5STB8JbzOasp+8kCVBlk=
+X-Received: by 2002:a67:8c5:: with SMTP id 188mr1017695vsi.4.1630519870726;
+ Wed, 01 Sep 2021 11:11:10 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:ab0:740d:0:0:0:0:0 with HTTP; Wed, 1 Sep 2021 11:11:10 -0700 (PDT)
+From:   CorisBank International <corisbankintlbf@gmail.com>
+Date:   Wed, 1 Sep 2021 11:11:10 -0700
+Message-ID: <CA+25hwzjLgVdtDXYWeuqFBTvAbpc4oxK0dW54s7tjGNyU_m0ow@mail.gmail.com>
+Subject: CORISBANK INTERNATIONAL OFFICIAL NOTIFICATION
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Fri, 30 Jul 2021 22:22:32 PDT (-0700), masahiroy@kernel.org wrote:
-> Make architectures select TRACE_IRQFLAGS_SUPPORT instead of
-> having many defines.
->
-> Signed-off-by: Masahiro Yamada <masahiroy@kernel.org>
-> ---
->
->  arch/riscv/Kconfig            | 4 +---
+Att: Client
 
-Acked-by: Palmer Dabbelt <palmerdabbelt@google.com>
 
-Thanks!
+CORISBANK INTERNATIONAL URGENT NOTIFICATION
+
+Notification / Notification/ Notification
+
+Note, We are writing to inform you officially that Finally the Central
+Bank Financial Authority have approved to transfer your $8.2Million
+which was signed by late Mrs Rose Banneth the COVID.19 victim to
+transfer to you, Late Mrs Rose Banneth the France Lady contacted us to
+transfer her fund in our bank to you for Orphanage work before she
+died by the COVID.19
+and as it is now, you will receive your fund through our corresponding
+bank in Dubai [Emirate Investment Bank ] for security reason. Please
+you should reconfirm your details to receive the $8.2Million.
+
+Name, Country, Address, occupations, Age, Telephone number, account
+Details so that we can immediately forward to the World Bank to
+transfer the fund.
+You are advised to comply on timely manner to permit this esteem bank
+transfer your fund as scheduled.
+
+We look forward to serving you better
+Your Financial Comfort Is A Priority
+Thank you for choosing Corisbank International.
+
+Sincerely,
+
+----
+
+Mr Diakarya Ouattara
+Managing Director
+Bank Coris
+Burkina Faso
++226 556 163 37
+financial_bf_info@accountant.com
