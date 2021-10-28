@@ -2,63 +2,90 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A2EFB433392
-	for <lists+linux-hexagon@lfdr.de>; Tue, 19 Oct 2021 12:34:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71E9543DF62
+	for <lists+linux-hexagon@lfdr.de>; Thu, 28 Oct 2021 12:52:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235249AbhJSKgx (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 19 Oct 2021 06:36:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38576 "EHLO
+        id S230310AbhJ1Kyx (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 28 Oct 2021 06:54:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235150AbhJSKgx (ORCPT
+        with ESMTP id S230246AbhJ1Kyu (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 19 Oct 2021 06:36:53 -0400
-Received: from mail-il1-x136.google.com (mail-il1-x136.google.com [IPv6:2607:f8b0:4864:20::136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2CE0C061745
-        for <linux-hexagon@vger.kernel.org>; Tue, 19 Oct 2021 03:34:40 -0700 (PDT)
-Received: by mail-il1-x136.google.com with SMTP id k3so17892504ilu.2
-        for <linux-hexagon@vger.kernel.org>; Tue, 19 Oct 2021 03:34:40 -0700 (PDT)
+        Thu, 28 Oct 2021 06:54:50 -0400
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60BC8C061235
+        for <linux-hexagon@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
+Received: by mail-ed1-x543.google.com with SMTP id m17so21998664edc.12
+        for <linux-hexagon@vger.kernel.org>; Thu, 28 Oct 2021 03:52:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
         h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=1fHli0Y7ukDxNuAT5ZXebI19L35uKvvemX9ZjZqRSdg=;
-        b=nR1X+erv5EN/vky/Ir69nPjkLCCSIIoZUipb5nM6BfgEeUxc8HAYCjVrALJOCZjTxA
-         lis2Wb9C4KZUuYk7+Q7hO44YX1IoYonQkd2C5zTKoIaItnWorRfGvtzzYJvEQb8QeOSh
-         03NUnMqCUcNQrOu5Hl2olvxTankzThOCoUiXvwpzIefc1G5AorpttEhY2134AbRk6Xqk
-         wm1tl677+tjP1fqOiFEhUyhTEvcCuSiGTJ13pohVf0kdEs23luyaSgKaLllxrk6T2eOx
-         npJYqdmNmAdJL9duWyTRFxGiv+MHWVMrxZa+JMq8NtWk6ahxL9+2ZAqJQmPQRlOWNUWE
-         nTkQ==
+        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
+        b=MqgQiMnth4O6zLvpsYbAhVLW1BorpgoCleWwfkY0/i+i6OSDuXRZO1jIKzpTTrmehO
+         XtsLWdXiTcL+XCe4naFtf2tTUJnbwwmDpuUkpvRhLd+LEnuxY7nNr11hmTRUVX1WOHsO
+         bN0u1arCg4gm9LHdXRMZFcXOD22U5gDGuBOuhPo6qvWbt6nA2j/p/5IZ88XFHrEsiSW3
+         12hentYJMlWeUfa2lUQkLm+5/fvMSizrI7wGoF2taOa3dgGUV5HKZWb0yAAH7nAXVevJ
+         tDC/xbHNLzSn310XeD3Gkoobjl6MPBQzT5DSLzerNBdTKOdmyp3xvfvOyo80qVUTZIED
+         gaRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=x-gm-message-state:mime-version:reply-to:from:date:message-id
          :subject:to;
-        bh=1fHli0Y7ukDxNuAT5ZXebI19L35uKvvemX9ZjZqRSdg=;
-        b=4p1X+8m7XViv/M+1nJFFUXmNZOmPvecGq9jIAJo9Y/FeQsbSldEQdkJztJcSVnc0i1
-         UZp25ET5/4yUIKt4G8kjIvYMubSmmK64+7OKZ1tUrdJdzIxfT/gPbe4bwPr7zMBX5k+K
-         1TlZf2RJd/91aSadgQaRFljQZBZiXJXteL3xoOakiRAEwfHDTsULe9RsxLg9P/u3tNL/
-         AfCjrEcHe0QIaux339RR6yqIKY1Jp2VRjBUy1pznXmZnpkS+YQfDREEZvRjZYrjsWNg4
-         +II6puM2+YHf+mLMBpvVkG6N8s5GZY0+Nd52YtGKzTJOA2bSpmL0frcZFZ44RH3pt4Jo
-         kZoA==
-X-Gm-Message-State: AOAM532wLrg+iyFDK/Z2z8udltBC7rrbqIrO0nf1bo2Iz/fKEPQjVJgV
-        2VJSGTsvo79oJoN7H++dRfkBlc2+HmyZGPpGKCU=
-X-Google-Smtp-Source: ABdhPJzmqRGov2VinbRx5vtMHFl4IOT3PCON5l7eRJ8jsIqEp27Bu8lT0s/gWwkIyMNtkZ0XtjOxNaLRom+bbOWKlUM=
-X-Received: by 2002:a05:6e02:1a43:: with SMTP id u3mr17745471ilv.35.1634639680049;
- Tue, 19 Oct 2021 03:34:40 -0700 (PDT)
+        bh=vprh3gRT3Cegcj0K7Fy7tqOfLGKK384XjLMkCZvF/BY=;
+        b=E/iO5r+NY5HWHw64UC3PxTtlIe3aXYFaCYKRdyTxbvVZtX0pHNpgJJEy0oDiMbPT6N
+         gxtBWadOlWDmovgPhA7venFlFh32sKPalUHhEye3gP0Frwgx3LeM1PVNC7QEUyq399dt
+         Q9V9dBGW9RAJQB6WEv1L3XeU4CtOzm+662ExAn2DzwURIDnZJO+QAGDj8lLAChq2NiaL
+         Vm1JzoUBwixUcUExxdDozgIRqzpDKEKXmBZKbOSXEnSAMNVLQZHRjNtAMuPxpvvrt15q
+         2aP0PVGT+GI/IMZAIxxSK08GM1Ebx3tedHGhpxxqjrr3ZyNgGs5OGDXMWT9cAeQwu+ov
+         0l6g==
+X-Gm-Message-State: AOAM530IFW/k4kheMATmjtetnqzAPKprMCyR2kaUOAC7dLLYPPeLH/60
+        NNzAHQD9Jdzim9SjSW7/y4HTM3WvOvEMu9NrFz6O7bEIIzEtPU9o
+X-Google-Smtp-Source: ABdhPJw39EF9dJlXS9lAFrZ3adXxB8DVzXcygVzA3uRLiZxWlggxaB9ElCxkEB0P82xisoA6G442GD5iqMe2hCgLIt8=
+X-Received: by 2002:a2e:9a83:: with SMTP id p3mr3750290lji.145.1635418330269;
+ Thu, 28 Oct 2021 03:52:10 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a6b:fd11:0:0:0:0:0 with HTTP; Tue, 19 Oct 2021 03:34:39
+Received: by 2002:ab3:6f89:0:0:0:0:0 with HTTP; Thu, 28 Oct 2021 03:52:09
  -0700 (PDT)
-Reply-To: mcchember@gmail.com
-From:   Michael Christopher <johnadillchember2@gmail.com>
-Date:   Tue, 19 Oct 2021 11:34:39 +0100
-Message-ID: <CAJ8VP79WdSih5KDw7DqE-3G=LrYQjjgO5xdSfUN4z5gTqM1vRg@mail.gmail.com>
-Subject: Hi
+Reply-To: aabdulwalialhashmi@gmail.com
+From:   Abdulwali Alhashmi <husamalsayed.hs@gmail.com>
+Date:   Thu, 28 Oct 2021 03:52:09 -0700
+Message-ID: <CAF6yYCeS=rm8=_71-kMjVo4oaVK57w9X52R_yv1HDrBe7vh-sA@mail.gmail.com>
+Subject: PLEASE GET BACK TO ME IF I CAN I TRUST YOU
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello
+-- 
+Greetings,
 
-I am Barrister.Michael Christopher attorney to your late relative, now
-am contacting you for the claim of your late relatives fund.Please
-contact me with this email.(michaelchember@gmail.com
+Firstly, I apologize for encroaching into your privacy in this manner
+as it may seem unethical though it is a matter of great importance.
+
+I am Abdulwali Alhashmi, I work with Cayman National Bank (Cayman Islands).
+
+I am contacting you because my status would not permit me to do this
+alone as it is concerning our customer and an investment placed under
+our bank's management over 5 years ago.
+
+I have a proposal I would love to discuss with you which will be very
+beneficial to both of us. It's regarding my late client who has a huge
+deposit with my bank.
+
+He is from your country and shares the same last name with you.
+
+I want to seek your consent to present you as the next of kin to my
+late client who died and left a huge deposit with my bank.
+
+I would respectfully request that you keep the contents of this mail
+confidential and respect the integrity of the information you come by
+as a result of this mail.
+
+Please kindly get back to me for more details if I can TRUST YOU.{
+aabdulwalialhashmi@gmail.com }
+
+Regards
+Abdulwali Alhashmi
+Treasury and Deposit Management,
+Cayman National Bank Cayman Islands
