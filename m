@@ -2,62 +2,83 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1369447B20
-	for <lists+linux-hexagon@lfdr.de>; Mon,  8 Nov 2021 08:31:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84290450E59
+	for <lists+linux-hexagon@lfdr.de>; Mon, 15 Nov 2021 19:12:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236370AbhKHHbF (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 8 Nov 2021 02:31:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S237902AbhKHHaj (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 8 Nov 2021 02:30:39 -0500
-Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA05C06122D
-        for <linux-hexagon@vger.kernel.org>; Sun,  7 Nov 2021 23:27:33 -0800 (PST)
-Received: by mail-ed1-x533.google.com with SMTP id j21so58456003edt.11
-        for <linux-hexagon@vger.kernel.org>; Sun, 07 Nov 2021 23:27:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
-        b=lohGAXI96njXpZ5r6vgYlUkp2V68iRMzDV25uaLpmT1WmpX2h0YNNnPekuKOrJR7Hh
-         rCcmOUgGjsAkeHEvvQCkM6ux+TyqL0CqGbf0IPfL8V+eIKLF7r3X9QWFup/xVl2xV9qZ
-         NGc0LQ7JpvXhk+YTEHFaFd2QnuENE8mCWi0drmIQkANv1zf9DM6Bfjx/yF/A/b9RtJFU
-         CT2DuJeqJ7evq+rJKQgmUSCIg2GjkqvLZlnb0ekZ1/3u7apFf2k73Uqo2u8YZ8hKmOIw
-         ZGA3M8LZJFGSmW3P+nQyYMCLCtL13s+WCsnPOmCuuFd5xieMsN0vbLhindKIE3OfrP6U
-         BcYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=gS+G2bXPLTc8QV9oSOsVFPfildfSifO+gabOlUjPn+8=;
-        b=kMPwK6HAP0RdqNKeQn0QzpREvQAiXzhgLcwd+xY1QOEPS1zMMsQbpvZG/+TyBl+Slx
-         QC2f0nwEIIXzo7cghibXyVQR/L7abSsIecVmZCVrpnrvHx8rjtG925L9Mvr/7CFWN67a
-         wCzWCHLlQh0nkpqBPaCPx7DJO68KW96zhj9rmUBxMXPBmLH41fYOFnoc7vcMAIFUV7Jp
-         5Dv3pA0e7hFs61+zwUKjndG4ii7XwtR96gMnE0gB0AlF8nLOJeTIRSz8eycNUCJNO50z
-         +feXYyHxizc8rxZJ4L0VNC9bgj2Fps9+aNeHrzi1MAHYcol7jF0RkEfxb3xnU57xDaLD
-         RoEg==
-X-Gm-Message-State: AOAM533yGSCpKtCLye4gTO67P8JrJPfqrtrZXZ9tqK5PhkO5PZUqVJiU
-        46kJlKHLnigt1s3jsWdlq2JeCOVU4T7MuxutkuTcncX0S2c=
-X-Google-Smtp-Source: ABdhPJwiROS9SRRNMvDLES4YHo6uT5d60ZUwIiFmBNAm9OxEfLgMU9cee9PqVQWim0XNVifN/Rk5vWcyMQ7rvBndYNE=
-X-Received: by 2002:a05:6402:557:: with SMTP id i23mr66769092edx.176.1636356441798;
- Sun, 07 Nov 2021 23:27:21 -0800 (PST)
+        id S239772AbhKOSOh (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 15 Nov 2021 13:14:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49936 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S240188AbhKOSHS (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 15 Nov 2021 13:07:18 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 21EBC63389;
+        Mon, 15 Nov 2021 17:43:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1636998196;
+        bh=+cRVGDX7Sl8y+R4yFnKNAcU2pi6NOfJ9gNgSyoE5d/M=;
+        h=From:To:Cc:Subject:Date:From;
+        b=bCTEuiBM6GatYDrfo2RCIN8ai8Pk0Ys/ylCly6tdj20NtCUJapWJzYfc43Ro2X3ds
+         zCdSOwTS9AG3E5Na43o7u9MvDBCQaw1PaoVIoOk+aDyfq6/KwFDPZ8HCZCo8X9he7Q
+         azXrc17i5fzAxOle+vkP2vVQ+NOuW4s3dPAWW76PlabVUtgXhVURs35CEQ7sVH4U5j
+         JxvUahUwtIGH5fA260TcP3axqknQDw8MBxaoog7z5ZY7mJL3raAAnXgkEU8vpmKaVV
+         1sGeak7IzBiLA7zKGCyTfYl6KYk303fy67mAnf5djVjdO6afmzKZeDzEp7uw5h/MPs
+         OAd3bqHG4SYZA==
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Brian Cain <bcain@codeaurora.org>
+Cc:     linux-hexagon@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH v2 0/3] Fixes for ARCH=hexagon allmodconfig
+Date:   Mon, 15 Nov 2021 10:42:48 -0700
+Message-Id: <20211115174250.1994179-1-nathan@kernel.org>
+X-Mailer: git-send-email 2.34.0.rc0
 MIME-Version: 1.0
-Received: by 2002:a50:2501:0:0:0:0:0 with HTTP; Sun, 7 Nov 2021 23:27:21 -0800 (PST)
-Reply-To: mariaschaefler@gmx.com
-From:   Maria Schaefler <ziskoraa@gmail.com>
-Date:   Mon, 8 Nov 2021 07:27:21 +0000
-Message-ID: <CAJh0FjiFL7uihMBL6ckYO8FJ6tnzM+tBivU2c60yDbG14LZLeA@mail.gmail.com>
-Subject: MY HEART CHOOSE YOU.
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Given my current state of health, I have decided to donate what I
-inherited from my late husband to you to help the poor and needy. I am
-Mrs Maria Schaefler,a 57years old dying woman. I was diagnosed for
-cancer about 2 years ago and I have few months to live according to
-medical experts. Email me for my directives
+This series fixes some issues noticed with ARCH=hexagon allmodconfig.
+
+The first two patches were previously sent as individual patches but it
+makes sense to bundle them together after CONFIG_WERROR as they are both
+required to fix the build.
+
+The third patch is new, I only noticed it when building "normally", as
+opposed to with O=...
+
+I would like to see these merged into mainline sooner rather than later
+since I initially sent them in July.
+
+v1 -> v2:
+
+https://lore.kernel.org/r/20210708233849.3140194-1-nathan@kernel.org/
+https://lore.kernel.org/r/20210728001729.1960182-1-nathan@kernel.org/
+
+* Add patch 3.
+* Add Brian Cain's ack on patches 1 and 2.
+* The warning in patch 2 is now an error because CONFIG_WERROR is
+  enabled with allmodconfig.
+* Add stable CC for patches 1 and 2 because they fix build errors.
+
+Nathan Chancellor (3):
+  hexagon: Export raw I/O routines for modules
+  hexagon: Clean up timer-regs.h
+  hexagon: Ignore vmlinux.lds
+
+ arch/hexagon/include/asm/timer-regs.h | 26 --------------------------
+ arch/hexagon/include/asm/timex.h      |  3 +--
+ arch/hexagon/kernel/.gitignore        |  1 +
+ arch/hexagon/kernel/time.c            | 12 ++++++++++--
+ arch/hexagon/lib/io.c                 |  4 ++++
+ 5 files changed, 16 insertions(+), 30 deletions(-)
+ delete mode 100644 arch/hexagon/include/asm/timer-regs.h
+ create mode 100644 arch/hexagon/kernel/.gitignore
+
+
+base-commit: fa55b7dcdc43c1aa1ba12bca9d2dd4318c2a0dbf
+-- 
+2.34.0.rc0
+
