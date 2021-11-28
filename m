@@ -2,70 +2,59 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DE72745FDA6
-	for <lists+linux-hexagon@lfdr.de>; Sat, 27 Nov 2021 10:40:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 62F6746127F
+	for <lists+linux-hexagon@lfdr.de>; Mon, 29 Nov 2021 11:34:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243471AbhK0Jnq (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 27 Nov 2021 04:43:46 -0500
-Received: from [175.207.13.15] ([175.207.13.15]:33518 "EHLO
-        forestfire.localdomain" rhost-flags-FAIL-FAIL-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1350827AbhK0Jlq (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 27 Nov 2021 04:41:46 -0500
-X-Greylist: delayed 70896 seconds by postgrey-1.27 at vger.kernel.org; Sat, 27 Nov 2021 04:41:43 EST
-Received: from User (localhost [127.0.0.1])
-        by forestfire.localdomain (Postfix) with SMTP id D64A8DDA708;
-        Fri, 26 Nov 2021 18:38:09 +0900 (KST)
-Reply-To: <hihulwarence@gmail.com>
-From:   "Mrs.Barbara Sharon" <hihulwarence@gmail.com>
-Subject: US. Security Exchange & Commission 
-Date:   Fri, 26 Nov 2021 10:38:44 +0100
+        id S1344204AbhK2KiF (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 29 Nov 2021 05:38:05 -0500
+Received: from mail.vallenar.cl ([200.54.241.89]:35548 "EHLO mail.vallenar.cl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S235743AbhK2KgC (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 29 Nov 2021 05:36:02 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vallenar.cl (Postfix) with ESMTP id 70A371CEF776;
+        Sun, 28 Nov 2021 14:07:12 -0300 (-03)
+Received: from mail.vallenar.cl ([127.0.0.1])
+        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id BaEeZa31vyGI; Sun, 28 Nov 2021 14:07:12 -0300 (-03)
+Received: from localhost (localhost [127.0.0.1])
+        by mail.vallenar.cl (Postfix) with ESMTP id 4F34E1D0777A;
+        Sun, 28 Nov 2021 12:25:19 -0300 (-03)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.vallenar.cl 4F34E1D0777A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vallenar.cl;
+        s=EC098874-C7DE-11E7-B3B1-1A9A6030413E; t=1638113119;
+        bh=IQxUcKgLaEia+DMrVj9OEHbWOH8TffrzQMeZgAxYubI=;
+        h=MIME-Version:To:From:Date:Message-Id;
+        b=jf1I9xxTxaZ6C1OPQA/zc1UFnqDmEwitooMxMRjabthONAuC6U3R0IP//IvSQA3V3
+         sfxJI4SikGFyh3v7uBTruIne42iLkWnWkZNU3zB0BjyXTvsF0LPExIxWa4y6YNo/bh
+         DtNsSa0kkZwc/WRDUBSg0kVbHW06Kzf4dZkjqoDKZ0pgz2jgI6qw6K207FW1a19leR
+         l4FjJvip+pfZsC3/06O14Txg0Kl/Y6GLesCDFtUzF9XRRP0Ncs/mJThhrkAY9YE6W4
+         XrL3QMNmR8R/nhSHbokwg8YetJ7RMD8qoG/i//791FMtFN6LcYW6TYf2PmEOL3H3NU
+         ubd9HD/OXMlGw==
+X-Virus-Scanned: amavisd-new at vallenar.cl
+Received: from mail.vallenar.cl ([127.0.0.1])
+        by localhost (mail.vallenar.cl [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id pryR-6tLuzzF; Sun, 28 Nov 2021 12:25:19 -0300 (-03)
+Received: from [192.168.8.101] (unknown [105.0.3.102])
+        by mail.vallenar.cl (Postfix) with ESMTPSA id 183F31D08C99;
+        Sun, 28 Nov 2021 11:21:38 -0300 (-03)
+Content-Type: text/plain; charset="iso-8859-1"
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="Windows-1251"
-Content-Transfer-Encoding: 7bit
-X-Priority: 3
-X-MSMail-Priority: Normal
-X-Mailer: Microsoft Outlook Express 6.00.2600.0000
-X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
-Message-Id: <20211126093809.D64A8DDA708@forestfire.localdomain>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Transfer-Encoding: quoted-printable
+Content-Description: Mail message body
+Subject: 2.000.000,00. Euro
+To:     Recipients <yperez@vallenar.cl>
+From:   "manuel franco" <yperez@vallenar.cl>
+Date:   Sun, 28 Nov 2021 16:29:08 +0200
+Reply-To: manuelfrancospende00@gmail.com
+Message-Id: <20211128142139.183F31D08C99@mail.vallenar.cl>
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Security Exchange and Commission
-200 Vesey Street, Suite 400.
-New York, NY 10281.
-Tel: +1(716-608-3814
-Emai:SEC.hihulwarence@gmail.com
+Sie haben eine Spende von 2.000.000,00. Euro
 
-
-Attn: Sir,
-
-We are the US.Security Exchange and Commission pay centre point
-attachedwith  the Deutsche Bank branch in New York City hereby contact
-you today to inform you on  the transfer on transit with this bank
-(Bank of America ) in your favour.
-
-Fund worth TEN MILLION, FIVE HUNDRED  THOUSAND US DOLLARS ONLY (US$10.
-500,000.00) You are requested to confirm the ownership so that we can
-proceed with the transaction to transmit your fund to your choice
-account.
-
-We request you to send any form of Identification which will
-substantiate your claims. We have been Authorised by the Federal
-Government of Nigeria and the United Nations to wire the above funds
-into your account without any further delay or interception kindly get
-back to us as soon as possible to enable the paying bank to process
-the bank Draft on your behalf which was issued by the Federal
-Government of Nigeria.
-
-Thank you.
-
-Yours Faithfully
-Mrs.Barbara Sharon (P.A.)to,
-Mrs. Stephanie Avakian
-Director  US Security Exchange
-and Commission (SEC).
-
+Mein Name ist Manuel Franco aus den Vereinigten Staaten.
+Ich habe die Amerika-Lotterie im Wert von 768 Millionen US-Dollar gewonnen =
+und spende einen Teil davon an nur 5 gl=FCckliche Menschen und ein paar Wai=
+senh=E4user als Wohlwollen f=FCr die Menschheit.
