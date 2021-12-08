@@ -2,78 +2,93 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 95426464CED
-	for <lists+linux-hexagon@lfdr.de>; Wed,  1 Dec 2021 12:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF4A846CC08
+	for <lists+linux-hexagon@lfdr.de>; Wed,  8 Dec 2021 05:11:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1349007AbhLALhs (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 1 Dec 2021 06:37:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33542 "EHLO
+        id S239919AbhLHEOw (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 7 Dec 2021 23:14:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1349002AbhLALhi (ORCPT
+        with ESMTP id S244122AbhLHEOv (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 1 Dec 2021 06:37:38 -0500
-Received: from mail-pj1-x102b.google.com (mail-pj1-x102b.google.com [IPv6:2607:f8b0:4864:20::102b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CCA9C061395
-        for <linux-hexagon@vger.kernel.org>; Wed,  1 Dec 2021 03:34:11 -0800 (PST)
-Received: by mail-pj1-x102b.google.com with SMTP id iq11so17763916pjb.3
-        for <linux-hexagon@vger.kernel.org>; Wed, 01 Dec 2021 03:34:11 -0800 (PST)
+        Tue, 7 Dec 2021 23:14:51 -0500
+Received: from mail-il1-x141.google.com (mail-il1-x141.google.com [IPv6:2607:f8b0:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EA84C061A32
+        for <linux-hexagon@vger.kernel.org>; Tue,  7 Dec 2021 20:11:20 -0800 (PST)
+Received: by mail-il1-x141.google.com with SMTP id i9so1085260ilu.1
+        for <linux-hexagon@vger.kernel.org>; Tue, 07 Dec 2021 20:11:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
-        b=nKE9e+4jEQRb21OhoYPSbxPLfJ2IuSmNXU0U6wmcP4ykCacrWpdbtE0jjuz/hSLLGi
-         3CHjeG+lFmWzoULwCsmlhVFgDEk5dLFaYb51pw7bXGjZ9H8t0j91dP9aL17MRQYkMPZK
-         Snvty/Yp8/ZrWZr2EuFXHqBxUdbU8X39ik45viERJ1Dn7qW8BPCFp2vlafV2okU0kn5j
-         QPTIDY8QJSy8zAVbK10d6+AY0lky+mrQRAAg0uS1DacQStzD/dQtt/uBz/RlGIdZCai/
-         BHep24kmiLdl1nvBvHYMFonu8NoJvJlErv7lbZlg2+2c277BpkzmDA4WwPZoxzlIf0Mh
-         Af5g==
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=w0n14T57zPuvlg1YaFYy3gRfrUPFN1bDHGIrct+fXgc=;
+        b=CutUi/r6lKIoJjLP2bKTPbdDwhETyEFLP1nH/f7tvCrk1D7qPFSC5JRsw7j8CoO0zm
+         dRYtIvSq3VBVEHuI4jhmwDm1IURo7ecEVE5W+U5L5VzEnrHmt1Y8ZB3G9Fy10YLjnPAm
+         Ek0r5KC4mvOY2CD/U3S6pkqBE6iv+0uQFzHwIuOl76VfJxuUPH0WSMZVjZcautTMYmTn
+         1RQobfMFgSDgYXJGHFPA3aOzPm+SH+ajl7dL2+W7XuIR8J8S/V1ffF/4nkQzM3Y6yUpn
+         yaDKfHXr8AruzzSPerufLyIVTAFov2PGYSu3+4YGiZiI00GL7ra4uTn/Wd6Rh9zmXkQc
+         MhnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=l4J9Z+m4hmgZbWtQHlC70w1zjUmiI7wjClCwm6dHAnY=;
-        b=SHPdWFuCLfgaAfcvwzgxnR3fU2yWNxbGRzGCPusRvFbQteeSIwvSVQPYLtvxt2FgXU
-         M1GiCs6T0D0snJLQjojKohhv10LhLrATMPwqlYJ/oEJbKeZvaB5l3+g2NNEiy7KD4/R4
-         quuCC1ie6O0FMR2SGYvFuO8Uw92Iv5B0WIF7r+5yLvJqkfN6zADeoLYdzhXHDTJkpIB0
-         u5tuZ1Rd9Wfx21kMzLMEn4NnAI4IMcEP4cosdQ8YmGFMIOTxuNE07rWuMx3ZJ0wylJ1C
-         uxMZrwbPzl1sgIbnZRtO7PKuDw91b5SE9C2pyrKiiNHxP+yU+0p7iiguPOqL3nkox9Ul
-         pO6g==
-X-Gm-Message-State: AOAM533cx9u8NVVXkLMlH2EQ3bsQ/4jy1shUgn9uiXXecO13H2fjKGOB
-        4MpRIU5jq3I0hT2wSq/dgg3mIWOMzLrOroQ64OBcqXA19gY=
-X-Google-Smtp-Source: ABdhPJwK+H50pzFgfv5CJPfAwBzUdMqIKHh+Ckkuju2lG2knVlJrzqINPiiwPjc/Uz6xuSJez7Fkn5YZPcfa5CPpvro=
-X-Received: by 2002:a67:ef4d:: with SMTP id k13mr6266305vsr.4.1638358439020;
- Wed, 01 Dec 2021 03:33:59 -0800 (PST)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=w0n14T57zPuvlg1YaFYy3gRfrUPFN1bDHGIrct+fXgc=;
+        b=tHQu++l+YmuRDSWCoGAH1+rHyw9EYAHOmcpnZnGmVYWhSw1HaqfMuAL3W+gaXfYVts
+         2sY27XQc9GSTDqya4tJ4IpQlcJMpd4C+ix6loMuh2VAvJ5i53lIDuSZXB62mRM4tv4CM
+         RstI+a6rzl9x8CqNEFNqUvb0vJeCzeBHkVNewGrom7runtXy4ypwu3F2D+gLooY/2poU
+         W1uPjrHeOHzpn5kAqx6bhoa1yq3kiRDxwxQx4E0YvKJDnuf41yIfSL6AQFhkQsJqOEUA
+         fq6WdfiPamEHLD6roLbzalUWTENECcrXpTiZl8GAMm7beWFqaMF8iJ6VlZBoeEVlHIUZ
+         LMsw==
+X-Gm-Message-State: AOAM530e4BqS5ivjRQyPgD2orKgnlsLFaCNs6QNBvxBMJ0pQqWD74EN8
+        VH/slUsMmC6IH4XaRFfWGEpxOZAlJ0PAE738az4=
+X-Google-Smtp-Source: ABdhPJzhb1y1AIlUvd97u1v5bkva7AmRbKBstEOI25Zv9QP//bzNtmStIOPnKQrCUoF0WLInKwt2YXin8B2MhgoyPAI=
+X-Received: by 2002:a92:600f:: with SMTP id u15mr3948508ilb.292.1638936679742;
+ Tue, 07 Dec 2021 20:11:19 -0800 (PST)
 MIME-Version: 1.0
-Sender: unitednationawardwinner@gmail.com
-Received: by 2002:ab0:6c55:0:0:0:0:0 with HTTP; Wed, 1 Dec 2021 03:33:58 -0800 (PST)
-From:   "Mrs. Orgil Baatar" <mrs.orgilbaatar21@gmail.com>
-Date:   Wed, 1 Dec 2021 03:33:58 -0800
-X-Google-Sender-Auth: uTQ_nfkzXaWGWaTWp1BSFqK3Ucs
-Message-ID: <CAJ4dHaSrD-X=xpfKNZV-hXSiMV6mNYrgy5vWCNkKm6iu5RQStg@mail.gmail.com>
-Subject: Your long awaited part payment of $2.5.000.00Usd
+Received: by 2002:a05:6e02:1a07:0:0:0:0 with HTTP; Tue, 7 Dec 2021 20:11:19
+ -0800 (PST)
+Reply-To: dj0015639@gmail.com
+From:   David Jackson <enkenpaul@gmail.com>
+Date:   Wed, 8 Dec 2021 05:11:19 +0100
+Message-ID: <CAG7-cQ8DY3yKJUkHdXFz5B2Npn4frRu3Q4JJjd1c=_NMoWd7tw@mail.gmail.com>
+Subject: FEDERAL BUREAU OF INVESTIGATION
 To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Attention: Beneficiary, Your long awaited part payment of
-$2.5.000.00Usd (TWO MILLION FIVE Hundred Thousand United State
-Dollars) is ready for immediate release to you, and it was
-electronically credited into an ATM Visa Card for easy delivery.
+Our Ref: RTB /SNT/STB
+To: Beneficiary
 
-Your new Payment Reference No.- 6363836,
-Pin Code No: 1787
-Your Certificate of Merit Payment No: 05872,
+This is FBI special agents, David Jackson. I was delegated along side
+others by the United Nations to investigate scammers who has been in
+the business of swindling foreigners especially those that has one
+form of transaction/contracts and another. Please be informed that in
+the course of our investigation, we detected that your name and
+details in our Scammed Monitoring Network. We also found out that you
+were scammed of a huge sum of money by scammers via Western union and
+MoneyGram. Be informed here that in a bid to alleviate the suffering
+of scammed victims, the United Nations initiated this compensation
+program and therefore, you are entitled to the sum of Five Million Two
+Hundred Thousand United States Dollars ($5,200,000.00 USD) for being a
+victim.
 
-Your Names: |
-Address: |
+Note that the said fund will be transfer to you via the Citibank being
+the paying bank mandated by the United Nations officials.
 
-Person to Contact:MR KELLY HALL the Director of the International
-Audit unit ATM Payment Center,
+However, we have to inform you that we have been able to arrest some
+of the swindlers who has been in this illicit business and will all be
+prosecuted accordingly. Be informed as well that we have limited time
+to stay back here, so we will advice that you urgently respond to this
+message ASAP. And do not inform any of the people that collected money
+from you before now about this new development to avoid jeopardizing
+our investigation. All you need to do is to follow our instruction and
+receive your compensation accordingly as directed by the United
+Nations.
 
-Email: uba-bf@e-ubabf.com
-TELEPHONE: +226 64865611 You can whatsApp the bank
+We urgently wait to receive your response.
 
-Regards.
-Mrs ORGIL BAATAR
+Regards,
+DAVID JACKSON
+FEDERAL BUREAU OF INVESTIGATION
+INVESTIGATION ON ALL ONLINE WIRE TRANSFER
