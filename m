@@ -2,86 +2,84 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E48C4770AC
-	for <lists+linux-hexagon@lfdr.de>; Thu, 16 Dec 2021 12:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5067347A63F
+	for <lists+linux-hexagon@lfdr.de>; Mon, 20 Dec 2021 09:50:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233304AbhLPLmq (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 16 Dec 2021 06:42:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60198 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233625AbhLPLml (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 16 Dec 2021 06:42:41 -0500
-Received: from mail-qv1-xf36.google.com (mail-qv1-xf36.google.com [IPv6:2607:f8b0:4864:20::f36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF896C061397
-        for <linux-hexagon@vger.kernel.org>; Thu, 16 Dec 2021 03:42:39 -0800 (PST)
-Received: by mail-qv1-xf36.google.com with SMTP id js9so1518671qvb.12
-        for <linux-hexagon@vger.kernel.org>; Thu, 16 Dec 2021 03:42:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=K+n9/Q643hF06qaRTfNZAWda8LVlgLOG5CgJcxFPWIFoMhWM1EYpXAS64XJojMwQQx
-         EqR+WcL8ZKNdKxI1rlI6J1X97CAv/GhyzN+frFPEhWEVujbKy2tsQcjkeqXCKP3RT5yd
-         lKeuN0Xs1P/9DhC82fVpgIS54J8emMt0iaVxeunUZuwWzCiKeFFLaXjlQtjXsDp+7Fh/
-         B+VWl/xgmUtxz+BtFM5UhxSltD/0zH4S4seawy0715by/jAvKD9YON3PqOtBI62SbWBD
-         jWpeya/GzA0ycvExWcOcBmWl/DCk9yUsFN2bNj9QfFGM6FIFkaKrPoGkEqRJBjgcerBq
-         tR0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=xre5um49Rnqa1tZMCD58Cd6UlD4MleswKAp3tzt2gjo=;
-        b=J/dwp3vAkKRA0VGKfNlaF4n1YGjogM6iMjQHxRz57igYWQfHBIT96upjpqYkfZiTiI
-         K1WGM7BuHqYAs+FKA93vtlUR/SciHKkkdCAlc5lMkrWRTAKki8/mbIzawUQ1X60UZM2M
-         ur9w79OdLZeCE3jTHWpkM8XgYuQIFAZPxwk0e9Rp+/zhAA/+JkEFQWXhbKMPfJvGEEfc
-         fwwQ+OplRBK1y7CxGxObiT+f3smomvPvawMSFUepbVGVj1iTAYVca9CSIdDKZ3prsO0j
-         I73Ctj+zZOHmdSL9kN1iPR1dzvJg3cwyJTYJsXb/PfCOXhLLf6AURBp/5mCbkSLiPKco
-         MOWg==
-X-Gm-Message-State: AOAM531ox6fvHnmL/Fh8rglB5Eh/kAOg5BrXkx7fqhZOoVRhMTPhXnME
-        dHBsG49xzJWxc9vVNysA1ZN91fakxQF47zBgSAA=
-X-Google-Smtp-Source: ABdhPJw1cRuUMMVas+y+QgdrxBW0LuhuWfZ+tfQTS0xFMTT3zW1pjnPXSYKcurxzVoeaOVJevX3+oCe2P65vw9z9/aU=
-X-Received: by 2002:a0c:e5d1:: with SMTP id u17mr15209801qvm.120.1639654958961;
- Thu, 16 Dec 2021 03:42:38 -0800 (PST)
+        id S238073AbhLTIu3 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 20 Dec 2021 03:50:29 -0500
+Received: from smtpbg128.qq.com ([106.55.201.39]:35625 "EHLO smtpbg587.qq.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S238055AbhLTIu1 (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Mon, 20 Dec 2021 03:50:27 -0500
+X-QQ-mid: bizesmtp49t1639990218tch2rppa
+Received: from localhost.localdomain (unknown [118.121.67.96])
+        by esmtp6.qq.com (ESMTP) with 
+        id ; Mon, 20 Dec 2021 16:50:16 +0800 (CST)
+X-QQ-SSF: 01000000002000D0K000B00A0000000
+X-QQ-FEAT: kdcyy7TwLBI8ssJiqQJra7hOsuSpfNxhauOhml6W9DnUPMOmriFf+ZXyEewfq
+        fIYXFUEc/e0B2FekdsLejMfpePzK6uvwUVokFyJQjzHvPzGZ4B/ANx8rWiyHP/mi1p3udxG
+        tBH+yiSFirmVFGpWruC+3S7xs7S2/qvkT4DhKSUUA4xTnOYhO0W+Wp8iMJF6Ds2ASfkfKwC
+        5pgTvBv072ryFZRkIzmukIkXtSVuu2Z7sHvR3PIcjihpD52vSpXRuooiwYNvz78HHTkJcax
+        dgZ10ywFvw3ndKwdgk/z3Mgmkqd97WvTksyGK4G3LjwI/XQU8TlF/akHUTH0EoPlyV54cIp
+        Hz/dUT/qs5QMvJByHbT+GbqMw7M12UtPmIS7ZnDXir4CSKLhLpljZIVbPGOyA==
+X-QQ-GoodBg: 0
+From:   Jason Wang <wangborong@cdjrlc.com>
+To:     bcain@codeaurora.org
+Cc:     wangborong@cdjrlc.com, linux-hexagon@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH] hexagon: use strscpy to copy strings
+Date:   Mon, 20 Dec 2021 16:50:13 +0800
+Message-Id: <20211220085013.959126-1-wangborong@cdjrlc.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Received: by 2002:a05:622a:199c:0:0:0:0 with HTTP; Thu, 16 Dec 2021 03:42:38
- -0800 (PST)
-Reply-To: selviasantiago1@gmail.com
-From:   Selvia Santiago <mariamatinez119@gmail.com>
-Date:   Thu, 16 Dec 2021 11:42:38 +0000
-Message-ID: <CAONDhKPEx+GKyJvnzbcBxs-brt1E0c+b0jdG7u7Uf+rYJ1N+fA@mail.gmail.com>
-Subject: Urgent
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam5
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+The strlcpy should not be used because it doesn't limit the source
+length. So that it will lead some potential bugs.
+
+But the strscpy doesn't require reading memory from the src string
+beyond the specified "count" bytes, and since the return value is
+easier to error-check than strlcpy()'s. In addition, the implementation
+is robust to the string changing out from underneath it, unlike the
+current strlcpy() implementation.
+
+Thus, replace strlcpy with strscpy.
+
+Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
+---
+ arch/hexagon/kernel/setup.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/hexagon/kernel/setup.c b/arch/hexagon/kernel/setup.c
+index 1880d9beaf2b..621674e86232 100644
+--- a/arch/hexagon/kernel/setup.c
++++ b/arch/hexagon/kernel/setup.c
+@@ -66,9 +66,9 @@ void __init setup_arch(char **cmdline_p)
+ 		on_simulator = 0;
+ 
+ 	if (p[0] != '\0')
+-		strlcpy(boot_command_line, p, COMMAND_LINE_SIZE);
++		strscpy(boot_command_line, p, COMMAND_LINE_SIZE);
+ 	else
+-		strlcpy(boot_command_line, default_command_line,
++		strscpy(boot_command_line, default_command_line,
+ 			COMMAND_LINE_SIZE);
+ 
+ 	/*
+@@ -76,7 +76,7 @@ void __init setup_arch(char **cmdline_p)
+ 	 * are both picked up by the init code. If no reason to
+ 	 * make them different, pass the same pointer back.
+ 	 */
+-	strlcpy(cmd_line, boot_command_line, COMMAND_LINE_SIZE);
++	strscpy(cmd_line, boot_command_line, COMMAND_LINE_SIZE);
+ 	*cmdline_p = cmd_line;
+ 
+ 	parse_early_param();
 -- 
-Urgent
+2.34.1
 
-I am Mrs. Selvia Santiago from Abidjan, Cote D'Ivoire, I am a widow
-suffering from long time illness (Cancer), there is funds I inherited
-from my late loving husband Mr. Santiago Carlos, the sum of (US$2.7
-Million Dollars) which he deposited in bank before his death, I need a
-honest and Faithful person that can use these funds for humanity work.
-
-I took this decision because I don't have any child that will inherit
-this money and I don't want a situation where this money will be used
-in an ungodly way. That is why I am taking this decision, and my
-doctor has confirmed to me that I have less than two weeks to live,
-having known my condition I decided to donate this fund to a charity
-or individual that will utilize this money to assist the poor and the
-needy in accordance to my instructions.
-
-I want you to use 70% of this funds for orphanages, school, church,
-widows, propagating the word and other humanity works,The remaining
-30% should be yours for your efforts as the new beneficiary.
-
-Please if you would be able to use these funds for humanity work
-kindly reply me. As soon as I have received your response, I will give
-you further directives on how you are to go about the claims of the
-said funds.
-
-Remain blessed.
-Mrs Selvia Santiago.
