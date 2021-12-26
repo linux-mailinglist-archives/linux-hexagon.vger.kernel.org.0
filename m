@@ -2,84 +2,51 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5067347A63F
-	for <lists+linux-hexagon@lfdr.de>; Mon, 20 Dec 2021 09:50:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E86147F650
+	for <lists+linux-hexagon@lfdr.de>; Sun, 26 Dec 2021 10:43:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S238073AbhLTIu3 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 20 Dec 2021 03:50:29 -0500
-Received: from smtpbg128.qq.com ([106.55.201.39]:35625 "EHLO smtpbg587.qq.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S238055AbhLTIu1 (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 20 Dec 2021 03:50:27 -0500
-X-QQ-mid: bizesmtp49t1639990218tch2rppa
-Received: from localhost.localdomain (unknown [118.121.67.96])
-        by esmtp6.qq.com (ESMTP) with 
-        id ; Mon, 20 Dec 2021 16:50:16 +0800 (CST)
-X-QQ-SSF: 01000000002000D0K000B00A0000000
-X-QQ-FEAT: kdcyy7TwLBI8ssJiqQJra7hOsuSpfNxhauOhml6W9DnUPMOmriFf+ZXyEewfq
-        fIYXFUEc/e0B2FekdsLejMfpePzK6uvwUVokFyJQjzHvPzGZ4B/ANx8rWiyHP/mi1p3udxG
-        tBH+yiSFirmVFGpWruC+3S7xs7S2/qvkT4DhKSUUA4xTnOYhO0W+Wp8iMJF6Ds2ASfkfKwC
-        5pgTvBv072ryFZRkIzmukIkXtSVuu2Z7sHvR3PIcjihpD52vSpXRuooiwYNvz78HHTkJcax
-        dgZ10ywFvw3ndKwdgk/z3Mgmkqd97WvTksyGK4G3LjwI/XQU8TlF/akHUTH0EoPlyV54cIp
-        Hz/dUT/qs5QMvJByHbT+GbqMw7M12UtPmIS7ZnDXir4CSKLhLpljZIVbPGOyA==
-X-QQ-GoodBg: 0
-From:   Jason Wang <wangborong@cdjrlc.com>
-To:     bcain@codeaurora.org
-Cc:     wangborong@cdjrlc.com, linux-hexagon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] hexagon: use strscpy to copy strings
-Date:   Mon, 20 Dec 2021 16:50:13 +0800
-Message-Id: <20211220085013.959126-1-wangborong@cdjrlc.com>
-X-Mailer: git-send-email 2.34.1
+        id S233205AbhLZJnE (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 26 Dec 2021 04:43:04 -0500
+Received: from slot0.jllresort.com ([62.197.136.5]:52897 "EHLO
+        slot0.jllresort.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S233228AbhLZJnD (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Sun, 26 Dec 2021 04:43:03 -0500
+X-Greylist: delayed 743 seconds by postgrey-1.27 at vger.kernel.org; Sun, 26 Dec 2021 04:43:03 EST
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; s=dkim; d=jllresort.com;
+ h=Reply-To:From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding; i=ele.mon@jllresort.com;
+ bh=NqgDayX4ig/BWLavbll3gd5vq9E=;
+ b=kJNaApG5WVrsCPbb35w7syukjnpRTbwK/Pi5lS2dJwiYLIJl6TlTqsEFnbXGmYN0oM6bsXtDGG4Y
+   e4FygehQwQdcejfQ+3Gi61gWG8g0qz2hE+J+W4KSg0CXfS4ocxdPqrDpWRa8NDsJyTpkVy0b+EaV
+   ge9MQQAYgCWBVQqw4ZtUcvso46l89zjrFXNViHtaOaiSA+5e//LR/PsvTI6Mw+S/iZTIgcw8N/jM
+   1hfEFr+1K7LzBVwuQdGISOy/wcNdWFUIigaPeqDf1334SfQabdsI2MJvoekhMvmDyMzF/rrqvgaO
+   GISqTkZ6W8MUM7yKaJ5HuKePfSi8C9mEr1XGFg==
+DomainKey-Signature: a=rsa-sha1; c=nofws; q=dns; s=dkim; d=jllresort.com;
+ b=P3W06N/rXx1+lms7tokAjDvCQJU/RKHRGfOfbVopy9zkUScI9grhQxJQ6c8sr2U4/JQ1zGZtHqU3
+   3mMtIe5fGeNL+pP2DgV8t18j2oEL0R6FPKAT5gvTVE/8lwUgixOgw62I+xuleC8twzwjknGZZYev
+   ploztzUSDs3+qOhFl4HQCLSQ6SqIVreftjEx+3+DtUo34U8PPJzdLwahTTuKA6YDQDtX3EQlyGbA
+   BysPF8gp3rhe0S52uwQby2iorO5CcFArgPJZRN5s8kM2KJ3QLXBRNsHEyCubIxeVK7gbkoi4vIIU
+   qUs5VEpG0dDNhsIaPxsb7zFL4ywc1C91a9B06Q==;
+Reply-To: mustafa.ayvaz@ayvazburosu.com
+From:   ele.mon@jllresort.com
+To:     linux-hexagon@vger.kernel.org
+Subject: Happy Weekend:
+Date:   26 Dec 2021 10:29:35 +0100
+Message-ID: <20211226102855.063FCDD97C344DCB@jllresort.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtp:cdjrlc.com:qybgspam:qybgspam5
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-The strlcpy should not be used because it doesn't limit the source
-length. So that it will lead some potential bugs.
+Greetings to you linux-hexagon,
 
-But the strscpy doesn't require reading memory from the src string
-beyond the specified "count" bytes, and since the return value is
-easier to error-check than strlcpy()'s. In addition, the implementation
-is robust to the string changing out from underneath it, unlike the
-current strlcpy() implementation.
+I was wondering if you got my previous email? I have been trying=20
+to reach you by email linux-hexagon@vger.kernel.org, kindly get=20
+back to me swiftly, it is very important and urgent.
 
-Thus, replace strlcpy with strscpy.
-
-Signed-off-by: Jason Wang <wangborong@cdjrlc.com>
----
- arch/hexagon/kernel/setup.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/arch/hexagon/kernel/setup.c b/arch/hexagon/kernel/setup.c
-index 1880d9beaf2b..621674e86232 100644
---- a/arch/hexagon/kernel/setup.c
-+++ b/arch/hexagon/kernel/setup.c
-@@ -66,9 +66,9 @@ void __init setup_arch(char **cmdline_p)
- 		on_simulator = 0;
- 
- 	if (p[0] != '\0')
--		strlcpy(boot_command_line, p, COMMAND_LINE_SIZE);
-+		strscpy(boot_command_line, p, COMMAND_LINE_SIZE);
- 	else
--		strlcpy(boot_command_line, default_command_line,
-+		strscpy(boot_command_line, default_command_line,
- 			COMMAND_LINE_SIZE);
- 
- 	/*
-@@ -76,7 +76,7 @@ void __init setup_arch(char **cmdline_p)
- 	 * are both picked up by the init code. If no reason to
- 	 * make them different, pass the same pointer back.
- 	 */
--	strlcpy(cmd_line, boot_command_line, COMMAND_LINE_SIZE);
-+	strscpy(cmd_line, boot_command_line, COMMAND_LINE_SIZE);
- 	*cmdline_p = cmd_line;
- 
- 	parse_early_param();
--- 
-2.34.1
-
+Thanks
+Mustafa Ayvaz
+Email: mustafa.ayvaz@ayvazburosu.com
