@@ -2,69 +2,119 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 629A24830E9
-	for <lists+linux-hexagon@lfdr.de>; Mon,  3 Jan 2022 13:17:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F0324484B32
+	for <lists+linux-hexagon@lfdr.de>; Wed,  5 Jan 2022 00:33:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230207AbiACMQ7 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 3 Jan 2022 07:16:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37898 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229590AbiACMQ7 (ORCPT
-        <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 3 Jan 2022 07:16:59 -0500
-Received: from mail-yb1-xb30.google.com (mail-yb1-xb30.google.com [IPv6:2607:f8b0:4864:20::b30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D962C061761;
-        Mon,  3 Jan 2022 04:16:59 -0800 (PST)
-Received: by mail-yb1-xb30.google.com with SMTP id w184so78686072ybg.5;
-        Mon, 03 Jan 2022 04:16:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=lOyYQI0CIiGDaIpaEWbuQqbHJxkreGLXN8QH7/z8oI4=;
-        b=avHPEGVXj896OQFF1OF8lCa7weuU688Bgnpm0I6pbYz1jMhNj2SDgNGAGsxgYOWx+c
-         cpbaI+2zQm4NH4mEZp8vasOY2vT9Edc/3q82TLFpkKZxWA6McTVyivhnhlomW0gSZETH
-         c/VZWKq2H5c5gEIo3cKElPBM179+Pq/ivqeFhTjEWKBR0QYsdk7PtUcXqxxNdFLl5fbe
-         HC4xM3B/D6RSOJfP0r5Ky1dVi9E3oOY90BuvcNe59iqbvkxBcD7yKYZ0LNk6Km+UUyd+
-         JmUg+t8XZi1bG73eHLaBasdU9dgEVq0npwkZbvcXTc2AdFM5khqDAru/yuHfS9FXsEWD
-         GKig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=lOyYQI0CIiGDaIpaEWbuQqbHJxkreGLXN8QH7/z8oI4=;
-        b=7wVPrrvd5szd1JakcGc4VoMRah4kWZUtIcJ9jfOaSn5twf9qRI7Jol9QVQHLS5Bdmy
-         XoidvXEw9+iK1ULrwFx0aVTVpZJh+eZUphaSbuDfR1Uqkc9yU43tQvAYcCJxwfvGv+Lr
-         TeZB7YWxjzCt2fbSeQNlugO+yXvzqLr9yu019yuoSiUlbIOeTo9lIvNwIvDUblv3XHCF
-         MwSHlCj9AKc+9DiMS28c6OE4hC6WLysCndh+YeeUH6MHT5lcgaQD95ESnYAHwphAHpB3
-         SuIKa0DnfJRzvQvX5D3u2Uh14Mt4QKfSrMGEWbGsr/DDZFShBTNH/+KFMhpUEorHhLla
-         uVSQ==
-X-Gm-Message-State: AOAM531lXjC1UZlfiMz1Q6Tz0EAVriWKCI10+1ZJthHAnWigFB8ZimpM
-        jIkY1h9K+L8g+dkXuJeA3KXnn/VzP/Y9328mVxdzd1XJppg=
-X-Google-Smtp-Source: ABdhPJzFJ/ln50kOs0GKYcEn5ilkqzXWpFA5l2H5i2IT85AlUaFrXYtyGnGh00nCHkufXifTTHJwPUUlwvvkP5I6cis=
-X-Received: by 2002:a25:3454:: with SMTP id b81mr41515482yba.723.1641212218511;
- Mon, 03 Jan 2022 04:16:58 -0800 (PST)
+        id S236481AbiADXdE (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 4 Jan 2022 18:33:04 -0500
+Received: from mout.gmx.net ([212.227.17.21]:52907 "EHLO mout.gmx.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S234152AbiADXdD (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
+        Tue, 4 Jan 2022 18:33:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1641339175;
+        bh=86C2wftjndtAK2iWcv41C0xFmPUyW3b0hrtgz4GnTTg=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=JwVFYQFMRqPO1greU7wXOsdkZxbBXgeOffBsHfV7QiF/dzCXwg3e27fyAyiQNIzaY
+         qttcIGNq9t1ZO7Od7FycmOhlRu1x+nvuF+AnuxO/OxN/nH77Iq0J0JiYFaQGa9X8K4
+         RfH6mG26/af5uABh9PDs3IGpUHs176MGd/Vrp1e4=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [0.0.0.0] ([149.28.201.231]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1Mw9QC-1mCnEw1VLw-00s4eI; Wed, 05
+ Jan 2022 00:32:55 +0100
+Message-ID: <6c7a6762-6bec-842b-70b4-4a53297687d1@gmx.com>
+Date:   Wed, 5 Jan 2022 07:32:48 +0800
 MIME-Version: 1.0
-From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Date:   Mon, 3 Jan 2022 13:16:48 +0100
-Message-ID: <CAKXUXMwcPLAAviuotom39+9m3upZvir-az=_-ZxU0eOu8OPxWA@mail.gmail.com>
-Subject: Reference to non-existing config COMET_EARLY_UART_DEBUG
-To:     Brian Cain <bcain@codeaurora.org>, linux-hexagon@vger.kernel.org
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel-janitors <kernel-janitors@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.4.1
+Subject: Re: [PATCH] fs: btrfs: Disable BTRFS on platforms having 256K pages
+Content-Language: en-US
+To:     Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Chris Mason <clm@fb.com>, Josef Bacik <josef@toxicpanda.com>,
+        David Sterba <dsterba@suse.com>
+Cc:     linux-kernel@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-btrfs@vger.kernel.org, linux-hexagon@vger.kernel.org
+References: <a16c31f3caf448dda5d9315e056585b6fafc22c5.1623302442.git.christophe.leroy@csgroup.eu>
+From:   Qu Wenruo <quwenruo.btrfs@gmx.com>
+In-Reply-To: <a16c31f3caf448dda5d9315e056585b6fafc22c5.1623302442.git.christophe.leroy@csgroup.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:wgQa5C7dmPnoEf96aFIhDwr56crC+9t4UEuJO6iZ7LATkecwpmn
+ 2o4Ffdh638ZuQ3AZ/sHWO1B/LgDuf6rkh+vFOqSlw3slUMp4aZGQF8mFNVq6etD83zMZYEE
+ 5khf5L+YplEVXjk6LrIm9F4lFP77VI93pDYjn9u+6SRa1523PBu5ER9jj7DE18Pxm79blJi
+ X06GHFHoRXKO04ZRE7S9Q==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:eJLQ+lyiPPQ=:Hl+NW2skMt7kFcucVmV4An
+ M+WsCbpT7ByUp2ehjSYDA5R93Zixllbs8eC6IFN3ixvYjnDt970y6mWr91Sbf4BoAAI9zN1cB
+ o51tyiGHkfjJQxU7Dp9heXqZfXo0W3UOndfHLq9/DmLgHsk9ggTdSj5joqjw0i42HHDU6Bucr
+ fAh9NOhAhaz936lxasfv1jlv0IavuNEb5ZXdzcdauxRDejSJOhDNusoQ6MckvRl7C7FNHVtwl
+ 4J2jZ3ysZQFlNHMKwJ8DxmDKOGpVUJSWx7k8UVyWV6YSkea0eHnJQrYDmMi6VkW+bt1NFr9RV
+ AHaRLrCUZDA3Jwjd6r9c46TMEL5dAKS86BN2EA7s5wB9WZR77AqohW/QiSA970zxsiVfSlvxR
+ VhC6k1XcO4P1N90cfPOTcbqPexZ6ZBzZfw2ou/R8HX/cXGLa1vrOVqjcEcU9pllPlT0f1XVBz
+ aZHmJT/h1kLwlUqaQKho0jyPYk4B1P6bjuEQaXkRnp4cAgKpuapiVunxQjkX+8gdzTX+ppSn/
+ DkstP/WfWFG1qaKIcvOfeVFfW5KcwivF9p7zluOHX/nnjgRXYJCSNEiNP6WgD+vZT1FjoMtqW
+ SQ/CC7rA3WpdX5eN7bvvCN8hfD2AgfVnoEOlYjYcJblmT6vZMzEjwtyLEWrhYIPaPWewtI4mp
+ JchODq8Kkv3X28fTRpYzjIBRFvWjqwBIMOrDPS7ykEjHTaMJnkQXhhw0czd6ejyfrRduICqY7
+ QtIhlXw7caKHEXm/DzmfBUqfSwPFkuLp/ylcFXczNkh2VsnYFzNRrRprt1ckOQRbxNRIZBo0g
+ +9OkeHZHqp9q1wdxdeIUh5doyqcBRozIoNezS6dGkZDBCN4oHVZTCJo7F678xZhTxS8ax8qSk
+ b//EhA4v6ERBWM6k46x8dVIeQewhZmXrelGuAlmR/MXFml3lH4/NejJ2GyvwbqELUadn1hRLo
+ w4dWwT5WwjYSwip629P9jEswjSkfILgQaA0CgfKSvkmLJuPT2le6gH39g4b9PAziKvcuto2B+
+ XIz1sApS0Ap8thEQYenYkx3IbVpH7mhSRTHrb1Nt0D6E332T7bJPW1JEbRunw5VhBPijviY+w
+ esSM8gUV5B89FY=
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Dear Brian,
+Hi Christophe,
 
-In arch/hexagon/kernel/vm_init_segtable.S, an ifdef refers to
-CONFIG_COMET_EARLY_UART_DEBUG, but this config is never defined in the
-Kconfig files.
+I'm recently enhancing the subpage support for btrfs, and my current
+branch should solve the problem for btrfs to support larger page sizes.
 
-Can we delete this dead code in
-arch/hexagon/kernel/vm_init_segtable.S? If so, I will send a patch for
-that.
+But unfortunately my current test environment can only provide page size
+with 64K or 4K, no 16K or 128K/256K support.
 
-Best regards,
+Mind to test my new branch on 128K page size systems?
+(256K page size support is still lacking though, which will be addressed
+in the future)
 
-Lukas
+https://github.com/adam900710/linux/tree/metadata_subpage_switch
+
+Thanks,
+Qu
+
+On 2021/6/10 13:23, Christophe Leroy wrote:
+> With a config having PAGE_SIZE set to 256K, BTRFS build fails
+> with the following message
+>
+>   include/linux/compiler_types.h:326:38: error: call to '__compiletime_a=
+ssert_791' declared with attribute error: BUILD_BUG_ON failed: (BTRFS_MAX_=
+COMPRESSED % PAGE_SIZE) !=3D 0
+>
+> BTRFS_MAX_COMPRESSED being 128K, BTRFS cannot support platforms with
+> 256K pages at the time being.
+>
+> There are two platforms that can select 256K pages:
+>   - hexagon
+>   - powerpc
+>
+> Disable BTRFS when 256K page size is selected.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Signed-off-by: Christophe Leroy <christophe.leroy@csgroup.eu>
+> ---
+>   fs/btrfs/Kconfig | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/fs/btrfs/Kconfig b/fs/btrfs/Kconfig
+> index 68b95ad82126..520a0f6a7d9e 100644
+> --- a/fs/btrfs/Kconfig
+> +++ b/fs/btrfs/Kconfig
+> @@ -18,6 +18,8 @@ config BTRFS_FS
+>   	select RAID6_PQ
+>   	select XOR_BLOCKS
+>   	select SRCU
+> +	depends on !PPC_256K_PAGES	# powerpc
+> +	depends on !PAGE_SIZE_256KB	# hexagon
+>
+>   	help
+>   	  Btrfs is a general purpose copy-on-write filesystem with extents,
