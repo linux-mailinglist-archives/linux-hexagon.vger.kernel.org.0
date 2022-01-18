@@ -2,71 +2,77 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C22F0492084
-	for <lists+linux-hexagon@lfdr.de>; Tue, 18 Jan 2022 08:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E896F4921FA
+	for <lists+linux-hexagon@lfdr.de>; Tue, 18 Jan 2022 10:06:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234468AbiARHsn (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 18 Jan 2022 02:48:43 -0500
-Received: from verein.lst.de ([213.95.11.211]:35899 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S234433AbiARHsm (ORCPT <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 18 Jan 2022 02:48:42 -0500
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id 45C3468AFE; Tue, 18 Jan 2022 08:48:36 +0100 (CET)
-Date:   Tue, 18 Jan 2022 08:48:36 +0100
-From:   Christoph Hellwig <hch@lst.de>
-To:     Richard Henderson <rth@twiddle.net>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>,
-        Vineet Gupta <vgupta@kernel.org>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@codeaurora.org>,
-        Michal Simek <monstr@monstr.eu>,
-        Nick Hu <nickhu@andestech.com>,
-        Greentime Hu <green.hu@gmail.com>,
-        Vincent Chen <deanbo422@gmail.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Jonas Bonn <jonas@southpole.se>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        Stafford Horne <shorne@gmail.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Chris Zankel <chris@zankel.net>,
-        Max Filippov <jcmvbkbc@gmail.com>
-Cc:     linux-alpha@vger.kernel.org, linux-snps-arc@lists.infradead.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, openrisc@lists.librecores.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-xtensa@linux-xtensa.org, linux-arch@linux-xtensa.org,
-        linux-kernel@linux-xtensa.org
-Subject: architectures that still need to remove set_fs()
-Message-ID: <20220118074836.GA20994@lst.de>
+        id S240571AbiARJGX (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 18 Jan 2022 04:06:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38334 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1345151AbiARJGW (ORCPT
+        <rfc822;linux-hexagon@vger.kernel.org>);
+        Tue, 18 Jan 2022 04:06:22 -0500
+Received: from mail-yb1-xb36.google.com (mail-yb1-xb36.google.com [IPv6:2607:f8b0:4864:20::b36])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2407EC061746
+        for <linux-hexagon@vger.kernel.org>; Tue, 18 Jan 2022 01:06:21 -0800 (PST)
+Received: by mail-yb1-xb36.google.com with SMTP id m1so35054935ybo.5
+        for <linux-hexagon@vger.kernel.org>; Tue, 18 Jan 2022 01:06:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=AIHedDQeQ2nfeFyhlIY6iBZ7Eo/kAlP72EhStgPHV1I=;
+        b=k1UGLl6o5Uq6om5hN0pjU2SqjycVyCGV42oQwMqtQTc6fkgbpj/oyn6fvH1hhLxegR
+         e/tPf/G+2yaXGI3do3wgHJ4MBEiuCqdEdBnyCL11eVSeCzta++Y5RURdzrzWTjelmsnR
+         tYb7NXugOOFQvK5UrYmiZe+/YKb+yCGeZYWGcjYdV5yN72laJXIlbtqVapKJ/5GdwrZc
+         jKv0Mf/FS0NNj/5kDQ9kAOsNyVCtbpKLftV2DJtg6CRRyJ8egrShP/swZ3woEYdRd/kv
+         rGI7pqoXVl1W7n46g1lZBHmTX0YsD0zUT5JnPzSKv/9tGz6f/BNBIuij6Gfw3F4qflfa
+         1a8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=AIHedDQeQ2nfeFyhlIY6iBZ7Eo/kAlP72EhStgPHV1I=;
+        b=GPJ8MD4tCRwXh4HBsh9JjR1D57DsGrwoggofNFzSd+MBugH2Oft0wUV9wc9wiopWTT
+         cmwhL2kg8IhNDQKz0ot6H2NFoYJsosD6G3jfoQqhj6H9IPOB+yJGdfU2uV+GN6GcDrtw
+         USRw4Kml1HckNjxzY1LfyNdnhPmJclfx7CiQMQX8wfTBEqzKukXmmdladSOZNP1AjtPI
+         IUIxPK1e3V1MArQwVkkfSwUQYPmIERF3hOTfYzB9a6gmrggGqrBtA/6q9Yf1er5bZYgQ
+         dz1CrCE0MAZ1A+MInn7AD6DShUqASJoOyfCUeC/3Er/20pGQ7Dwt9+WYPIJGTfryEryv
+         BH5w==
+X-Gm-Message-State: AOAM530ylY5a10hXaLgXwWuqgBEsBRbQV5dbHG2luL7jNRfKNuuMiqRR
+        efimm47sOlvqpFC/3eQMZG6XdEl1qnrSjkjj5GM=
+X-Google-Smtp-Source: ABdhPJy5JVI3lW5DQjGRcco9V6NcXyngKxIlC4poqepFoSfKU9tR+yKwtpwsk8Y/0BpNOB+S0MHQJLI1GNmgFDkC468=
+X-Received: by 2002:a25:e549:: with SMTP id c70mr10850321ybh.339.1642496780233;
+ Tue, 18 Jan 2022 01:06:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Received: by 2002:a05:7108:3655:0:0:0:0 with HTTP; Tue, 18 Jan 2022 01:06:19
+ -0800 (PST)
+Reply-To: asil.ajwad@gmail.com
+From:   Asil Ajwad <graceyaogokamboule@gmail.com>
+Date:   Mon, 17 Jan 2022 21:06:19 -1200
+Message-ID: <CA+Yy_gC682JQi1_QLisGxR7uZiLm8cG+u0MPQzn6Z_L30nLM6Q@mail.gmail.com>
+Subject: Greetings,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi all,
+-- 
+Greetings,
 
-you are in this list because your architecture still implements and
-uses address space overrides using set_fs(), which are deprecated and
-have been removed from all mainstream architecture ports.  To help
-cleanup the core kernel it would be great to make progress on removing
-set_fs entirely.
+I am Mr.Asil Ajwad, I work with United Bank of Africa, can you use
+an ATM Visa Card to withdraw money at, ATM Cash Machine in your
+country, if yes I want to transfer abounded fund the sum of $10.5million
+US-Dollars, to you from my country, this is part of the money that was
+abounded by our late old client a politician who unfortunately lost
+his life and was forced out of power Du to his greedy act, the bank will
 
-The following steps are required:
+change the account details to your name, and apply for a Visa Card
+with your details, the Visa Card will be send to you, and you can be
+withdrawing money with it always, whatever any amount you withdraw
+daily, you will send 60% to me and you will take 40%, the Visa Card
+and the bank account will be on your name, I will be waiting for your
+response for more details, thanks to you a lot for giving me your time.
 
- (1) implement the __get_kernel_nofault and __put_kernel_nofault
-     helper to access kernel memory without page faults, replacing
-     the get/put_user under set_fs(KERNEL_DS) abuse.  Mips has a good
-     example for a trivial implementation for architectures that use
-     a common address space in commit 04324f44cb69
- (2) remove any architecture specific use of such constructs.  This
-     only affects ia64 and sh.
- (3) stop selecting the SET_FS and remove all the set_fs-related
-     infrastructure.  The above mips commit is a good guide once again.
-
-Thanks!
+regards,
+Mr.Asil Ajwad.
