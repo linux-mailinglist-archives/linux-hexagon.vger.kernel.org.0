@@ -1,92 +1,142 @@
 Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
-Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6E6C4A5196
-	for <lists+linux-hexagon@lfdr.de>; Mon, 31 Jan 2022 22:38:37 +0100 (CET)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id A37ED4AA960
+	for <lists+linux-hexagon@lfdr.de>; Sat,  5 Feb 2022 15:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1381204AbiAaVic (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 31 Jan 2022 16:38:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51508 "EHLO
+        id S1380127AbiBEOUY (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 5 Feb 2022 09:20:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1381120AbiAaViM (ORCPT
+        with ESMTP id S1380113AbiBEOUU (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 31 Jan 2022 16:38:12 -0500
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11156C06174A
-        for <linux-hexagon@vger.kernel.org>; Mon, 31 Jan 2022 13:38:10 -0800 (PST)
-Received: by mail-oi1-x243.google.com with SMTP id v67so29370369oie.9
-        for <linux-hexagon@vger.kernel.org>; Mon, 31 Jan 2022 13:38:10 -0800 (PST)
+        Sat, 5 Feb 2022 09:20:20 -0500
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C01C061346;
+        Sat,  5 Feb 2022 06:20:20 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id y17so7589659plg.7;
+        Sat, 05 Feb 2022 06:20:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=dEuqzCa7Zlz6s4mRGbRbRWXXanD59qsT+xmKk7tBbCVL8shmNgt9pnuL3r3GZQALql
-         Y63DqHUGCnZO0yzAtzp7ZNS2CuC8pMKUMaMtNqE3s9gB45FDt9/C7CdeYDqwmv7HZJbj
-         h6fZit5aG7dGp8FvXKTscfcGshyIKAGZl/Y4NFvWe+GDkg5MDDBzPsbgzyvzZ7B1mfX4
-         ltlQ0tRJrdsWlCdvxMPpvS+PhwNDM1Zp7MYHnfnHzWMTP4bbhrhxbQSB0Xw9LPR0gSp/
-         L2Vas/DZH4ZiZyplfhihUfOHaOD2GjtH1tg3ZI6lVgxDcwRnl8d4U3qCI5tj+07J/ZXk
-         SzvA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fXpUWimVQCvLi12RE7G95TNrEuugIM/jhy8DgSTBsu8=;
+        b=qLWx413D4IciL39NYeWr8qU1KR5zagd8EE38Tq5GVf3hMtZW9LxygN0yy4Sa4G3nK5
+         o7XjAajXRMf22xa6ELrr0cEaDEXotb5UzArukoNtgfGjDRUSdt+7iyJXwik0SHr9Wodh
+         yljY+pGNwNds9QoYnXSPvr51dv6aOyDrGAhTYjB8BrhXAFdzEi1BB/kqxntwvbR2GUeY
+         b9ZEp1bPcveeUhL+pWpSX54NZ/noE5QErwkq5YbhW788sNH/8JdQx4bZ/H1DqmzfaZfU
+         IXI+p9FgouIgMakWQ0kSdXK+ETMqZybLhlyTcP+2my+FKNPyJmA5vcuryETrXoHZjX+w
+         PZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=RcCyF58LaRxi/j1nHAT0ApLeXmQ9s66f3iMVqhPacvY=;
-        b=YuXYChaZjdcgKf6wPw/HcwDi4YKl0AnU7XR0zElSTXEiJTMZ6Quuwue/zMyPqY0cgJ
-         W1GB/Zj+p5piNlPhaCmUjLlz8EugqoPdNbKauC98pmzQa0n5vViiEjOjnKcieqMsdRPM
-         5ID0jqRRHUZc6yrX/YC9UrTZiwu3hWGj4qSX8fT+oOiHRTg2F052ahYf8z/xF2eFoMqS
-         KWFZy3RYiG0YcwttBD9pL3ao8zVFxuHpmQefL7Mpox8H/2bJdrR2lcZNiLQ6bmOUB+AC
-         MbJhzNo+GdSsDomzbR/EfduKf0fIIrQVBNDDelWl0k6JaqOrxMU1RLIRH3IZS9BWLJaX
-         BAKQ==
-X-Gm-Message-State: AOAM531s46Z8fBlUPWKRgya93dD1EFALhR/EonvfgJxy8jFDTEI+Tygd
-        aM6jG+chQhsTXd6rDV3rCh1sK4WJLJvc+gM76pI=
-X-Google-Smtp-Source: ABdhPJzjG4nHBnpm1YeRsvfpKVsM6nmNJIeFJaztEJrNHMe+iyJctx1iGavTAT23A2IhS4j6LtYbunRiUquAn1xj08o=
-X-Received: by 2002:a54:4490:: with SMTP id v16mr14818764oiv.157.1643665089421;
- Mon, 31 Jan 2022 13:38:09 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fXpUWimVQCvLi12RE7G95TNrEuugIM/jhy8DgSTBsu8=;
+        b=6v9nLDz74/m9uyx3Ra9uBoZQQFhWb5y/DJahe+JwRaP4t8NNieDfllPVYBq/WhG1VT
+         6w/d5fAOpKvG9YY54eGRDvLAjotiPq0A1HJzm69bMw6Eo3wYihqB5EUAgvSR4BabXexq
+         yDbUNNBSO4HbTxYiRMNUWNfTjX/Wg6WUgQ6M9HYD0egGhMmpm3ipGECEkXjbiKbXfxOI
+         EvmIuTzhOFSHOPFDGM/HmX6qSKKRnkcHPRO+6hrJDHV/j7Fb4T5RrAsKrqOPTndFnIaw
+         isSXQzWb0YR7Bv394fYtVVNH45wRg1VWOjCTz+A1PcNKI5lpWqeS08WMjpOSVyxeEqwI
+         dsKA==
+X-Gm-Message-State: AOAM531sNyuL6i1H7S6sxzNSTt1MZgu9HBhoiqSygFLQIxwExeSBbGbn
+        j6bEAhBNrzE7Zclvtdll94UXPT7kmEHYbsLx
+X-Google-Smtp-Source: ABdhPJyXegnm+lnzB5nkdEiKy52n6ZgRIAHvhTy7NkETaaV3Ff/WvmUvrYGZRioCcZJITPM0NbegOw==
+X-Received: by 2002:a17:90b:1e07:: with SMTP id pg7mr8738115pjb.97.1644070819294;
+        Sat, 05 Feb 2022 06:20:19 -0800 (PST)
+Received: from localhost ([2409:10:24a0:4700:e8ad:216a:2a9d:6d0c])
+        by smtp.gmail.com with ESMTPSA id lx4sm5795622pjb.44.2022.02.05.06.20.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Feb 2022 06:20:17 -0800 (PST)
+From:   Stafford Horne <shorne@gmail.com>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Stafford Horne <shorne@gmail.com>,
+        Brian Cain <bcain@codeaurora.org>,
+        Nick Hu <nickhu@andestech.com>,
+        Greentime Hu <green.hu@gmail.com>,
+        Vincent Chen <deanbo422@gmail.com>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Mike Rapoport <rppt@kernel.org>,
+        Russell King <rmk+kernel@armlinux.org.uk>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Kefeng Wang <wangkefeng.wang@huawei.com>,
+        Christophe Leroy <christophe.leroy@c-s.fr>,
+        linux-hexagon@vger.kernel.org, openrisc@lists.librecores.org
+Subject: [PATCH] mm: Remove mmu_gathers storage from remaining architectures
+Date:   Sat,  5 Feb 2022 23:19:53 +0900
+Message-Id: <20220205141956.3315419-1-shorne@gmail.com>
+X-Mailer: git-send-email 2.31.1
 MIME-Version: 1.0
-Received: by 2002:a4a:c30d:0:0:0:0:0 with HTTP; Mon, 31 Jan 2022 13:38:09
- -0800 (PST)
-Reply-To: westerunion909@gmail.com
-From:   "Antonia Lloyd." <anthonylloydatmxxx04@gmail.com>
-Date:   Mon, 31 Jan 2022 13:38:09 -0800
-Message-ID: <CAExPwBBpihjV-rv_-+hYqb1WD3wpSWx81B_Q3ES15U3TXSPsyw@mail.gmail.com>
-Subject: Dear Email ID Owner.(USD$4000 IMF COMPENSATION FUND TO PICK UP TODAY).
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Dear Email ID Owner.
+Originally the mmu_gathers were removed in commit 1c3951769621 ("mm: now
+that all old mmu_gather code is gone, remove the storage").  However,
+the openrisc and hexagon architecture were merged around the same time
+and mmu_gathers was not removed.
 
-The IMF is compensating all the email address that was funds as one of
-the ward win Victims and your email address and your name is among the
-listed one of approved to pay the sum of $3.6 million U.S Dollars. We
-have concluded to effect your own payment through Western Union Money
-Transfer for easy pick-up of those funds in good condition,$4000 twice
-daily,till the $3.6 million is completely transferred to you.We now
-need your information where we will be sending the funds,such
-as;Receiver name(Your full Name)address and phone number.Contact
-Western Union agent with this Email: ( westerunion995@gmail.com  ) for
-your payment fund.
+This patch removes them from openrisc, hexagon and nds32:
 
-Ms.Maria Zatto
-E-mail:westerunion995@gmail.com
-Telephone: +229 682 97 169
+Noticed while cleaning this warning:
 
-Contact Ms.Maria,immediately you get this mail through western union
-email address above to enable her speed-up.your payment and release
-the $4000 dollars MTCN today for you to pick up the payment OK.
+    arch/openrisc/mm/init.c:41:1: warning: symbol 'mmu_gathers' was not declared. Should it be static?
 
-You are expected to provide us with the details as prescribed below to
-enable safe and easy release of your funds today.
+Signed-off-by: Stafford Horne <shorne@gmail.com>
+---
+ arch/hexagon/mm/init.c  | 2 --
+ arch/nds32/mm/init.c    | 1 -
+ arch/openrisc/mm/init.c | 2 --
+ 3 files changed, 5 deletions(-)
 
-(1)Your Full name:
-(2)Your Phone number:
-(3)Your Country:
-(4)Your Age:
+diff --git a/arch/hexagon/mm/init.c b/arch/hexagon/mm/init.c
+index f01e91e10d95..3167a3b5c97b 100644
+--- a/arch/hexagon/mm/init.c
++++ b/arch/hexagon/mm/init.c
+@@ -29,8 +29,6 @@ int max_kernel_seg = 0x303;
+ /*  indicate pfn's of high memory  */
+ unsigned long highstart_pfn, highend_pfn;
+ 
+-DEFINE_PER_CPU(struct mmu_gather, mmu_gathers);
+-
+ /* Default cache attribute for newly created page tables */
+ unsigned long _dflt_cache_att = CACHEDEF;
+ 
+diff --git a/arch/nds32/mm/init.c b/arch/nds32/mm/init.c
+index f63f839738c4..825c85cab1a1 100644
+--- a/arch/nds32/mm/init.c
++++ b/arch/nds32/mm/init.c
+@@ -18,7 +18,6 @@
+ #include <asm/tlb.h>
+ #include <asm/page.h>
+ 
+-DEFINE_PER_CPU(struct mmu_gather, mmu_gathers);
+ DEFINE_SPINLOCK(anon_alias_lock);
+ extern pgd_t swapper_pg_dir[PTRS_PER_PGD];
+ 
+diff --git a/arch/openrisc/mm/init.c b/arch/openrisc/mm/init.c
+index 97305bde1b16..3a021ab6f1ae 100644
+--- a/arch/openrisc/mm/init.c
++++ b/arch/openrisc/mm/init.c
+@@ -38,8 +38,6 @@
+ 
+ int mem_init_done;
+ 
+-DEFINE_PER_CPU(struct mmu_gather, mmu_gathers);
+-
+ static void __init zone_sizes_init(void)
+ {
+ 	unsigned long max_zone_pfn[MAX_NR_ZONES] = { 0 };
+-- 
+2.31.1
 
-Thank you,
-Dr.Antonia Lloyd.
-Contact Dir.Western Union Money Transfer,
-Cotonou-Benin Republic.
