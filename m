@@ -2,87 +2,68 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 99DA94DD7FF
-	for <lists+linux-hexagon@lfdr.de>; Fri, 18 Mar 2022 11:39:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4F6EF4E5D2F
+	for <lists+linux-hexagon@lfdr.de>; Thu, 24 Mar 2022 03:26:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235058AbiCRKi6 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 18 Mar 2022 06:38:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37024 "EHLO
+        id S1347811AbiCXC2K (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 23 Mar 2022 22:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235033AbiCRKi5 (ORCPT
+        with ESMTP id S1347774AbiCXC2G (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 18 Mar 2022 06:38:57 -0400
-Received: from mail3-relais-sop.national.inria.fr (mail3-relais-sop.national.inria.fr [192.134.164.104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA18C2D8121;
-        Fri, 18 Mar 2022 03:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=3JVYTpZ2S+jPM8aku+6zMmH5pu/hPftoGDQ9F+um17w=;
-  b=En+N9Hx9lTWX+XtGUc70HCD0z0A6SiL1rF7KDG3bHgmUzIW1Z9yDsYrH
-   gxCJECVTQw6u4uiyXkJ4GewzRWchuv4FE1khmMtEiEzaVBuXj/9opALdK
-   99nZ1QcJVYqeGL6lw9T6BbPKPxTqntmnL/KNPm9zeFwOLz2S1veWvG1Jk
-   M=;
-Authentication-Results: mail3-relais-sop.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=Julia.Lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="5.90,192,1643670000"; 
-   d="scan'208";a="8935628"
-Received: from i80.paris.inria.fr (HELO i80.paris.inria.fr.) ([128.93.90.48])
-  by mail3-relais-sop.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2022 11:37:35 +0100
-From:   Julia Lawall <Julia.Lawall@inria.fr>
-To:     Brian Cain <bcain@codeaurora.org>
-Cc:     kernel-janitors@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] Hexagon: fix typos in comments
-Date:   Fri, 18 Mar 2022 11:36:57 +0100
-Message-Id: <20220318103729.157574-2-Julia.Lawall@inria.fr>
-X-Mailer: git-send-email 2.20.1
+        Wed, 23 Mar 2022 22:28:06 -0400
+Received: from mail.meizu.com (edge05.meizu.com [157.122.146.251])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1815939B0;
+        Wed, 23 Mar 2022 19:26:34 -0700 (PDT)
+Received: from IT-EXMB-1-125.meizu.com (172.16.1.125) by mz-mail12.meizu.com
+ (172.16.1.108) with Microsoft SMTP Server (TLS) id 14.3.487.0; Thu, 24 Mar
+ 2022 10:26:34 +0800
+Received: from meizu.meizu.com (172.16.137.70) by IT-EXMB-1-125.meizu.com
+ (172.16.1.125) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2308.14; Thu, 24 Mar
+ 2022 10:26:32 +0800
+From:   Haowen Bai <baihaowen@meizu.com>
+To:     <bcain@codeaurora.org>, <ebiederm@xmission.com>
+CC:     <linux-hexagon@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Haowen Bai" <baihaowen@meizu.com>
+Subject: [PATCH] hexagon: Fix warning comparing pointer to 0
+Date:   Thu, 24 Mar 2022 10:26:31 +0800
+Message-ID: <1648088791-31848-1-git-send-email-baihaowen@meizu.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Originating-IP: [172.16.137.70]
+X-ClientProxiedBy: IT-EXMB-1-125.meizu.com (172.16.1.125) To
+ IT-EXMB-1-125.meizu.com (172.16.1.125)
+X-Spam-Status: No, score=-1.0 required=5.0 tests=BAYES_00,KHOP_HELO_FCRDNS,
+        SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Various spelling mistakes in comments.
-Detected with the help of Coccinelle.
+Avoid pointer type value compared with 0 to make code clear.
 
-Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-
+Signed-off-by: Haowen Bai <baihaowen@meizu.com>
 ---
- arch/hexagon/kernel/module.c |    2 +-
- arch/hexagon/mm/vm_tlb.c     |    2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ arch/hexagon/kernel/traps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/hexagon/kernel/module.c b/arch/hexagon/kernel/module.c
-index cb3bf19b0640..62ab39027360 100644
---- a/arch/hexagon/kernel/module.c
-+++ b/arch/hexagon/kernel/module.c
-@@ -43,7 +43,7 @@ int module_frob_arch_sections(Elf_Ehdr *hdr, Elf_Shdr *sechdrs,
- 			found = i+1;
- 	}
+diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
+index 1240f038..dfdedfe 100644
+--- a/arch/hexagon/kernel/traps.c
++++ b/arch/hexagon/kernel/traps.c
+@@ -135,7 +135,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
+ 		}
  
--	/* At this time, we don't support modules comiled with -shared */
-+	/* At this time, we don't support modules compiled with -shared */
- 	if (found) {
- 		printk(KERN_WARNING
- 			"Module '%s' contains unexpected .plt/.got sections.\n",
-diff --git a/arch/hexagon/mm/vm_tlb.c b/arch/hexagon/mm/vm_tlb.c
-index 53482f2a9ff9..5b6673353120 100644
---- a/arch/hexagon/mm/vm_tlb.c
-+++ b/arch/hexagon/mm/vm_tlb.c
-@@ -46,7 +46,7 @@ void flush_tlb_one(unsigned long vaddr)
-  */
- void tlb_flush_all(void)
- {
--	/*  should probably use that fixaddr end or whateve label  */
-+	/*  should probably use that fixaddr end or whatever label  */
- 	__vmclrmap(0, 0xffff0000);
- }
+ 		/* Attempt to continue past exception. */
+-		if (0 == newfp) {
++		if (!newfp) {
+ 			struct pt_regs *regs = (struct pt_regs *) (((void *)fp)
+ 						+ 8);
  
+-- 
+2.7.4
 
