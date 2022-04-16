@@ -2,65 +2,86 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 158474F06FA
-	for <lists+linux-hexagon@lfdr.de>; Sun,  3 Apr 2022 05:06:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AC595034F2
+	for <lists+linux-hexagon@lfdr.de>; Sat, 16 Apr 2022 09:52:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231693AbiDCDIX (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sat, 2 Apr 2022 23:08:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53176 "EHLO
+        id S230183AbiDPHw2 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 16 Apr 2022 03:52:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232756AbiDCDIT (ORCPT
+        with ESMTP id S230206AbiDPHwP (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sat, 2 Apr 2022 23:08:19 -0400
-X-Greylist: delayed 361 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 02 Apr 2022 20:06:23 PDT
-Received: from mta-out-01.alice.it (mta-out-01.alice.it [217.169.118.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8CB7238DA4
-        for <linux-hexagon@vger.kernel.org>; Sat,  2 Apr 2022 20:06:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alice.it; s=20211207; t=1648955183; 
-        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
-        h=Reply-To:From:To:Date:Message-ID:MIME-Version;
-        b=Ph7XcD+IyfJuUSLMB/YGCVY7JDkERzENNOoaUa0e2BiEq5g30tNWd5BJ3pnjlVBLtVSnZyWfCXc7ixyf9YPYeOPJMO3ZIk8mHtLb4N2EIDerS1V1q8e3Fe+c0nPPkZeQ5ja83cGD9AoDLAbFAypNPylovAe0XgaqIlnsQ/uzFAjoyAx2ju4mwo6tOxq2QZZc5BGP1H51O2vk6Ly+lO/1qRw3RknsIu6/9fYIxLGUZMdqe7Iq/I1szETpyx5l7f3J57mM9WIUTkBtQichjfqoBqbg+caZrhiDv5BtU6ieNH7C+gO9MA1+HYCAv9HJtPo3cMkBlcdUy3ZmwK9dUEbgNw==
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvvddrudeiledgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffgvefqoffkvfetnffktedpqfgfvfenuceurghilhhouhhtmecufedtudenucfgmhhpthihuchsuhgsjhgvtghtucdluddtmdengfhmphhthicusghougihucdlhedtmdenucfjughrpehrhffvfffkggestddtfedttddttdenucfhrhhomhephggvuchhrghvvgcurghnuchofhhfvghruchtohcuihhnvhgvshhtuchinhcuhihouhhrucgtohhunhhtrhihuchunhguvghrucgruchjohhinhhtuchvvghnthhurhgvuchprghrthhnvghrshhhihhpuchplhgvrghsvgcurhgvphhlhicufhhorhcumhhorhgvucguvghtrghilhhsuceofhgpphgvnhhnrgesrghlihgtvgdrihhtqeenucggtffrrghtthgvrhhnpeehjeetgefhleetiedtkeelfffgjeeugeegleekueffgfegtdekkeeifedvvdffteenucfkphepudejiedrvddvjedrvdegvddrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhephhgvlhhopegrlhhitggvrdhithdpihhnvghtpedujeeirddvvdejrddvgedvrdduledtpdhmrghilhhfrhhomhepfhgpphgvnhhnrgesrghlihgtvgdrihhtpdhnsggprhgtphhtthhopedupdhrtghpthhtoheplhhinhhugidqhhgvgigrghhonhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-RazorGate-Vade-Verdict: clean 60
-X-RazorGate-Vade-Classification: clean
-Received: from alice.it (176.227.242.190) by mta-out-01.alice.it (5.8.807.04) (authenticated as f_penna@alice.it)
-        id 6244775000E19C6D for linux-hexagon@vger.kernel.org; Sun, 3 Apr 2022 05:00:20 +0200
-Reply-To: dougfield20@inbox.lv
-From:   We have an offer to invest in your country under a
-         joint venture partnership please reply for more
-         details <f_penna@alice.it>
-To:     linux-hexagon@vger.kernel.org
-Date:   02 Apr 2022 20:00:19 -0700
-Message-ID: <20220402200019.2A81DF1D400E1264@alice.it>
+        Sat, 16 Apr 2022 03:52:15 -0400
+Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ABABFFFBC
+        for <linux-hexagon@vger.kernel.org>; Sat, 16 Apr 2022 00:49:38 -0700 (PDT)
+Received: by mail-pg1-x543.google.com with SMTP id r66so10092329pgr.3
+        for <linux-hexagon@vger.kernel.org>; Sat, 16 Apr 2022 00:49:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=bJd2DIgtyK+bZCVQpMa9XLiI7bVnFQgVFeGzbZ6bXamjrEFIUCNaIDR9YpvR5iTRQC
+         EoRjHn2hxdGgHpTmUXoJLhLdkz8kw8CpdMkf+RjOM2yxgJf0M2w5tnzpw0NiczM9cGQm
+         aTRY2J48j2+AVBVM6ZplapTERLwB7sqpQHn0KTPy+GATyEE1HlWbU25nZewZyTln9PiO
+         eb2iuPe3VcoLkYjZ6tmC44EeIcF1BzRiek/y+/+gg720T1wEvd/5m2iOgdTIUS3isI5Z
+         q2z1OdX/gYACU6OexrbNcXzEKBC+MKUq0Bm7V68HpmeyS3D5tFhEEP1iOfnkPKJo7x6w
+         XtNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=KeMi8W+p20zdR41YZoRj2EapY7imNsLYkAgQIQsIzqY=;
+        b=PPjRMXe2SAn6/dgEZUPQ7yg/N9mh+FMlIMVsXXOTg97cPqsUxS30YJyOloZaT3rr1j
+         27sOWXU9hFAUYMd8VkzxAYhI60z5JeqldqGTG+9koEVmYn5mzEYW8/L2SBaOI/vI1iDY
+         EtswppVoeVN/zZmggP8vVR8o6FB6wp08di2t5oEAUNH531CXjGoP9mI66dhqrPTjWQfk
+         B4/oUDnZc5ramwB9NUJ7CqhXq5yrIusT96eCXKCdxGoFCIpYRafo6I5Qo3aSs9TV2pLP
+         vAv4UcEWZaboVobaDC8ccNQrHJXKYAbnIC1tixFUrQAMJ2b0cXNNDsVZIlB+OzKMtp4C
+         5Brg==
+X-Gm-Message-State: AOAM530VMbSrSCuRCE1JTjenOcMxT1e7PMy9GhELOWlwhz+h6QOiHgle
+        XlmdsxOUtpTivf6fcHTAAqF9M1Fx11LZOU/q9azxGWfD0FM=
+X-Google-Smtp-Source: ABdhPJzPQ782jxaaybf4v05kBQtFRTzv0MMrux20NcZ4Q10XmGrK6dnUIabFDBNBmBOv8fFyQY5zqzYAgf4Cnc3KaCc=
+X-Received: by 2002:a92:508:0:b0:2cb:ebd8:a76b with SMTP id
+ q8-20020a920508000000b002cbebd8a76bmr1009500ile.156.1650095366830; Sat, 16
+ Apr 2022 00:49:26 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: Yes, score=5.7 required=5.0 tests=BAYES_50,BODY_EMPTY,
-        DKIM_INVALID,DKIM_SIGNED,EMPTY_MESSAGE,FREEMAIL_FROM,FREEMAIL_REPLYTO,
-        FREEMAIL_REPLYTO_END_DIGIT,MISSING_SUBJECT,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L3,SPF_HELO_NONE,SPF_PASS
-        autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.7 RCVD_IN_DNSWL_LOW RBL: Sender listed at https://www.dnswl.org/,
-        *       low trust
-        *      [217.169.118.7 listed in list.dnswl.org]
-        *  0.0 RCVD_IN_MSPIKE_L3 RBL: Low reputation (-3)
-        *      [217.169.118.7 listed in bl.mailspike.net]
+Received: by 2002:a05:6638:1309:0:0:0:0 with HTTP; Sat, 16 Apr 2022 00:49:26
+ -0700 (PDT)
+Reply-To: daniel.seyba@yahoo.com
+From:   Seyba Daniel <royhalton13@gmail.com>
+Date:   Sat, 16 Apr 2022 09:49:26 +0200
+Message-ID: <CALSxb2w9zQYotuLcRSCPns53ksvT9UrEMVx-1Cp1f8RE7er3cA@mail.gmail.com>
+Subject: Hello,
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:543 listed in]
+        [list.dnswl.org]
         *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5227]
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
         *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
         *      provider
-        *      [f_penna[at]alice.it]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [dougfield20[at]inbox.lv]
+        *      [royhalton13[at]gmail.com]
+        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
+        *       in digit
+        *      [royhalton13[at]gmail.com]
         *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
         *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
         *       valid
-        *  2.3 EMPTY_MESSAGE Message appears to have no textual parts and no
-        *      Subject: text
-        *  1.8 MISSING_SUBJECT Missing Subject: header
-        *  0.1 DKIM_INVALID DKIM or DK signature exists, but is not valid
-        *  0.0 RCVD_IN_MSPIKE_BL Mailspike blacklisted
-        *  0.0 BODY_EMPTY No body text in message
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  3.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
         *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
         *      different freemails
 X-Spam-Level: *****
@@ -70,3 +91,18 @@ Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+Hello,
+
+I am so sorry contacting you in this means especially when we have never
+met before. I urgently seek your service to represent me in investing in
+your region / country and you will be rewarded for your service without
+affecting your present job with very little time invested in it.
+
+My interest is in buying real estate, private schools or companies with
+potentials for rapid growth in long terms.
+
+So please confirm interest by responding back.
+
+My dearest regards
+
+Seyba Daniel
