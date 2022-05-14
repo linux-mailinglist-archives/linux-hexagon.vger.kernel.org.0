@@ -2,105 +2,102 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA4A3522B2B
-	for <lists+linux-hexagon@lfdr.de>; Wed, 11 May 2022 06:39:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B5DB527461
+	for <lists+linux-hexagon@lfdr.de>; Sat, 14 May 2022 23:57:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239686AbiEKEj1 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 11 May 2022 00:39:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42874 "EHLO
+        id S229681AbiENV51 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 14 May 2022 17:57:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235150AbiEKEjZ (ORCPT
+        with ESMTP id S232072AbiENV5W (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 11 May 2022 00:39:25 -0400
-Received: from mail-oa1-x2e.google.com (mail-oa1-x2e.google.com [IPv6:2001:4860:4864:20::2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB9EF14CA34
-        for <linux-hexagon@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
-Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-ed9ac77cbbso1510384fac.1
-        for <linux-hexagon@vger.kernel.org>; Tue, 10 May 2022 21:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=nrkBIDyCffFbQz5WNhQU88q5l+bx8m1CoLNL/nRcxBFZRgp3B2RwRJzpJi69hjmFPQ
-         Eotn36CVTQor8sTwq84btYhQQ+OsypTpYdHIfGkC/Ekjg8a9U0HkQq0T/gbcQg5/if4Y
-         i1yzcJYhTRMm8ny1NIiOYUNRazrfloxlCC/1XVxW2+TG0ItQpx2/G3cXjgMuOALgO1Rc
-         auxKHXwS3ghK6vFFIfR8essc70JXfRi2oIpi3YT/VLqISCMTaVWCOI/Xf0rWfpfTmlnw
-         XgqCFC8jOuHD5AjsEtox3h0b9tzcHlVM0fA1RrJyDFubK9aS707t1BYf/K43qSc4slo4
-         wrQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-        bh=s3Cdswvtyrq8qHVwuRB9YRoTAIoD9G/2//h6WeFZHzo=;
-        b=wQcSypaQoSE520hp0UnZc4qYT9qsHot1gzxmRDzNT+YecnCnLwWyH+bsXjGLY4rRJT
-         N6AnJwT0rDS6xgmyvtFaUw2lNKaYXH6wq/NqsC15hFFOdevrZPa8sjdmdtSQfXrLfpOZ
-         BI81rWC7jSD9IvNWkyD2M2H5XUgMdukxUCBx/D7W43zrSwIOueGz9W6ab4muOxTG9ag0
-         lgdnB2u2mDwNFBxXCebmuZgUwxCD9QroRhmEZSxG1+Q9cHpHUiPd1YD19dkUPBNJmRaM
-         /n1NA7GpP8/idCYA/SQDJm40Jg/DjTDafZqhUrpOX290n9s5XQotZf0pcJ7TNwEqvEkN
-         4e4w==
-X-Gm-Message-State: AOAM533PMkAzmRmDITIT8NCjhRYAlg88kowl1tA1Y+59RxvJ1D0v++Ag
-        qy4IcqVM9iuTlyvrOuc/jVrtNkXdwlvWgNSeYBhmAkpl+Mfz7g==
-X-Google-Smtp-Source: ABdhPJwbKHmbnZDflMHBZCcp2YbZAAZvFdPcM4owWeuPIkoxodmwIZJ+Xpgi08ylB1RFXLrw63SQRxJzumbwJKMTxhs=
-X-Received: by 2002:a17:90b:1007:b0:1dc:9862:68af with SMTP id
- gm7-20020a17090b100700b001dc986268afmr3261389pjb.205.1652243951499; Tue, 10
- May 2022 21:39:11 -0700 (PDT)
+        Sat, 14 May 2022 17:57:22 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 587AC40A34
+        for <linux-hexagon@vger.kernel.org>; Sat, 14 May 2022 14:57:21 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id E664260C66
+        for <linux-hexagon@vger.kernel.org>; Sat, 14 May 2022 21:57:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC748C340EE;
+        Sat, 14 May 2022 21:57:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1652565440;
+        bh=7/bA4w4G8YLE2TIhdgRqh26nw+jS5nqBcytlMpBLt6c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=sLvjaR/bAqfxtbZbegiNJzcBeRj8fW3Pok6tKrFToxFQmVLDB2F6lMMHXRdMK/g2g
+         nm8R7ZUJTaSHGZSllh/ylnHppOPM5fcHDcmpx3H6nyWUTwEk7YDeeiJKE71yuFYyNG
+         mkF2qKCl18lDy1IcJZYwAJIvfPBYevDFdNWXQlFmJSufcl04mnF85bTkmxHmhpmikw
+         ArJStkUXtR8NNb6n44njMt94gjJ14qC/T8sZ/Zv8wihkQuRNECoqQ9pGFw+FUUcqUl
+         TX03OufZuA+Qy/xEG904myMtwQJTgtVIwBVkGDGm8i26ZbyVe11FgeWDx7o4qxyIyH
+         5S/pwvvAuwVgQ==
+Date:   Sat, 14 May 2022 14:57:18 -0700
+From:   Nathan Chancellor <nathan@kernel.org>
+To:     Matthew Wilcox <willy@infradead.org>,
+        Brian Cain <bcain@quicinc.com>
+Cc:     kernel test robot <lkp@intel.com>, llvm@lists.linux.dev,
+        kbuild-all@lists.01.org,
+        Linux Memory Management List <linux-mm@kvack.org>,
+        linux-hexagon@vger.kernel.org
+Subject: Re: [linux-next:master 9995/11651] fs/buffer.c:2254:5: warning:
+ stack frame size (2144) exceeds limit (1024) in 'block_read_full_folio'
+Message-ID: <YoAlvnyjEbYV4T1L@dev-arch.thelio-3990X>
+References: <202205150051.3RzuooAG-lkp@intel.com>
+ <Yn/YsTpOh898B30l@casper.infradead.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:319:0:0:0:0 with HTTP; Tue, 10 May 2022 21:39:10
- -0700 (PDT)
-From:   Private Mail <privatemail1961@gmail.com>
-Date:   Tue, 10 May 2022 21:39:10 -0700
-Message-ID: <CANjAOAiiVcSrSv31FjThCVmeppS54UVvGVj3SRSvMfxOB+T8DA@mail.gmail.com>
-Subject: Have you had this? It is for your Benefit
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.3 required=5.0 tests=ADVANCE_FEE_4_NEW_MONEY,
-        BAYES_50,DEAR_BENEFICIARY,DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,
-        DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FROM,FREEMAIL_REPLY,
-        LOTS_OF_MONEY,MONEY_FRAUD_5,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_MONEY autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: ****
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Yn/YsTpOh898B30l@casper.infradead.org>
+X-Spam-Status: No, score=-7.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Our Ref: BG/WA0151/2022
+On Sat, May 14, 2022 at 05:28:33PM +0100, Matthew Wilcox wrote:
+> On Sun, May 15, 2022 at 12:23:46AM +0800, kernel test robot wrote:
+> > commit: 2c69e2057962b6bd76d72446453862eb59325b49 [9995/11651] fs: Convert block_read_full_page() to block_read_full_folio()
+> > config: hexagon-randconfig-r041-20220513 (https://download.01.org/0day-ci/archive/20220515/202205150051.3RzuooAG-lkp@intel.com/config)
+> > compiler: clang version 15.0.0 (https://github.com/llvm/llvm-project 38189438b69ca27b4c6ce707c52dbd217583d046)
+> ...
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> fs/buffer.c:2254:5: warning: stack frame size (2144) exceeds limit (1024) in 'block_read_full_folio' [-Wframe-larger-than]
+> >    int block_read_full_folio(struct folio *folio, get_block_t *get_block)
+> >        ^
+> >    1 warning generated.
+> 
+> Now show the warnings that were removed.  This patch renames the
+> function, and I bet there was a similar warning before this patch.
+> 
+> But basically, I don't care about stack usage on hexagon with clang.
+> AIUI, it's a known bug.
 
-Dear Beneficiary
+For what it's worth, it seems like this is just 256K pages being 256K
+pages... MAX_BUF_PER_PAGE is PAGE_SIZE / 512 so *arr is 2048 bytes big
+in this configuration. You'd see a similar warning with PowerPC but that
+configuration is non-standard:
 
-Subject: An Estate of US$15.8 Million
+fs/buffer.c: In function ‘block_read_full_page’:
+fs/buffer.c:2337:1: warning: the frame size of 2064 bytes is larger than 1024 bytes [-Wframe-larger-than=]
+ 2337 | }
+      | ^
 
-Blount and Griffin Genealogical Investigators specializes in probate
-research to locate missing heirs and beneficiaries to estates in the
-United Kingdom and Europe.
+It would be nice if the Intel folks could look at recognizing a function
+rename so that you are not bothered by reports like this.
 
-We can also help you find wills, obtain copies of certificates, help
-you to administer an estate, as well as calculating how an estate,
-intestacy or trust should be distributed.
+As a side note... Brian, is there any reason for 256K pages to exist for
+Hexagon? This has been an option since Hexagon's introduction but is it
+actually used? 4K pages is the default and the help text says "use with
+caution". Perhaps the choice should be turned off altogether for
+CONFIG_COMPILE_TEST so that we cannot select this configuration and
+bother developers with these reports.
 
-You may be entitled to a large pay out for an inheritance in Europe
-worth US$15.8 million. We have discovered an estate belonging to the
-late Depositor has remained unclaimed since he died in 2011 and we
-have strong reasons to believe you are the closest living relative to
-the deceased we can find.
-
-You may unknowingly be the heir of this person who died without
-leaving a will (intestate). We will conduct a probate research to
-prove your entitlement, and can submit a claim on your behalf all at
-no risk to yourselves.
-
-Our service fee of 10% will be paid to us after you have received the estate.
-
-The estate transfer process should take just a matter of days as we
-have the mechanism and expertise to get this done very quickly. This
-message may come to you as a shock, however we hope to work with you
-to transfer the estate to you as quickly as possible.
-
-Feel free to email our senior case worker Mr. Malcolm Casey on email:
-malcolmcasey68@yahoo.com for further discussions.
-
-With warm regards,
-
-Mr. Blount W. Gort, CEO.
-Blount and Griffin Associates Inc
+Cheers,
+Nathan
