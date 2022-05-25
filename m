@@ -1,182 +1,111 @@
 Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
-Received: from out1.vger.email (unknown [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E627B533CD9
-	for <lists+linux-hexagon@lfdr.de>; Wed, 25 May 2022 14:44:30 +0200 (CEST)
+Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
+	by mail.lfdr.de (Postfix) with ESMTP id 96658534506
+	for <lists+linux-hexagon@lfdr.de>; Wed, 25 May 2022 22:36:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242028AbiEYMoZ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 25 May 2022 08:44:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60458 "EHLO
+        id S1345114AbiEYUgv (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 25 May 2022 16:36:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46774 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238727AbiEYMoX (ORCPT
+        with ESMTP id S233379AbiEYUgu (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 25 May 2022 08:44:23 -0400
-Received: from mail-qk1-x72c.google.com (mail-qk1-x72c.google.com [IPv6:2607:f8b0:4864:20::72c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 093DC90CFA
-        for <linux-hexagon@vger.kernel.org>; Wed, 25 May 2022 05:44:20 -0700 (PDT)
-Received: by mail-qk1-x72c.google.com with SMTP id j6so17182987qkp.9
-        for <linux-hexagon@vger.kernel.org>; Wed, 25 May 2022 05:44:20 -0700 (PDT)
+        Wed, 25 May 2022 16:36:50 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49051289A6
+        for <linux-hexagon@vger.kernel.org>; Wed, 25 May 2022 13:36:48 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id i40so28481995eda.7
+        for <linux-hexagon@vger.kernel.org>; Wed, 25 May 2022 13:36:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cmpxchg-org.20210112.gappssmtp.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=w0F6iR9EKs/zIprBUHWYk0xdfCPICb6b6FOC3ooI/Qg=;
-        b=LMEKNyEIRYPV5QWJlwplZCx+Yze+80z3MALcLFPz5jKdddgbR28N/X6bo9Jvgd00MP
-         WWkcUcb1+z91voFM8WjtduJpm5pvevvusNqH0PzjaxsPqwHpEmvLG6H17fO8d+8uqQ/c
-         xW/rbo+trH8MjL1X/foXOCmesnHHx99Tmug43Nb91EXZFTR7KAdlglnJRYtL1NUTbXz5
-         2CGVavB8u5eJ5bdNx8JVu0TNi6KB2NiCnWSVtKfIEdRU3i4wp/Kah2nDHcLAJXmplYfJ
-         xzofRGg4rofGSre9mJv/qm1XS4Pms5gIR+r4L8hjS8Owdd3qkT56i/sicOD/din7w+oO
-         VJFw==
+        d=gmail.com; s=20210112;
+        h=mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=jF4MxsPSKKSAh34A0y7fWqFeFSCCDQ9NCjS0um7aELU=;
+        b=Yv+jMbXKjnp0zU+NJyx2KHuveCnePIsv7Lt/swwOMMJkIm9xw3286z27eQcBEid6gc
+         iGtO6YYGBjAQUT/fYGDklvBfov/9PtZKSLKAoRp3PplBtP/tbqHx1meW8GeM34U1J5eE
+         b7iViW4U2VojAwWK3qzWqxjLSSFKUnzoe3Sg4UJcVJh1zDTaCIJ7Ra07epNQ2TbIlAF6
+         IyXJnoewnk6wMxJLyy+v2D3q9erZp0RCE+Iar7JSJvqylxGZO3J9JBlHDjR2cvSKmOu1
+         R1zljQkb+4kk3xAj/zRWd2HsiocSpvA5p2s+iMXZXBh2dofAJVb5znRKvU8jFU5wdjyt
+         NPBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=w0F6iR9EKs/zIprBUHWYk0xdfCPICb6b6FOC3ooI/Qg=;
-        b=Go0BMqNGFA1TV8M9X61sYbSchu+Rwsqq6l4flpSXyvcbRFmEu6qMnnH8TQXTWOKsMI
-         yWzlXEe/ns5HOTv42gfpgIURwi4OwJU1HrjpF73uvQ3OF4Jauy1repwW34JH/qVkwInD
-         E5rWQGsz5it/OQsiREMQ+NeD3aPSGyff5h+/jPkWqs76ywCnuxqfadoyck6yL0PUcwHv
-         l4/Ui6h+eOPUnqGA6bcNlS/vdvCN8RMTqERoY1Xucp+6ls2f7/M3G13NRq7+3jD+/6gF
-         ppqOwKQH6BXL52WO2JmeEzHyGo/SSCCVmpwOroQuCAVhzoVIdCtKcvFm1ebxQytaNkxz
-         G3ig==
-X-Gm-Message-State: AOAM531N9f1PiG6KeyzfI547JA9cdpfM/tG0a30lruatAmyXUS45u9Et
-        +59M5UPNWbw0ns/rvHYaLutVYg==
-X-Google-Smtp-Source: ABdhPJx/POKWSCbmzd2neCxXDwISwEb1wGzjcuEavupLeI/smDQTCNVGAU9PwpCoNv+A6qxiW2wj4Q==
-X-Received: by 2002:a05:620a:4047:b0:6a0:5dae:ad67 with SMTP id i7-20020a05620a404700b006a05daead67mr19946570qko.530.1653482659851;
-        Wed, 25 May 2022 05:44:19 -0700 (PDT)
-Received: from localhost ([2620:10d:c091:480::1:741f])
-        by smtp.gmail.com with ESMTPSA id g25-20020ac870d9000000b002f9433ed963sm1207797qtp.64.2022.05.25.05.44.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 May 2022 05:44:19 -0700 (PDT)
-Date:   Wed, 25 May 2022 08:44:18 -0400
-From:   Johannes Weiner <hannes@cmpxchg.org>
-To:     Peter Xu <peterx@redhat.com>
-Cc:     linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-        Richard Henderson <rth@twiddle.net>,
-        David Hildenbrand <david@redhat.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Michal Simek <monstr@monstr.eu>,
-        Russell King <linux@armlinux.org.uk>,
-        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        linux-riscv@lists.infradead.org,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Jonas Bonn <jonas@southpole.se>, Will Deacon <will@kernel.org>,
-        "James E . J . Bottomley" <James.Bottomley@hansenpartnership.com>,
-        "H . Peter Anvin" <hpa@zytor.com>,
-        Andrea Arcangeli <aarcange@redhat.com>,
-        openrisc@lists.librecores.org, linux-s390@vger.kernel.org,
-        Ingo Molnar <mingo@redhat.com>,
-        linux-m68k@lists.linux-m68k.org,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Heiko Carstens <hca@linux.ibm.com>,
-        Chris Zankel <chris@zankel.net>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Alistair Popple <apopple@nvidia.com>,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        Vlastimil Babka <vbabka@suse.cz>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        sparclinux@vger.kernel.org,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>, x86@kernel.org,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Paul Mackerras <paulus@samba.org>,
-        linux-arm-kernel@lists.infradead.org,
-        Sven Schnelle <svens@linux.ibm.com>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        linux-xtensa@linux-xtensa.org, Nicholas Piggin <npiggin@gmail.com>,
-        linux-sh@vger.kernel.org, Vasily Gorbik <gor@linux.ibm.com>,
-        Borislav Petkov <bp@alien8.de>, linux-mips@vger.kernel.org,
-        Max Filippov <jcmvbkbc@gmail.com>,
-        Helge Deller <deller@gmx.de>, Vineet Gupta <vgupta@kernel.org>,
-        Al Viro <viro@zeniv.linux.org.uk>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        linux-um@lists.infradead.org, linux-alpha@vger.kernel.org,
-        Johannes Berg <johannes@sipsolutions.net>,
-        linux-ia64@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Dinh Nguyen <dinguyen@kernel.org>, Guo Ren <guoren@kernel.org>,
-        linux-snps-arc@lists.infradead.org,
-        Hugh Dickins <hughd@google.com>, Rich Felker <dalias@libc.org>,
-        Andy Lutomirski <luto@kernel.org>,
-        Richard Weinberger <richard@nod.at>,
-        linuxppc-dev@lists.ozlabs.org, Brian Cain <bcain@quicinc.com>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
-        linux-parisc@vger.kernel.org,
-        "David S . Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v3] mm: Avoid unnecessary page fault retires on shared
- memory types
-Message-ID: <Yo4kojxZfjNiZI7/@cmpxchg.org>
-References: <20220524234531.1949-1-peterx@redhat.com>
+        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+         :content-transfer-encoding;
+        bh=jF4MxsPSKKSAh34A0y7fWqFeFSCCDQ9NCjS0um7aELU=;
+        b=yMq4S4Abkhbp0Od1W+KbuF834WYczc6DYDNux2vFBHCbxSNEiO+BrbIsNG5E8n9fir
+         cZK67lazm3nFXqmq1jDENwXjq9yRKbPt2/xsaK48+nT/xT8HkayGnT7UQq67K7AcM8Ri
+         x1eiSm2rHjx3bh8CpKSYbks7/2b4N23Ha45cRg0aBIOaHWVh6yRMfaX4EEDdzf8aebe0
+         3sPvlzgiYQhkOcGpk7XDQhSC9wgygsxsPk6OJwJvScl8scFpWToRj+PUA6XQZxBKuosX
+         ovlBFoU0sSZ5mOXTh6jy2YPDGkIRSzoe+i+0mtKyHYCcnCQxni4soII50eC+KAPdA1O5
+         G+0A==
+X-Gm-Message-State: AOAM5320x4jDFoB/U+dwj54OeTVV7YvhOsfTS6VGqMgUqUXJEhYnhTkI
+        +4nPE6AGJe54sUEmdvK4dXaNL4yk6QRKFHWJe9M=
+X-Google-Smtp-Source: ABdhPJxtQHhRU0NPjLsbVGDyi7AUKC0KwsoIt67G86CjB3mgkrDtSBdioBDVuRlhK7s8y5zT6+gKnPjiHk6Ox0+xsFM=
+X-Received: by 2002:a05:6402:254e:b0:42b:4633:e53e with SMTP id
+ l14-20020a056402254e00b0042b4633e53emr23449342edb.314.1653511006896; Wed, 25
+ May 2022 13:36:46 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220524234531.1949-1-peterx@redhat.com>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+Received: by 2002:ab4:a26b:0:0:0:0:0 with HTTP; Wed, 25 May 2022 13:36:46
+ -0700 (PDT)
+From:   Luisa Donstin <luisadonstin@gmail.com>
+Date:   Wed, 25 May 2022 22:36:46 +0200
+Message-ID: <CA+QBM2obO8yjLRDs7ZnAtHdmY2Zbt6q3ZLKRZMirHdnPqCsHsw@mail.gmail.com>
+Subject: Bitte kontaktaufnahme Erforderlich !!! Please Contact Required !!!
+To:     contact@firstdiamondbk.com
+Cc:     info@firstdiamondbk.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, May 24, 2022 at 07:45:31PM -0400, Peter Xu wrote:
-> I observed that for each of the shared file-backed page faults, we're very
-> likely to retry one more time for the 1st write fault upon no page.  It's
-> because we'll need to release the mmap lock for dirty rate limit purpose
-> with balance_dirty_pages_ratelimited() (in fault_dirty_shared_page()).
-> 
-> Then after that throttling we return VM_FAULT_RETRY.
-> 
-> We did that probably because VM_FAULT_RETRY is the only way we can return
-> to the fault handler at that time telling it we've released the mmap lock.
-> 
-> However that's not ideal because it's very likely the fault does not need
-> to be retried at all since the pgtable was well installed before the
-> throttling, so the next continuous fault (including taking mmap read lock,
-> walk the pgtable, etc.) could be in most cases unnecessary.
-> 
-> It's not only slowing down page faults for shared file-backed, but also add
-> more mmap lock contention which is in most cases not needed at all.
-> 
-> To observe this, one could try to write to some shmem page and look at
-> "pgfault" value in /proc/vmstat, then we should expect 2 counts for each
-> shmem write simply because we retried, and vm event "pgfault" will capture
-> that.
-> 
-> To make it more efficient, add a new VM_FAULT_COMPLETED return code just to
-> show that we've completed the whole fault and released the lock.  It's also
-> a hint that we should very possibly not need another fault immediately on
-> this page because we've just completed it.
-> 
-> This patch provides a ~12% perf boost on my aarch64 test VM with a simple
-> program sequentially dirtying 400MB shmem file being mmap()ed and these are
-> the time it needs:
-> 
->   Before: 650.980 ms (+-1.94%)
->   After:  569.396 ms (+-1.38%)
-> 
-> I believe it could help more than that.
-> 
-> We need some special care on GUP and the s390 pgfault handler (for gmap
-> code before returning from pgfault), the rest changes in the page fault
-> handlers should be relatively straightforward.
-> 
-> Another thing to mention is that mm_account_fault() does take this new
-> fault as a generic fault to be accounted, unlike VM_FAULT_RETRY.
-> 
-> I explicitly didn't touch hmm_vma_fault() and break_ksm() because they do
-> not handle VM_FAULT_RETRY even with existing code, so I'm literally keeping
-> them as-is.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+Guten Tag,
 
-Acked-by: Johannes Weiner <hannes@cmpxchg.org>
+Ich habe mich nur gefragt, ob Sie meine vorherige E-Mail bekommen
+
+haben ?
+
+Ich habe versucht, Sie per E-Mail zu erreichen.
+
+Kommen Sie bitte schnell zu mir zur=C3=BCck, es ist sehr wichtig.
+
+Danke
+
+Luisa Donstin
+
+luisadonstin@gmail.com
+
+
+
+
+
+
+
+
+
+----------------------------------
+
+
+
+
+Good Afternoon,
+
+I was just wondering if you got my Previous E-mail
+have ?
+
+I tried to reach you by E-mail.
+
+Please come back to me quickly, it is very Important.
+
+Thanks
+
+Luisa Donstin
+
+luisadonstin@gmail.com
