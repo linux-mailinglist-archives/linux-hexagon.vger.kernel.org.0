@@ -2,150 +2,132 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A2DC53F14A
-	for <lists+linux-hexagon@lfdr.de>; Mon,  6 Jun 2022 23:00:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1869053F99C
+	for <lists+linux-hexagon@lfdr.de>; Tue,  7 Jun 2022 11:28:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234845AbiFFU7z (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 6 Jun 2022 16:59:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41672 "EHLO
+        id S239473AbiFGJ2K (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 7 Jun 2022 05:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230140AbiFFU7t (ORCPT
+        with ESMTP id S239452AbiFGJ2F (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 6 Jun 2022 16:59:49 -0400
-Received: from mail-qk1-x732.google.com (mail-qk1-x732.google.com [IPv6:2607:f8b0:4864:20::732])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CF469419D;
-        Mon,  6 Jun 2022 13:48:58 -0700 (PDT)
-Received: by mail-qk1-x732.google.com with SMTP id 68so3359620qkk.9;
-        Mon, 06 Jun 2022 13:48:58 -0700 (PDT)
+        Tue, 7 Jun 2022 05:28:05 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7467D45AD5
+        for <linux-hexagon@vger.kernel.org>; Tue,  7 Jun 2022 02:28:01 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id e11-20020a9d6e0b000000b0060afcbafa80so12524465otr.3
+        for <linux-hexagon@vger.kernel.org>; Tue, 07 Jun 2022 02:28:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20210112;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=g2dcvEx5ujIfq/vGwsQoEKMbkEYSqcC+pGjcA0dBu1c=;
-        b=f7b0v5dv8hmLnBlzL8WyYq5cOW64Y5WX7Dmpl69JKaPauL++ld78WKF8ntff7E3FD9
-         /EFPnKoGaHbNkPIgpiRh5FlgefHuwLc1yxNkOW+bHut9SVnVZCbu/JkykiPElo5zPWjp
-         nCuHLbsnuv21eFXD2iNnywm2Hbn427FK25GFy6T1JFuumczjXmgtp3nChf3HO/XhNBhM
-         NXjSU4JD0/Av3t8AAMTU1yL794U7NXS8pa6qxIcfy7ouTJCp/SF65MboQcoKMXA5+/fk
-         R0q5tIVK+/ksEV405xlxflOCs1qdnp/FFVTP6I8k8VtwErnFZfCokgUB0civbDGx+Ib2
-         7GIg==
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
+        b=gujHBVxqWIlmngbJHwwatlrY6K2BhXGLJOXKENebOL4hOCXVjvoa+7rQ+wCwOuo7nz
+         8e28HbaszMFtjrNu2xJwHUtJo1p0vWs5cPK29M2FpYQX1yrDGputAW1tF1NfmP59wawm
+         4ciGU9SnxDgRMb84mTOs96+/9zN97uENfqj9/+eZfuG77h5pSaMszmbmnWOwi9m+gNzd
+         5NtwsZACk2ULSP0cRt0MdNUxBuwzIbCfzmloCBb/Ue1QhCyZ8f6GEgrTXVIY7durHnKk
+         UWQF6j7yHnTlxlvI9xCgSzii4NusQH9ADfpyzQwiF9b+OrCBSH3adFs9TwqclNBk9aQF
+         O14A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=g2dcvEx5ujIfq/vGwsQoEKMbkEYSqcC+pGjcA0dBu1c=;
-        b=IT4u7CmoWi6HX3yhfCZqnTHklKmxYH70Mp+prygtX+X6iGXyqlLSeFvgwYgtWeyCIe
-         zukDYBHOhQpWQ1q4hlEkCBpFtMsevyKSdhfgx7Z+rthrdfpneV1EgNvq6t8I6Rgldw0i
-         jcclSJPD3P8m6fnA8vXzh3wBBCb1TJ6obXLFPH0KtRlEjFuc6gEJo5qI4Q0H6hCxpGTL
-         msZiPybmC9OmoG/4Ze8naFtdxZLmus0O6Ss3HsawvXDIX9t9LOKyQPjgY0S4qtLOT//E
-         cTkdZR/ZoWNoUrPTtdl0YBCwQJcifH8LmS00KuogVNBk0PGGz4c4JRxPrN6uVO7WeJus
-         b3pA==
-X-Gm-Message-State: AOAM5324/lN02Hp6ppOB50edRazNGpcO8OmeBT+t9dHI8l47wpIwyJVC
-        aez+24OtinCucnef5Re+mzw=
-X-Google-Smtp-Source: ABdhPJy6iWrSjhT1+WPfkKbI1gHvATNgUCtpwq8y3JhsiD76yT4Gvelb8RZZw4VB5N3/itiqM6ja8g==
-X-Received: by 2002:a05:620a:14ad:b0:6a6:b8ab:9c3f with SMTP id x13-20020a05620a14ad00b006a6b8ab9c3fmr5227234qkj.410.1654548537353;
-        Mon, 06 Jun 2022 13:48:57 -0700 (PDT)
-Received: from localhost ([2601:4c1:c100:1230:be9c:b2d9:3353:7a73])
-        by smtp.gmail.com with ESMTPSA id bm32-20020a05620a19a000b006a6d20386f6sm900223qkb.42.2022.06.06.13.48.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Jun 2022 13:48:56 -0700 (PDT)
-Date:   Mon, 6 Jun 2022 13:48:50 -0700
-From:   Yury Norov <yury.norov@gmail.com>
-To:     Alexander Lobakin <alexandr.lobakin@intel.com>
-Cc:     Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Richard Henderson <rth@twiddle.net>,
-        Matt Turner <mattst88@gmail.com>,
-        Brian Cain <bcain@quicinc.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Marco Elver <elver@google.com>, Borislav Petkov <bp@suse.de>,
-        Tony Luck <tony.luck@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-alpha@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/6] bitops: unify non-atomic bitops prototypes across
- architectures
-Message-ID: <Yp5oMmzNlq+Ut4So@yury-laptop>
-References: <20220606114908.962562-1-alexandr.lobakin@intel.com>
- <20220606114908.962562-5-alexandr.lobakin@intel.com>
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=ohM259uqobJqtM7gttWurWj7P+4iDfPJquHax95olDY=;
+        b=HN0W3wOgngKnXIBadxNGJtBe7EWv6BELJmCLywn+zd3SGvnsH82wDp9NCfNBy6rHOZ
+         hAHX2b5PdTInmhButGiK5Yf41keeNmBuHDDwJj/3qMMu4Yl0HFp2vmrNpErtidl3qLFZ
+         J3pt2D3bIk5tn7boVwnQwJNeeAsh+hDOizVo5t5BYAE7wkpQ1y9Utu1Es07jh8oVSJSl
+         PJE+yGtFG+Ndy9j4AmUzxNGX6nLpx9JfeonGJyiUE+zlBJSZ+ni/P0j46HQ97dhSPQZh
+         MR4MlgmnJ5cPFisXHHt8jrPPkgsSCl+QMHLuIjBCaAJP+pcuGqV8aVS2c0DFx43SBOlP
+         TtUA==
+X-Gm-Message-State: AOAM531pO0mR9+AugW1pOuj5z5CCdWzDbZ+hmw2+my/klJxIsjEU/OhC
+        Kt6MAVbeZn3DZoD8P+lkRFJwLu2Jkx/EWhlSxY0=
+X-Google-Smtp-Source: ABdhPJxTYNOyqQTj+pRtv7B26L++zgaw4oyR9fAzq9Xjy/qi86fDOL5mMOdKcDA6Petw4QZgBH7CHdeaexgYk1On3ls=
+X-Received: by 2002:a05:6830:919:b0:60a:fe63:e321 with SMTP id
+ v25-20020a056830091900b0060afe63e321mr11494607ott.227.1654594080399; Tue, 07
+ Jun 2022 02:28:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20220606114908.962562-5-alexandr.lobakin@intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Received: by 2002:a05:6358:99a5:b0:a2:a1fa:9308 with HTTP; Tue, 7 Jun 2022
+ 02:28:00 -0700 (PDT)
+Reply-To: robertbaileys_spende@aol.com
+From:   Robert Baileys <mercymiji.j@gmail.com>
+Date:   Tue, 7 Jun 2022 11:28:00 +0200
+Message-ID: <CAAD1zOZ9bCDqBnjmbC3dQfgC=P2zTqAS=TP3q5qK5TFB5=Q9dQ@mail.gmail.com>
+Subject: 
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        LOTS_OF_MONEY,MONEY_FREEMAIL_REPTO,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,UNDISC_FREEM,UNDISC_MONEY autolearn=no
+        autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:330 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [mercymiji.j[at]gmail.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        *  0.0 LOTS_OF_MONEY Huge... sums of money
+        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
+        *  2.3 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  2.0 MONEY_FREEMAIL_REPTO Lots of money from someone using free
+        *      email?
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  0.6 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: ******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Mon, Jun 06, 2022 at 01:49:05PM +0200, Alexander Lobakin wrote:
-> Currently, there is a mess with the prototypes of the non-atomic
-> bitops across the different architectures:
-> 
-> ret	bool, int, unsigned long
-> nr	int, long, unsigned int, unsigned long
-> addr	volatile unsigned long *, volatile void *
-> 
-> Thankfully, it doesn't provoke any bugs, but can sometimes make
-> the compiler angry when it's not handy at all.
-> Adjust all the prototypes to the following standard:
-> 
-> ret	bool				retval can be only 0 or 1
-> nr	unsigned long			native; signed makes no sense
-> addr	volatile unsigned long *	bitmaps are arrays of ulongs
-> 
-> Finally, add some static assertions in order to prevent people from
-> making a mess in this room again.
-> I also used the %__always_inline attribute consistently they always
-> get resolved to the actual operations.
-> 
-> Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Signed-off-by: Alexander Lobakin <alexandr.lobakin@intel.com>
-> ---
+--=20
+Hallo, lieber Beg=C3=BCnstigter,
 
-Reviewed-by: Yury Norov <yury.norov@gmail.com>
+Sie haben diese E-Mail von der Robert Bailey Foundation erhalten. Ich
+bin ein pensionierter Regierungsangestellter aus Harlem und ein
+Powerball-Lotterie-Jackpot-Gewinner von 343,8 Millionen Dollar. Ich
+bin der gr=C3=B6=C3=9Fte Jackpot-Gewinner in der Geschichte der New York Lo=
+ttery
+in Amerika. Ich habe diesen Wettbewerb am 27. Oktober 2018 gewonnen
+und m=C3=B6chte Ihnen mitteilen, dass Google in Kooperation mit Microsoft
+Ihre "E-Mail-Adresse" f=C3=BCr meine Anfrage hat und diese 3.000.000,00
+Millionen Euro kosten wird. Ich spende diese 3 Millionen Euro an Sie,
+um auch Wohlt=C3=A4tigkeitsorganisationen und armen Menschen in Ihrer
+Gemeinde zu helfen, damit wir die Welt zu einem besseren Ort f=C3=BCr alle
+machen k=C3=B6nnen. Bitte besuchen Sie die folgende Website f=C3=BCr weiter=
+e
+Informationen, damit Sie diesen 3 Mio. EUR Ausgaben nicht skeptisch
+gegen=C3=BCberstehen.
+https://nypost.com/2018/11/14/meet-the-winner-of-the-biggest-lottery-jackpo=
+t-in-new-york-history/Sie
+Weitere Best=C3=A4tigungen kann ich auch auf meinem Youtube suchen:
+https://www.youtube.com/watch?v=3DH5vT18Ysavc
+Bitte antworten Sie mir per E-Mail (robertbaileys_spende@aol.com).
+Sie m=C3=BCssen diese E-Mail sofort beantworten, damit die =C3=BCberweisend=
+e
+Bank mit dem Erhalt dieser Spende in H=C3=B6he von 3.000.000,00 Millionen
+Euro beginnen kann.
+Bitte kontaktieren Sie die untenstehende E-Mail-Adresse f=C3=BCr weitere
+Informationen, damit Sie diese Spende von der =C3=BCberweisenden Bank
+erhalten k=C3=B6nnen. E-Mail: robertbaileys_spende@aol.com
 
-[...]
+Gr=C3=BC=C3=9Fe,
+Robert Bailey
+* * * * * * * * * * * * * * * *
 
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index 7aaed501f768..5520ac9b1c24 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -26,12 +26,25 @@ extern unsigned int __sw_hweight16(unsigned int w);
->  extern unsigned int __sw_hweight32(unsigned int w);
->  extern unsigned long __sw_hweight64(__u64 w);
->  
-> +#include <asm-generic/bitops/generic-non-atomic.h>
-> +
->  /*
->   * Include this here because some architectures need generic_ffs/fls in
->   * scope
->   */
->  #include <asm/bitops.h>
->  
-> +/* Check that the bitops prototypes are sane */
-> +#define __check_bitop_pr(name)	static_assert(__same_type(name, gen_##name))
-> +__check_bitop_pr(__set_bit);
-> +__check_bitop_pr(__clear_bit);
-> +__check_bitop_pr(__change_bit);
-> +__check_bitop_pr(__test_and_set_bit);
-> +__check_bitop_pr(__test_and_clear_bit);
-> +__check_bitop_pr(__test_and_change_bit);
-> +__check_bitop_pr(test_bit);
-> +#undef __check_bitop_pr
-
-This one is amazing trick! And the series is good overall. Do you want me to
-take it in bitmap tree, when it's ready, or you'll move it somehow else?
-
-Thanks,
-Yury
+Powerball-Jackpot-Gewinner
+E-Mail: robertbaileys_spende@aol.com
