@@ -2,146 +2,113 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 62DD154C2D3
-	for <lists+linux-hexagon@lfdr.de>; Wed, 15 Jun 2022 09:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89C8354C303
+	for <lists+linux-hexagon@lfdr.de>; Wed, 15 Jun 2022 10:02:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S241113AbiFOHq4 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 15 Jun 2022 03:46:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
+        id S237955AbiFOICD (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 15 Jun 2022 04:02:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39406 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235452AbiFOHqz (ORCPT
+        with ESMTP id S229460AbiFOICD (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 15 Jun 2022 03:46:55 -0400
-Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C7940931
-        for <linux-hexagon@vger.kernel.org>; Wed, 15 Jun 2022 00:46:53 -0700 (PDT)
-Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-3137316bb69so52478157b3.10
-        for <linux-hexagon@vger.kernel.org>; Wed, 15 Jun 2022 00:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20210112;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6TunYOqloBF4qLChlgaS7iv3LW3vD06QMv7vYl8gqBE=;
-        b=i2CcqUtrsIDkjaoSSAE5LJhiUeUlJuVADv1ngNNW36lXa09SoQcpveMkDEKuHpN1nK
-         OSTwc5GQA1cqqaDU8xoKdGf4VNibWkBZs9lkprQc81915FZ28b+H0OiKrwIrp8m9ecHh
-         OiQMFa6k9NgB2vpeqWO5iSFhzJOjrI3JaCBFzs55F40LdKMNz+QMAItb9zjeLNzsMn82
-         i9IFvhjQDrz11c26V+4BzMXa+YIGzcEq276G5oduvKPOYUdPT3NvAs3AAmiF2gLaCs6C
-         uNxnPmdvvksW8dsvscU7IRW0MAWz7UOtkH/7pQAMI8UW5cdoHzte4JFOFBr4G+NekyNW
-         bpDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6TunYOqloBF4qLChlgaS7iv3LW3vD06QMv7vYl8gqBE=;
-        b=r4lGK1DbKjvXgP0h1TGA+yOqgEY1stH+h3x8j2N2oD+PJVgVjWoPoFJ3sPYA2dfged
-         iYwzohE6ZIL4BGjE+BKV4U99jCt7a13kYRBvEYUuvyrjUf7Cg3Tlo0K0Mkno49WUM9dJ
-         fFcPNlD9n2abqvH8HDNNqPcfIGHXei8YCuPDwZXkXeWRN19E9Y4qyhutYNAIO51TQ+fr
-         /WCi6xWJ6qRv2r122B/7zdE+txwlhq1oFmBheQ8S0b2iaVlws4iPPgB5aJowLS9C9Dk2
-         2ZLCCVcaym023Kqy0iYMtxdaEfKx0v6ulLDolAmzcUyj1JeRmdufGcohCDwWY4k0za8Z
-         XGVw==
-X-Gm-Message-State: AJIora8yQIIA0feXAxzxPfpi5Zk/f3K+t3atgHw5b/nCA5iaUhG9IBPl
-        X+i1n1ipghG+SPT6D/yrXHIJqioiNyCR48/gizXpPw==
-X-Google-Smtp-Source: AGRyM1saOw0vSmHtMDdGxukVnu8JafJ/oalySrc+hOJX6qe5P1u/hURE3aR4FUFhUD6VGWIdDVu0+xbTE+as4/0CPac=
-X-Received: by 2002:a81:3a12:0:b0:314:6097:b801 with SMTP id
- h18-20020a813a12000000b003146097b801mr7498148ywa.512.1655279212429; Wed, 15
- Jun 2022 00:46:52 -0700 (PDT)
+        Wed, 15 Jun 2022 04:02:03 -0400
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.220.28])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64B2A4578B;
+        Wed, 15 Jun 2022 01:02:01 -0700 (PDT)
+Received: from relay2.suse.de (relay2.suse.de [149.44.160.134])
+        by smtp-out1.suse.de (Postfix) with ESMTP id EB64B21B27;
+        Wed, 15 Jun 2022 08:01:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1655280119; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=DaM9M2rnjrvdQGQ7RvZB3kRvN0KL8OK3uY7jsfFlhwM=;
+        b=qRtiw/EwzIsZzY7D7oh0BeOfU6iIQ38xDbUtfQXTtdaPPWK3B2vJeEb6IIHEt7MxZ3zKcC
+        dfyx4Mc4tIb/eF0FliF28q8hNk+hU2TEYFUekYuM8cDMqgo0Awx7lmNgOzPGeK/9Q2qhBN
+        CjKBFgcYgu+XVY7XBl81AW22w0F/oCg=
+Received: from suse.cz (unknown [10.100.201.202])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by relay2.suse.de (Postfix) with ESMTPS id E39D82C142;
+        Wed, 15 Jun 2022 08:01:57 +0000 (UTC)
+Date:   Wed, 15 Jun 2022 10:01:57 +0200
+From:   Petr Mladek <pmladek@suse.com>
+To:     Kees Cook <keescook@chromium.org>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Maninder Singh <maninder1.s@samsung.com>, bcain@quicinc.com,
+        mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org,
+        hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com,
+        borntraeger@linux.ibm.com, svens@linux.ibm.com, satishkh@cisco.com,
+        sebaddel@cisco.com, kartilak@cisco.com, jejb@linux.ibm.com,
+        martin.petersen@oracle.com, mcgrof@kernel.org,
+        jason.wessel@windriver.com, daniel.thompson@linaro.org,
+        dianders@chromium.org, naveen.n.rao@linux.ibm.com,
+        anil.s.keshavamurthy@intel.com, davem@davemloft.net,
+        mhiramat@kernel.org, peterz@infradead.org, mingo@redhat.com,
+        will@kernel.org, longman@redhat.com, boqun.feng@gmail.com,
+        rostedt@goodmis.org, senozhatsky@chromium.org,
+        andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+        akpm@linux-foundation.org, arnd@arndb.de,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-s390@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        linux-modules@vger.kernel.org,
+        kgdb-bugreport@lists.sourceforge.net, v.narang@samsung.com,
+        onkarnath.1@samsung.com
+Subject: Re: [PATCH 0/5] kallsyms: make kallsym APIs more safe with scnprintf
+Message-ID: <YqmR9ZeiwMQLyKDu@alley>
+References: <CGME20220520083715epcas5p400b11adef4d540756c985feb20ba29bc@epcas5p4.samsung.com>
+ <20220520083701.2610975-1-maninder1.s@samsung.com>
+ <YonTOL4zC4CytVrn@infradead.org>
+ <202205231238.FAF6D28@keescook>
 MIME-Version: 1.0
-References: <20220610113427.908751-1-alexandr.lobakin@intel.com>
- <20220610113427.908751-3-alexandr.lobakin@intel.com> <YqNMO0ioGzJ1IkoA@smile.fi.intel.com>
- <22042c14bc6a437d9c6b235fbfa32c8a@intel.com> <CANpmjNNZAeMQjzNyXLeKY4cp_m-xJBU1vs7PgT+7_sJwxtEEAg@mail.gmail.com>
- <20220613141947.1176100-1-alexandr.lobakin@intel.com> <CANpmjNM0noP8ieQztyEvijz+MG-cDxxmfwaX_QTpnyT5G33EGA@mail.gmail.com>
- <YqlITqttNYqT/xpN@yury-laptop>
-In-Reply-To: <YqlITqttNYqT/xpN@yury-laptop>
-From:   Marco Elver <elver@google.com>
-Date:   Wed, 15 Jun 2022 09:46:15 +0200
-Message-ID: <CANpmjNMd+r9Hq+vwWGoNhOg_W=x3Umo+i14TRvEMz6PhcHgXWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] bitops: always define asm-generic non-atomic bitops
-To:     Yury Norov <yury.norov@gmail.com>
-Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
-        Tony Luck <tony.luck@intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Brian Cain <bcain@quicinc.com>,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Borislav Petkov <bp@suse.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202205231238.FAF6D28@keescook>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Wed, 15 Jun 2022 at 04:47, Yury Norov <yury.norov@gmail.com> wrote:
->
-> On Mon, Jun 13, 2022 at 04:33:17PM +0200, Marco Elver wrote:
-> > On Mon, 13 Jun 2022 at 16:21, Alexander Lobakin
-> > <alexandr.lobakin@intel.com> wrote:
-> > >
-> > > From: Marco Elver <elver@google.com>
-> > > Date: Fri, 10 Jun 2022 18:32:36 +0200
-> > >
-> > > > On Fri, 10 Jun 2022 at 18:02, Luck, Tony <tony.luck@intel.com> wrote:
-> > > > >
-> > > > > > > +/**
-> > > > > > > + * generic_test_bit - Determine whether a bit is set
-> > > > > > > + * @nr: bit number to test
-> > > > > > > + * @addr: Address to start counting from
-> > > > > > > + */
-> > > > > >
-> > > > > > Shouldn't we add in this or in separate patch a big NOTE to explain that this
-> > > > > > is actually atomic and must be kept as a such?
-> > > > >
-> > > > > "atomic" isn't really the right word. The volatile access makes sure that the
-> > > > > compiler does the test at the point that the source code asked, and doesn't
-> > > > > move it before/after other operations.
-> > > >
-> > > > It's listed in Documentation/atomic_bitops.txt.
-> > >
-> > > Oh, so my memory was actually correct that I saw it in the docs
-> > > somewhere.
-> > > WDYT, should I mention this here in the code (block comment) as well
-> > > that it's atomic and must not lose `volatile` as Andy suggested or
-> > > it's sufficient to have it in the docs (+ it's not underscored)?
-> >
-> > Perhaps a quick comment in the code (not kerneldoc above) will be
-> > sufficient, with reference to Documentation/atomic_bitops.txt.
->
-> If it may help, we can do:
->
-> /*
->  * Bit testing is a naturally atomic operation because bit is
->  * a minimal quantum of information.
->  */
-> #define __test_bit test_bit
+On Mon 2022-05-23 12:39:12, Kees Cook wrote:
+> On Sat, May 21, 2022 at 11:07:52PM -0700, Christoph Hellwig wrote:
+> > On Fri, May 20, 2022 at 02:06:56PM +0530, Maninder Singh wrote:
+> > > kallsyms functionality depends on KSYM_NAME_LEN directly.
+> > > but if user passed array length lesser than it, sprintf
+> > > can cause issues of buffer overflow attack.
+> > > 
+> > > So changing *sprint* and *lookup* APIs in this patch set
+> > > to have buffer size as an argument and replacing sprintf with
+> > > scnprintf.
+> > 
+> > This is still a pretty horrible API.  Passing something like
+> > a struct seq_buf seems like the much better API here.  Also with
+> > the amount of arguments and by reference passing it might be worth
+> > to pass them as a structure while you're at it.
+> 
+> Yeah, I agree. It really seems like seq_buf would be nicer.
 
-That's redundant and we'll end up with a random mix of both.
+There is a new patchset that is trying to use this kind of buffer
+in vsprintf.
 
-What'd be more interesting is having a __test_bit without the volatile
-that allows compilers to optimize things more. But I think that also
-becomes mostly redundant with the optimizations that this series seeks
-out to do.
+It introduces another buffer struct because vsprintf() needs a bit
+different semantic than the one used in seq_buf. But it actually
+replaces seq_buf() in the end. I am not sure if this is the right
+approach.
 
-The distinction is ever so subtle, and clever compilers *will* break
-concurrent code in ways that are rather hard to imagine:
-https://lwn.net/Articles/793253/
+Anyway, the initial API is very simple, see
+https://lore.kernel.org/r/20220604193042.1674951-2-kent.overstreet@gmail.com
+
+And it makes the internal vsprintf() API more sane, see
+https://lore.kernel.org/r/20220604193042.1674951-4-kent.overstreet@gmail.com
+
+It would eventually solve also concerns about the kallsysms API.
+Any comments on the new printbuf API are much appreaciated.
+
+Best Regards,
+Petr
