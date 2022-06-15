@@ -2,176 +2,146 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9756054C17E
-	for <lists+linux-hexagon@lfdr.de>; Wed, 15 Jun 2022 08:06:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62DD154C2D3
+	for <lists+linux-hexagon@lfdr.de>; Wed, 15 Jun 2022 09:46:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345988AbiFOGFU (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 15 Jun 2022 02:05:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52476 "EHLO
+        id S241113AbiFOHq4 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 15 Jun 2022 03:46:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S245729AbiFOGFR (ORCPT
+        with ESMTP id S235452AbiFOHqz (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 15 Jun 2022 02:05:17 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2B7118E08;
-        Tue, 14 Jun 2022 23:05:16 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 79489617AA;
-        Wed, 15 Jun 2022 06:05:16 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8B477C34115;
-        Wed, 15 Jun 2022 06:05:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1655273115;
-        bh=yf3pNom/syiLiOha7Upiq9/nR1Hjl9dv2JULctSWZP0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=SjnyzJRJ5maovA4d7DzY2/Ij5TNs/akt5ph8MDjdNnh42oSEnpEqun3aky3dQcf6z
-         rGme0eLVsl/XoKZXtCCkL0+cKE/nzsKpLCn2sT4A50UeO3p7crMUO1XfASUME8HSj0
-         pD6alvihCcM/657amEHKEos8BTfaNv0g8jeH8Q6QrkIG8VgVi/YsytFwbegMDMw6Gn
-         Pxj0w5BlxtbfpWb4+1rV886T9D/GynKsmxsWQDGtqkBJk0CUIxtfKvkZpW8JkVRt5W
-         zI01Adx6IQH3zR34l9+HTfR6cCjay+Ytdyco9DFFfWGGA7opCch5d/Lzswk+yKRRZO
-         /G8E+1jj9J/iQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=wait-a-minute.misterjones.org)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.95)
-        (envelope-from <maz@kernel.org>)
-        id 1o1M9R-000hh4-Lq;
-        Wed, 15 Jun 2022 07:05:13 +0100
-Date:   Wed, 15 Jun 2022 07:05:11 +0100
-Message-ID: <87mteepilk.wl-maz@kernel.org>
-From:   Marc Zyngier <maz@kernel.org>
-To:     Mark Rutland <mark.rutland@arm.com>
-Cc:     Peter Zijlstra <peterz@infradead.org>, rth@twiddle.net,
-        ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org,
-        linux@armlinux.org.uk, ulli.kroll@googlemail.com,
-        linus.walleij@linaro.org, shawnguo@kernel.org,
-        Sascha Hauer <s.hauer@pengutronix.de>, kernel@pengutronix.de,
-        festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com,
-        khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org,
-        guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org,
-        kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net,
-        monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org,
-        jonas@southpole.se, stefan.kristiansson@saunalahti.fi,
-        shorne@gmail.com, James.Bottomley@HansenPartnership.com,
-        deller@gmx.de, mpe@ellerman.id.au, benh@kernel.crashing.org,
-        paulus@samba.org, paul.walmsley@sifive.com, palmer@dabbelt.com,
-        aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com,
-        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
-        svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
-        davem@davemloft.net, richard@nod.at,
-        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        acme@kernel.org, alexander.shishkin@linux.intel.com,
-        jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com,
-        srivatsa@csail.mit.edu, amakhalov@vmware.com,
-        pv-drivers@vmware.com, boris.ostrovsky@oracle.com,
-        chris@zankel.net, jcmvbkbc@gmail.com, rafael@kernel.org,
-        lenb@kernel.org, pavel@ucw.cz, gregkh@linuxfoundation.org,
-        mturquette@baylibre.com, sboyd@kernel.org,
-        daniel.lezcano@linaro.org, lpieralisi@kernel.org,
-        sudeep.holla@arm.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, anup@brainfault.org,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        jacob.jun.pan@linux.intel.com, Arnd Bergmann <arnd@arndb.de>,
-        yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
-        linux@rasmusvillemoes.dk, rostedt@goodmis.org, pmladek@suse.com,
-        senozhatsky@chromium.org, john.ogness@linutronix.de,
-        paulmck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com,
-        josh@joshtriplett.org, mathieu.desnoyers@efficios.com,
-        jiangshanlai@gmail.com, joel@joelfernandes.org,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org,
-        dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
-        bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org,
-        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        xen-devel@lists.xenproject.org, linux-xtensa@linux-xtensa.org,
-        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org,
-        rcu@vger.kernel.org
-Subject: Re: [PATCH 23/36] arm64,smp: Remove trace_.*_rcuidle() usage
-In-Reply-To: <Yqi2UGb4alCAR5s4@FVFF77S0Q05N>
-References: <20220608142723.103523089@infradead.org>
-        <20220608144517.380962958@infradead.org>
-        <Yqi2UGb4alCAR5s4@FVFF77S0Q05N>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/27.1
- (x86_64-pc-linux-gnu) MULE/6.0 (HANACHIRUSATO)
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: mark.rutland@arm.com, peterz@infradead.org, rth@twiddle.net, ink@jurassic.park.msu.ru, mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk, ulli.kroll@googlemail.com, linus.walleij@linaro.org, shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com, tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com, will@kernel.org, guoren@kernel.org, bcain@quicinc.com, chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org, sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de, dinguyen@kernel.org, jonas@southpole.se, stefan.kristiansson@saunalahti.fi, shorne@gmail.com, James.Bottomley@HansenPartnership.com, deller@gmx.de, mpe@ellerman.id.au, benh@kernel.crashing.org, paulus@samba.org, paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com, agordeev@linux.ibm.com, borntraeger@linux.ibm.com, svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@
- libc.org, davem@davemloft.net, richard@nod.at, anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, acme@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org, namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu, amakhalov@vmware.com, pv-drivers@vmware.com, boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com, rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz, gregkh@linuxfoundation.org, mturquette@baylibre.com, sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org, sudeep.holla@arm.com, agross@kernel.org, bjorn.andersson@linaro.org, anup@brainfault.org, thierry.reding@gmail.com, jonathanh@nvidia.com, jacob.jun.pan@linux.intel.com, arnd@arndb.de, yury.norov@gmail.com, andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk, rostedt@goodmis.org, pmladek@suse.com, senozhatsky@chromium.org, john.ogness@linutronix.de, paul
- mck@kernel.org, frederic@kernel.org, quic_neeraju@quicinc.com, josh@joshtriplett.org, mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com, joel@joelfernandes.org, juri.lelli@redhat.com, vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de, bristot@redhat.com, vschneid@redhat.com, jpoimboe@kernel.org, linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org, linux-snps-arc@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-omap@vger.kernel.org, linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org, linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org, openrisc@lists.librecores.org, linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, sparclinux@vger.kernel.org, linux-um@lists.infradead.org, linux-perf-users@vger.kernel.org, virtualization@lists.linux-foundation.org, xen-devel@lists.xenproject.org, 
- linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org, linux-arch@vger.kernel.org, rcu@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
-X-Spam-Status: No, score=-8.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Wed, 15 Jun 2022 03:46:55 -0400
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63C7940931
+        for <linux-hexagon@vger.kernel.org>; Wed, 15 Jun 2022 00:46:53 -0700 (PDT)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-3137316bb69so52478157b3.10
+        for <linux-hexagon@vger.kernel.org>; Wed, 15 Jun 2022 00:46:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20210112;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6TunYOqloBF4qLChlgaS7iv3LW3vD06QMv7vYl8gqBE=;
+        b=i2CcqUtrsIDkjaoSSAE5LJhiUeUlJuVADv1ngNNW36lXa09SoQcpveMkDEKuHpN1nK
+         OSTwc5GQA1cqqaDU8xoKdGf4VNibWkBZs9lkprQc81915FZ28b+H0OiKrwIrp8m9ecHh
+         OiQMFa6k9NgB2vpeqWO5iSFhzJOjrI3JaCBFzs55F40LdKMNz+QMAItb9zjeLNzsMn82
+         i9IFvhjQDrz11c26V+4BzMXa+YIGzcEq276G5oduvKPOYUdPT3NvAs3AAmiF2gLaCs6C
+         uNxnPmdvvksW8dsvscU7IRW0MAWz7UOtkH/7pQAMI8UW5cdoHzte4JFOFBr4G+NekyNW
+         bpDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6TunYOqloBF4qLChlgaS7iv3LW3vD06QMv7vYl8gqBE=;
+        b=r4lGK1DbKjvXgP0h1TGA+yOqgEY1stH+h3x8j2N2oD+PJVgVjWoPoFJ3sPYA2dfged
+         iYwzohE6ZIL4BGjE+BKV4U99jCt7a13kYRBvEYUuvyrjUf7Cg3Tlo0K0Mkno49WUM9dJ
+         fFcPNlD9n2abqvH8HDNNqPcfIGHXei8YCuPDwZXkXeWRN19E9Y4qyhutYNAIO51TQ+fr
+         /WCi6xWJ6qRv2r122B/7zdE+txwlhq1oFmBheQ8S0b2iaVlws4iPPgB5aJowLS9C9Dk2
+         2ZLCCVcaym023Kqy0iYMtxdaEfKx0v6ulLDolAmzcUyj1JeRmdufGcohCDwWY4k0za8Z
+         XGVw==
+X-Gm-Message-State: AJIora8yQIIA0feXAxzxPfpi5Zk/f3K+t3atgHw5b/nCA5iaUhG9IBPl
+        X+i1n1ipghG+SPT6D/yrXHIJqioiNyCR48/gizXpPw==
+X-Google-Smtp-Source: AGRyM1saOw0vSmHtMDdGxukVnu8JafJ/oalySrc+hOJX6qe5P1u/hURE3aR4FUFhUD6VGWIdDVu0+xbTE+as4/0CPac=
+X-Received: by 2002:a81:3a12:0:b0:314:6097:b801 with SMTP id
+ h18-20020a813a12000000b003146097b801mr7498148ywa.512.1655279212429; Wed, 15
+ Jun 2022 00:46:52 -0700 (PDT)
+MIME-Version: 1.0
+References: <20220610113427.908751-1-alexandr.lobakin@intel.com>
+ <20220610113427.908751-3-alexandr.lobakin@intel.com> <YqNMO0ioGzJ1IkoA@smile.fi.intel.com>
+ <22042c14bc6a437d9c6b235fbfa32c8a@intel.com> <CANpmjNNZAeMQjzNyXLeKY4cp_m-xJBU1vs7PgT+7_sJwxtEEAg@mail.gmail.com>
+ <20220613141947.1176100-1-alexandr.lobakin@intel.com> <CANpmjNM0noP8ieQztyEvijz+MG-cDxxmfwaX_QTpnyT5G33EGA@mail.gmail.com>
+ <YqlITqttNYqT/xpN@yury-laptop>
+In-Reply-To: <YqlITqttNYqT/xpN@yury-laptop>
+From:   Marco Elver <elver@google.com>
+Date:   Wed, 15 Jun 2022 09:46:15 +0200
+Message-ID: <CANpmjNMd+r9Hq+vwWGoNhOg_W=x3Umo+i14TRvEMz6PhcHgXWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 2/6] bitops: always define asm-generic non-atomic bitops
+To:     Yury Norov <yury.norov@gmail.com>
+Cc:     Alexander Lobakin <alexandr.lobakin@intel.com>,
+        Tony Luck <tony.luck@intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Matt Turner <mattst88@gmail.com>,
+        Brian Cain <bcain@quicinc.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Kees Cook <keescook@chromium.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        Borislav Petkov <bp@suse.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
+        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
+        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
+        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
+        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
+        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
+        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, 14 Jun 2022 17:24:48 +0100,
-Mark Rutland <mark.rutland@arm.com> wrote:
-> 
-> On Wed, Jun 08, 2022 at 04:27:46PM +0200, Peter Zijlstra wrote:
-> > Ever since commit d3afc7f12987 ("arm64: Allow IPIs to be handled as
-> > normal interrupts") this function is called in regular IRQ context.
-> > 
-> > Signed-off-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-> 
-> [adding Marc since he authored that commit]
-> 
-> Makes sense to me:
-> 
->   Acked-by: Mark Rutland <mark.rutland@arm.com>
-> 
-> Mark.
-> 
-> > ---
-> >  arch/arm64/kernel/smp.c |    4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > --- a/arch/arm64/kernel/smp.c
-> > +++ b/arch/arm64/kernel/smp.c
-> > @@ -865,7 +865,7 @@ static void do_handle_IPI(int ipinr)
-> >  	unsigned int cpu = smp_processor_id();
-> >  
-> >  	if ((unsigned)ipinr < NR_IPI)
-> > -		trace_ipi_entry_rcuidle(ipi_types[ipinr]);
-> > +		trace_ipi_entry(ipi_types[ipinr]);
-> >  
-> >  	switch (ipinr) {
-> >  	case IPI_RESCHEDULE:
-> > @@ -914,7 +914,7 @@ static void do_handle_IPI(int ipinr)
-> >  	}
-> >  
-> >  	if ((unsigned)ipinr < NR_IPI)
-> > -		trace_ipi_exit_rcuidle(ipi_types[ipinr]);
-> > +		trace_ipi_exit(ipi_types[ipinr]);
-> >  }
-> >  
-> >  static irqreturn_t ipi_handler(int irq, void *data)
+On Wed, 15 Jun 2022 at 04:47, Yury Norov <yury.norov@gmail.com> wrote:
+>
+> On Mon, Jun 13, 2022 at 04:33:17PM +0200, Marco Elver wrote:
+> > On Mon, 13 Jun 2022 at 16:21, Alexander Lobakin
+> > <alexandr.lobakin@intel.com> wrote:
+> > >
+> > > From: Marco Elver <elver@google.com>
+> > > Date: Fri, 10 Jun 2022 18:32:36 +0200
+> > >
+> > > > On Fri, 10 Jun 2022 at 18:02, Luck, Tony <tony.luck@intel.com> wrote:
+> > > > >
+> > > > > > > +/**
+> > > > > > > + * generic_test_bit - Determine whether a bit is set
+> > > > > > > + * @nr: bit number to test
+> > > > > > > + * @addr: Address to start counting from
+> > > > > > > + */
+> > > > > >
+> > > > > > Shouldn't we add in this or in separate patch a big NOTE to explain that this
+> > > > > > is actually atomic and must be kept as a such?
+> > > > >
+> > > > > "atomic" isn't really the right word. The volatile access makes sure that the
+> > > > > compiler does the test at the point that the source code asked, and doesn't
+> > > > > move it before/after other operations.
+> > > >
+> > > > It's listed in Documentation/atomic_bitops.txt.
+> > >
+> > > Oh, so my memory was actually correct that I saw it in the docs
+> > > somewhere.
+> > > WDYT, should I mention this here in the code (block comment) as well
+> > > that it's atomic and must not lose `volatile` as Andy suggested or
+> > > it's sufficient to have it in the docs (+ it's not underscored)?
+> >
+> > Perhaps a quick comment in the code (not kerneldoc above) will be
+> > sufficient, with reference to Documentation/atomic_bitops.txt.
+>
+> If it may help, we can do:
+>
+> /*
+>  * Bit testing is a naturally atomic operation because bit is
+>  * a minimal quantum of information.
+>  */
+> #define __test_bit test_bit
 
-Acked-by: Marc Zyngier <maz@kernel.org>
+That's redundant and we'll end up with a random mix of both.
 
-	M.
+What'd be more interesting is having a __test_bit without the volatile
+that allows compilers to optimize things more. But I think that also
+becomes mostly redundant with the optimizations that this series seeks
+out to do.
 
--- 
-Without deviation from the norm, progress is not possible.
+The distinction is ever so subtle, and clever compilers *will* break
+concurrent code in ways that are rather hard to imagine:
+https://lwn.net/Articles/793253/
