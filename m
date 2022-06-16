@@ -2,121 +2,80 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D171D54CD79
-	for <lists+linux-hexagon@lfdr.de>; Wed, 15 Jun 2022 17:52:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E448254DEEA
+	for <lists+linux-hexagon@lfdr.de>; Thu, 16 Jun 2022 12:25:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345430AbiFOPwU convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 15 Jun 2022 11:52:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46570 "EHLO
+        id S1376506AbiFPKZ3 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 16 Jun 2022 06:25:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41758 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234917AbiFOPwT (ORCPT
+        with ESMTP id S1376482AbiFPKZZ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 15 Jun 2022 11:52:19 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0548730F40
-        for <linux-hexagon@vger.kernel.org>; Wed, 15 Jun 2022 08:52:16 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-152-_cqVfPGpOlGHZ7eUZ755_g-1; Wed, 15 Jun 2022 16:52:14 +0100
-X-MC-Unique: _cqVfPGpOlGHZ7eUZ755_g-1
-Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) by
- AcuMS.aculab.com (fd9f:af1c:a25b:0:994c:f5c2:35d6:9b65) with Microsoft SMTP
- Server (TLS) id 15.0.1497.36; Wed, 15 Jun 2022 16:52:11 +0100
-Received: from AcuMS.Aculab.com ([fe80::994c:f5c2:35d6:9b65]) by
- AcuMS.aculab.com ([fe80::994c:f5c2:35d6:9b65%12]) with mapi id
- 15.00.1497.036; Wed, 15 Jun 2022 16:52:11 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Alexander Lobakin' <alexandr.lobakin@intel.com>,
-        Yury Norov <yury.norov@gmail.com>
-CC:     Arnd Bergmann <arnd@arndb.de>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Matt Turner <mattst88@gmail.com>,
-        Brian Cain <bcain@quicinc.com>,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        Yoshinori Sato <ysato@users.sourceforge.jp>,
-        Rich Felker <dalias@libc.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Kees Cook <keescook@chromium.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        Marco Elver <elver@google.com>, Borislav Petkov <bp@suse.de>,
-        Tony Luck <tony.luck@intel.com>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v2 4/6] bitops: define const_*() versions of the
- non-atomics
-Thread-Topic: [PATCH v2 4/6] bitops: define const_*() versions of the
- non-atomics
-Thread-Index: AQHYgL/NSGjbw1zE9ky1U7EvBf8PSa1QnWmQ
-Date:   Wed, 15 Jun 2022 15:52:11 +0000
-Message-ID: <09c5a168af144f0f917f5f2f453e309a@AcuMS.aculab.com>
-References: <20220610113427.908751-1-alexandr.lobakin@intel.com>
- <20220610113427.908751-5-alexandr.lobakin@intel.com>
- <YqlKpwjQ4Hu+Lr8u@yury-laptop>
- <20220615135506.1264880-1-alexandr.lobakin@intel.com>
-In-Reply-To: <20220615135506.1264880-1-alexandr.lobakin@intel.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Thu, 16 Jun 2022 06:25:25 -0400
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 579215D67F
+        for <linux-hexagon@vger.kernel.org>; Thu, 16 Jun 2022 03:25:19 -0700 (PDT)
+Received: by mail-lf1-x136.google.com with SMTP id p18so1547076lfr.1
+        for <linux-hexagon@vger.kernel.org>; Thu, 16 Jun 2022 03:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=mime-version:reply-to:from:date:message-id:subject:to
+         :content-transfer-encoding;
+        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
+        b=W910NhxhsjMJh8xmTqiBb+n/d8vNhkQvEK3uQsx019H/NVF/HsRkR91Mwgf5NoOA2o
+         +G9NG8HKS3dufLn4HoWATUwViMwR/sm7gdhYVGjSBp65IoH9/VzeePSRwsxtnWyD2IYd
+         /P+anhEIznyuyfYSv0fd8QvDY0LuzCx2TbyvmZF5dM2Nj4uA7+9FyoHxvD1xuHmQyiMU
+         TCzjnL3q1oIV583xyWy0s+D4KRyb2LgtwArAnNeV+m1AO8ORaxA26nm4VB9kA/9NXW1T
+         yHcu0NzK0YGRQb2+53awbQan+6daAbhIX2qCkYqY9Qavm2WmKJIEIH3npl/ZhVNAwvQV
+         qPgg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to:content-transfer-encoding;
+        bh=lLG88JCPgF7Yhflf4FNi4GQedsSNMbwmPtgneUr9Mu0=;
+        b=yF2tpdjc1gcM53XeuYugwnEDMOyrGEnkmnD3ZdiWcNHAzJ7K+wZK3ifCkYdXNHv3Hk
+         QCgp7/+Rj9ii+2eKaiP1dbzKxGhgqoEZX5c9GhSsQ90D7M+3lqKKuajsIB2z8O5yMTvU
+         czimFzA+ZdS1w6x336GtrsC7fz8oI6LYp2rVSMKhvZpT0DUKTJHfnmn9j9/MSeOEx4uI
+         Hd25CxUwsztt1fZpabHJN963AFjrb3jixRnoAEDsn6GvY4m20/pG5n1AQAnEthw1LrJF
+         WQaCZ9g9Udc+rucJm393hFIDPnkbftsnKoDVSALqMCtnHe23Lr1vGt9tEV4/6+SvciW/
+         6mUQ==
+X-Gm-Message-State: AJIora9dm5O54ufSV09MN9iPUnY2jVhO6dGyceqE5W+PUkkeYcgDkj+P
+        zit6dYJEOA1XNIFm6ZvMYdRu/kzNuvRWcQfMe7s=
+X-Google-Smtp-Source: AGRyM1v2MTXGyROmKEYPPr3IJqOTubJyWU9u6UFQYhvDngD40bhPycsNsVME02FGDV5945mXaS61m+8B4cqbLiC7v1U=
+X-Received: by 2002:a05:6512:3448:b0:479:10f0:11c7 with SMTP id
+ j8-20020a056512344800b0047910f011c7mr2248569lfr.521.1655375117521; Thu, 16
+ Jun 2022 03:25:17 -0700 (PDT)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
-        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Received: by 2002:a05:6520:28c2:b0:1f3:cf5:e20d with HTTP; Thu, 16 Jun 2022
+ 03:25:16 -0700 (PDT)
+Reply-To: clmloans9@gmail.com
+From:   MR ANTHONY EDWARD <bashirusman02021@gmail.com>
+Date:   Thu, 16 Jun 2022 11:25:16 +0100
+Message-ID: <CAGOBX5aJ01nW_foH2aLY6UF6s28QePJ4_J3aCt=hjQSuJNsdog@mail.gmail.com>
+Subject: DARLEHENSANGEBOT
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=4.3 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
+        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: ****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-From: Alexander Lobakin
-> Sent: 15 June 2022 14:55
-...
-> > > +/**
-> > > + * const_test_bit - Determine whether a bit is set
-> > > + * @nr: bit number to test
-> > > + * @addr: Address to start counting from
-> > > + *
-> > > + * A version of generic_test_bit() which discards the `volatile` qualifier to
-> > > + * allow the compiler to optimize code harder. Non-atomic and to be used only
-> > > + * for testing compile-time constants, e.g. from the corresponding macro, or
-> > > + * when you really know what you are doing.
-> >
-> > Not sure I understand the last sentence... Can you please rephrase?
-> 
-> I basically want to tell that there potentinally might be cases for
-> using those outside of the actual macros from 6/6. But it might be
-> redundant at all to mention this.
+--=20
+Ben=C3=B6tigen Sie ein Gesch=C3=A4ftsdarlehen oder ein Darlehen jeglicher A=
+rt?
+Wenn ja, kontaktieren Sie uns
 
-I bet that is a function has:
-	long bitmask;
-	...
-	if (test_bit(&bitmask, 12))
-then the 'volatile' forces the compiler to actually write the
-value out to memory (stack) instead of doing a register op.
-
-OTOH such code should be using &.
-
-	David
-
--
-Registered Address Lakeside, Bramley Road, Mount Farm, Milton Keynes, MK1 1PT, UK
-Registration No: 1397386 (Wales)
-
+*Vollst=C3=A4ndiger Name:
+* Ben=C3=B6tigte Menge:
+*Leihdauer:
+*Mobiltelefon:
+*Land:
