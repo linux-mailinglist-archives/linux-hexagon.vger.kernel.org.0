@@ -2,107 +2,328 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 973C558E307
-	for <lists+linux-hexagon@lfdr.de>; Wed, 10 Aug 2022 00:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 290A75963FB
+	for <lists+linux-hexagon@lfdr.de>; Tue, 16 Aug 2022 22:51:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229936AbiHIWQ0 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 9 Aug 2022 18:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37788 "EHLO
+        id S237097AbiHPUul (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 16 Aug 2022 16:50:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229893AbiHIWPS (ORCPT
+        with ESMTP id S229472AbiHPUuk (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 9 Aug 2022 18:15:18 -0400
-Received: from mail-io1-xd34.google.com (mail-io1-xd34.google.com [IPv6:2607:f8b0:4864:20::d34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59616237F2
-        for <linux-hexagon@vger.kernel.org>; Tue,  9 Aug 2022 15:15:15 -0700 (PDT)
-Received: by mail-io1-xd34.google.com with SMTP id l24so10740075ion.13
-        for <linux-hexagon@vger.kernel.org>; Tue, 09 Aug 2022 15:15:15 -0700 (PDT)
+        Tue, 16 Aug 2022 16:50:40 -0400
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CD5789917
+        for <linux-hexagon@vger.kernel.org>; Tue, 16 Aug 2022 13:50:39 -0700 (PDT)
+Received: by mail-lf1-x134.google.com with SMTP id d14so16470292lfl.13
+        for <linux-hexagon@vger.kernel.org>; Tue, 16 Aug 2022 13:50:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc;
-        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
-        b=QTP95oQi+RYhXbI8sz4RyTZp0RSE4jP48cyyUmWbTiK1ItvOHbADVtjkGHK/8zFbqv
-         EIzUG3d4HgG5eAQxnVHuBpH33ycuIiNpMEXk8S0LHARhhQGb6AufQVVn/40aQfLvP77W
-         778oK7qnpGZXO0Q2aGCYT4Mad4FGDHlh1br3s7D4D+9Vr7gPQrhXDR8bwR1fyz6kQ1n2
-         /mI7/+oIm6xqfpBjeRephfywWnzvzUcqvvdKwYuFsxmTm/GRVEQb9jKfBsLPvHEPeyBR
-         SLk52BQ10Zm7GZ4Mv5gugSKJZhGFXVOipaGDVsAOq6ABLyMrmGMv+5RYTjL3cqduwO+M
-         O1Rw==
+        d=linaro.org; s=google;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc;
+        bh=nCofRxQjD22NC4RudEIRbeqYPsKCnYLSTVWYX+M0X6g=;
+        b=GPaEqClZ1+1X/7vnN7sEXAVqstBjVzQUKrDH/oNt95CWyJjh0cnrR8k78ARcl8LitW
+         Z/7snZJ0pHkp0Gn4mgmYqkNdC6zNlzPwFS0akx9y18sljKqu43YoV8G6Umugj3SoTgIk
+         49rmwW01i/SU+udQFsy2s8VSurSLBurnTPEBRrbIdpLd12jGHECY+Som+j/c2Dd8zrcx
+         u1XhRxcq6lWpCbz2BK8xvjH10gr19Erubx/lTS2a504k5Fai2oC7dwsdNKYdZ0SE19+t
+         tzb4SF53T65olNfjck8m5RTB+nxZz+HlxHCQsZ4xRTGJywRm0uLaDpiv1jHQ7/vAxB5B
+         +KQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc;
-        bh=GI1h58u9NHz7rI/vIwOU5DkUcoHPmL+b4tk5i/xxv5Y=;
-        b=52iI2wUjCI+H4zU7Tz2pZ2gsn3lwNeVOzpq+D82MjW+6uLvUNIXzzbjuFQR2N6lipJ
-         xq/YqeA/Q4wJ4Ssyjb4oGjxA25wnv+0bdgf60K5v1JZaCA9/p1siTOAKfS+LhZAlNDVS
-         tC+3Rm5pVNshyxnVQ9IiOKcAwTjBwCDuLjGNTkJbn60DldvNU0+pZjhs4LDCZYoyfM6B
-         EZs365rrhCspt5YUoIrYpSIsVDiu0HUyz80Dxprrf2vwEkJv70ULmQHcdxUh4K51r7nI
-         tGm3SM+G4h+/b/2y1cJAA0NAwKOEiwn7/UiE/9qB16l5EcvVuRkE/iP/0v1l3zmdWeC6
-         MF7Q==
-X-Gm-Message-State: ACgBeo08u3ZMKCWcYJFb2SKwFhL9rGxEs/NcShZpe/gbl9WxDCHRDqnn
-        KTCb/nCIPRbZM8eAHd8E/A/stlXpJMX+uf4eqbbEa1+nGZT0og==
-X-Google-Smtp-Source: AA6agR7pJ6r7fhR2kV9XLe+oV3h+/ej1weqLnpTQS1YP5ule1vsDwGSNCnOW6LlEIY2xTapZFY+hu5KXPqSjTYpoaJM=
-X-Received: by 2002:a63:4642:0:b0:41b:d353:c5c7 with SMTP id
- v2-20020a634642000000b0041bd353c5c7mr20359415pgk.568.1660083303718; Tue, 09
- Aug 2022 15:15:03 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc;
+        bh=nCofRxQjD22NC4RudEIRbeqYPsKCnYLSTVWYX+M0X6g=;
+        b=Hy73i6RuFjELVLz8HdiHoTWceuegaURb9UWip+ex3egdOcBjjjkT23LZbqWqAT2DTU
+         F4KgMYM4iEw3Rx2v+App+y3bJwWdI20ntIfiKUzf+FGV87T9NkdtUFwNoqQsHENp/4ls
+         LopwmW2WLSDMKhDFiDpd54DrL/XjITkO2b6xgU/cvPOAbOCELz7CPzn7Foaws2mvQwh7
+         ZZkaIn3ElHJWA0GxkvhLGlLv10erCLKaUBvdHPQThP4PHmlF3iznNKVNwcJqSZxofz0/
+         O1LED0e/+LTH9s51ItJeyBr8JSl4pmTlfSNChx/+yaznvIsFMI3ud6dxKC8vFTHslbEq
+         3wKQ==
+X-Gm-Message-State: ACgBeo0XGLiyfr9m5x2WgrDoVFDILmMbeslUqvFlUxnNYA+1wsJM6KYg
+        Hw4PpgNkVhrWCSeVFXfYSAwqyg==
+X-Google-Smtp-Source: AA6agR5LIglhW8QUdVIhpmSA2CpA1OzyfYuNxtoNYYEb1mCfSMxY/EDa+duyO7YmfojEqJcduyJhLw==
+X-Received: by 2002:ac2:43a1:0:b0:48a:fa18:60c4 with SMTP id t1-20020ac243a1000000b0048afa1860c4mr7287080lfl.27.1660683037432;
+        Tue, 16 Aug 2022 13:50:37 -0700 (PDT)
+Received: from localhost.localdomain (c-fdcc225c.014-348-6c756e10.bbcust.telenor.se. [92.34.204.253])
+        by smtp.gmail.com with ESMTPSA id s4-20020a2e83c4000000b002618fbebbbcsm670816ljh.47.2022.08.16.13.50.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 16 Aug 2022 13:50:37 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
+        Arnd Bergmann <arnd@arndb.de>
+Subject: [PATCH 2/2 v5] regmap: mmio: Support accelerared noinc operations
+Date:   Tue, 16 Aug 2022 22:48:32 +0200
+Message-Id: <20220816204832.265837-2-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20220816204832.265837-1-linus.walleij@linaro.org>
+References: <20220816204832.265837-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Received: by 2002:a05:6a10:e8a6:b0:2d4:fb1c:cc5e with HTTP; Tue, 9 Aug 2022
- 15:15:03 -0700 (PDT)
-Reply-To: wijh555@gmail.com
-From:   "Dr. Ali Moses" <alimoses07@gmail.com>
-Date:   Tue, 9 Aug 2022 15:15:03 -0700
-Message-ID: <CADWzZe65tcOX2+bMZfMLLauGpHEQ9Cdv814nLU=uQvKzDFrEVg@mail.gmail.com>
-Subject: Good Day,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: Yes, score=5.2 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        UNDISC_FREEM autolearn=no autolearn_force=no version=3.4.6
-X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
-        *      https://www.dnswl.org/, no trust
-        *      [2607:f8b0:4864:20:0:0:0:d34 listed in]
-        [list.dnswl.org]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
-        *      provider
-        *      [alimoses07[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
-        *      digit
-        *      [wijh555[at]gmail.com]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        *  0.2 FREEMAIL_ENVFROM_END_DIGIT Envelope-from freemail username ends
-        *       in digit
-        *      [alimoses07[at]gmail.com]
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        * -0.0 T_SCC_BODY_TEXT_LINE No description available.
-        *  3.1 UNDISC_FREEM Undisclosed recipients + freemail reply-to
-        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
-        *      different freemails
-X-Spam-Level: *****
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+Use the newly added callback for accelerated noinc MMIO
+to provide writesb, writesw, writesl, writesq, readsb, readsw,
+readsl and readsq.
+
+A special quirk is needed to deal with big endian regmaps: there
+are no accelerated operations defined for big endian, so fall
+back to calling the big endian operations itereatively for this
+case.
+
+The Hexagon architecture turns out to have an incomplete
+<asm/io.h>: writesb() is not implemented. Fix this by doing
+what other architectures do: include <asm-generic/io.h> into
+the <asm/io.h> file.
+
+Cc: Brian Cain <bcain@quicinc.com>
+Cc: linux-hexagon@vger.kernel.org
+Cc: Arnd Bergmann <arnd@arndb.de>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v4->v5:
+- Halfway throug posting v4 and the build robot complains
+  that regmap-mmio.c does not complain on Hexagon. Fix it and
+  hope the build robots are happy now.
+ChangeLog v3->v4:
+- Rebase on regmap for-next
+- Notice Andy's patch rewriting *be accessors to use swab16 and
+  swab32 and changed my patch accordingly.
+- Using swab64 we can actually implement proper 64bit register
+  handling as well pretty easily, so fix that while at it.
+ChangeLog v2->v3:
+- Rebase on kernel v6.0-rc1
+ChangeLog v1->v2:
+- No changes.
+---
+ arch/hexagon/include/asm/io.h     |   2 +
+ drivers/base/regmap/regmap-mmio.c | 162 ++++++++++++++++++++++++++++++
+ 2 files changed, 164 insertions(+)
+
+diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
+index c33241425a5c..8e938dc1ca4b 100644
+--- a/arch/hexagon/include/asm/io.h
++++ b/arch/hexagon/include/asm/io.h
+@@ -308,6 +308,8 @@ static inline void outsl(unsigned long port, const void *buffer, int count)
+ 	}
+ }
+ 
++#include <asm-generic/io.h>
++
+ #endif /* __KERNEL__ */
+ 
+ #endif
+diff --git a/drivers/base/regmap/regmap-mmio.c b/drivers/base/regmap/regmap-mmio.c
+index eed488aad1b0..e8d2675463ac 100644
+--- a/drivers/base/regmap/regmap-mmio.c
++++ b/drivers/base/regmap/regmap-mmio.c
+@@ -16,6 +16,7 @@
+ struct regmap_mmio_context {
+ 	void __iomem *regs;
+ 	unsigned int val_bytes;
++	bool big_endian;
+ 
+ 	bool attached_clk;
+ 	struct clk *clk;
+@@ -165,6 +166,83 @@ static int regmap_mmio_write(void *context, unsigned int reg, unsigned int val)
+ 	return 0;
+ }
+ 
++static int regmap_mmio_noinc_write(void *context, unsigned int reg,
++				   const void *val, size_t val_count)
++{
++	struct regmap_mmio_context *ctx = context;
++	int ret = 0;
++	int i;
++
++	if (!IS_ERR(ctx->clk)) {
++		ret = clk_enable(ctx->clk);
++		if (ret < 0)
++			return ret;
++	}
++
++	/*
++	 * There are no native, assembly-optimized write single register
++	 * operations for big endian, so fall back to emulation if this
++	 * is needed. (Single bytes are fine, they are not affected by
++	 * endianness.)
++	 */
++	if (ctx->big_endian && (ctx->val_bytes > 1)) {
++		switch (ctx->val_bytes) {
++		case 2:
++		{
++			const u16 *valp = (const u16 *)val;
++			for (i = 0; i < val_count; i++)
++				writew(swab16(valp[i]), ctx->regs + reg);
++			goto out_clk;
++		}
++		case 4:
++		{
++			const u32 *valp = (const u32 *)val;
++			for (i = 0; i < val_count; i++)
++				writel(swab32(valp[i]), ctx->regs + reg);
++			goto out_clk;
++		}
++#ifdef CONFIG_64BIT
++		case 8:
++		{
++			const u64 *valp = (const u64 *)val;
++			for (i = 0; i < val_count; i++)
++				writeq(swab64(valp[i]), ctx->regs + reg);
++			goto out_clk;
++		}
++#endif
++		default:
++			ret = -EINVAL;
++			goto out_clk;
++		}
++	}
++
++	switch (ctx->val_bytes) {
++	case 1:
++		writesb(ctx->regs + reg, (const u8 *)val, val_count);
++		break;
++	case 2:
++		writesw(ctx->regs + reg, (const u16 *)val, val_count);
++		break;
++	case 4:
++		writesl(ctx->regs + reg, (const u32 *)val, val_count);
++		break;
++#ifdef CONFIG_64BIT
++	case 8:
++		writesq(ctx->regs + reg, (const u64 *)val, val_count);
++		break;
++#endif
++	default:
++		ret = -EINVAL;
++		break;
++	}
++
++out_clk:
++	if (!IS_ERR(ctx->clk))
++		clk_disable(ctx->clk);
++
++	return ret;
++}
++
+ static unsigned int regmap_mmio_read8(struct regmap_mmio_context *ctx,
+ 				      unsigned int reg)
+ {
+@@ -262,6 +340,87 @@ static int regmap_mmio_read(void *context, unsigned int reg, unsigned int *val)
+ 	return 0;
+ }
+ 
++static int regmap_mmio_noinc_read(void *context, unsigned int reg,
++				  void *val, size_t val_count)
++{
++	struct regmap_mmio_context *ctx = context;
++	int ret = 0;
++	int i;
++
++	if (!IS_ERR(ctx->clk)) {
++		ret = clk_enable(ctx->clk);
++		if (ret < 0)
++			return ret;
++	}
++
++	switch (ctx->val_bytes) {
++	case 1:
++		readsb(ctx->regs + reg, (u8 *)val, val_count);
++		break;
++	case 2:
++		readsw(ctx->regs + reg, (u16 *)val, val_count);
++		break;
++	case 4:
++		readsl(ctx->regs + reg, (u32 *)val, val_count);
++		break;
++#ifdef CONFIG_64BIT
++	case 8:
++		readsq(ctx->regs + reg, (u64 *)val, val_count);
++		break;
++#endif
++	default:
++		ret = -EINVAL;
++		goto out_clk;
++	}
++
++	/*
++	 * There are no native, assembly-optimized write single register
++	 * operations for big endian, so fall back to emulation if this
++	 * is needed. (Single bytes are fine, they are not affected by
++	 * endianness.)
++	 */
++	if (ctx->big_endian && (ctx->val_bytes > 1)) {
++		switch (ctx->val_bytes) {
++		case 2:
++		{
++			u16 *valp = (u16 *)val;
++			for (i = 0; i < val_count; i++)
++				valp[i] = swab16(valp[i]);
++			break;
++		}
++		case 4:
++		{
++			u32 *valp = (u32 *)val;
++			for (i = 0; i < val_count; i++)
++				valp[i] = swab32(valp[i]);
++			break;
++		}
++#ifdef CONFIG_64BIT
++		case 8:
++		{
++			u64 *valp = (u64 *)val;
++			for (i = 0; i < val_count; i++)
++				valp[i] = swab64(valp[i]);
++			break;
++		}
++#endif
++		default:
++			ret = -EINVAL;
++			break;
++		}
++	}
++
++
++out_clk:
++	if (!IS_ERR(ctx->clk))
++		clk_disable(ctx->clk);
++
++	return ret;
++
++	return 0;
++}
++
++
+ static void regmap_mmio_free_context(void *context)
+ {
+ 	struct regmap_mmio_context *ctx = context;
+@@ -278,6 +437,8 @@ static const struct regmap_bus regmap_mmio = {
+ 	.fast_io = true,
+ 	.reg_write = regmap_mmio_write,
+ 	.reg_read = regmap_mmio_read,
++	.reg_noinc_write = regmap_mmio_noinc_write,
++	.reg_noinc_read = regmap_mmio_noinc_read,
+ 	.free_context = regmap_mmio_free_context,
+ 	.val_format_endian_default = REGMAP_ENDIAN_LITTLE,
+ };
+@@ -368,6 +529,7 @@ static struct regmap_mmio_context *regmap_mmio_gen_context(struct device *dev,
+ #ifdef __BIG_ENDIAN
+ 	case REGMAP_ENDIAN_NATIVE:
+ #endif
++		ctx->big_endian = true;
+ 		switch (config->val_bits) {
+ 		case 8:
+ 			if (config->io_port) {
 -- 
-Hello,
-We the Board Directors believe you are in good health, doing great and
-with the hope that this mail will meet you in good condition, We are
-privileged and delighted to reach you via email" And we are urgently
-waiting to hear from you. and again your number is not connecting.
+2.37.2
 
-My regards,
-Dr. Ali Moses..
-
-Sincerely,
-Prof. Chin Guang
