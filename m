@@ -2,150 +2,273 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEABF5B1C76
-	for <lists+linux-hexagon@lfdr.de>; Thu,  8 Sep 2022 14:11:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F0C05BC986
+	for <lists+linux-hexagon@lfdr.de>; Mon, 19 Sep 2022 12:26:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231672AbiIHMJw (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 8 Sep 2022 08:09:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45152 "EHLO
+        id S230093AbiISK0H (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 19 Sep 2022 06:26:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52106 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231580AbiIHMJO (ORCPT
+        with ESMTP id S231150AbiISKSz (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 8 Sep 2022 08:09:14 -0400
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D868E55A5
-        for <linux-hexagon@vger.kernel.org>; Thu,  8 Sep 2022 05:08:53 -0700 (PDT)
-Received: by mail-ed1-x530.google.com with SMTP id b35so6017215edf.0
-        for <linux-hexagon@vger.kernel.org>; Thu, 08 Sep 2022 05:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date;
-        bh=61JNgHFLNVCOHtS3GBlVT+sTDzg02TjYElOUCZQYEf8=;
-        b=TlvWZGvy2q3E24gzGuXuCrXjIP91baX19lrAUviaJ3hMoqJLxz1+gHXIikJMH1edQy
-         11+SQewlhVG7Vn9lKmMjf1segyOAK+DwM9O8bLQ6DL1PQ7h09ExGsRBrnH+/4VBjz2jM
-         YNF1f2ATuvmF70d8DtoDb19e058w7WlC2DDqJRZf/+1kPtSMcxQ/t7J3kTJt0IcHp+1+
-         gB/ZwmEEbJfMRB+dG2kcHcIFB5jzuFu/JiyYCh9k2wrT3qUCTlF4trLXSumM5rxEEZKx
-         SJFEe17bDdrhvCJFAWvGeeqZFC/ws7jTPdcdYgD3cB1rr0g9y7VYcKDBv4m2Xbv8ou8X
-         Yjcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date;
-        bh=61JNgHFLNVCOHtS3GBlVT+sTDzg02TjYElOUCZQYEf8=;
-        b=aZkeDm/du7RAIAan6KLagRGpdWvEHVm0GqpeShHjdFaJAQ7fgUS37B0r45KJVuVZms
-         LH7MyV6Hsk4P6kpAC1dous//7mcQchgzqwU91ZvfiwwAdnz5mYxXHw+PlYaFSVtGrLWk
-         oS25GjfDvYoDkSKZmuYHTiPEjwd+fd3GEUaV1A2IVyPdcx0FTqwpi8KMuxyb93sRcAcX
-         0lYPxsxiw1NCkyKDUaNmXMn4JhCnTTzzQxVekflhZo/Z9fesh3FpQNDFWk6gJRCT/F5F
-         cbQSrAzl3Yjaf2iUTlS7RUL0mVVBZsqkXaPFqj+lnBtCs7YsJvk+t/MGsoIC7YOzClD/
-         RpfA==
-X-Gm-Message-State: ACgBeo3wGLUkfTimRNwNOZRbZr5eSY4ZI2OGJNUw+XJtDvsyoBoDTaaa
-        QgAFGmJLm0QnOrbrtDT6/ffXDA4Qf/250ev4ZPI=
-X-Google-Smtp-Source: AA6agR6dPrL2a0yucF7k/GpsT0Zy8AQP/JD+9gwi54DEWIaYLU4qPI8wu2I4uiZxSnqOAHtzo0f1b2JOX266ttN+ZnI=
-X-Received: by 2002:a05:6402:5202:b0:448:ab5d:3b89 with SMTP id
- s2-20020a056402520200b00448ab5d3b89mr7081238edd.343.1662638931605; Thu, 08
- Sep 2022 05:08:51 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a17:906:749d:b0:743:2e24:e8cd with HTTP; Thu, 8 Sep 2022
- 05:08:50 -0700 (PDT)
-Reply-To: mrtonyelumelu98@gmail.com
-From:   "Mrs. Cristalina Georgieva" <nastyanastya88889@gmail.com>
-Date:   Thu, 8 Sep 2022 13:08:50 +0100
-Message-ID: <CADsX60Bj9Xf39JrWDf_y6K-X+DcHqyvyr40Bv3xhQ3LXd77_5Q@mail.gmail.com>
-Subject: hi
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=2.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_HK_NAME_FM_MR_MRS,
-        T_SCC_BODY_TEXT_LINE,UNDISC_FREEM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: **
+        Mon, 19 Sep 2022 06:18:55 -0400
+Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E162248D7;
+        Mon, 19 Sep 2022 03:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=desiato.20200630; h=Subject:Cc:To:From:Date:Message-ID:
+        Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
+        Content-ID:Content-Description:In-Reply-To:References;
+        bh=D+MsKiHRvmSvqyjrleqvhdKjdXvjkJhvT05d1tF3TYc=; b=UQsvU8nlB76xZeTRu6KbAZ5g4A
+        v21ezpBG4aDzfKkxxCb9GpmlADJppCf+KVyodO/TEoyudKbqBLCyLdtwrbFAxb0aJ5fwHbEPQQ1N5
+        EmuvzVJrRo7TykFnlJ+oN15NWd2VLfXjixEytfV45kWCvhMnssNkUfZVmK3eHsT83TmhrkAy+1rWL
+        dSaGj0mA5cA9DiUGq8Uf3dsk4uEicB4ZuKl7D0T57Yf0eK8IdpHZoEAhNRMLiW4K3HehEHlB8w53i
+        worbn3yXyIb3FqjM/nTkOkRImrnF50v+k8ux+BswwsADI0NLv4ntoM+CNvwAF6XnPH12b3dM+N70J
+        YkBwTAqw==;
+Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
+        by desiato.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1oaDpA-00E28k-Qz; Mon, 19 Sep 2022 10:17:17 +0000
+Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (Client did not present a certificate)
+        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id F300C30068D;
+        Mon, 19 Sep 2022 12:16:21 +0200 (CEST)
+Received: by hirez.programming.kicks-ass.net (Postfix, from userid 0)
+        id BF8DF2BA49033; Mon, 19 Sep 2022 12:16:21 +0200 (CEST)
+Message-ID: <20220919095939.761690562@infradead.org>
+User-Agent: quilt/0.66
+Date:   Mon, 19 Sep 2022 11:59:39 +0200
+From:   Peter Zijlstra <peterz@infradead.org>
+To:     peterz@infradead.org
+Cc:     richard.henderson@linaro.org, ink@jurassic.park.msu.ru,
+        mattst88@gmail.com, vgupta@kernel.org, linux@armlinux.org.uk,
+        ulli.kroll@googlemail.com, linus.walleij@linaro.org,
+        shawnguo@kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        tony@atomide.com, khilman@kernel.org, catalin.marinas@arm.com,
+        will@kernel.org, guoren@kernel.org, bcain@quicinc.com,
+        chenhuacai@kernel.org, kernel@xen0n.name, geert@linux-m68k.org,
+        sammy@sammy.net, monstr@monstr.eu, tsbogend@alpha.franken.de,
+        dinguyen@kernel.org, jonas@southpole.se,
+        stefan.kristiansson@saunalahti.fi, shorne@gmail.com,
+        James.Bottomley@HansenPartnership.com, deller@gmx.de,
+        mpe@ellerman.id.au, npiggin@gmail.com, christophe.leroy@csgroup.eu,
+        paul.walmsley@sifive.com, palmer@dabbelt.com,
+        aou@eecs.berkeley.edu, hca@linux.ibm.com, gor@linux.ibm.com,
+        agordeev@linux.ibm.com, borntraeger@linux.ibm.com,
+        svens@linux.ibm.com, ysato@users.sourceforge.jp, dalias@libc.org,
+        davem@davemloft.net, richard@nod.at,
+        anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        acme@kernel.org, mark.rutland@arm.com,
+        alexander.shishkin@linux.intel.com, jolsa@kernel.org,
+        namhyung@kernel.org, jgross@suse.com, srivatsa@csail.mit.edu,
+        amakhalov@vmware.com, pv-drivers@vmware.com,
+        boris.ostrovsky@oracle.com, chris@zankel.net, jcmvbkbc@gmail.com,
+        rafael@kernel.org, lenb@kernel.org, pavel@ucw.cz,
+        gregkh@linuxfoundation.org, mturquette@baylibre.com,
+        sboyd@kernel.org, daniel.lezcano@linaro.org, lpieralisi@kernel.org,
+        sudeep.holla@arm.com, agross@kernel.org,
+        bjorn.andersson@linaro.org, konrad.dybcio@somainline.org,
+        anup@brainfault.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, jacob.jun.pan@linux.intel.com,
+        atishp@atishpatra.org, Arnd Bergmann <arnd@arndb.de>,
+        yury.norov@gmail.com, andriy.shevchenko@linux.intel.com,
+        linux@rasmusvillemoes.dk, dennis@kernel.org, tj@kernel.org,
+        cl@linux.com, rostedt@goodmis.org, pmladek@suse.com,
+        senozhatsky@chromium.org, john.ogness@linutronix.de,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org,
+        dietmar.eggemann@arm.com, bsegall@google.com, mgorman@suse.de,
+        bristot@redhat.com, vschneid@redhat.com, fweisbec@gmail.com,
+        ryabinin.a.a@gmail.com, glider@google.com, andreyknvl@gmail.com,
+        dvyukov@google.com, vincenzo.frascino@arm.com,
+        Andrew Morton <akpm@linux-foundation.org>, jpoimboe@kernel.org,
+        linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org, linux-omap@vger.kernel.org,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-ia64@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
+        linux-perf-users@vger.kernel.org,
+        virtualization@lists.linux-foundation.org,
+        linux-xtensa@linux-xtensa.org, linux-acpi@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arch@vger.kernel.org, kasan-dev@googlegroups.com
+Subject: [PATCH v2 00/44] cpuidle,rcu: Clean up the mess
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-2LXZhtiv2YjZgiDYp9mE2YbZgtivINin2YTYr9mI2YTZiiAoSS5NLkYpDQrYtNi52KjYqSDYpdiv
-2KfYsdipINin2YTYr9mK2YjZhiDYp9mE2K/ZiNmE2YrYqSDYjA0KIyAxOTAwINiMINi02KfYsdi5
-INin2YTYsdim2YrYsw0KDQrZhdix2K3YqNmL2Kcg2KjZg9mFINmB2Yog2LnZhtmI2KfZhiDYp9mE
-2KjYsdmK2K8g2KfZhNil2YTZg9iq2LHZiNmG2Yog2KfZhNix2LPZhdmKINmE2YTZhdiv2YrYsSBJ
-Lk0uRi4g2YPYsdmK2LPYqtin2YTZitmG2Kcg2KzZiNix2KzZitmB2KcNCg0KDQrYudiy2YrYstmK
-INin2YTZhdiz2KrZgdmK2K8hDQoNCtmE2YLYryDYs9mF2K0g2YTZhtinINmI2LLZitixINin2YTY
-rtiy2KfZhtipINin2YTZhdi52YrZhiDYrdiv2YrYq9mL2Kcg2YjYp9mE2YfZitim2Kkg2KfZhNit
-2KfZg9mF2Kkg2YTZhNiz2YTYt9ipINin2YTZhtmC2K/ZitipDQrZhNmE2KPZhdmFINin2YTZhdiq
-2K3Yr9ipINio2YHYrdi1INin2YTYo9mF2YjYp9mEINin2YTYqtmKINmE2YUg2KrYqtmFINin2YTZ
-hdi32KfZhNio2Kkg2KjZh9inINmI2KfZhNiq2Yog2YTYt9in2YTZhdinINmD2KfZhtiqDQrZhdiv
-2YrZhtipINmE2K3Zg9mI2YXYqSDYp9mE2KPZhdmFINin2YTZhdiq2K3Yr9ipINiMINmE2LDZhNmD
-INiq2YUg2KfYqtmH2KfZhSDZhdin2YTZg9mK2YfYpyDYqNin2YTYp9it2KrZitin2YQuDQrYp9mE
-2YXYrdiq2KfZhNmI2YYg2KfZhNiw2YrZhiDZitiz2KrYrtiv2YXZiNmGINin2LPZhSDYp9mE2KPZ
-hdmFINin2YTZhdiq2K3Yr9ipINiMINmI2YHZgtmL2Kcg2YTYs9is2YQg2KrYrtiy2YrZhiDYp9mE
-2KjZitin2YbYp9iqDQrZhdi5INi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE2YPYqtix
-2YjZhtmKINmE2YbYuNin2YXZhtinINij2KvZhtin2KEg2KfZhNiq2K3ZgtmK2YIg2KfZhNiw2Yog
-2KPYrNix2YrZhtin2Ycg2Iwg2YHYpdmGDQrYr9mB2LnYqtmDINmF2K/Ysdis2Kkg2YHZiiDZgtin
-2KbZhdipINiq2LbZhSAxNTAg2YXYs9iq2YHZitiv2YvYpyDZgdmKINin2YTZgdim2KfYqiDYp9mE
-2KrYp9mE2YrYqTog2LXZhtiv2YjZgiDZitin2YbYtdmK2KgNCti62YrYsSDZhdmP2LPZhNmO2ZHZ
-hSAvINi12YbYr9mI2YIg2YrYp9mG2LXZitioINi62YrYsSDZhdiv2YHZiNi5IC8g2YjYsdin2KvY
-qSDZhtmC2YQg2LrZitixINmF2YPYqtmF2YTYqSAvINij2YXZiNin2YQNCtin2YTYudmC2K8uDQoN
-CtmC2KfZhSDZhdiz2KTZiNmE2Ygg2KfZhNio2YbZgyDYp9mE2YHYp9iz2K8g2Iwg2KfZhNiw2YrZ
-hiDYp9ix2KrZg9io2YjYpyDYp9mE2YHYs9in2K8g2YXZhiDYo9is2YQg2KfZhNin2K3YqtmK2KfZ
-hCDYudmE2YkNCtij2YXZiNin2YTZgyDYjCDYqNiq2KPYrtmK2LEg2K/Zgdi52YMg2KjYtNmD2YQg
-2LrZitixINmF2LnZgtmI2YQg2Iwg2YXZhdinINij2K/ZiSDYpdmE2Ykg2KrYrdmF2YTZgyDYp9mE
-2YPYq9mK2LEg2YXZhg0K2KfZhNiq2YPYp9mE2YrZgSDZiNiq2KPYrtmK2LEg2LrZitixINmF2LnZ
-gtmI2YQg2YHZiiDZgtio2YjZhCDZhdiv2YHZiNi52KfYqtmDLiDYp9iu2KrYp9ix2Kog2KfZhNij
-2YXZhSDYp9mE2YXYqtit2K/YqQ0K2YjYtdmG2K/ZiNmCINin2YTZhtmC2K8g2KfZhNiv2YjZhNmK
-IChJTUYpINiv2YHYuSDYrNmF2YrYuSDYp9mE2KrYudmI2YrYttin2Kog2YTZgCAxNTAg2YXYs9iq
-2YHZitiv2YvYpyDYqNin2LPYqtiu2K/Yp9mFDQrYqNi32KfZgtin2KogVmlzYSBBVE0g2YXZhiDY
-o9mF2LHZitmD2Kcg2KfZhNi02YXYp9mE2YrYqSDZiNij2YXYsdmK2YPYpyDYp9mE2KzZhtmI2KjZ
-itipINmI2KfZhNmI2YTYp9mK2KfYqiDYp9mE2YXYqtit2K/YqQ0K2YjYo9mI2LHZiNio2Kcg2YjY
-otiz2YrYpyDZiNit2YjZhCDYp9mE2LnYp9mE2YUg2Iwg2K3ZitirINiq2KrZiNmB2LEg2KrZgtmG
-2YrYqSDYp9mE2K/Zgdi5INin2YTYudin2YTZhdmK2Kkg2YfYsNmHDQrZhNmE2YXYs9iq2YfZhNmD
-2YrZhiDZiNin2YTYtNix2YPYp9iqINmI2KfZhNmF2KTYs9iz2KfYqiDYp9mE2YXYp9mE2YrYqS4g
-2YjZitiz2YXYrSDZhNmE2K3Zg9mI2YXYp9iqINio2KfYs9iq2K7Yr9in2YUg2KfZhNi52YXZhNin
-2KoNCtin2YTYsdmC2YXZitipINio2K/ZhNin2Ysg2YXZhiDYp9mE2YbZgtivINmI2KfZhNi02YrZ
-g9in2KouDQoNCtmE2YLYryDZgtmF2YbYpyDYqNin2YTYqtix2KrZitioINmE2LPYr9in2K8g2YXY
-r9mB2YjYudin2KrZgyDYqNin2LPYqtiu2K/Yp9mFINio2LfYp9mC2KkgVmlzYSBBVE0g2YjYs9mK
-2KrZhSDYpdi12K/Yp9ix2YfYpw0K2YTZgyDZiNil2LHYs9in2YTZh9inINmF2KjYp9i02LHYqdmL
-INil2YTZiSDYudmG2YjYp9mG2YMg2LnYqNixINij2Yog2K7Yr9mF2KfYqiDYqNix2YrYryDYs9ix
-2YrYuSDZhdiq2KfYrdipLiDYqNi52K8NCtin2YTYp9iq2LXYp9mEINio2YbYpyDYjCDYs9mK2KrZ
-hSDYqtit2YjZitmEINmF2KjZhNi6IDHYjDUwMNiMMDAwLjAwINiv2YjZhNin2LEg2KPZhdix2YrZ
-g9mKINil2YTZiSDYqNi32KfZgtipIFZpc2ENCkFUTSDYjCDZiNin2YTYqtmKINiz2KrYs9mF2K0g
-2YTZgyDYqNiz2K3YqCDYo9mF2YjYp9mE2YMg2LnZhiDYt9ix2YrZgiDYs9it2Kgg2YXYpyDZhNin
-INmK2YLZhCDYudmGIDEw2IwwMDAg2K/ZiNmE2KfYsQ0K2KPZhdix2YrZg9mKINmB2Yog2KfZhNmK
-2YjZhSDZhdmGINij2Yog2YXYp9mD2YrZhtipINi12LHYp9mBINii2YTZiiDZgdmKINio2YTYr9mD
-LiDYqNmG2KfYodmLINi52YTZiSDYt9mE2KjZgyDYjCDZitmF2YPZhtmDDQrYstmK2KfYr9ipINin
-2YTYrdivINil2YTZiSAyMNiMMDAwLjAwINiv2YjZhNin2LEg2YHZiiDYp9mE2YrZiNmFLiDZgdmK
-INmH2LDYpyDYp9mE2LXYr9ivINiMINmK2KzYqCDYudmE2YrZgw0K2KfZhNin2KrYtdin2YQg2KjY
-pdiv2KfYsdipINin2YTZhdiv2YHZiNi52KfYqiDZiNin2YTYqtit2YjZitmE2KfYqiDYp9mE2K/Z
-iNmE2YrYqSDZiNiq2YLYr9mK2YUg2KfZhNmF2LnZhNmI2YXYp9iqINin2YTZhdi32YTZiNio2KkN
-CtmF2YYg2K7ZhNin2YQ6DQoNCjEuINin2LPZhdmDINin2YTZg9in2YXZhCAuLi4uLi4uLi4uLi4u
-Lg0KMi4g2LnZhtmI2KfZhtmDINin2YTZg9in2YXZhCAuLi4NCjMuINin2YTYrNmG2LPZitipIC4u
-Li4uLi4uLi4uLi4uLi4NCjQuINiq2KfYsdmK2K4g2KfZhNmF2YrZhNin2K8gLyDYp9mE2KzZhtiz
-IC4uLi4uLi4uLg0KNS4g2KfZhNiq2K7Ytdi1IC4uLg0KNi4g2LHZgtmFINin2YTZh9in2KrZgSAu
-Li4uLi4uLi4NCjcuINi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE2YPYqtix2YjZhtmK
-INmE2LTYsdmD2KrZgyAuLi4uLi4NCjguINi52YbZiNin2YYg2KfZhNio2LHZitivINin2YTYpdmE
-2YPYqtix2YjZhtmKINin2YTYtNiu2LXZiiAuLi4uLi4NCg0KDQrZhNiq2K3Yr9mK2K8g2YfYsNin
-INin2YTYsdmF2LIgKNin2YTYsdin2KjYtzogQ0xJRU5ULTk2Ni8xNikg2Iwg2KfYs9iq2K7Yr9mF
-2Ycg2YPZhdmI2LbZiNi5INmE2YTYqNix2YrYrw0K2KfZhNil2YTZg9iq2LHZiNmG2Yog2KfZhNiu
-2KfYtSDYqNmDINmI2K3Yp9mI2YQg2KrZgtiv2YrZhSDYp9mE2YXYudmE2YjZhdin2Kog2KfZhNmF
-2LDZg9mI2LHYqSDYo9i52YTYp9mHINil2YTZiSDYp9mE2YXZiNi42YHZitmGDQrYp9mE2KrYp9mE
-2YrZitmGINmE2KXYtdiv2KfYsSDZiNiq2LPZhNmK2YUg2KjYt9in2YLYqSBWaXNhIEFUTSDYmw0K
-DQrZhtmI2LXZitmDINio2YHYqtitINi52YbZiNin2YYg2KjYsdmK2K8g2KXZhNmD2KrYsdmI2YbZ
-iiDYtNiu2LXZiiDYqNix2YLZhSDYrNiv2YrYryDZhNmE2LPZhdin2K0g2YTZiNmD2YrZhCDYp9mE
-2KjZhtmDINio2KrYqtio2LkNCtmH2LDZhyDYp9mE2YXYr9mB2YjYudin2Kog2YjYqtio2KfYr9mE
-INin2YTYsdiz2KfYptmEINmE2YXZhti5INin2YTZhdiy2YrYryDZhdmGINin2YTYqtij2K7Zitix
-INij2Ygg2KfZhNiq2YjYrNmK2Ycg2KfZhNiu2KfYt9imDQrZhNij2YXZiNin2YTZgy4g2KfYqti1
-2YQg2KjZiNmD2YrZhCDYp9mE2KjZhtmDINin2YTYpdmB2LHZitmC2Yog2KfZhNmF2KrYrdivINin
-2YTYotmGINio2KfYs9iq2K7Yr9in2YUg2YXYudmE2YjZhdin2KoNCtin2YTYp9iq2LXYp9mEINij
-2K/Zhtin2Yc6DQoNCtin2YTYtNiu2LUg2KfZhNmF2LPYpNmI2YQ6INin2YTYs9mK2K8g2KrZiNmG
-2Yog2KXZhNmI2YXZitmE2YgNCtil2K/Yp9ix2Kkg2KrYrdmI2YrZhCDYo9mF2YjYp9mEINin2YTY
-qti52YjZiti22KfYqiDYjCDYrNmH2Kkg2KfZhNin2KrYtdin2YQg2KjYp9mE2KjYsdmK2K8g2KfZ
-hNil2YTZg9iq2LHZiNmG2Yog2YTYqNmG2YMNCtil2YHYsdmK2YLZitinINin2YTZhdiq2K3Yrzog
-KG1ydG9ueWVsdW1lbHU5OEBnbWFpbC5jb20pDQoNCtmG2K3Yqtin2Kwg2KXZhNmJINix2K8g2LPY
-sdmK2Lkg2LnZhNmJINmH2LDYpyDYp9mE2KjYsdmK2K8g2KfZhNil2YTZg9iq2LHZiNmG2Yog2YTY
-qtis2YbYqCDYp9mE2YXYstmK2K8g2YXZhiDYp9mE2KrYo9iu2YrYsS4NCg0K2LXYr9mK2YLZgyDY
-p9mE2YXYrtmE2LUNCtin2YTYs9mR2YrYr9ipLiDZg9ix2YrYs9iq2KfZhNmK2YbYpyDYrNmI2LHY
-rNmK2YHYpw0K
+Hi All!
+
+At long last, a respin of the cpuidle vs rcu cleanup patches.
+
+v1: https://lkml.kernel.org/r/20220608142723.103523089@infradead.org
+
+These here patches clean up the mess that is cpuidle vs rcuidle.
+
+At the end of the ride there's only on RCU_NONIDLE user left:
+
+  arch/arm64/kernel/suspend.c:            RCU_NONIDLE(__cpu_suspend_exit());
+
+and 'one' trace_*_rcuidle() user:
+
+  kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+  kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, CALLER_ADDR1);
+  kernel/trace/trace_preemptirq.c:                        trace_irq_enable_rcuidle(CALLER_ADDR0, caller_addr);
+  kernel/trace/trace_preemptirq.c:                        trace_irq_disable_rcuidle(CALLER_ADDR0, caller_addr);
+  kernel/trace/trace_preemptirq.c:                trace_preempt_enable_rcuidle(a0, a1);
+  kernel/trace/trace_preemptirq.c:                trace_preempt_disable_rcuidle(a0, a1);
+
+However this last is all in deprecated code that should be unused for GENERIC_ENTRY.
+
+I've touched a lot of code that I can't test and I might've broken something by
+accident. In particular the whole ARM cpuidle stuff was quite involved.
+
+Please all; have a look where you haven't already.
+
+
+New since v1:
+
+ - rebase on top of Frederic's rcu-context-tracking rename fest
+ - more omap goodness as per the last discusion (thanks Tony!)
+ - removed one more RCU_NONIDLE() from arm64/risc-v perf code
+ - ubsan/kasan fixes
+ - intel_idle module-param for testing
+ - a bunch of extra __always_inline, because compilers are silly.
+
+---
+ arch/alpha/kernel/process.c               |  1 -
+ arch/alpha/kernel/vmlinux.lds.S           |  1 -
+ arch/arc/kernel/process.c                 |  3 ++
+ arch/arc/kernel/vmlinux.lds.S             |  1 -
+ arch/arm/include/asm/vmlinux.lds.h        |  1 -
+ arch/arm/kernel/process.c                 |  1 -
+ arch/arm/kernel/smp.c                     |  6 +--
+ arch/arm/mach-gemini/board-dt.c           |  3 +-
+ arch/arm/mach-imx/cpuidle-imx6q.c         |  4 +-
+ arch/arm/mach-imx/cpuidle-imx6sx.c        |  5 ++-
+ arch/arm/mach-omap2/common.h              |  6 ++-
+ arch/arm/mach-omap2/cpuidle34xx.c         | 16 +++++++-
+ arch/arm/mach-omap2/cpuidle44xx.c         | 29 +++++++-------
+ arch/arm/mach-omap2/omap-mpuss-lowpower.c | 12 +++++-
+ arch/arm/mach-omap2/pm.h                  |  2 +-
+ arch/arm/mach-omap2/pm24xx.c              | 51 +-----------------------
+ arch/arm/mach-omap2/pm34xx.c              | 14 +++++--
+ arch/arm/mach-omap2/pm44xx.c              |  2 +-
+ arch/arm/mach-omap2/powerdomain.c         | 10 ++---
+ arch/arm64/kernel/idle.c                  |  1 -
+ arch/arm64/kernel/smp.c                   |  4 +-
+ arch/arm64/kernel/vmlinux.lds.S           |  1 -
+ arch/csky/kernel/process.c                |  1 -
+ arch/csky/kernel/smp.c                    |  2 +-
+ arch/csky/kernel/vmlinux.lds.S            |  1 -
+ arch/hexagon/kernel/process.c             |  1 -
+ arch/hexagon/kernel/vmlinux.lds.S         |  1 -
+ arch/ia64/kernel/process.c                |  1 +
+ arch/ia64/kernel/vmlinux.lds.S            |  1 -
+ arch/loongarch/kernel/idle.c              |  1 +
+ arch/loongarch/kernel/vmlinux.lds.S       |  1 -
+ arch/m68k/kernel/vmlinux-nommu.lds        |  1 -
+ arch/m68k/kernel/vmlinux-std.lds          |  1 -
+ arch/m68k/kernel/vmlinux-sun3.lds         |  1 -
+ arch/microblaze/kernel/process.c          |  1 -
+ arch/microblaze/kernel/vmlinux.lds.S      |  1 -
+ arch/mips/kernel/idle.c                   |  8 ++--
+ arch/mips/kernel/vmlinux.lds.S            |  1 -
+ arch/nios2/kernel/process.c               |  1 -
+ arch/nios2/kernel/vmlinux.lds.S           |  1 -
+ arch/openrisc/kernel/process.c            |  1 +
+ arch/openrisc/kernel/vmlinux.lds.S        |  1 -
+ arch/parisc/kernel/process.c              |  2 -
+ arch/parisc/kernel/vmlinux.lds.S          |  1 -
+ arch/powerpc/kernel/idle.c                |  5 +--
+ arch/powerpc/kernel/vmlinux.lds.S         |  1 -
+ arch/riscv/kernel/process.c               |  1 -
+ arch/riscv/kernel/vmlinux-xip.lds.S       |  1 -
+ arch/riscv/kernel/vmlinux.lds.S           |  1 -
+ arch/s390/kernel/idle.c                   |  1 -
+ arch/s390/kernel/vmlinux.lds.S            |  1 -
+ arch/sh/kernel/idle.c                     |  1 +
+ arch/sh/kernel/vmlinux.lds.S              |  1 -
+ arch/sparc/kernel/leon_pmc.c              |  4 ++
+ arch/sparc/kernel/process_32.c            |  1 -
+ arch/sparc/kernel/process_64.c            |  3 +-
+ arch/sparc/kernel/vmlinux.lds.S           |  1 -
+ arch/um/kernel/dyn.lds.S                  |  1 -
+ arch/um/kernel/process.c                  |  1 -
+ arch/um/kernel/uml.lds.S                  |  1 -
+ arch/x86/boot/compressed/vmlinux.lds.S    |  1 +
+ arch/x86/coco/tdx/tdcall.S                | 15 +------
+ arch/x86/coco/tdx/tdx.c                   | 25 ++++--------
+ arch/x86/events/amd/brs.c                 | 13 +++----
+ arch/x86/include/asm/fpu/xcr.h            |  4 +-
+ arch/x86/include/asm/irqflags.h           | 11 ++----
+ arch/x86/include/asm/mwait.h              | 14 +++----
+ arch/x86/include/asm/nospec-branch.h      |  2 +-
+ arch/x86/include/asm/paravirt.h           |  6 ++-
+ arch/x86/include/asm/perf_event.h         |  2 +-
+ arch/x86/include/asm/shared/io.h          |  4 +-
+ arch/x86/include/asm/shared/tdx.h         |  1 -
+ arch/x86/include/asm/special_insns.h      |  8 ++--
+ arch/x86/include/asm/xen/hypercall.h      |  2 +-
+ arch/x86/kernel/cpu/bugs.c                |  2 +-
+ arch/x86/kernel/fpu/core.c                |  4 +-
+ arch/x86/kernel/paravirt.c                | 14 ++++++-
+ arch/x86/kernel/process.c                 | 65 +++++++++++++++----------------
+ arch/x86/kernel/vmlinux.lds.S             |  1 -
+ arch/x86/lib/memcpy_64.S                  |  5 +--
+ arch/x86/lib/memmove_64.S                 |  4 +-
+ arch/x86/lib/memset_64.S                  |  4 +-
+ arch/x86/xen/enlighten_pv.c               |  2 +-
+ arch/x86/xen/irq.c                        |  2 +-
+ arch/xtensa/kernel/process.c              |  1 +
+ arch/xtensa/kernel/vmlinux.lds.S          |  1 -
+ drivers/acpi/processor_idle.c             | 36 ++++++++++-------
+ drivers/base/power/runtime.c              | 24 ++++++------
+ drivers/clk/clk.c                         |  8 ++--
+ drivers/cpuidle/cpuidle-arm.c             |  1 +
+ drivers/cpuidle/cpuidle-big_little.c      |  8 +++-
+ drivers/cpuidle/cpuidle-mvebu-v7.c        |  7 ++++
+ drivers/cpuidle/cpuidle-psci.c            | 10 +++--
+ drivers/cpuidle/cpuidle-qcom-spm.c        |  1 +
+ drivers/cpuidle/cpuidle-riscv-sbi.c       | 10 +++--
+ drivers/cpuidle/cpuidle-tegra.c           | 21 +++++++---
+ drivers/cpuidle/cpuidle.c                 | 21 +++++-----
+ drivers/cpuidle/dt_idle_states.c          |  2 +-
+ drivers/cpuidle/poll_state.c              | 10 ++++-
+ drivers/idle/intel_idle.c                 | 19 +++++----
+ drivers/perf/arm_pmu.c                    | 11 +-----
+ drivers/perf/riscv_pmu_sbi.c              |  8 +---
+ include/asm-generic/vmlinux.lds.h         |  9 ++---
+ include/linux/compiler_types.h            |  8 +++-
+ include/linux/cpu.h                       |  3 --
+ include/linux/cpuidle.h                   | 34 ++++++++++++++++
+ include/linux/cpumask.h                   |  4 +-
+ include/linux/percpu-defs.h               |  2 +-
+ include/linux/sched/idle.h                | 40 ++++++++++++++-----
+ include/linux/thread_info.h               | 18 ++++++++-
+ include/linux/tracepoint.h                | 13 ++++++-
+ kernel/cpu_pm.c                           |  9 -----
+ kernel/printk/printk.c                    |  2 +-
+ kernel/sched/idle.c                       | 47 +++++++---------------
+ kernel/time/tick-broadcast-hrtimer.c      | 29 ++++++--------
+ kernel/time/tick-broadcast.c              |  6 ++-
+ kernel/trace/trace.c                      |  3 ++
+ lib/ubsan.c                               |  5 ++-
+ mm/kasan/kasan.h                          |  4 ++
+ mm/kasan/shadow.c                         | 38 ++++++++++++++++++
+ tools/objtool/check.c                     | 17 ++++++++
+ 121 files changed, 511 insertions(+), 420 deletions(-)
+
