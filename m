@@ -2,142 +2,130 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E10175F9669
-	for <lists+linux-hexagon@lfdr.de>; Mon, 10 Oct 2022 02:58:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A8045FB76F
+	for <lists+linux-hexagon@lfdr.de>; Tue, 11 Oct 2022 17:39:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230230AbiJJA6p (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 9 Oct 2022 20:58:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56694 "EHLO
+        id S229639AbiJKPi6 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 11 Oct 2022 11:38:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230012AbiJJA61 (ORCPT
+        with ESMTP id S229936AbiJKPiM (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 9 Oct 2022 20:58:27 -0400
+        Tue, 11 Oct 2022 11:38:12 -0400
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B46A6A287D
-        for <linux-hexagon@vger.kernel.org>; Sun,  9 Oct 2022 17:43:15 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09605C3558
+        for <linux-hexagon@vger.kernel.org>; Tue, 11 Oct 2022 08:27:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1665362538;
+        s=mimecast20190719; t=1665502026;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=VDShjrzwK1jKnCnAs96UVbaV43RvPyzhTgdsrfXV+I8=;
-        b=I22ABh3APGFcbDIJU8poyJ54tCLaX6DIh7KLj+nULmZwQMWuMQ6SQQHHn1A7Z3+tATG2zI
-        wTi9Yvp/dactxKX7Z+sjjnjr5EQtA22jEhoBxvVA0/KceK2RYqCci3Xi/dTG317+0e4woS
-        Ilusxu7jcHHzmNVwC9J0HqzcQOSSbXE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-369-j3XBEPeTPN2bfQw2tWweCg-1; Sun, 09 Oct 2022 20:17:09 -0400
-X-MC-Unique: j3XBEPeTPN2bfQw2tWweCg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com [10.11.54.1])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 44DBA849415;
-        Mon, 10 Oct 2022 00:17:08 +0000 (UTC)
-Received: from localhost (ovpn-12-34.pek2.redhat.com [10.72.12.34])
-        by smtp.corp.redhat.com (Postfix) with ESMTPS id 8FD8640FF656;
-        Mon, 10 Oct 2022 00:17:06 +0000 (UTC)
-Date:   Mon, 10 Oct 2022 08:17:02 +0800
-From:   Baoquan He <bhe@redhat.com>
-To:     Christophe Leroy <christophe.leroy@csgroup.eu>
-Cc:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-        "hch@infradead.org" <hch@infradead.org>,
-        "agordeev@linux.ibm.com" <agordeev@linux.ibm.com>,
-        "wangkefeng.wang@huawei.com" <wangkefeng.wang@huawei.com>,
-        "schnelle@linux.ibm.com" <schnelle@linux.ibm.com>,
-        "David.Laight@ACULAB.COM" <David.Laight@aculab.com>,
-        "shorne@gmail.com" <shorne@gmail.com>,
-        Brian Cain <bcain@quicinc.com>,
-        Mark Brown <broonie@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>
-Subject: Re: [PATCH v3 01/11] hexagon: mm: Convert to GENERIC_IOREMAP
-Message-ID: <Y0NkfggJTI1q/Yvy@MiWiFi-R3L-srv>
-References: <20221009103114.149036-1-bhe@redhat.com>
- <20221009103114.149036-2-bhe@redhat.com>
- <83f292b8-0639-56b2-6dac-0475c34f623c@csgroup.eu>
+        bh=ti1NCFCTzr5YPwBHvg45c+mfaiUwrR60uA7ep6lLZuA=;
+        b=JpqlyshjWjxRgG6016+7B8whqNxRyoaDJ4Pp0xIV9oFjtxspT/6FAPbzQqOylkhPh6UQQb
+        UmA/9DB90jZdV2knQqR7BXE348K0aH1rViTL+i74btk/Jc0J7ebgyZRY7yoxx52JfF8xhu
+        4ioMvZ9bYf4S2JJ4kVzKvhr1b99atGg=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-206-o5p83MbjMHeXSHs_hNLe_w-1; Tue, 11 Oct 2022 11:02:10 -0400
+X-MC-Unique: o5p83MbjMHeXSHs_hNLe_w-1
+Received: by mail-wm1-f69.google.com with SMTP id k21-20020a7bc415000000b003b4fac53006so3823879wmi.3
+        for <linux-hexagon@vger.kernel.org>; Tue, 11 Oct 2022 08:02:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ti1NCFCTzr5YPwBHvg45c+mfaiUwrR60uA7ep6lLZuA=;
+        b=zP4PRoKo40nHPCkXsJvGbl6w/4V6hIKOrzv6ouFp3q19uNghpaayCSUB/ubmLsoh0+
+         23rYR0AOtqVc4eahtSIjD6P37Zlbp7dLrLTIsNlupw3sULddUWTecXZlV7ZEPpgs3s6m
+         6hRahb7jausTKGy9eegB4Fha1wgEYLKQZPGa9CkLCEI8U30JGs7huXP4Hfs/YaOllt+y
+         PHqh6x7Z/i35C8gdREXthzL4AQ45QAXSHlhkf+N8ExjL6ZLVg7+AAEmHWCVztnt+szny
+         yLgojM4bX9cdw4gUmvCowL4Xh3HP2QhkfUYmrYnmmMTDqbPqBjozWqsAOywJy227wS/h
+         Cp/g==
+X-Gm-Message-State: ACrzQf3/VQRSDg9EQCj5Bjj6smLS0RVmJ78G/FZVnTncehZibpF0wKP9
+        2rT7SU+Bod3kiTafEDFK2BGojE8rC1fqMldxkh0B/yGyH9m+dRothCAUKWjVx2/FuzJpD6J2SFa
+        GA0Jx2sF+D9t8cRZ8egU0kRpRgg==
+X-Received: by 2002:a5d:59a3:0:b0:22e:4b62:7ceb with SMTP id p3-20020a5d59a3000000b0022e4b627cebmr15699191wrr.90.1665500528708;
+        Tue, 11 Oct 2022 08:02:08 -0700 (PDT)
+X-Google-Smtp-Source: AMsMyM7srUgXRaEVg4Pb59BUs0ShAt8e40s56KQw2lU0G4VdN3sOMR/0VHio2//G+OqnLs1Wx3l7Vw==
+X-Received: by 2002:a5d:59a3:0:b0:22e:4b62:7ceb with SMTP id p3-20020a5d59a3000000b0022e4b627cebmr15699160wrr.90.1665500528495;
+        Tue, 11 Oct 2022 08:02:08 -0700 (PDT)
+Received: from vschneid.remote.csb ([104.132.153.106])
+        by smtp.gmail.com with ESMTPSA id bh11-20020a05600c3d0b00b003b49ab8ff53sm13552403wmb.8.2022.10.11.08.02.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 11 Oct 2022 08:02:07 -0700 (PDT)
+From:   Valentin Schneider <vschneid@redhat.com>
+To:     Steven Rostedt <rostedt@goodmis.org>
+Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
+        x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+        Juri Lelli <juri.lelli@redhat.com>,
+        Daniel Bristot de Oliveira <bristot@redhat.com>,
+        Marcelo Tosatti <mtosatti@redhat.com>,
+        Frederic Weisbecker <frederic@kernel.org>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Nicholas Piggin <npiggin@gmail.com>,
+        Guo Ren <guoren@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>
+Subject: Re: [RFC PATCH 4/5] irq_work: Trace calls to arch_irq_work_raise()
+In-Reply-To: <20221008153442.159b2f2d@rorschach.local.home>
+References: <20221007154145.1877054-1-vschneid@redhat.com>
+ <20221007154533.1878285-4-vschneid@redhat.com>
+ <20221008153442.159b2f2d@rorschach.local.home>
+Date:   Tue, 11 Oct 2022 16:02:06 +0100
+Message-ID: <xhsmhlepmflox.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <83f292b8-0639-56b2-6dac-0475c34f623c@csgroup.eu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Content-Type: text/plain
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On 10/09/22 at 04:39pm, Christophe Leroy wrote:
-> 
-> 
-> Le 09/10/2022 à 12:31, Baoquan He a écrit :
-> > By taking GENERIC_IOREMAP method, the generic ioremap_prot() and
-> > iounmap() are visible and available to arch. Arch only needs to
-> > provide implementation of arch_ioremap() or arch_iounmap() if there's
-> > arch specific handling needed in its ioremap() or iounmap(). This
-> > change will simplify implementation by removing duplicated codes with
-> > generic ioremap() and iounmap(), and has the equivalent functioality.
-> > 
-> > For hexagon, the current ioremap() and iounmap() are the same as
-> > generic version. After taking GENERIC_IOREMAP way, the old ioremap()
-> > and iounmap() can be completely removed.
-> > 
-> > Signed-off-by: Baoquan He <bhe@redhat.com>
-> > Cc: Brian Cain <bcain@quicinc.com>
-> > Cc: Mark Brown <broonie@kernel.org>
-> > Cc: Linus Walleij <linus.walleij@linaro.org>
-> > Cc: linux-hexagon@vger.kernel.org
-> > ---
-> > v2->v3:
-> >    Rewrite patch log.
-> >    Put it at the beginning of patchset since it doesn't introduce new
-> >    arch_ioremap()/arch_iounmap().
-> > 
-> >   arch/hexagon/Kconfig          |  1 +
-> >   arch/hexagon/include/asm/io.h |  9 +++++--
-> >   arch/hexagon/mm/ioremap.c     | 44 -----------------------------------
-> >   3 files changed, 8 insertions(+), 46 deletions(-)
-> >   delete mode 100644 arch/hexagon/mm/ioremap.c
-> > 
-> > diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-> > index 54eadf265178..17afffde1a7f 100644
-> > --- a/arch/hexagon/Kconfig
-> > +++ b/arch/hexagon/Kconfig
-> > @@ -25,6 +25,7 @@ config HEXAGON
-> >   	select NEED_SG_DMA_LENGTH
-> >   	select NO_IOPORT_MAP
-> >   	select GENERIC_IOMAP
-> > +	select GENERIC_IOREMAP
-> >   	select GENERIC_SMP_IDLE_THREAD
-> >   	select STACKTRACE_SUPPORT
-> >   	select GENERIC_CLOCKEVENTS_BROADCAST
-> > diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
-> > index 46a099de85b7..dcd9cbbf5934 100644
-> > --- a/arch/hexagon/include/asm/io.h
-> > +++ b/arch/hexagon/include/asm/io.h
-> > @@ -170,8 +170,13 @@ static inline void writel(u32 data, volatile void __iomem *addr)
-> >   #define writew_relaxed __raw_writew
-> >   #define writel_relaxed __raw_writel
-> >   
-> > -void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
-> > -#define ioremap_uc(X, Y) ioremap((X), (Y))
-> > +/*
-> > + * I/O memory mapping functions.
-> > + */
-> > +#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_READ | _PAGE_WRITE | \
-> > +		       (__HEXAGON_C_DEV << 6))
-> > +
-> > +#define ioremap_uc(addr, size) ioremap((addr), (size))
-> 
-> Why do you need to change this macro ?
+On 08/10/22 15:34, Steven Rostedt wrote:
+> On Fri,  7 Oct 2022 16:45:32 +0100
+> Valentin Schneider <vschneid@redhat.com> wrote:
+>>  }
+>>  
+>> +static inline void irq_work_raise(void)
+>> +{
+>> +	if (arch_irq_work_has_interrupt())
+>> +		trace_ipi_send_cpu(_RET_IP_, smp_processor_id());
+>
+> To save on the branch, let's make the above:
+>
+> 	if (trace_ipi_send_cpu_enabled() && arch_irq_work_has_interrupt())
+>
+> As the "trace_*_enabled()" is a static branch that will make it a nop
+> when the tracepoint is not enabled.
+>
 
-I don't like the X, Y since they look meaningless. I can change back if
-you like the old one. Thanks for checking.
+Makes sense, thanks for the suggestion.
+
+> -- Steve
+>
+>
+>> +
+>> +	arch_irq_work_raise();
+>> +}
+>> +
+>>  /* Enqueue on current CPU, work must already be claimed and preempt disabled */
 
