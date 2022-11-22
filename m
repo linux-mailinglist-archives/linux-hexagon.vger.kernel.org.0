@@ -2,138 +2,97 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 98BF662FA8E
-	for <lists+linux-hexagon@lfdr.de>; Fri, 18 Nov 2022 17:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA23D633291
+	for <lists+linux-hexagon@lfdr.de>; Tue, 22 Nov 2022 03:03:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S242228AbiKRQnn (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 18 Nov 2022 11:43:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58204 "EHLO
+        id S232418AbiKVCDf (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 21 Nov 2022 21:03:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S242089AbiKRQnl (ORCPT
+        with ESMTP id S231788AbiKVCDe (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 18 Nov 2022 11:43:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0167B93719
-        for <linux-hexagon@vger.kernel.org>; Fri, 18 Nov 2022 08:42:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1668789760;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=iCeupirs0oRwfAYdrtKDNR33oxtw0kRHF9WhmcxURbs=;
-        b=is4sSZobXPguOsrAJb7JAyhMO5SpS8UcYWAE+R5d34fjCAKvqtZg6QBIcFoLw5h6mr3RCt
-        5EPAB+vTGhKztvDccZH+7yoUS2r4oeOVsIgMWRoR4f+xF1kMvXGjusdUOr+rokCcXgyAxz
-        YUK1G/bzc2+QiGQxJI9KYRjL7cpX4AI=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-lv6xBrKqNGOHQ2wgJEYvrQ-1; Fri, 18 Nov 2022 11:42:38 -0500
-X-MC-Unique: lv6xBrKqNGOHQ2wgJEYvrQ-1
-Received: by mail-ed1-f69.google.com with SMTP id w17-20020a056402269100b00461e28a75ccso3272130edd.8
-        for <linux-hexagon@vger.kernel.org>; Fri, 18 Nov 2022 08:42:38 -0800 (PST)
+        Mon, 21 Nov 2022 21:03:34 -0500
+Received: from mail-yw1-x1135.google.com (mail-yw1-x1135.google.com [IPv6:2607:f8b0:4864:20::1135])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99AFBC7213;
+        Mon, 21 Nov 2022 18:03:33 -0800 (PST)
+Received: by mail-yw1-x1135.google.com with SMTP id 00721157ae682-36cbcda2157so130672307b3.11;
+        Mon, 21 Nov 2022 18:03:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MZ0+4cnAIfX8CYYRaiH5tv4rfyf0U7kZyCR7bDyQ238=;
+        b=RJ+ecxNeq5OZaDvi87MRj0jKdDnKxJW6vlyOn6JrVyHunWT+N3e5eVwoeOSFQSeHZa
+         q9MyKsYrms9MjHtQN5ujcD00hNVidMOBEcxNNn6intEqcJjsO2re35O9qg4dW+81A0yr
+         NobhVUJdeN5vG0tJNtLeufzWfcUflEtcpqpv7chlvZ5JJsyTerUCzrd1duPQsMUDwedP
+         LidfeZR15y3SMMMXK9+ppwuoYRhZHnxVLApxkXydLfXko838yO9RIbvvbktmH0wky6v+
+         zPPW5QV+SoIcgzwmuEYuIQXrzgHUQaZ6M3V48gy8Lzc1RwbDJZnQKzjOpxoHLvnSn+fz
+         NEjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iCeupirs0oRwfAYdrtKDNR33oxtw0kRHF9WhmcxURbs=;
-        b=kZkihaRzBwy3SxX/mxCexu+RPfHwVkX7LEYBxC6htl2FDu2BUSXhzkG7DUueiLF1UE
-         yRPLw3vpLaAtEQkvAslQVgD8ZXC0JFFeJkUHPKQl9OO5vW9O7+35R4YdfWyOfGUi9l6A
-         zfpDmpv7gnWxkZ32jwmiQXXKsftrEcvCob7TMBxat2/f2qD2byFArN3ekzFa7SQL3Diz
-         i+kx7wOsJ/hUEpf9ynXaT479jTuJ/TefSGEabL5r7M6sBaRV35j7oQdPbIyzCoFytaZG
-         zipjTMZHyV2JKVwti2dYzrS3DvdsWLoXACxscI7TQOm/QJTFyqDkFjlgKy9mLkCS+dt8
-         VnPA==
-X-Gm-Message-State: ANoB5pk9tplSQglbhOLUSsXwGUCUX5NxAqavnFbaSlTDsSr64ZC1Ot4W
-        R71Zjm2woBmpiI0dfsLFlAZeURPsON/AfRTOs3dEdISN1Omag7CYMjDoLVspPtEsAkFbYa1uTuf
-        igm1dBFSX33ORHedd+pg9NAmd3A==
-X-Received: by 2002:aa7:d4cf:0:b0:461:a9ce:5408 with SMTP id t15-20020aa7d4cf000000b00461a9ce5408mr6997403edr.201.1668789757505;
-        Fri, 18 Nov 2022 08:42:37 -0800 (PST)
-X-Google-Smtp-Source: AA0mqf5TaV9WywAgyEkJUjIKk83rbFXBQR8khfDHnlKNNSiUU8k8aohx0CjQn5lly7hEq5+W3BWrVw==
-X-Received: by 2002:aa7:d4cf:0:b0:461:a9ce:5408 with SMTP id t15-20020aa7d4cf000000b00461a9ce5408mr6997376edr.201.1668789757207;
-        Fri, 18 Nov 2022 08:42:37 -0800 (PST)
-Received: from [192.168.0.46] (host-95-248-159-81.retail.telecomitalia.it. [95.248.159.81])
-        by smtp.gmail.com with ESMTPSA id b10-20020a1709063caa00b0073d83f80b05sm1912134ejh.94.2022.11.18.08.42.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Nov 2022 08:42:36 -0800 (PST)
-Message-ID: <1ab5082c-bec5-53f2-501b-f15f7e8edbd9@redhat.com>
-Date:   Fri, 18 Nov 2022 17:42:34 +0100
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MZ0+4cnAIfX8CYYRaiH5tv4rfyf0U7kZyCR7bDyQ238=;
+        b=3MIKYwg1Cr8texsqOXKrZhy0zVY6DLfvj0uvGUtXpphZ0Syd2UZypOnfaeelopsM44
+         VB0pCBP54kU7i5oyayD+bzh81RZugQXdNQ8/qMuiDQlXfF4kgghq36JxNlN5OwY0EFSm
+         gEzfLg71/I/x7E4oHeqEbNGgdQ0kIFIO7tz8y3W29IKY2tpXmlKYUJS7n5Zq0I96rMAq
+         h/J0jcP5l88ng2hg1l+Q3NBL6ZhAY7kTu7MtB3cPvYyiyluQKq9gCtqJqitculO6B0lI
+         4r2PDitXHScolkSM7AJOYu+48nJCmZRo8r7azBM4uLdISoiCvSXVGwTU1LhNNMXE/Kke
+         0Xfg==
+X-Gm-Message-State: ANoB5pnaIi4Cc+h5roMQv3pAZ3oag9ZDpgj4VymXhRYKHjs/+swpprR9
+        +TjBbUuCSC7eXZRHKCWB4BPnEtWcoUDQalK2XdyFmo6IIr9FbA==
+X-Google-Smtp-Source: AA0mqf5WTEPcR1uyF8Gei17thsBbEMzCy12Xx8sABUso05SpPDnwmB8i02rN6v+5a/2gnxiJ6HqrYFpqcaJF98ZDpGg=
+X-Received: by 2002:a05:690c:691:b0:391:c586:65ce with SMTP id
+ bp17-20020a05690c069100b00391c58665cemr2439803ywb.65.1669082612716; Mon, 21
+ Nov 2022 18:03:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.1
-Subject: Re: [RFC PATCH v2 8/8] sched, smp: Trace smp callback causing an IPI
-To:     Peter Zijlstra <peterz@infradead.org>,
-        Valentin Schneider <vschneid@redhat.com>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Guo Ren <guoren@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-References: <20221102182949.3119584-1-vschneid@redhat.com>
- <20221102183336.3120536-7-vschneid@redhat.com>
- <Y3ZBUMteJysc1/lA@hirez.programming.kicks-ass.net>
- <xhsmhfsehy706.mognet@vschneid.remote.csb>
- <Y3dMiyFn6TG1s5g3@hirez.programming.kicks-ass.net>
-Content-Language: en-US
-From:   Daniel Bristot de Oliveira <bristot@redhat.com>
-In-Reply-To: <Y3dMiyFn6TG1s5g3@hirez.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Received: by 2002:a25:9f88:0:0:0:0:0 with HTTP; Mon, 21 Nov 2022 18:03:32
+ -0800 (PST)
+From:   Felipe Bedetti <felipebedetticosta@gmail.com>
+Date:   Mon, 21 Nov 2022 23:03:32 -0300
+Message-ID: <CAFO8usxTRUKjioUXk7thEhocooQkAbfUiyF9=Ari+bYcfCaxYg@mail.gmail.com>
+Subject: Fw:Norah Colly
+To:     linux fsdevel <linux-fsdevel@vger.kernel.org>,
+        linux geode <linux-geode@lists.infradead.org>,
+        linux hams <linux-hams@vger.kernel.org>,
+        linux hexagon <linux-hexagon@vger.kernel.org>,
+        linux hippi <linux-hippi@sunsite.dk>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=5.5 required=5.0 tests=BAYES_50,BODY_SINGLE_URI,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SHORT_SHORTNER,SPF_HELO_NONE,SPF_PASS,
+        SUSPICIOUS_RECIPS,TVD_SPACE_RATIO,T_PDS_SHORTFWD_URISHRT_FP
+        autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:1135 listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5000]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  2.5 SUSPICIOUS_RECIPS Similar addresses in recipient list
+        * -0.0 SPF_PASS SPF: sender matches SPF record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [felipebedetticosta[at]gmail.com]
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.0 TVD_SPACE_RATIO No description available.
+        *  0.0 T_PDS_SHORTFWD_URISHRT_FP Apparently a short fwd/re with URI
+        *      shortener
+        *  1.6 SHORT_SHORTNER Short body with little more than a link to a
+        *      shortener
+        *  0.7 BODY_SINGLE_URI Message body is only a URI
+X-Spam-Level: *****
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On 11/18/22 10:12, Peter Zijlstra wrote:
-> On Thu, Nov 17, 2022 at 02:45:29PM +0000, Valentin Schneider wrote:
-> 
->>> +	if (trace_ipi_send_cpumask_enabled()) {
->>> +		call_single_data_t *csd;
->>> +		smp_call_func_t func;
->>> +
->>> +		csd = container_of(node, call_single_data_t, node.llist);
->>> +
->>> +		func = sched_ttwu_pending;
->>> +		if (CSD_TYPE(csd) != CSD_TYPE_TTWU)
->>> +			func = csd->func;
->>> +
->>> +		if (raw_smp_call_single_queue(cpu, node))
->>> +			trace_ipi_send_cpumask(cpumask_of(cpu), _RET_IP_, func);
->> So I went with the tracepoint being placed *before* the actual IPI gets
->> sent to have a somewhat sane ordering between trace_ipi_send_cpumask() and
->> e.g. trace_call_function_single_entry().
->>
->> Packaging the call_single_queue logic makes the code less horrible, but it
->> does mix up the event ordering...
-> Keeps em sharp ;-)
-> 
-
-Having the trace before the IPI avoids the (non ideal) case where the trace stops because of
-an IPI execution before we have trace about who sent it... :-(.
-
--- Daniel
-
+https://bit.ly/3gkfct7
