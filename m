@@ -2,44 +2,44 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F2EA6666D23
-	for <lists+linux-hexagon@lfdr.de>; Thu, 12 Jan 2023 09:57:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 899A7666D47
+	for <lists+linux-hexagon@lfdr.de>; Thu, 12 Jan 2023 10:01:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239874AbjALI54 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 12 Jan 2023 03:57:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47516 "EHLO
+        id S239802AbjALJBZ (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 12 Jan 2023 04:01:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51154 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S239895AbjALI45 (ORCPT
+        with ESMTP id S239823AbjALJAj (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 12 Jan 2023 03:56:57 -0500
-Received: from mail.glencoeaur.com (mail.glencoeaur.com [217.61.97.113])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1ED050E51
-        for <linux-hexagon@vger.kernel.org>; Thu, 12 Jan 2023 00:54:57 -0800 (PST)
-Received: by mail.glencoeaur.com (Postfix, from userid 1001)
-        id 02888821B3; Thu, 12 Jan 2023 08:35:54 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=glencoeaur.com;
-        s=mail; t=1673512569;
-        bh=2S0GQFScndXkBEK4sqdoOhOYLqsB2sEH8Q5XQfVvKpo=;
+        Thu, 12 Jan 2023 04:00:39 -0500
+Received: from mail.concretestylevix.com (mail.concretestylevix.com [135.125.203.239])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 511B4A47D
+        for <linux-hexagon@vger.kernel.org>; Thu, 12 Jan 2023 00:56:33 -0800 (PST)
+Received: by mail.concretestylevix.com (Postfix, from userid 1002)
+        id 80226A277E; Thu, 12 Jan 2023 08:56:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=concretestylevix.com;
+        s=mail; t=1673513782;
+        bh=9+GiO2Umo6CVvbu8wWH/yPwLxC2Vm5LaOIyJtGJtnMw=;
         h=Date:From:To:Subject:From;
-        b=T76bJTsE1kDqMEWDfzlX9PpnD5/MxNmYdCTIymlY0Wn4iQ9n0MnJR2e4k9kR3oEKY
-         GsVuPRpsyn4vddaKWXntmQYonBm3xigWHw0I+YHPxXwyK31mhQiHAwRqcXnVLmRfct
-         uBRIKI/d9usgdmLT6FhYu0vwDdYJO23L13XdqttNBR7msBz+iW59alR2eOGRaXZwzf
-         Ttxstb0dR/goEjx6OrNRxBnhRk5Ke6B5+23vFr/Nw4CG/Z2PHo58GO+EKpz9ZYWogz
-         mmE47HhOG6LD4aLpMXxPJRTGsue7Sqz3MfcQGVeosu6sOaj3DsJqfE+J8cAPmR57YI
-         s6lAQis/6tstA==
-Received: by mail.glencoeaur.com for <linux-hexagon@vger.kernel.org>; Thu, 12 Jan 2023 08:35:33 GMT
-Message-ID: <20230112074500-0.1.z.3g0c.0.cii5kq45yi@glencoeaur.com>
-Date:   Thu, 12 Jan 2023 08:35:33 GMT
-From:   "Zbynek Spacek" <zbynek.spacek@glencoeaur.com>
+        b=Vz9fcQaC8pAqc15+akvaVHGt3F3vhputXwDMBDG0whQMZT1+UJW9Dmy/pBiZ3615a
+         Au6lteTnYiQV0U8sIPzP+AG+cEGDrBEcQ/Kcs1iv08r/84Dc3wuoTjYlxxmEzd1WRU
+         9G9AGoifJ508D/NjrDm30jAb22V4qHKURapn2pAspJF//5yvKyFeQ0wUCaTFgqEdlw
+         sywUlQP/+y/PUedb8gpYoayHi3WKLABh01zjbLQN1UOIkqb4g1juv9iscs0aF5coZp
+         IuzoQGGVgiclJIPNZ2/7EMb0RSvIRBydgYerBpfh78cuPUPhuF2z6cdFRV6hA4a74x
+         RC+8S27jpSjnA==
+Received: by mail.concretestylevix.com for <linux-hexagon@vger.kernel.org>; Thu, 12 Jan 2023 08:56:09 GMT
+Message-ID: <20230112074500-0.1.4w.lp4y.0.51k2lmhiwx@concretestylevix.com>
+Date:   Thu, 12 Jan 2023 08:56:09 GMT
+From:   "Aidan Wallace" <aidan.wallace@concretestylevix.com>
 To:     <linux-hexagon@vger.kernel.org>
-Subject: Silikonmischungen
-X-Mailer: mail.glencoeaur.com
+Subject: Aluminum die casting technology
+X-Mailer: mail.concretestylevix.com
 MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.2 required=5.0 tests=BAYES_20,DKIM_SIGNED,
+X-Spam-Status: No, score=0.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -48,22 +48,20 @@ X-Mailing-List: linux-hexagon@vger.kernel.org
 
 Good morning,
 
-do you need intermediates for processing, plastics (e.g. rubber) or silic=
-one mixtures?
+we provide the technology of aluminum die casting.
 
-We provide a wide range of silicone rubbers with various properties, sili=
-cone mixtures from renowned manufacturers such as Wacker, Elastosil LR an=
-d dyes, stabilizers, primers and anti-adhesive additives.
+We have production plants located in Poland, Germany and Slovakia with th=
+e possibility of flexible shifting of production between locations.
 
-We also produce technical silicone compounds with increased resistance to=
- oils, resistant to high temperatures and water vapor, conductive and man=
-y more.
+Our casting cells are mostly automatic or semi-automatic, which allows th=
+e production of large production runs with high flexibility of details in=
+ the areas from 50 to 3000g.
+=20
+We have been trusted by many reputable clients, including BOSH, Daimler, =
+ZF, Rockwell Automation. We provide support at every stage of project dev=
+elopment, we develop the structure of the detail.
 
-We provide fast order fulfillment, timely deliveries and cost optimizatio=
-n.
+Would you like to talk about cooperation in this area?
 
-Can I introduce what we can offer you?
-
-
-Best regards
-Zbynek Spacek
+Regards
+Aidan Wallace
