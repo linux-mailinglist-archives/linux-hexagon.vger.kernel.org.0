@@ -2,78 +2,101 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 91C7A668BCD
-	for <lists+linux-hexagon@lfdr.de>; Fri, 13 Jan 2023 06:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8841E669A38
+	for <lists+linux-hexagon@lfdr.de>; Fri, 13 Jan 2023 15:32:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240408AbjAMFxI (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 13 Jan 2023 00:53:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45896 "EHLO
+        id S229571AbjAMObh (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 13 Jan 2023 09:31:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233405AbjAMFv7 (ORCPT
+        with ESMTP id S229596AbjAMOau (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 13 Jan 2023 00:51:59 -0500
-X-Greylist: delayed 345 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Jan 2023 21:51:46 PST
-Received: from mp-relay-02.fibernetics.ca (mp-relay-02.fibernetics.ca [208.85.217.137])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24221216;
-        Thu, 12 Jan 2023 21:51:46 -0800 (PST)
-Received: from mailpool-fe-01.fibernetics.ca (mailpool-fe-01.fibernetics.ca [208.85.217.144])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mp-relay-02.fibernetics.ca (Postfix) with ESMTPS id 1738270E5B;
-        Fri, 13 Jan 2023 05:46:00 +0000 (UTC)
-Received: from localhost (mailpool-mx-01.fibernetics.ca [208.85.217.140])
-        by mailpool-fe-01.fibernetics.ca (Postfix) with ESMTP id CFE0826892;
-        Fri, 13 Jan 2023 05:45:59 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at 
-X-Spam-Score: 3.651
-X-Spam-Level: ******
-X-Spam-Status: Yes, score=6.3 required=5.0 tests=BAYES_99,
-        FREEMAIL_FORGED_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,SPF_HELO_NONE,
-        SPF_PASS,SUBJ_ALL_CAPS autolearn=no autolearn_force=no version=3.4.6
-Received: from mailpool-fe-01.fibernetics.ca ([208.85.217.144])
-        by localhost (mail-mx-01.fibernetics.ca [208.85.217.140]) (amavisd-new, port 10024)
-        with ESMTP id 5nKEStyxmCAA; Fri, 13 Jan 2023 05:45:59 +0000 (UTC)
-Received: from localhost (unknown [208.85.220.72])
-        by mail.ca.inter.net (Postfix) with ESMTP id 2C31E2688E;
-        Fri, 13 Jan 2023 05:45:58 +0000 (UTC)
-Received: from reverse.rain.network (reverse.rain.network [197.184.176.8])
- by webmail.ca.inter.net (Horde Framework) with HTTP; Fri, 13 Jan 2023
- 00:45:57 -0500
-Message-ID: <20230113004557.1776655zih3sj09h@webmail.ca.inter.net>
-Date:   Fri, 13 Jan 2023 00:45:57 -0500
-From:   INFO <boothg@istar.ca>
-Reply-to: s.g0392440821@gmail.com
-To:     undisclosed-recipients:;
-Subject: IST DIESE E-MAIL AKTIV?
+        Fri, 13 Jan 2023 09:30:50 -0500
+Received: from mail-il1-x12d.google.com (mail-il1-x12d.google.com [IPv6:2607:f8b0:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5942584BCB
+        for <linux-hexagon@vger.kernel.org>; Fri, 13 Jan 2023 06:23:56 -0800 (PST)
+Received: by mail-il1-x12d.google.com with SMTP id f8so4761389ilj.5
+        for <linux-hexagon@vger.kernel.org>; Fri, 13 Jan 2023 06:23:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+OF3VMKCJX/ixRNA7KETCaEsWyEBkIDVOlKWye/O0OA=;
+        b=JojvgH8XT/5W3Z19zz/xJpsK+UtUfuLOajrP2bUiE0PZHJLaHxyVoS/gdwZ4j1nINn
+         NAhLjtRw5JWhWpQP6cjr/K+IqEq6cG/swjHmgKkU8/bzhvwyjyHr6pxRihWxyvWQ7jH/
+         ycXHQba8H8CGw08mZc2lRnHbsatDyaP7XSi3luhnXRDyANgc7SfZsYR/2kBx67sDkelt
+         N009oKtaqxMaVcV5I8bJGY2a5+MgMpNdeDc6P09VU6v2oJr8B0zV2O/YER8mJLD4Mn1g
+         U9CLRknFXD87iaVRlJkboh6IHCCrAxvZm9BuL/cccG7OGvOaJ6fm9314ARdKvJNPjG9a
+         t4ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+OF3VMKCJX/ixRNA7KETCaEsWyEBkIDVOlKWye/O0OA=;
+        b=bMVhEUWpjU3UeBaFfUaoHvzUqqnyGKDx1LkGdw+bGqYJ5Yq06MTG4rHPmkZykyNDSI
+         S0F3eE7lnDZQvNzvt7emwfakZHKXrx2KtqED464GFWUF8fOFRBPWBbhCoR4svkPwwiod
+         0hRumgppbsJANf/6jF8B09Lf0N+7gWTasg2+RjF/JEOKDnhAGnH1Ci0zj+3PhL/YDMlM
+         P8V2DD5rUrXZ8Z1r33tiYlgQ9yeAEkTYOj/jWlLB8m2vzmtuG6x4J8ndSJZsHCvuiJM0
+         s2S86+l8sZnBGtUIntbs0J/fQ2Q71HQyqL7on/jHdkEW6aMfFUDmyPVBjmKRqy7swa5W
+         N9tg==
+X-Gm-Message-State: AFqh2kpjy6BLGWsPPg1BTM3KvIOxLuv4WRbckPlP7LuIRb+BLRD4Ni8U
+        IYDWR7khxHZnGZkQmNVmw0C2BIiRmO9sLbypRMg=
+X-Google-Smtp-Source: AMrXdXszWXnZUU3mDwuG0prmaP86rTFSkz0+fra775veb5Y7HNHpZxCjxPfSPiWnLxbY0i6yMoRbzmb1JvPTG9uROSM=
+X-Received: by 2002:a92:3601:0:b0:30e:e57f:b106 with SMTP id
+ d1-20020a923601000000b0030ee57fb106mr115968ila.304.1673619835751; Fri, 13 Jan
+ 2023 06:23:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=ISO-8859-1;
- DelSp="Yes";
- format="flowed"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-User-Agent: Internet Messaging Program (IMP) H3 (4.3.7)
-X-Originating-User-Info: boothg@istar.ca 208.85.219.96
-X-Spam-Report: *  3.5 BAYES_99 BODY: Bayes spam probability is 99 to 100%
-        *      [score: 0.9984]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+Received: by 2002:a05:6e02:1282:b0:30d:c36b:403c with HTTP; Fri, 13 Jan 2023
+ 06:23:55 -0800 (PST)
+Reply-To: hitnodeby23@yahoo.com
+From:   Hinda Itno Deby <atidigahcyril@gmail.com>
+Date:   Fri, 13 Jan 2023 06:23:55 -0800
+Message-ID: <CALHvQ-jffHwgwQxY7MVBOpZpcQX1hUnBOishkcFBMPm+SMZxqA@mail.gmail.com>
+Subject: Reply
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: Yes, score=7.8 required=5.0 tests=BAYES_50,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,FREEMAIL_REPLYTO,
+        FREEMAIL_REPLYTO_END_DIGIT,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
+        UNDISC_FREEM,UNDISC_MONEY,URG_BIZ autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Report: * -0.0 RCVD_IN_DNSWL_NONE RBL: Sender listed at
+        *      https://www.dnswl.org/, no trust
+        *      [2607:f8b0:4864:20:0:0:0:12d listed in]
+        [list.dnswl.org]
+        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
+        *      [score: 0.5029]
+        * -0.0 SPF_PASS SPF: sender matches SPF record
         *  0.2 FREEMAIL_REPLYTO_END_DIGIT Reply-To freemail username ends in
         *      digit
-        *      [s.g0392440821[at]gmail.com]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.5 SUBJ_ALL_CAPS Subject is all capitals
-        *  2.1 FREEMAIL_FORGED_REPLYTO Freemail in Reply-To, but not From
+        *      [hitnodeby23[at]yahoo.com]
+        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
+        *  0.0 FREEMAIL_FROM Sender email is commonly abused enduser mail
+        *      provider
+        *      [atidigahcyril[at]gmail.com]
+        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
+        *      author's domain
+        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
+        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
+        *       valid
+        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
+        *      envelope-from domain
+        *  0.6 URG_BIZ Contains urgent matter
+        *  2.7 UNDISC_FREEM Undisclosed recipients + freemail reply-to
+        *  1.0 FREEMAIL_REPLYTO Reply-To/From or Reply-To/body contain
+        *      different freemails
+        *  2.7 UNDISC_MONEY Undisclosed recipients + money/fraud signs
+X-Spam-Level: *******
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
+-- 
+My name is Hinda Itno Deby Please I want us to discuss Urgent Business
+Proposal, if you are interested kindly reply to me so i can give you
+all the details.
 
-
-Sehr geehrter E-Mail-Begünstigter, Sie wurden für eine Spende in Höhe  
-von 3.500.000,00 ? ausgewählt. Wenden Sie sich an diese  
-E-Mail-Adresse: s.g0392440821@gmail.com, um weitere Informationen zum  
-Erhalt Ihrer Spende zu erhalten. Vielen Dank
-
+Thanks and God Bless You.
+Ms Hinda Itno Deby
