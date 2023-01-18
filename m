@@ -2,100 +2,187 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BDF2C671773
-	for <lists+linux-hexagon@lfdr.de>; Wed, 18 Jan 2023 10:24:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A93F672163
+	for <lists+linux-hexagon@lfdr.de>; Wed, 18 Jan 2023 16:35:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229642AbjARJX7 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 18 Jan 2023 04:23:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45710 "EHLO
+        id S230488AbjARPfx (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 18 Jan 2023 10:35:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229597AbjARJVf (ORCPT
+        with ESMTP id S230320AbjARPfu (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 18 Jan 2023 04:21:35 -0500
-Received: from mail.bostmarktrun.com (mail.bostmarktrun.com [135.125.238.46])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71B05611D5
-        for <linux-hexagon@vger.kernel.org>; Wed, 18 Jan 2023 00:46:13 -0800 (PST)
-Received: by mail.bostmarktrun.com (Postfix, from userid 1002)
-        id 333E4A27F7; Wed, 18 Jan 2023 08:45:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=bostmarktrun.com;
-        s=mail; t=1674031572;
-        bh=gfWmJwOZk+B/IN1TMPg7emKhIvoExrJdUiyEL8yd2Jk=;
-        h=Date:From:To:Subject:From;
-        b=F6mmsb3LVc1IQLVtVRFdQzYjLLRMNpGVokRDZdEfWFC32qFO+ggGYbApjOdAdHTip
-         y8LruHO9F5S8YUz4TQfdw3/rStwkADdAWFGpvw6/+Og9VP5XfNYmihbOrVVBoY9HrN
-         V0rkpjIogg9tbIiKW8O6r1vawLu5/u8t+MZBK2Y2QKBxII20M6/ojKYn8MdzLxwEv5
-         v2JR3k6CDBegfVz1cnRjsSCVQUvSRmIySaV0er0KkSTLreeP/6E+VtYBXhJfiBhuwA
-         JViH7w6OP2QTMq6J22nDpmL8UeNXLhsKtRDecfPRVXSqlqFhvK/NazCtrva3yJRQs7
-         wHEkiJm67BxJw==
-Received: by mail.bostmarktrun.com for <linux-hexagon@vger.kernel.org>; Wed, 18 Jan 2023 08:45:33 GMT
-Message-ID: <20230118074500-0.1.4p.wrhj.0.nxqq7cw12k@bostmarktrun.com>
-Date:   Wed, 18 Jan 2023 08:45:33 GMT
-From:   "Corey Webb" <corey.webb@bostmarktrun.com>
-To:     <linux-hexagon@vger.kernel.org>
-Subject: Custom Software Development
-X-Mailer: mail.bostmarktrun.com
+        Wed, 18 Jan 2023 10:35:50 -0500
+Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 869F211EA3;
+        Wed, 18 Jan 2023 07:35:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1674056149; x=1705592149;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=V+7w/6DVh6oOTj/5Q6BI82PHATnPnRgB/JN4Ard83Dk=;
+  b=Gz57egnTY6YYvqlojEwpjGrMBhV4JoVeqKWN6u8gYUt037QbG2cfm5L4
+   GnscKpY2cJlEC+u0BFtiv5lTlyH05XcpZeIGFBtX3mWP5QgiAVrijE7H0
+   yBRkLQsBmy7y396IZuGRu0Qz/89PlSDT9PHKJDoYna47pdBzTi3aL6KQH
+   HdQPVFUsdVwDoKmTwZ/gHuwg55DllH6h8lTEFSJgyQIbrji8tBzrmVZEm
+   lVQ2QCb8uEJvcp1+GlGS5aOJzQ/OYg+65HXarOgZbUt92144zIdo6oq66
+   MsPYvODbjMjuNlfX8veHhn4BA77mS/+JPU13yj6/ufzu5hdD/ElZyMC83
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="305381646"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="305381646"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 07:35:47 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="833614590"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
+   d="scan'208";a="833614590"
+Received: from lab-ah.igk.intel.com ([10.102.42.211])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Jan 2023 07:35:41 -0800
+From:   Andrzej Hajda <andrzej.hajda@intel.com>
+To:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org
+Cc:     Andrzej Hajda <andrzej.hajda@intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Mark Rutland <mark.rutland@arm.com>
+Subject: [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
+Date:   Wed, 18 Jan 2023 16:35:22 +0100
+Message-Id: <20230118153529.57695-1-andrzej.hajda@intel.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS,URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: bostmarktrun.com]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [135.125.238.46 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: bostmarktrun.com]
-        *  0.8 BAYES_50 BODY: Bayes spam probability is 40 to 60%
-        *      [score: 0.5000]
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-X-Spam-Level: ******
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298 Gdansk - KRS 101882 - NIP 957-07-52-316
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi,=20
+Hi all,
 
-I would like to reach the person responsible for the implementation of yo=
-ur company's goals, vision and mission or the decision-maker in the devel=
-opment of your technology strategy.
+The helper is tiny and there are advices we can live without it, so
+I want to present few arguments why it would be good to have it:
 
-I represent provider of lucrative IT solutions that remove the barriers t=
-o process development resulting from limited access to appropriate IT res=
-ources.
+1. Code readability/simplification/number of lines:
+  - decreases number of lines,
+  - it often eliminates local variables,
+  - for real examples see patches 3+.
 
-We guarantee you access to the knowledge and experience of outstanding 3,=
-000 software developers from Poland and 500 professional consultants and =
-senior developers in the United States and other Western countries. =20
+2. Presence of similar helpers in other somehow related languages/libs:
 
-We respond to a variety of needs, ranging from expanding your project tea=
-m with specialists with specific skills to supporting project managers, e=
-xperienced innovation teams to creating a Minimum Viable Project (MVP).
+a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+    helper (__xchg(&x, 0)), which is the same as private helper in
+    i915 - fetch_and_zero, see latest patch.
+b) C++ [2]: 'exchange' from utility header.
 
-The comprehensiveness of our services guarantees you dynamic software dev=
-elopment including creation, testing and implementation systems that are =
-the backbone of effective management of the entire organization.
+If the idea is OK there are still 2 questions to answer:
 
-A partnership that lasts for years is the best proof that our clients mee=
-t their unique requirements within a specific timeframe, introduce new op=
-portunities and grow their business while we solve their problems.
+1. Name of the helper, __xchg follows kernel conventions,
+    but for me Rust names are also OK.
+2. Where to put the helper:
+a) as in this patchset include/linux/non-atomic/xchg.h,
+    proposed by Andy Shevchenko,
+b) include/linux/utils.h ? any better name? Some kind
+    of container for simple helpers.
 
-Are you available for a brief call? I will be looking forward to hearing =
-from you.
+All __xchg conversions were performed using cocci script,
+then manually adjusted if necessary.
 
+There is lot of places it can be used in, I have just chosen
+some of them. I can provide cocci script to detect others (not all),
+if necessary.
 
-Best regards
-Corey Webb
+Changes:
+v2: squashed all __xchg -> __arch_xchg t one patch (Arnd)
+v3: fixed alpha/xchg_local (lkp@intel.com)
+v4: adjusted indentation (Heiko)
+v5: added more __xchg conversions - patches 3-6, added tags
+
+[1]: https://doc.rust-lang.org/std/mem/index.html
+[2]: https://en.cppreference.com/w/cpp/header/utility
+
+Regards
+Andrzej
+
+Andrzej Hajda (7):
+  arch: rename all internal names __xchg to __arch_xchg
+  linux/include: add non-atomic version of xchg
+  arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
+  llist: simplify __llist_del_all
+  io_uring: use __xchg if possible
+  qed: use __xchg if possible
+  drm/i915/gt: use __xchg instead of internal helper
+
+ arch/alpha/include/asm/cmpxchg.h              | 10 +++++-----
+ arch/arc/include/asm/cmpxchg.h                |  4 ++--
+ arch/arm/include/asm/cmpxchg.h                |  7 ++++---
+ arch/arm/probes/uprobes/core.c                |  8 ++------
+ arch/arm64/include/asm/cmpxchg.h              |  7 +++----
+ arch/arm64/kernel/probes/uprobes.c            |  9 ++-------
+ arch/csky/kernel/probes/uprobes.c             |  9 ++-------
+ arch/hexagon/include/asm/cmpxchg.h            | 10 +++++-----
+ arch/ia64/include/asm/cmpxchg.h               |  2 +-
+ arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
+ arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
+ arch/m68k/include/asm/cmpxchg.h               |  6 +++---
+ arch/mips/include/asm/cmpxchg.h               |  4 ++--
+ arch/mips/kernel/uprobes.c                    | 10 ++--------
+ arch/openrisc/include/asm/cmpxchg.h           | 10 +++++-----
+ arch/parisc/include/asm/cmpxchg.h             |  4 ++--
+ arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
+ arch/powerpc/kernel/uprobes.c                 | 10 ++--------
+ arch/riscv/include/asm/atomic.h               |  2 +-
+ arch/riscv/include/asm/cmpxchg.h              |  4 ++--
+ arch/riscv/kernel/probes/uprobes.c            |  9 ++-------
+ arch/s390/include/asm/cmpxchg.h               |  8 ++++----
+ arch/s390/kernel/uprobes.c                    |  7 ++-----
+ arch/sh/include/asm/cmpxchg.h                 |  4 ++--
+ arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
+ arch/sparc/include/asm/cmpxchg_64.h           |  6 +++---
+ arch/sparc/kernel/uprobes.c                   |  7 ++-----
+ arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+ .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
+ .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
+ drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+ drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
+ drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
+ drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
+ .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
+ drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
+ drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
+ drivers/gpu/drm/i915/i915_utils.h             |  1 +
+ include/linux/llist.h                         |  6 ++----
+ include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
+ include/linux/qed/qed_chain.h                 | 19 +++++++------------
+ io_uring/io_uring.c                           |  7 ++-----
+ io_uring/slist.h                              |  6 ++----
+ 51 files changed, 126 insertions(+), 155 deletions(-)
+ create mode 100644 include/linux/non-atomic/xchg.h
+
+-- 
+2.34.1
+
