@@ -2,68 +2,68 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F743689BC4
+	by mail.lfdr.de (Postfix) with ESMTP id CAFAB689BC5
 	for <lists+linux-hexagon@lfdr.de>; Fri,  3 Feb 2023 15:33:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232667AbjBCOcO (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 3 Feb 2023 09:32:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47458 "EHLO
+        id S233326AbjBCOc6 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 3 Feb 2023 09:32:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232124AbjBCOcH (ORCPT
+        with ESMTP id S233013AbjBCOcv (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 3 Feb 2023 09:32:07 -0500
+        Fri, 3 Feb 2023 09:32:51 -0500
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A83FA2A5A
-        for <linux-hexagon@vger.kernel.org>; Fri,  3 Feb 2023 06:31:17 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F98A4293
+        for <linux-hexagon@vger.kernel.org>; Fri,  3 Feb 2023 06:31:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1675434676;
+        s=mimecast20190719; t=1675434697;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=bBuUxRqwVpT90qSSvu23sLwWbKqZ02KC/SRu5tcTWNA=;
-        b=KoCvTALGset8w6k1Si6CZ6l/74I0+l5J/fxz9/c71cc6sQogROtaYrOAQo01YgoYvBfzrC
-        q/3LKjhGqMHX5kY8yrNk80Qy/RpbK+qE8oRrud0H8y+CB6t5xX/mDDkf3Jcvz8Ofnv+gqE
-        Zxtn52h1d7tdsFFEMfyeGja/aYjxP64=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+        bh=/decAsXzWzOr1Fn5getBDCGr7TKXQO+f4q0N0MxWErI=;
+        b=A2t109/yTXLOQ7tcfcBaBddd5w1h6mW4obqM9xZpsk3Fd0BvOmYoaCX+eWZTACR2DBxVuy
+        h5agvau6d5Em5bsbT2t3iqSNJmfy6uxTGWYdlt9hUiHPzzYUIqHBL6Yg8roAqxoTfpeooF
+        1e9s/f9jpVKdbUh5paPBhSIYtL+LbtA=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-384-xNPNQiXXNX2Bbnhr6QOu_g-1; Fri, 03 Feb 2023 09:31:15 -0500
-X-MC-Unique: xNPNQiXXNX2Bbnhr6QOu_g-1
-Received: by mail-wm1-f72.google.com with SMTP id o5-20020a05600c4fc500b003db0b3230efso4686464wmq.9
-        for <linux-hexagon@vger.kernel.org>; Fri, 03 Feb 2023 06:31:14 -0800 (PST)
+ us-mta-486-e3HUXPPhMGyIE09htUSh7Q-1; Fri, 03 Feb 2023 09:31:36 -0500
+X-MC-Unique: e3HUXPPhMGyIE09htUSh7Q-1
+Received: by mail-wr1-f70.google.com with SMTP id q18-20020adff512000000b002bfc49c299dso709230wro.5
+        for <linux-hexagon@vger.kernel.org>; Fri, 03 Feb 2023 06:31:36 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=content-transfer-encoding:in-reply-to:organization:from:references
          :cc:to:content-language:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bBuUxRqwVpT90qSSvu23sLwWbKqZ02KC/SRu5tcTWNA=;
-        b=fOOrSU8iCLgoBaKGrIzmfTgc54V96giBo0CDOXbThvvjaK1XJAUWSrEORAafTEl7t7
-         zwHZuGiktXB2FiqamqJR+Rd8B9cCmoi1JfwGjtfPYlcNrzr9bvsa7h0w5Os2nW/3FEpV
-         j0g3kNzdhPSm7Y353CEgvhLmX7Xcqs1f3Uj0zpgO3kLiCcTHO+SSAf1j1goqjWK5GAB6
-         Ov64nMcDSgNQ1bKhrvlRsR2aj/N2AFUOfdiYYRPMT0dhqfuFZiUd+J6gd909tGKQersc
-         eAghbF+b6hMbmyuJuRjdZ11CilqcWFbWwEOxTbARt2pPQVK0RWPlejJRH/LMTTlK4JSm
-         frgA==
-X-Gm-Message-State: AO0yUKV+K/OKNlzaom6iJKfIxy/Sou0vgiiWcygFSOdJrHFkHHwNqVJq
-        SuZxE0F1RHXvfGnfqGeRN+McW1xH+jd59dH5DxlFeWOTKO1ukgz968BpD5UCFHLdAXi3/ZGd0lp
-        QYrkti4r8OX/vJiIQXERUwWHnFw==
-X-Received: by 2002:a05:600c:4707:b0:3df:e6bb:768 with SMTP id v7-20020a05600c470700b003dfe6bb0768mr2347078wmo.24.1675434673740;
-        Fri, 03 Feb 2023 06:31:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set8jlKBL+3VH/Q/zFxtw4x3QAOrg1CgHYVk1aVg00PiHMhqeIMC/qbmUMqYVh9aDbNcRdczHvA==
-X-Received: by 2002:a05:600c:4707:b0:3df:e6bb:768 with SMTP id v7-20020a05600c470700b003dfe6bb0768mr2347047wmo.24.1675434673459;
-        Fri, 03 Feb 2023 06:31:13 -0800 (PST)
+        bh=/decAsXzWzOr1Fn5getBDCGr7TKXQO+f4q0N0MxWErI=;
+        b=kkvqCE5iYe2tWD61G7DsY8ttB3vW+5lU1rmKskV7Bp/DpWX5a7W00HmWh9YVokUhg3
+         sqsrM6OxPoQ8e0y9juFzaU7hB++v/RBJRQaIAuTsARsv3PWPcDu+45tqyRersSbqa4Fg
+         tLvE9Vt3XFiU5e4h8GNp4h+6Dj4KdAcnXH5PeoUPDeKs8a3mpMG+E1s7LAq7vTTOVtMg
+         lTBP6cwLtWuJLralLVJiYIQWipg5Fzn967k/IiL6v4sALcWuBaW63d83+XduNL/A6Fc6
+         1EuBW8S9CDnY1PI6c7x03O2NFT2zI6Qb2HuXeuYXaw75DXUonrD/GuUr/ETCVwPctBkL
+         vsow==
+X-Gm-Message-State: AO0yUKWeDupN20xyNBRjVh57ZHCIuvqm9FMz4dO4Yz9/wSeL3D4pcYwu
+        9q0jb4XNUaESBq5ufhH0v+1h7DS8WVu1AfaMujgf9OOoEhyyeLc+MTGZRfYJbu5frT6ecdAZRBd
+        KjhvFNwRmTOkDDhbHhk8uIgl3JA==
+X-Received: by 2002:a05:600c:4747:b0:3df:e549:bd27 with SMTP id w7-20020a05600c474700b003dfe549bd27mr3634982wmo.6.1675434695217;
+        Fri, 03 Feb 2023 06:31:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set/qkaMfF+TBCgvbwgP2CGu2sIJoLRpl09HLMUmy0eiiBTILy4lbS6cT+HBgr82lyryc+pIpNQ==
+X-Received: by 2002:a05:600c:4747:b0:3df:e549:bd27 with SMTP id w7-20020a05600c474700b003dfe549bd27mr3634941wmo.6.1675434694897;
+        Fri, 03 Feb 2023 06:31:34 -0800 (PST)
 Received: from [192.168.3.108] (p5b0c6376.dip0.t-ipconnect.de. [91.12.99.118])
-        by smtp.gmail.com with ESMTPSA id w14-20020a05600c474e00b003dfe57f6f61sm2479833wmo.33.2023.02.03.06.31.11
+        by smtp.gmail.com with ESMTPSA id q9-20020a1ce909000000b003dc34edacf8sm7704293wmc.31.2023.02.03.06.31.32
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Feb 2023 06:31:12 -0800 (PST)
-Message-ID: <862cb71f-0775-916d-b0c9-5247f772d637@redhat.com>
-Date:   Fri, 3 Feb 2023 15:31:10 +0100
+        Fri, 03 Feb 2023 06:31:34 -0800 (PST)
+Message-ID: <1d13abeb-ea4b-6314-2fd2-1b86b8f4d6c5@redhat.com>
+Date:   Fri, 3 Feb 2023 15:31:32 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2 2/4] m68k: use asm-generic/memory_model.h for both MMU
- and !MMU
+Subject: Re: [PATCH v2 3/4] mips: drop definition of pfn_valid() for
+ DISCONTIGMEM
 Content-Language: en-US
 To:     Mike Rapoport <rppt@kernel.org>,
         Andrew Morton <akpm@linux-foundation.org>
@@ -99,10 +99,10 @@ Cc:     Arnd Bergmann <arnd@arndb.de>, Brian Cain <bcain@quicinc.com>,
         openrisc@lists.librecores.org, sparclinux@vger.kernel.org,
         x86@kernel.org
 References: <20230129124235.209895-1-rppt@kernel.org>
- <20230129124235.209895-3-rppt@kernel.org>
+ <20230129124235.209895-4-rppt@kernel.org>
 From:   David Hildenbrand <david@redhat.com>
 Organization: Red Hat
-In-Reply-To: <20230129124235.209895-3-rppt@kernel.org>
+In-Reply-To: <20230129124235.209895-4-rppt@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -118,17 +118,12 @@ X-Mailing-List: linux-hexagon@vger.kernel.org
 On 29.01.23 13:42, Mike Rapoport wrote:
 > From: "Mike Rapoport (IBM)" <rppt@kernel.org>
 > 
-> The MMU variant uses generic definitions of page_to_pfn() and
-> pfn_to_page(), but !MMU defines them in include/asm/page_no.h for no
-> good reason.
+> There is stale definition of pfn_valid() for DISCONTINGMEM memory model
+> guarded !FLATMEM && !SPARSEMEM && NUMA ifdefery.
 > 
-> Include asm-generic/memory_model.h in the common include/asm/page.h and
-> drop redundant definitions.
+> Remove everything but definition of pfn_valid() for FLATMEM.
 > 
 > Signed-off-by: Mike Rapoport (IBM) <rppt@kernel.org>
-> Reviewed-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> ---
 
 Reviewed-by: David Hildenbrand <david@redhat.com>
 
