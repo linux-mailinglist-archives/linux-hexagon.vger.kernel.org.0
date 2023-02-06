@@ -2,93 +2,112 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BFBE68B1A9
-	for <lists+linux-hexagon@lfdr.de>; Sun,  5 Feb 2023 21:41:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F6A468BC66
+	for <lists+linux-hexagon@lfdr.de>; Mon,  6 Feb 2023 13:08:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229564AbjBEUlx (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Sun, 5 Feb 2023 15:41:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53030 "EHLO
+        id S230149AbjBFMIh (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 6 Feb 2023 07:08:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjBEUlq (ORCPT
+        with ESMTP id S229689AbjBFMId (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Sun, 5 Feb 2023 15:41:46 -0500
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 158961C5B5
-        for <linux-hexagon@vger.kernel.org>; Sun,  5 Feb 2023 12:41:39 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id r3so134483edq.13
-        for <linux-hexagon@vger.kernel.org>; Sun, 05 Feb 2023 12:41:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linux-foundation.org; s=google;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nA/a76A+HUu/p3q1j/ksBjPXLniSmCFkRwLsRUtoauc=;
-        b=RAXg4fKD/6SPLwBhZz74xHccwCI6WZIYpGpGHWQ9ObJeCvGoohTSAtwCqfiD+ZaDQ1
-         aIRLI8OL+avYEEBlM4uINCdq7A3GKoZhraxTCpB9pYCimwQ4kIElEWhkml7G/7PEKTT6
-         Vy21ly1st4HkkM+1bI4kXV+bK57J6A6HvWAas=
+        Mon, 6 Feb 2023 07:08:33 -0500
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E46402278B;
+        Mon,  6 Feb 2023 04:08:23 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id h24so12482826qtr.0;
+        Mon, 06 Feb 2023 04:08:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=nA/a76A+HUu/p3q1j/ksBjPXLniSmCFkRwLsRUtoauc=;
-        b=3xjqHHy6X4hhfj7eMEVQm6B2LxlCiWpImmFOGaADEYs8CIpQSwjSQ5yQhYDNNIjtfN
-         tPc8xCedAqoNb0U9DxW9oV6qZ3Ez6Mr6CU4zd+5fdarPhfQvi46S1stKbv8FtXe/kLe7
-         cGq/KF/Ni8RPyu7MZqbKh2hL8/flEKse8daFIA1RNDwk2BqJjNANEsv5cYdt4k1Ml9WP
-         K4Gpf40iOEdw/O24wy1bvzyuUdf+fGPPMXx8mOkp7ZKdWA6vc0NDbzfzyEcpgoy/CVEv
-         jHqddVJUQqQKOr3iJOdlp1rxszl+oRC8iIvQbII0UHCTsEo+hGDwBDUGOACz4hq7MyOl
-         ZPpA==
-X-Gm-Message-State: AO0yUKXdZn8GxHLiNdVgki9mPa3QwmAPtoM8pAF1lqfwHqv0JQOMB7+X
-        PelSB4erj2GiujBjNoJqX/D/QBzGb4jSEJwtstA=
-X-Google-Smtp-Source: AK7set98SQluW7xUTcTW6VamAM1RcW2Oh5qbEdxzfUji9qU4XVkoidSlGNS2gbORVwFbUh7mstdFrw==
-X-Received: by 2002:a05:6402:1f83:b0:4a2:51db:c7c6 with SMTP id c3-20020a0564021f8300b004a251dbc7c6mr17929857edc.8.1675629697321;
-        Sun, 05 Feb 2023 12:41:37 -0800 (PST)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
-        by smtp.gmail.com with ESMTPSA id b9-20020a0564021f0900b004a21304f5a0sm4206639edb.72.2023.02.05.12.41.35
-        for <linux-hexagon@vger.kernel.org>
+        bh=02Ztaz85YCyWse0OOUudyylXWESo7R0bW8bc2JlaDZc=;
+        b=6ACfGk4Cc6PZzFCtt8NUfiL++D4hT6IM6NhNOMgKyqM2gZ+DVEqw4/JdUtCVB3Tnkk
+         4wVqFFVWn/6V8HrJmmcKDb6ZoG5rXSeNoL5nCxpluOCJOSa/i5eR0YS0z4/9cq/3HgCL
+         6MhfWKflI3J00R4U/chAMiLamGLDUL4Go1/KBgc35FmQjTeovfaEtu4cbaVuRZw0X+dj
+         TRm1ezciK9oIA+n5aolKHFhUbRM42AD9lUi3vRSRT9zhW//uk9e7lTysWoUiPwcJNaN6
+         6uH22m2H0zNLagHNfWlCa+mDsmtpjf24Z9mCL62Xo5xRHcbczrFF+fLfiidTN2MzRbqN
+         VFHw==
+X-Gm-Message-State: AO0yUKWJpC6YMIBEOYY5yXJ5Lqpu97fWR/qML6CE5awgqg2hxmvl+pc2
+        KVKHuEBZHhBnNMlCq565YNj3Eqm7h/D0XA==
+X-Google-Smtp-Source: AK7set/llxk61OazyHQgc3fH/sHdW/g2/iwqMXVMVk+BhO6dxKFZxXZzA1vUeXUo2Uk6NGbpS4ro1g==
+X-Received: by 2002:ac8:58d6:0:b0:3b9:b2ba:9b3d with SMTP id u22-20020ac858d6000000b003b9b2ba9b3dmr31701636qta.54.1675685302188;
+        Mon, 06 Feb 2023 04:08:22 -0800 (PST)
+Received: from mail-yb1-f177.google.com (mail-yb1-f177.google.com. [209.85.219.177])
+        by smtp.gmail.com with ESMTPSA id 142-20020a370694000000b006fbb4b98a25sm7241573qkg.109.2023.02.06.04.08.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 05 Feb 2023 12:41:36 -0800 (PST)
-Received: by mail-ej1-f47.google.com with SMTP id dr8so28886301ejc.12
-        for <linux-hexagon@vger.kernel.org>; Sun, 05 Feb 2023 12:41:35 -0800 (PST)
-X-Received: by 2002:a17:906:892:b0:87a:7098:ca09 with SMTP id
- n18-20020a170906089200b0087a7098ca09mr4402604eje.78.1675629695651; Sun, 05
- Feb 2023 12:41:35 -0800 (PST)
+        Mon, 06 Feb 2023 04:08:21 -0800 (PST)
+Received: by mail-yb1-f177.google.com with SMTP id o187so14136627ybg.3;
+        Mon, 06 Feb 2023 04:08:21 -0800 (PST)
+X-Received: by 2002:a25:e912:0:b0:8a0:2a4:a96c with SMTP id
+ n18-20020a25e912000000b008a002a4a96cmr214639ybd.380.1675685301223; Mon, 06
+ Feb 2023 04:08:21 -0800 (PST)
 MIME-Version: 1.0
-References: <Y9lz6yk113LmC9SI@ZenIV> <Y9l0aBPUEpf1bci9@ZenIV>
- <92a4aa45-0a7c-a389-798a-2f3e3cfa516f@linux-m68k.org> <Y+AUEJpWYdUzW0OD@ZenIV>
-In-Reply-To: <Y+AUEJpWYdUzW0OD@ZenIV>
-From:   Linus Torvalds <torvalds@linux-foundation.org>
-Date:   Sun, 5 Feb 2023 12:41:18 -0800
-X-Gmail-Original-Message-ID: <CAHk-=wh8+LsDDd8AFMwaYHAA+eLT8O2ziEJfpoeo_H6MCg2NKg@mail.gmail.com>
-Message-ID: <CAHk-=wh8+LsDDd8AFMwaYHAA+eLT8O2ziEJfpoeo_H6MCg2NKg@mail.gmail.com>
-Subject: Re: [PATCH 04/10] m68k: fix livelock in uaccess
-To:     Al Viro <viro@zeniv.linux.org.uk>
-Cc:     Finn Thain <fthain@linux-m68k.org>, linux-arch@vger.kernel.org,
+References: <Y9lz6yk113LmC9SI@ZenIV> <Y9pD+TMP+/SyfeJm@FVFF77S0Q05N>
+In-Reply-To: <Y9pD+TMP+/SyfeJm@FVFF77S0Q05N>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 6 Feb 2023 13:08:09 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdWtU=2Uq2QDu+eiBLve=uwJ4byU_1K2dKuUTH8wDUHoaw@mail.gmail.com>
+Message-ID: <CAMuHMdWtU=2Uq2QDu+eiBLve=uwJ4byU_1K2dKuUTH8wDUHoaw@mail.gmail.com>
+Subject: Re: [RFC][PATCHSET] VM_FAULT_RETRY fixes
+To:     Mark Rutland <mark.rutland@arm.com>
+Cc:     Al Viro <viro@zeniv.linux.org.uk>, linux-arch@vger.kernel.org,
         linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
         linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
         Michal Simek <monstr@monstr.eu>,
         Dinh Nguyen <dinguyen@kernel.org>,
-        linux-parisc@vger.kernel.org, linux-riscv@lists.infradead.org,
-        sparclinux@vger.kernel.org
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, sparclinux@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
 Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Sun, Feb 5, 2023 at 12:39 PM Al Viro <viro@zeniv.linux.org.uk> wrote:
+Hi Mark,
+
+On Wed, Feb 1, 2023 at 11:52 AM Mark Rutland <mark.rutland@arm.com> wrote:
+> On Tue, Jan 31, 2023 at 08:02:51PM +0000, Al Viro wrote:
+> > On x86 it had been noticed and fixed back in 2014, in 26178ec11ef3 "x86:
+> > mm: consolidate VM_FAULT_RETRY handling".  Some of the other architectures
+> > had it dealt with later - e.g. arm in 2017, the fix is 746a272e44141
+> > "ARM: 8692/1: mm: abort uaccess retries upon fatal signal"; xtensa -
+> > in 2021, the fix is 7b9acbb6aad4f "xtensa: fix uaccess-related livelock
+> > in do_page_fault", etc.
+> >
+> > However, it never had been done on a bunch of architectures - the
+> > current mainline still has that bug on alpha, hexagon, itanic, m68k,
+> > microblaze, nios2, openrisc, parisc, riscv and sparc (both sparc32 and
+> > sparc64).  Fixes are trivial, but I've no way to test them for most
+> > of those architectures.
 >
-> BTW, since these patches would be much easier to backport than any unification
-> work, I think the right thing to do would be to have further unification done on
-> top of them.
+> FWIW, when I fixed arm and arm64 back in 2017, I did report the issue here with
+> a test case (and again in 2021, with maintainers all explciitly Cc'd):
+>
+>   https://lore.kernel.org/lkml/20170822102527.GA14671@leverpostej/
+>   https://lore.kernel.org/linux-arch/20210121123140.GD48431@C02TD0UTHF1T.local/
+>
+> ... so if anyone has access to those architectures, that test might be useful
+> for verifying the fix.
 
-Ack. I'm not NAKing the patches, I was just hoping that we also have
-some way forward.
+Thanks a lot! This showed the problem on m68k, and confirmed Al's fix.
 
-So "fix the issues, then unify" sounds like the right thing to do to me.
+I'll give it a try on a few more systems later...
 
-               Linus
+Gr{oetje,eeting}s,
+
+                        Geert
+
+--
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
