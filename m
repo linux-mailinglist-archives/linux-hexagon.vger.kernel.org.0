@@ -2,170 +2,123 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36FBE699471
-	for <lists+linux-hexagon@lfdr.de>; Thu, 16 Feb 2023 13:35:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 967076994F4
+	for <lists+linux-hexagon@lfdr.de>; Thu, 16 Feb 2023 13:55:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230238AbjBPMff (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 16 Feb 2023 07:35:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42770 "EHLO
+        id S229583AbjBPMzF (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 16 Feb 2023 07:55:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39072 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230283AbjBPMfa (ORCPT
+        with ESMTP id S229505AbjBPMzF (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 16 Feb 2023 07:35:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5F93A853
-        for <linux-hexagon@vger.kernel.org>; Thu, 16 Feb 2023 04:34:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1676550884;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=v0nZZRtgRBEjd1TuZoUTX3TC1k0a64a2n3jlsJishp4=;
-        b=D3tSEyFO+h+VJOx0OUwgWS2cbmCxXp5cBPKu5xYf90Qs11W6HIsQihZ5y3YdFtlhG6e936
-        QbuKMu9FE6w0UPCsiyAUHTFl0U8dscISRtN6MD7DkFZxWOn8uXftLyYo4PcZ6MXd8gsace
-        4wYTVbPK0imdkaoVsbH9afefCpLpqmc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-630-IqQp3gjfNf6Iot1Z8qjFEQ-1; Thu, 16 Feb 2023 07:34:39 -0500
-X-MC-Unique: IqQp3gjfNf6Iot1Z8qjFEQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 936D0830F82;
-        Thu, 16 Feb 2023 12:34:38 +0000 (UTC)
-Received: from MiWiFi-R3L-srv.redhat.com (ovpn-12-99.pek2.redhat.com [10.72.12.99])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 1A24A492C3C;
-        Thu, 16 Feb 2023 12:34:31 +0000 (UTC)
-From:   Baoquan He <bhe@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-mm@kvack.org, akpm@linux-foundation.org,
-        christophe.leroy@csgroup.eu, hch@infradead.org,
-        agordeev@linux.ibm.com, wangkefeng.wang@huawei.com,
-        schnelle@linux.ibm.com, David.Laight@ACULAB.COM, shorne@gmail.com,
-        arnd@arndb.de, Baoquan He <bhe@redhat.com>,
-        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org
-Subject: [PATCH v4 01/16] hexagon: mm: Convert to GENERIC_IOREMAP
-Date:   Thu, 16 Feb 2023 20:34:04 +0800
-Message-Id: <20230216123419.461016-2-bhe@redhat.com>
-In-Reply-To: <20230216123419.461016-1-bhe@redhat.com>
+        Thu, 16 Feb 2023 07:55:05 -0500
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9C023B877;
+        Thu, 16 Feb 2023 04:54:37 -0800 (PST)
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+        by mailout.nyi.internal (Postfix) with ESMTP id 6B9865C0182;
+        Thu, 16 Feb 2023 07:53:40 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute6.internal (MEProxy); Thu, 16 Feb 2023 07:53:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to; s=fm3; t=1676552020; x=1676638420; bh=DbrLQv3/pV
+        tTQOZWpqNFqEWPdA+pKJ3lEDwvQXG6DB4=; b=oauL0G1TRIlgWSz7p8TU8eHziQ
+        UmDyJnfH5478eg3C2PjAxRr2fBk8tvZ2aV8nQVdeXDG1OFRJpOjNnlO9RC8YbKJP
+        6u1zBU2soFfeEQJO14Ukd4ELMdGyLuJvzsEB/cM8m/ipQPhZtmEk4KESmv9Mx80d
+        +7CYqkOL1aRdBego+2AwNSxvwG8uOgDerQ/vKHnRkcRLzgHV8Z7V7CvoclxqWxg+
+        l6WszlcPqwYonGkhmfTkxXKN+zOTqWDJ1ioOfnMvo0yxIM/bCEhHnQW5wz7g6vmx
+        qLe2iiMtWJzRJX5db2PRKzbGVpVoTEcsCKrq6S/Qk2nSu7TafxzpMGJBl65w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+        :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+        :mime-version:references:reply-to:sender:subject:subject:to:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; t=1676552020; x=1676638420; bh=DbrLQv3/pVtTQOZWpqNFqEWPdA+p
+        KJ3lEDwvQXG6DB4=; b=t24p3UPWYZ+KCYTj7ighSAiKBdig04/acVYEucG1LfC4
+        R+/g9buHJlnRHfHwUN6OzexDtYT3jkuzmFSDMOqGAUD22GEtjYS8jN9WQ69MugDM
+        opv8xT4lHdUKFD+LooI2oT5ogfLpPO2fLFJu1XHPyGPhIfZoBxKMnDLm38rDTVoe
+        N21pYlEAdqUrqCv6JQQzpS5Wfes/swSdZHYEAFCZqRpFmKJ0N6il6X77AAhXE/6y
+        vgxa89YBjC2wZzlhiZOjc6AYdZMxhLvol7Yxo3a8mfOfwWeb9GW/MHqdxXYcGhfO
+        wP33vY0sSgAwMiw5dLQsVwGReJBlmf+ToqipESJ4/g==
+X-ME-Sender: <xms:UyfuYzeUUaSaPrhxbXMLkxkQ25baorED_7p5qH_4G8c5wmbdZGBPnw>
+    <xme:UyfuY5Ohj94ZoNF7YDc5cFlQpVlkqSftk0-qX3mmGSwxlqGNR7NqRM4EhI7yAcHyo
+    9WCHZIE-HRcYyGIa2A>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudeijedggeegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtsehttdertderredtnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnhepvefhffeltdegheeffffhtdegvdehjedtgfekueevgfduffettedtkeekueef
+    hedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpe
+    dtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:VCfuY8g1NjNg3i-wn1zXWb2CuyyCqKfEFShjryv9KODtVQM1Pfga2Q>
+    <xmx:VCfuY08Cqsv_xgxN8dXnRWUk5PHaYPai3yvVlTNAhqW9-fzqMJo_Bg>
+    <xmx:VCfuY_u5jVRuSzSbmO6g2OjCqoOhi2K_75ahNcF9c-hUH82q_iZFIw>
+    <xmx:VCfuYwnBkonwkcWstLJk06CtE9ryeZY5nvSPL6sERp2A03-yLYtOkw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id E4E50B60086; Thu, 16 Feb 2023 07:53:39 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-156-g081acc5ed5-fm-20230206.001-g081acc5e
+Mime-Version: 1.0
+Message-Id: <056cc71f-7fb9-4d38-a442-a05de6f7d437@app.fastmail.com>
+In-Reply-To: <20230216123419.461016-2-bhe@redhat.com>
 References: <20230216123419.461016-1-bhe@redhat.com>
-MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+ <20230216123419.461016-2-bhe@redhat.com>
+Date:   Thu, 16 Feb 2023 13:53:21 +0100
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Baoquan He" <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     linux-mm@kvack.org, "Andrew Morton" <akpm@linux-foundation.org>,
+        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        "Christoph Hellwig" <hch@infradead.org>,
+        "Alexander Gordeev" <agordeev@linux.ibm.com>,
+        "Kefeng Wang" <wangkefeng.wang@huawei.com>,
+        "Niklas Schnelle" <schnelle@linux.ibm.com>,
+        "David Laight" <David.Laight@ACULAB.COM>,
+        "Stafford Horne" <shorne@gmail.com>,
+        "Brian Cain" <bcain@quicinc.com>, linux-hexagon@vger.kernel.org
+Subject: Re: [PATCH v4 01/16] hexagon: mm: Convert to GENERIC_IOREMAP
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-By taking GENERIC_IOREMAP method, the generic ioremap_prot() and
-iounmap() are visible and available to arch. This change will
-simplify implementation by removing duplicated codes with generic
-ioremap_prot() and iounmap(), and has the equivalent functioality.
+On Thu, Feb 16, 2023, at 13:34, Baoquan He wrote:
+> diff --git a/arch/hexagon/include/asm/io.h 
+> b/arch/hexagon/include/asm/io.h
+> index 46a099de85b7..dcd9cbbf5934 100644
+> --- a/arch/hexagon/include/asm/io.h
+> +++ b/arch/hexagon/include/asm/io.h
+> @@ -170,8 +170,13 @@ static inline void writel(u32 data, volatile void 
+> __iomem *addr)
+>  #define writew_relaxed __raw_writew
+>  #define writel_relaxed __raw_writel
+> 
+> -void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
+> -#define ioremap_uc(X, Y) ioremap((X), (Y))
+> +/*
+> + * I/O memory mapping functions.
+> + */
+> +#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_READ | _PAGE_WRITE | \
+> +		       (__HEXAGON_C_DEV << 6))
+> +
+> +#define ioremap_uc(addr, size) ioremap((addr), (size))
 
-For hexagon, the current ioremap() and iounmap() are the same as
-generic version. After taking GENERIC_IOREMAP way, the old ioremap()
-and iounmap() can be completely removed.
+I think we probably want to kill off ioremap_uc() here, and use
+the generic version that just returns NULL.
 
-Signed-off-by: Baoquan He <bhe@redhat.com>
-Cc: Brian Cain <bcain@quicinc.com>
-Cc: linux-hexagon@vger.kernel.org
----
- arch/hexagon/Kconfig          |  1 +
- arch/hexagon/include/asm/io.h |  9 +++++--
- arch/hexagon/mm/ioremap.c     | 44 -----------------------------------
- 3 files changed, 8 insertions(+), 46 deletions(-)
- delete mode 100644 arch/hexagon/mm/ioremap.c
+I see that there are only two callers of {devm_,}ioremap_uc() left in the
+tree, so maybe we can even take that final step and remove it from
+the interface. Maybe we can revisit [1] as part of this series.
 
-diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-index 54eadf265178..17afffde1a7f 100644
---- a/arch/hexagon/Kconfig
-+++ b/arch/hexagon/Kconfig
-@@ -25,6 +25,7 @@ config HEXAGON
- 	select NEED_SG_DMA_LENGTH
- 	select NO_IOPORT_MAP
- 	select GENERIC_IOMAP
-+	select GENERIC_IOREMAP
- 	select GENERIC_SMP_IDLE_THREAD
- 	select STACKTRACE_SUPPORT
- 	select GENERIC_CLOCKEVENTS_BROADCAST
-diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
-index 46a099de85b7..dcd9cbbf5934 100644
---- a/arch/hexagon/include/asm/io.h
-+++ b/arch/hexagon/include/asm/io.h
-@@ -170,8 +170,13 @@ static inline void writel(u32 data, volatile void __iomem *addr)
- #define writew_relaxed __raw_writew
- #define writel_relaxed __raw_writel
- 
--void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
--#define ioremap_uc(X, Y) ioremap((X), (Y))
-+/*
-+ * I/O memory mapping functions.
-+ */
-+#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_READ | _PAGE_WRITE | \
-+		       (__HEXAGON_C_DEV << 6))
-+
-+#define ioremap_uc(addr, size) ioremap((addr), (size))
- 
- 
- #define __raw_writel writel
-diff --git a/arch/hexagon/mm/ioremap.c b/arch/hexagon/mm/ioremap.c
-deleted file mode 100644
-index 255c5b1ee1a7..000000000000
---- a/arch/hexagon/mm/ioremap.c
-+++ /dev/null
-@@ -1,44 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * I/O remap functions for Hexagon
-- *
-- * Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
-- */
--
--#include <linux/io.h>
--#include <linux/vmalloc.h>
--#include <linux/mm.h>
--
--void __iomem *ioremap(unsigned long phys_addr, unsigned long size)
--{
--	unsigned long last_addr, addr;
--	unsigned long offset = phys_addr & ~PAGE_MASK;
--	struct vm_struct *area;
--
--	pgprot_t prot = __pgprot(_PAGE_PRESENT|_PAGE_READ|_PAGE_WRITE
--					|(__HEXAGON_C_DEV << 6));
--
--	last_addr = phys_addr + size - 1;
--
--	/*  Wrapping not allowed  */
--	if (!size || (last_addr < phys_addr))
--		return NULL;
--
--	/*  Rounds up to next page size, including whole-page offset */
--	size = PAGE_ALIGN(offset + size);
--
--	area = get_vm_area(size, VM_IOREMAP);
--	addr = (unsigned long)area->addr;
--
--	if (ioremap_page_range(addr, addr+size, phys_addr, prot)) {
--		vunmap((void *)addr);
--		return NULL;
--	}
--
--	return (void __iomem *) (offset + addr);
--}
--
--void iounmap(const volatile void __iomem *addr)
--{
--	vunmap((void *) ((unsigned long) addr & PAGE_MASK));
--}
--- 
-2.34.1
+     Arnd
 
+[1] https://lore.kernel.org/all/20191111192258.2234502-1-arnd@arndb.de/
