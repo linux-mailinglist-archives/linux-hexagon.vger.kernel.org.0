@@ -2,226 +2,200 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7EA369D68B
-	for <lists+linux-hexagon@lfdr.de>; Mon, 20 Feb 2023 23:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2792369F2C9
+	for <lists+linux-hexagon@lfdr.de>; Wed, 22 Feb 2023 11:36:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232767AbjBTW46 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 20 Feb 2023 17:56:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59890 "EHLO
+        id S231260AbjBVKg2 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 22 Feb 2023 05:36:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229618AbjBTW4z (ORCPT
+        with ESMTP id S230478AbjBVKg1 (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 20 Feb 2023 17:56:55 -0500
+        Wed, 22 Feb 2023 05:36:27 -0500
 Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AF61EBCE;
-        Mon, 20 Feb 2023 14:56:54 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11F9136687;
+        Wed, 22 Feb 2023 02:36:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1676933814; x=1708469814;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-id:content-transfer-encoding:
-   mime-version;
-  bh=87sxogROsgOIOvh4TVupc8lCT48Kss7Lsmry2uS1YCY=;
-  b=cB5WwnKxWwe505xh9em/zPLNZe0vmHIQC+XTihN+sQ1PEJsErH8oXwEM
-   bEt2rEiyqsk7gyJLCd+C7L9PCB625Ept0b2ARGyhe7HLam1FkIAWYlWHU
-   jCLh1F7Dag1lREo7I6mbFOgxE+CBDY7L893P1iMyv6V1i+bMZ8kJ9jGQ7
-   Xs0EiV73OtwIrQmnf7DxWR8QCfVG2prWz+XSbz+VAdwKd4vE2GiBUBMaZ
-   5wmTkEqMOIGrwNvUAUw6KPsTOTYGmTUUoAC1Uh8D0aLoIpFft/nok3G4L
-   A3vAf8ETrEmrgCLpMgpT1cJe88v8E4d5PASXmejqvwmY57dtiIIGFi2eB
-   g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="320629825"
-X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="320629825"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2023 14:56:53 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10627"; a="648961940"
-X-IronPort-AV: E=Sophos;i="5.97,313,1669104000"; 
-   d="scan'208";a="648961940"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by orsmga006.jf.intel.com with ESMTP; 20 Feb 2023 14:56:51 -0800
-Received: from fmsmsx602.amr.corp.intel.com (10.18.126.82) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 20 Feb 2023 14:56:51 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx602.amr.corp.intel.com (10.18.126.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 20 Feb 2023 14:56:51 -0800
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (104.47.58.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 20 Feb 2023 14:56:50 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CcTmLuXKveF0WZqUxce7a0VvhGMA5d/ued/IeIfzhaU8Gl0VYVkds1G2HbfeYqxc7VUlRvzTKkAOmVGUCr8+QI0FpHI2eKQXLOB0LbFk+wox2TDEkKpID3/cD5Tpq3KQRzhhlnhUNRVcJScsmWBLg65a7GKReC/bHd7eTnGFeL2itIxh3rsfDaF8y7FZP9JFKDMNijo7NODanTGzUa3DGs6nLCaS9pI4h4OuUMa+hgHiNsgxALaGR6oQApnOvHSIrBYXOigjsyD6F0Z0djtptD8fmKKVKb2TyOGjm187ZNYCl/Lb+30nzL/Kia/74ySq7veW7xnLix9FFqvkpAcJqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=87sxogROsgOIOvh4TVupc8lCT48Kss7Lsmry2uS1YCY=;
- b=EkYzd81cCUOclcKjdLJadxKVv8tgkYdMyYUlwI7e35nKtentNXYnqPrvl6sHlliGOkykn23Wzqa/ZFc5uZc+NFC/oW4up46IraVD/DiZyz2GMCa9wo3w7AHckfl1CStetJ1uepPpCUdHfQQEfPvQdhYBZTbr5zfupgWB07NUm8vBCJfU5Jw0OO+FKQOjqF3y2N7/XK/OZJJp7oN//ViznwIZptMQy4iHfkFZDiq2hRDD5QAr+oFenHuMCKnCe0nj/ignm4WIPguno2lJqAlZpYBJiemhAet6TOINGOp0FBE24W84Isi4l+jJsyer6zhf1BY0y2PqmDq2jg5Qhd5k1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com (2603:10b6:300:24::14)
- by BL3PR11MB6506.namprd11.prod.outlook.com (2603:10b6:208:38d::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6111.19; Mon, 20 Feb
- 2023 22:56:47 +0000
-Received: from MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::d41f:9f07:ed56:a536]) by MWHPR11MB1392.namprd11.prod.outlook.com
- ([fe80::d41f:9f07:ed56:a536%3]) with mapi id 15.20.6111.019; Mon, 20 Feb 2023
- 22:56:47 +0000
-From:   "Edgecombe, Rick P" <rick.p.edgecombe@intel.com>
-To:     "david@redhat.com" <david@redhat.com>,
-        "bsingharora@gmail.com" <bsingharora@gmail.com>,
-        "hpa@zytor.com" <hpa@zytor.com>,
-        "Syromiatnikov, Eugene" <esyr@redhat.com>,
-        "peterz@infradead.org" <peterz@infradead.org>,
-        "rdunlap@infradead.org" <rdunlap@infradead.org>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-        "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
-        "Eranian, Stephane" <eranian@google.com>,
-        "linux-mm@kvack.org" <linux-mm@kvack.org>,
-        "fweimer@redhat.com" <fweimer@redhat.com>,
-        "nadav.amit@gmail.com" <nadav.amit@gmail.com>,
-        "jannh@google.com" <jannh@google.com>,
-        "dethoma@microsoft.com" <dethoma@microsoft.com>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "kcc@google.com" <kcc@google.com>, "pavel@ucw.cz" <pavel@ucw.cz>,
-        "oleg@redhat.com" <oleg@redhat.com>,
-        "hjl.tools@gmail.com" <hjl.tools@gmail.com>,
-        "bp@alien8.de" <bp@alien8.de>,
-        "Lutomirski, Andy" <luto@kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "arnd@arndb.de" <arnd@arndb.de>,
-        "tglx@linutronix.de" <tglx@linutronix.de>,
-        "Schimpe, Christina" <christina.schimpe@intel.com>,
-        "x86@kernel.org" <x86@kernel.org>,
-        "mike.kravetz@oracle.com" <mike.kravetz@oracle.com>,
-        "Yang, Weijiang" <weijiang.yang@intel.com>,
-        "debug@rivosinc.com" <debug@rivosinc.com>,
-        "jamorris@linux.microsoft.com" <jamorris@linux.microsoft.com>,
-        "john.allen@amd.com" <john.allen@amd.com>,
-        "rppt@kernel.org" <rppt@kernel.org>,
-        "andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
-        "mingo@redhat.com" <mingo@redhat.com>,
-        "corbet@lwn.net" <corbet@lwn.net>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
-        "gorcunov@gmail.com" <gorcunov@gmail.com>,
-        "akpm@linux-foundation.org" <akpm@linux-foundation.org>
-CC:     "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
-        "linux-sh@vger.kernel.org" <linux-sh@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        "linux-m68k@lists.linux-m68k.org" <linux-m68k@lists.linux-m68k.org>,
-        "linux-alpha@vger.kernel.org" <linux-alpha@vger.kernel.org>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-snps-arc@lists.infradead.org" 
-        <linux-snps-arc@lists.infradead.org>,
-        "linux-mips@vger.kernel.org" <linux-mips@vger.kernel.org>,
-        "linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-        "linux-ia64@vger.kernel.org" <linux-ia64@vger.kernel.org>,
-        "linux-csky@vger.kernel.org" <linux-csky@vger.kernel.org>,
-        "dinguyen@kernel.org" <dinguyen@kernel.org>,
-        "loongarch@lists.linux.dev" <loongarch@lists.linux.dev>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "monstr@monstr.eu" <monstr@monstr.eu>,
-        "openrisc@lists.librecores.org" <openrisc@lists.librecores.org>,
-        "linux-parisc@vger.kernel.org" <linux-parisc@vger.kernel.org>,
-        "linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
-        "sparclinux@vger.kernel.org" <sparclinux@vger.kernel.org>,
-        "xen-devel@lists.xenproject.org" <xen-devel@lists.xenproject.org>
-Subject: Re: [PATCH v6 13/41] mm: Make pte_mkwrite() take a VMA
-Thread-Topic: [PATCH v6 13/41] mm: Make pte_mkwrite() take a VMA
-Thread-Index: AQHZQ94+cYJhrZsBjUaVUuq1nj/bS67Xs8UAgADBtQA=
-Date:   Mon, 20 Feb 2023 22:56:46 +0000
-Message-ID: <d37fca3bc7f5c1487ea45370b7d57ab67ea2ee97.camel@intel.com>
-References: <20230218211433.26859-1-rick.p.edgecombe@intel.com>
-         <20230218211433.26859-14-rick.p.edgecombe@intel.com>
-         <f50daeb7-7b41-0bed-73f0-b6358169521b@redhat.com>
-In-Reply-To: <f50daeb7-7b41-0bed-73f0-b6358169521b@redhat.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: MWHPR11MB1392:EE_|BL3PR11MB6506:EE_
-x-ms-office365-filtering-correlation-id: e44e50fa-c744-496e-a195-08db1395be80
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: ksQ7RIySPNQWtiqdtkozOmRxbrbYyv7MvZu26yZSDw0GbUBfz7lYo0F4Zn8YKnZtpB9xhLgdjKDKou+e0c/wQpGeJUC8TTEPE9GbCAmSKrkw7pHmMznfTx+wG2mGAymW6Lg//9F2D0Vyn4aFopXmZNvmMf99EaZmT3K3o16/PpfNtc0stT0JY0VrxKotBJ4mr3hcwVrKCsXL6vOXaA9DgySWhslFtRyaGPbS8kRRBl/zXRSfQjXHgXgUhbgG3A2QpIdse7CETdLXBjMdSY7irumRsGnexlYzK1WQj4BuwIWct/k1XrPvMHYWdjx6Dnk5O6P9fZR6vyPuQ2sj1qNtpbRP4RLcvd/cBoyamNtkbGZNXb68XYIUh6H8snPqjsz1Kr/eZ8MNkOYxjAg2P28eF1/qaEpMqO7Zsuq2fnBpzcb9d91NU9IULmzhTFl3jvza+EE4TYPkrWQGZFGe/vGdnj6wt2kpsXSGhVZOc7D1uIbaEzG27J8PaY2/itl7j6hD1IXIXgitSZTAGdsdZwIKXv1KBoCh+ewzvpyoWEilsHZZg9axv9quzuXBRVJdCcpOiwelhrKGKsoLqG24+k/5f93dSUJWWVMSUdoizgSGZp+DQQQheitHldiCFiVU3l9zqG3xuxOV3kQCpgdQkl5AyyGAJNlkZoHvuuLNWyfqaaXpLdoVgqhKDkvGwGVn+wv9jME+K9quQn6OQck48RpNBq5irUkgztFUDr1oM6u4EJi9LxK6aHZutQPgagp0kGcm
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MWHPR11MB1392.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230025)(346002)(136003)(376002)(396003)(39860400002)(366004)(451199018)(122000001)(86362001)(2906002)(82960400001)(38100700002)(6512007)(6486002)(71200400001)(6506007)(110136005)(186003)(26005)(478600001)(36756003)(558084003)(921005)(38070700005)(66946007)(76116006)(66476007)(64756008)(66446008)(66556008)(316002)(41300700001)(54906003)(8676002)(4326008)(2616005)(8936002)(7406005)(7366002)(5660300002)(7416002)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?YW56eGRwMjJPaXZWRzQ0NkV1SFRiUGFSUlRjbm13ZVA3ejRKRlBWRktCVW5o?=
- =?utf-8?B?bnA2T1JKcnpRUVhQUGtlWmF4TDFDQVpPVis0c2NHVllBc0dlTHdZZ1hmRWYy?=
- =?utf-8?B?TWRHRm1KUGhlazQ5MzlwYkJmeFVvTXBlbTE3Y0J1Smc4azRJK20vUng2M2Nn?=
- =?utf-8?B?amQveGl0NEVzYjROSEM1QVhZenlpaTJ6L1NxRER5QkFmNWl0ZDd3R0RHVHNv?=
- =?utf-8?B?OHNDZ1BadXpnUkpCQmhWMUNFdkdIOEd5QlVNNE9GQURzWFg0MW5vSDdMRkww?=
- =?utf-8?B?Ykw3S2pNUC83a1RUdy9sc1V5N0wyTnh4NWFpbWEwYzZLZDdQYVp0cjNXbms3?=
- =?utf-8?B?VWo0QzJuNEYzWG1LTWtCdVdiZlRjcXBRTUs3VnNWUWFmNC9yM094cWFMOFY3?=
- =?utf-8?B?MjROQ2xlU3NmT3c5QmUvTVFrbUplaEV4ZXg4d2JiNDNxZExKWG4zOG1OWkd0?=
- =?utf-8?B?ZHVYalFjZ2w0SkVuc0lrVWxITlAzUHpXY1p6MGl0NDAzS3Z1Qzk2dUZGNHVi?=
- =?utf-8?B?cGF5YTZSdUdwazFaSlFWdFpyeS9yY1IrM1UzRU9FQ0gzRVY1RTllQUpMRkFt?=
- =?utf-8?B?bHlBRWlhYXRWVVFSd0M1RnNhbnNLTzlFcU5hdDFlTndGVjltMS9jWXFOSlZs?=
- =?utf-8?B?b2JtYjhWWnBiancrSmcyRDdpSWtoWnZyMjhWMXEwRlllNEtaTmt2MmI1WlFB?=
- =?utf-8?B?NllSakM2MFRiU1paUXB3RUhqTGUwS2RtV1ZRZGo3Y2k4VTBTVWpqemtONUQ2?=
- =?utf-8?B?amtoUitIUG1zYWxNOWVzcm0vRnRkUE5zczFPNGNjZ2xOd3dDM0pDY1MxYmJi?=
- =?utf-8?B?dk14WEJzOUd5MEZla2k2eXFSdFpLR2ZuWUwrdDdLNmtWb2cwNEd4SnJ4a1RZ?=
- =?utf-8?B?RDRtUTg3UjR3SFdJOGRqYXhvMm5lZzkxdEl1OUJBOHRnK2JJbGFkNWk2Z1lt?=
- =?utf-8?B?S2pkTXQ3MmNBYVpHT0JwbUVLU2lrVFlVR1RqOVJ3KzJqUzR5M3NRQ2oyN2x5?=
- =?utf-8?B?RUVQYVl5NG43aDd2L3hoWitqMTdZOVdXd1JuWWtVVXVIU1BQRkIyZUpaNDZO?=
- =?utf-8?B?b0NmRWJmMEoySzZwRmFsamFUZ096dTlPWGpTamFUZmEzR082eE9McjkrZllM?=
- =?utf-8?B?c0t2MjRMNzZBMFYrVWNqcy8wNk9iT3JsbjBoUDFCdTFpWjRoUGozU1ZuUjBm?=
- =?utf-8?B?c0l2SWZjSktnMkw0UmFSL2xINUcrbFd0Wm9TMWRwQVlFQXZiSnhwTHZpUSth?=
- =?utf-8?B?SUZ6R1RRbW9FYklRWVpsUmR2NXlzOGdKVTIyL0h1S2FuZzQycFVGckdsZHlY?=
- =?utf-8?B?bk5zQjRtQVVvSTRIMXRiR29IRmRaWGpJaEFIV2ROelp2NDVvb2dFM1JVR01J?=
- =?utf-8?B?TmVyT0NnYnc5YUUwSVhkRWE2alZ5QTlJZW8rbXNMdk1xUkwySXZrbEErd2ly?=
- =?utf-8?B?d0hWeXdJZHAwZWdEdkFoSCs4YW5vUEtKUllsb2xPaVU3WnJGMmc4U3ZuNmU2?=
- =?utf-8?B?Q1FkREc5ckhjeUtXN2IvaXh2d2NsNS9HZzFjTXJLVGxkcUtyVlkzOUFuVW9i?=
- =?utf-8?B?MTdQbDVaTmNuUVJMNFIvbngrSkZETDZ5VUpMYW1iaWdiQkZZMGlVaUFiajkv?=
- =?utf-8?B?Q2VKUHA3eHovMmdjYnpZVG1xeDFWNWhvdnNiZmV3R2JNV3FjZnA1bTJSTDVm?=
- =?utf-8?B?d0g0cmdlbWlxa0l3dUdJT0ZmaGJlWlNFZk1PNkZiaFV2SEQ5bm5CaEdlNnNj?=
- =?utf-8?B?WHNFdFNvVllPT3lPUERVcE5IUVVncjg2NmpJU3o4U3k0Zm9qdm81T3ZvNll0?=
- =?utf-8?B?MkVVY2FrYUdUVWhsVmtmdCs2NTZSdDhFbGpldkM4NTVOSjZkY29uZ2lWcy9M?=
- =?utf-8?B?NlQrcXZNMEppZHh4S1pRSm5oeUxZQTd6WTdaekNkRDJTYzh2YUt0VjRsb0ta?=
- =?utf-8?B?RTNFOUdXbzdmajNYQTJJSXVlVkpsalhUQTZyTng4di9aVEtQK1VhWkJzTGFP?=
- =?utf-8?B?VGpzREc2OWtCMmJQdkMxVy9xakc0NWZZWE9vWW1icVVvcWduQ3JQVWdTTUI1?=
- =?utf-8?B?SmtPVEhINW1Nbkl3OCswOUpFaHVSc0RjMU1EVmNtMzFEaTRkZU1XTFV6U0NR?=
- =?utf-8?B?OEhTeWhGQ3RDVVV4eG5Ha2lBb0lrRG1nV0ZBYkNYTmhTaTNRVVhJc3lydk5h?=
- =?utf-8?Q?jOiiC3V+rt/XwEVkOa/vMqQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <23B918A044316A48BC65B5C98C4B680C@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+  t=1677062186; x=1708598186;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ofUmRpvhNVTg3+A6hyPOFASnnH8za9ygTzj8N8YfXSk=;
+  b=Oa1y8iBaEkwy6fMvhe8oHhodd0xu0As0Cvn/STEHYeZTWBGyfJe7EiEm
+   6mSrg3MYKSIj57s2gHXQABHZjXgh0qtnz8ySVm6qQeJyCvOuGb4tmLl/i
+   ODkBGj8NRNmFmO/zJQkENaevWgOePr99Uw2LrDfsA71eM4ha127NIJGZp
+   bCHCoWB8AsMbRlZS/pSYtspvgmv35WrA4X9gEpfyLPG+CgCn4UpRcV5v1
+   qwKQeXDm3DQv4XTKuWY2dKn1nW505DyJPI+fQqri+uwh1CV8IXCxKtwVN
+   fmv6q43VzWYXBl2v2uMj/nIILB4fKAQtBRNyqRlFQDE8BcQ/YGRkTqXLC
+   A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="321031748"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
+   d="scan'208";a="321031748"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:36:25 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10628"; a="781379853"
+X-IronPort-AV: E=Sophos;i="5.97,318,1669104000"; 
+   d="scan'208";a="781379853"
+Received: from ahajda-mobl.ger.corp.intel.com (HELO [10.213.26.51]) ([10.213.26.51])
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Feb 2023 02:36:19 -0800
+Message-ID: <50c1806b-f153-da48-ddf4-53923fa90334@intel.com>
+Date:   Wed, 22 Feb 2023 11:36:17 +0100
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: MWHPR11MB1392.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e44e50fa-c744-496e-a195-08db1395be80
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Feb 2023 22:56:46.9900
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IO8b5p75DKogOcIKA0BCZfvD12QKviBW5V3yC9aiMleQN4Ofh9+wjy1xmbwCu0fZfCTp9uz7T5Nm0+W8BUZhH1HMjs6i6gsXQlPwVFHg2WI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6506
-X-OriginatorOrg: intel.com
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Firefox/102.0 Thunderbird/102.8.0
+Subject: Re: [Intel-gfx] [PATCH v5 0/7] Introduce __xchg, non-atomic xchg
+Content-Language: en-US
+To:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
+        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
+        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
+        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org
+Cc:     Mark Rutland <mark.rutland@arm.com>, Arnd Bergmann <arnd@arndb.de>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Boqun Feng <boqun.feng@gmail.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+References: <20230118153529.57695-1-andrzej.hajda@intel.com>
+From:   Andrzej Hajda <andrzej.hajda@intel.com>
+Organization: Intel Technology Poland sp. z o.o. - ul. Slowackiego 173, 80-298
+ Gdansk - KRS 101882 - NIP 957-07-52-316
+In-Reply-To: <20230118153529.57695-1-andrzej.hajda@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_MED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-T24gTW9uLCAyMDIzLTAyLTIwIGF0IDEyOjIzICswMTAwLCBEYXZpZCBIaWxkZW5icmFuZCB3cm90
-ZToNCj4gVGhhdCBsb29rcyBwYWluZnVsIGJ1dCBJTUhPIHdvcnRoIGl0IDopDQo+IA0KPiBBY2tl
-ZC1ieTogRGF2aWQgSGlsZGVuYnJhbmQgPGRhdmlkQHJlZGhhdC5jb20+DQoNClRoYW5rcy4gWWVz
-IGl0IHdhcyBub3QgdGhlIG1vc3QgZnVuLCBidXQgSSBhZ3JlZSAtIHdvcnRoIGl0Lg0K
+Hi,
+
+Ping on the series.
+Arnd, Andrew is there anything more I can do to push the process forward?
+
+Regards
+Andrzej
+
+
+On 18.01.2023 16:35, Andrzej Hajda wrote:
+> Hi all,
+> 
+> The helper is tiny and there are advices we can live without it, so
+> I want to present few arguments why it would be good to have it:
+> 
+> 1. Code readability/simplification/number of lines:
+>    - decreases number of lines,
+>    - it often eliminates local variables,
+>    - for real examples see patches 3+.
+> 
+> 2. Presence of similar helpers in other somehow related languages/libs:
+> 
+> a) Rust[1]: 'replace' from std::mem module, there is also 'take'
+>      helper (__xchg(&x, 0)), which is the same as private helper in
+>      i915 - fetch_and_zero, see latest patch.
+> b) C++ [2]: 'exchange' from utility header.
+> 
+> If the idea is OK there are still 2 questions to answer:
+> 
+> 1. Name of the helper, __xchg follows kernel conventions,
+>      but for me Rust names are also OK.
+> 2. Where to put the helper:
+> a) as in this patchset include/linux/non-atomic/xchg.h,
+>      proposed by Andy Shevchenko,
+> b) include/linux/utils.h ? any better name? Some kind
+>      of container for simple helpers.
+> 
+> All __xchg conversions were performed using cocci script,
+> then manually adjusted if necessary.
+> 
+> There is lot of places it can be used in, I have just chosen
+> some of them. I can provide cocci script to detect others (not all),
+> if necessary.
+> 
+> Changes:
+> v2: squashed all __xchg -> __arch_xchg t one patch (Arnd)
+> v3: fixed alpha/xchg_local (lkp@intel.com)
+> v4: adjusted indentation (Heiko)
+> v5: added more __xchg conversions - patches 3-6, added tags
+> 
+> [1]: https://doc.rust-lang.org/std/mem/index.html
+> [2]: https://en.cppreference.com/w/cpp/header/utility
+> 
+> Regards
+> Andrzej
+> 
+> Andrzej Hajda (7):
+>    arch: rename all internal names __xchg to __arch_xchg
+>    linux/include: add non-atomic version of xchg
+>    arch/*/uprobes: simplify arch_uretprobe_hijack_return_addr
+>    llist: simplify __llist_del_all
+>    io_uring: use __xchg if possible
+>    qed: use __xchg if possible
+>    drm/i915/gt: use __xchg instead of internal helper
+> 
+>   arch/alpha/include/asm/cmpxchg.h              | 10 +++++-----
+>   arch/arc/include/asm/cmpxchg.h                |  4 ++--
+>   arch/arm/include/asm/cmpxchg.h                |  7 ++++---
+>   arch/arm/probes/uprobes/core.c                |  8 ++------
+>   arch/arm64/include/asm/cmpxchg.h              |  7 +++----
+>   arch/arm64/kernel/probes/uprobes.c            |  9 ++-------
+>   arch/csky/kernel/probes/uprobes.c             |  9 ++-------
+>   arch/hexagon/include/asm/cmpxchg.h            | 10 +++++-----
+>   arch/ia64/include/asm/cmpxchg.h               |  2 +-
+>   arch/ia64/include/uapi/asm/cmpxchg.h          |  4 ++--
+>   arch/loongarch/include/asm/cmpxchg.h          |  4 ++--
+>   arch/m68k/include/asm/cmpxchg.h               |  6 +++---
+>   arch/mips/include/asm/cmpxchg.h               |  4 ++--
+>   arch/mips/kernel/uprobes.c                    | 10 ++--------
+>   arch/openrisc/include/asm/cmpxchg.h           | 10 +++++-----
+>   arch/parisc/include/asm/cmpxchg.h             |  4 ++--
+>   arch/powerpc/include/asm/cmpxchg.h            |  4 ++--
+>   arch/powerpc/kernel/uprobes.c                 | 10 ++--------
+>   arch/riscv/include/asm/atomic.h               |  2 +-
+>   arch/riscv/include/asm/cmpxchg.h              |  4 ++--
+>   arch/riscv/kernel/probes/uprobes.c            |  9 ++-------
+>   arch/s390/include/asm/cmpxchg.h               |  8 ++++----
+>   arch/s390/kernel/uprobes.c                    |  7 ++-----
+>   arch/sh/include/asm/cmpxchg.h                 |  4 ++--
+>   arch/sparc/include/asm/cmpxchg_32.h           |  4 ++--
+>   arch/sparc/include/asm/cmpxchg_64.h           |  6 +++---
+>   arch/sparc/kernel/uprobes.c                   |  7 ++-----
+>   arch/xtensa/include/asm/cmpxchg.h             |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_engine_cs.c     |  2 +-
+>   .../gpu/drm/i915/gt/intel_engine_heartbeat.c  |  4 ++--
+>   .../drm/i915/gt/intel_execlists_submission.c  |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_ggtt.c          |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_gsc.c           |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_gt.c            |  4 ++--
+>   drivers/gpu/drm/i915/gt/intel_gt_pm.c         |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_lrc.c           |  6 +++---
+>   drivers/gpu/drm/i915/gt/intel_migrate.c       |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_rc6.c           |  2 +-
+>   drivers/gpu/drm/i915/gt/intel_rps.c           |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_context.c    |  2 +-
+>   .../drm/i915/gt/selftest_ring_submission.c    |  2 +-
+>   drivers/gpu/drm/i915/gt/selftest_timeline.c   |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_gsc_uc.c     |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc.c         |  2 +-
+>   drivers/gpu/drm/i915/gt/uc/intel_uc_fw.c      |  2 +-
+>   drivers/gpu/drm/i915/i915_utils.h             |  1 +
+>   include/linux/llist.h                         |  6 ++----
+>   include/linux/non-atomic/xchg.h               | 19 +++++++++++++++++++
+>   include/linux/qed/qed_chain.h                 | 19 +++++++------------
+>   io_uring/io_uring.c                           |  7 ++-----
+>   io_uring/slist.h                              |  6 ++----
+>   51 files changed, 126 insertions(+), 155 deletions(-)
+>   create mode 100644 include/linux/non-atomic/xchg.h
+> 
+
