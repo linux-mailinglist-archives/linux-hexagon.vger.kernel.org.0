@@ -2,69 +2,59 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B1786A477B
-	for <lists+linux-hexagon@lfdr.de>; Mon, 27 Feb 2023 18:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 501F06A4B77
+	for <lists+linux-hexagon@lfdr.de>; Mon, 27 Feb 2023 20:47:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229923AbjB0RCk (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 27 Feb 2023 12:02:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41874 "EHLO
+        id S230282AbjB0TrR (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 27 Feb 2023 14:47:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59108 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229776AbjB0RCj (ORCPT
+        with ESMTP id S230268AbjB0TrQ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 27 Feb 2023 12:02:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DA3122A20
-        for <linux-hexagon@vger.kernel.org>; Mon, 27 Feb 2023 09:01:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677517276;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=S+gj+IVlpRNML/WhRdwS5WpJ1kIzGGA+IXuZi3TvglQ=;
-        b=jEHf4M6l8FpPTcLaDlpAQtjg6qV1hSZ038Zbh42sY8IbF5kzHztb6S29gxW84XaW2DngO5
-        oiFSJ/SBZPPgu7w4Zhh7skuj8Usu2Ejwx99LyVG61SjCVanBBAjxKx8WHdH866WQrlurYN
-        44jg+fLyuCcBAVYoVBI2wYq+cZUCaUQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-295-Ik5hig83M_2qzedU6zYEUg-1; Mon, 27 Feb 2023 12:01:05 -0500
-X-MC-Unique: Ik5hig83M_2qzedU6zYEUg-1
-Received: by mail-wr1-f72.google.com with SMTP id m7-20020a056000008700b002c7047ea429so1015238wrx.21
-        for <linux-hexagon@vger.kernel.org>; Mon, 27 Feb 2023 09:01:04 -0800 (PST)
+        Mon, 27 Feb 2023 14:47:16 -0500
+Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EA028202;
+        Mon, 27 Feb 2023 11:46:48 -0800 (PST)
+Received: by mail-qt1-f181.google.com with SMTP id w23so8016473qtn.6;
+        Mon, 27 Feb 2023 11:46:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=S+gj+IVlpRNML/WhRdwS5WpJ1kIzGGA+IXuZi3TvglQ=;
-        b=QwJ6OJm2UEZmN/YVHVwiTksd4RL41qhNy6/YyvXJLthYh4Hv1a9ntxfR/6pFMCNnU7
-         mDuMnxhY3DS79LyLBCpLYU1t4DGGkKzlC0U4Z2tLjHqsAFAC9m/BMhH5/QS9waZO1Dum
-         IuHVA1ElZZBk0gi5doV9d45d6V2gpDrH9o6YMNIreD7lpPHQHe+7ZbEEDN1KA1bPEmzQ
-         aGVbuEImk+DVMlCXSVHL5rr22J8/g4I/SxKJYe9PH7kbHbyMwFKGC7Iq6+bqt41eKxJr
-         3GaoHOEygFzwJSS9sDJ9U9cki5VgnAeZCIDJEtcKS0PgSG4bWEXrvQhrRpIuw1CbblBm
-         ilRw==
-X-Gm-Message-State: AO0yUKVvaO9Uq12Td+WRQSkqZiuWJC7PXZZSLdGCxDnveYox6yBOsp/o
-        pA5pUhrP1OcPW7x7b+cDInCmqa5R7T938HZY18fhXwxvWGyPEzwd2VrBjj6h80xtLjJ8AT7rGE9
-        GeZV+FCp+Bu7AitdboGvgRaP03A==
-X-Received: by 2002:a5d:570e:0:b0:2bf:d940:29b6 with SMTP id a14-20020a5d570e000000b002bfd94029b6mr22317882wrv.54.1677517263063;
-        Mon, 27 Feb 2023 09:01:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set/UUjV2lk6TzBDGO2RyIGoSkW6MncSJyiWPHsxHHIhpKbsx37PxyO7HkStEnBG5FTknvHrGmg==
-X-Received: by 2002:a5d:570e:0:b0:2bf:d940:29b6 with SMTP id a14-20020a5d570e000000b002bfd94029b6mr22317842wrv.54.1677517262720;
-        Mon, 27 Feb 2023 09:01:02 -0800 (PST)
-Received: from [192.168.3.108] (p5b0c68fb.dip0.t-ipconnect.de. [91.12.104.251])
-        by smtp.gmail.com with ESMTPSA id l4-20020a05600c1d0400b003db0ad636d1sm15217382wms.28.2023.02.27.09.01.01
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zgbfP6t1iEXlYeQDHgpgkGKrmlu/wPbkfmiZJDZsq5c=;
+        b=PeklCc/BUNFCM4ElJPmsx7n8MV2Iwl7q5/6ZPW3lCqlV0dMVC71bUn6ySKhihacRzX
+         IhLjkT0taaowmeHkjhqcFjY42CZF3KDVUY920L/intcsjFkVCc92QmU6ESE91dLH9qqs
+         V3sLiIIK128WszIJ9B7tbufuqevD12qezThCbonkuk3CPRtE9KNzSf+rSsBX0KMmXCT3
+         +Yjkpx/NDjxKtTNEsS7Lw4xz/pqZVVRInUsB7OPGfgDt+AWZsfiYWcwVyZRQoHcUkzDM
+         zBLMNGBSVhgNGmNAK4cWhJW8rVsEcT3kNheHkBquP/cEltZS6iHTNcLNoBthBFvRZfmE
+         406w==
+X-Gm-Message-State: AO0yUKU2kiVR8Z6e10D3Yg2rJy4ajsfSR3Icpd5EZkzuMmyjFb/fVh/f
+        9rbA4MyhoEEmv4O+n6cUCizaH3lW93uHzw==
+X-Google-Smtp-Source: AK7set/pQ6JDnl+0gvg72l8iO9kyYF90JvlZkNPQjMM+HJ4miR7SQEsMKDfQzYgWmCLw7AgxTXFqhg==
+X-Received: by 2002:a05:622a:50:b0:3bf:ce27:e1fc with SMTP id y16-20020a05622a005000b003bfce27e1fcmr1053059qtw.7.1677527206826;
+        Mon, 27 Feb 2023 11:46:46 -0800 (PST)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id s184-20020a372cc1000000b0073bb00eb0besm5463580qkh.22.2023.02.27.11.46.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Feb 2023 09:01:02 -0800 (PST)
-Message-ID: <c145a2db-f92c-65aa-3e68-07dbb2e097a6@redhat.com>
-Date:   Mon, 27 Feb 2023 18:01:00 +0100
+        Mon, 27 Feb 2023 11:46:45 -0800 (PST)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-536cb25982eso206302047b3.13;
+        Mon, 27 Feb 2023 11:46:45 -0800 (PST)
+X-Received: by 2002:a5b:d4e:0:b0:967:f8b2:7a42 with SMTP id
+ f14-20020a5b0d4e000000b00967f8b27a42mr7816406ybr.7.1677527205039; Mon, 27 Feb
+ 2023 11:46:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.2
-Subject: Re: [PATCH mm-unstable v1 11/26] microblaze/mm: support
- __HAVE_ARCH_PTE_SWP_EXCLUSIVE
-To:     Geert Uytterhoeven <geert@linux-m68k.org>
+References: <20230113171026.582290-1-david@redhat.com> <20230113171026.582290-12-david@redhat.com>
+ <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
+ <9ed766a6-cf06-535d-3337-ea6ff25c2362@redhat.com> <CAMuHMdWSaoKqO1Nx7QMDCcXrRmFbqqX8uwDRezXs8g+HdEFjKA@mail.gmail.com>
+ <c145a2db-f92c-65aa-3e68-07dbb2e097a6@redhat.com>
+In-Reply-To: <c145a2db-f92c-65aa-3e68-07dbb2e097a6@redhat.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 27 Feb 2023 20:46:31 +0100
+X-Gmail-Original-Message-ID: <CAMuHMdX7MND++KXgTpx4jscfctQA_-zPt3EN9-+79EWE7e+OjA@mail.gmail.com>
+Message-ID: <CAMuHMdX7MND++KXgTpx4jscfctQA_-zPt3EN9-+79EWE7e+OjA@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v1 11/26] microblaze/mm: support __HAVE_ARCH_PTE_SWP_EXCLUSIVE
+To:     David Hildenbrand <david@redhat.com>
 Cc:     linux-kernel@vger.kernel.org,
         Andrew Morton <akpm@linux-foundation.org>,
         Hugh Dickins <hughd@google.com>,
@@ -87,97 +77,71 @@ Cc:     linux-kernel@vger.kernel.org,
         linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
         linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
         Michal Simek <monstr@monstr.eu>
-References: <20230113171026.582290-1-david@redhat.com>
- <20230113171026.582290-12-david@redhat.com>
- <CAMuHMdX-FDga8w=pgg1myskEx6wp+oyZifhPPPFnWrc1zW7ZpQ@mail.gmail.com>
- <9ed766a6-cf06-535d-3337-ea6ff25c2362@redhat.com>
- <CAMuHMdWSaoKqO1Nx7QMDCcXrRmFbqqX8uwDRezXs8g+HdEFjKA@mail.gmail.com>
-Content-Language: en-US
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <CAMuHMdWSaoKqO1Nx7QMDCcXrRmFbqqX8uwDRezXs8g+HdEFjKA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
->>>>    /*
->>>>     * Externally used page protection values.
->>>> diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
->>>> index 42f5988e998b..7e3de54bf426 100644
->>>> --- a/arch/microblaze/include/asm/pgtable.h
->>>> +++ b/arch/microblaze/include/asm/pgtable.h
->>>> @@ -131,10 +131,10 @@ extern pte_t *va_to_pte(unsigned long address);
->>>>     * of the 16 available.  Bit 24-26 of the TLB are cleared in the TLB
->>>>     * miss handler.  Bit 27 is PAGE_USER, thus selecting the correct
->>>>     * zone.
->>>> - * - PRESENT *must* be in the bottom two bits because swap cache
->>>> - * entries use the top 30 bits.  Because 4xx doesn't support SMP
->>>> - * anyway, M is irrelevant so we borrow it for PAGE_PRESENT.  Bit 30
->>>> - * is cleared in the TLB miss handler before the TLB entry is loaded.
->>>> + * - PRESENT *must* be in the bottom two bits because swap PTEs use the top
->>>> + * 30 bits.  Because 4xx doesn't support SMP anyway, M is irrelevant so we
->>>> + * borrow it for PAGE_PRESENT.  Bit 30 is cleared in the TLB miss handler
->>>> + * before the TLB entry is loaded.
->>>
->>> So the PowerPC 4xx comment is still here?
->>
->> I only dropped the comment above __swp_type(). I guess you mean that we
->> could also drop the "Because 4xx doesn't support SMP anyway, M is
->> irrelevant so we borrow it for PAGE_PRESENT." sentence, correct? Not
-> 
-> Yes, that's what I meant.
-> 
->> sure about the "Bit 30 is cleared in the TLB miss handler" comment, if
->> that can similarly be dropped.
-> 
-> No idea, didn't check. But if it was copied from PPC, chances are
-> high it's no longer true....
+Hi David,
 
-I'll have a look.
+On Mon, Feb 27, 2023 at 6:01 PM David Hildenbrand <david@redhat.com> wrote:
+> >>>>    /*
+> >>>>     * Externally used page protection values.
+> >>>> diff --git a/arch/microblaze/include/asm/pgtable.h b/arch/microblaze/include/asm/pgtable.h
+> >>>> index 42f5988e998b..7e3de54bf426 100644
+> >>>> --- a/arch/microblaze/include/asm/pgtable.h
+> >>>> +++ b/arch/microblaze/include/asm/pgtable.h
 
-> 
->>>>     * - All other bits of the PTE are loaded into TLBLO without
->>>>     *  * modification, leaving us only the bits 20, 21, 24, 25, 26, 30 for
->>>>     * software PTE bits.  We actually use bits 21, 24, 25, and
->>>> @@ -155,6 +155,9 @@ extern pte_t *va_to_pte(unsigned long address);
->>>>    #define _PAGE_ACCESSED 0x400   /* software: R: page referenced */
->>>>    #define _PMD_PRESENT   PAGE_MASK
->>>>
->>>> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
->>>> +#define _PAGE_SWP_EXCLUSIVE    _PAGE_DIRTY
->>>
->>> _PAGE_DIRTY is 0x80, so this is also bit 7, thus the new comment is
->>> wrong?
->>
->> In the example, I use MSB-0 bit numbering (which I determined to be
->> correct in microblaze context eventually, but I got confused a couple a
->> times because it's very inconsistent). That should be MSB-0 bit 24.
-> 
-> Thanks, TIL microblaze uses IBM bit numbering...
+> >>>>     * - All other bits of the PTE are loaded into TLBLO without
+> >>>>     *  * modification, leaving us only the bits 20, 21, 24, 25, 26, 30 for
+> >>>>     * software PTE bits.  We actually use bits 21, 24, 25, and
+> >>>> @@ -155,6 +155,9 @@ extern pte_t *va_to_pte(unsigned long address);
+> >>>>    #define _PAGE_ACCESSED 0x400   /* software: R: page referenced */
+> >>>>    #define _PMD_PRESENT   PAGE_MASK
+> >>>>
+> >>>> +/* We borrow bit 24 to store the exclusive marker in swap PTEs. */
+> >>>> +#define _PAGE_SWP_EXCLUSIVE    _PAGE_DIRTY
+> >>>
+> >>> _PAGE_DIRTY is 0x80, so this is also bit 7, thus the new comment is
+> >>> wrong?
+> >>
+> >> In the example, I use MSB-0 bit numbering (which I determined to be
+> >> correct in microblaze context eventually, but I got confused a couple a
+> >> times because it's very inconsistent). That should be MSB-0 bit 24.
+> >
+> > Thanks, TIL microblaze uses IBM bit numbering...
+>
+> I assume IBM bit numbering corresponds to MSB-0 bit numbering, correct?
 
-I assume IBM bit numbering corresponds to MSB-0 bit numbering, correct?
+Correct, as seen in s370 and PowerPC manuals...
 
+> I recall that I used the comment above "/* Definitions for MicroBlaze.
+> */" as an orientation.
+>
+> 0  1  2  3  4  ... 18 19 20 21 22 23 24 25 26 27 28 29 30 31
+> RPN.....................  0  0 EX WR ZSEL.......  W  I  M  G
 
-I recall that I used the comment above "/* Definitions for MicroBlaze. 
-*/" as an orientation.
+Indeed, that's where I noticed the "unconventional" numbering...
 
-0  1  2  3  4  ... 18 19 20 21 22 23 24 25 26 27 28 29 30 31
-RPN.....................  0  0 EX WR ZSEL.......  W  I  M  G
+> So ... either we adjust both or we leave it as is. (again, depends on
+> what the right thing to to is -- which I don't know :) )
 
+It depends whether you want to match the hardware documentation,
+or the Linux BIT() macro and friends...
 
-So ... either we adjust both or we leave it as is. (again, depends on 
-what the right thing to to is -- which I don't know :) )
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-Thanks,
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-David / dhildenb
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
