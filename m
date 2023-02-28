@@ -2,114 +2,108 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F38C6A5C95
-	for <lists+linux-hexagon@lfdr.de>; Tue, 28 Feb 2023 16:58:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CCDC6A5E44
+	for <lists+linux-hexagon@lfdr.de>; Tue, 28 Feb 2023 18:35:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230285AbjB1P6B (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 28 Feb 2023 10:58:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52178 "EHLO
+        id S229667AbjB1Re7 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 28 Feb 2023 12:34:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230312AbjB1P5u (ORCPT
+        with ESMTP id S229509AbjB1Re6 (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 28 Feb 2023 10:57:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EC8C32CC6
-        for <linux-hexagon@vger.kernel.org>; Tue, 28 Feb 2023 07:56:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1677599795;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=V7pSWC5euLmUDx9YG5RWzWaGkcDB950fdhQfUYWKICc=;
-        b=L7YliKV/d3202CCEuU9Fu2ac86tPOoUC+750FU1UZiFNnKKVsSvv9T7SgjZOSG/zn0wRsS
-        KY458A7FWA74fitA5SLEBpgpLgM7VD7z6cx4ectDFvde8wsW2gXG2GVzJ6wVslmhqI/Rb1
-        YK4AHB1E0McrSW3VjATaBEavJpoDBjY=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-390-4fMRfyONOyC4y5OPjC1Jpw-1; Tue, 28 Feb 2023 10:56:34 -0500
-X-MC-Unique: 4fMRfyONOyC4y5OPjC1Jpw-1
-Received: by mail-wm1-f71.google.com with SMTP id m28-20020a05600c3b1c00b003e7d4662b83so7102643wms.0
-        for <linux-hexagon@vger.kernel.org>; Tue, 28 Feb 2023 07:56:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112;
-        h=content-transfer-encoding:in-reply-to:organization:from:references
-         :cc:to:content-language:subject:user-agent:mime-version:date
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=V7pSWC5euLmUDx9YG5RWzWaGkcDB950fdhQfUYWKICc=;
-        b=r1OxzcPlS8k3sXaDHphQ/dDKGhdK20ia+SeiwMm1kN6UYvsT/DvgD/vC9nn+kMGaNw
-         kjUYwz4VwTjca8X7v3SWkdPN5TXApVPRw+N8F/SlGxSnvTY6hhORFF8mBVj0By1FOP/O
-         +wkoVTxynmLim3nTZlMZTN4vjAsewbIbjqeoFVu1Bt9JhOGAoPHKkhPtbP6FpJGBVZ/r
-         7aigch3oc4AfVWkuCRqx5++K6fc6Noc3iFGrgopYd22lmXyrnEdnNqPdH6TCQBLLV9cU
-         OGfhb//mIjBKRX37JjM2QZW8Mo+c0psf3kbdZP9+tjRIVF8T6E3d66xeuaqU8PWKMHLY
-         Rsog==
-X-Gm-Message-State: AO0yUKU1z/cQi3ehdcv8Di45Nk4slrD8e9OZ4wtzv2zazRPkmd9QxzWX
-        bCe+g0508zgdtEDDPXtMPD4PC8UFPypmsbJPppVIkxN2iyI1CfEWGdCAiZo03E2NYtlounWg9Pd
-        2ZZ9OqHK0x79bEU2vn3vZavAjJg==
-X-Received: by 2002:a05:600c:1e20:b0:3df:9858:c037 with SMTP id ay32-20020a05600c1e2000b003df9858c037mr9985232wmb.12.1677599793385;
-        Tue, 28 Feb 2023 07:56:33 -0800 (PST)
-X-Google-Smtp-Source: AK7set/U2v9f8GltbBAhuiD5VLcyopD+EwumVs1dLk0qMzdF/fI8DkaFn74NX3LW8zhnIM6FtbCCQg==
-X-Received: by 2002:a05:600c:1e20:b0:3df:9858:c037 with SMTP id ay32-20020a05600c1e2000b003df9858c037mr9985221wmb.12.1677599793078;
-        Tue, 28 Feb 2023 07:56:33 -0800 (PST)
-Received: from ?IPV6:2003:cb:c706:b800:3757:baed:f95e:20ac? (p200300cbc706b8003757baedf95e20ac.dip0.t-ipconnect.de. [2003:cb:c706:b800:3757:baed:f95e:20ac])
-        by smtp.gmail.com with ESMTPSA id hn6-20020a05600ca38600b003e21f01c426sm13465165wmb.9.2023.02.28.07.56.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Feb 2023 07:56:32 -0800 (PST)
-Message-ID: <bd656b2c-9a20-dea9-dcef-9cc965bccc9e@redhat.com>
-Date:   Tue, 28 Feb 2023 16:56:30 +0100
+        Tue, 28 Feb 2023 12:34:58 -0500
+Received: from zeniv.linux.org.uk (zeniv.linux.org.uk [IPv6:2a03:a000:7:0:5054:ff:fe1c:15ff])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 296601EBD7;
+        Tue, 28 Feb 2023 09:34:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=linux.org.uk; s=zeniv-20220401; h=Sender:In-Reply-To:Content-Type:
+        MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=bN8lETEGtH3eSCzqdqNXhuD99n9DHCrwwsYdF542otk=; b=tlM7n0Xf2FPdjnh6I1lRD/dMeA
+        /hXzqbpV8RRtbLC1sDVsgtMEN7cikGeK3Z5yneR36FFONPjOZYDhLmOP/tyJMoxJHxpZVcoVnVV0M
+        syx0lJ1Po6cnoqtkr5LVPcY5p0oj3P5gJV5Wm7cl3V/2lA269sPqGXI3qSuox0K2VHs51kQDHSTfm
+        lUncCtO7g0VDFwoVXw7wGG2YSp29ouOnhFFV0dGyHRGISsU+Gw86N7WhFw1pGsETFEz5N+P6P8lb6
+        0P3epZK72dBTYM3LK14Md4g++i+Xn8vyTQ2iKpNruxRo8PZF/qH7Ax8EFV0zWBStHnqUwCar2xFby
+        +gfd/aUQ==;
+Received: from viro by zeniv.linux.org.uk with local (Exim 4.96 #2 (Red Hat Linux))
+        id 1pX3sK-00CtWb-2k;
+        Tue, 28 Feb 2023 17:34:52 +0000
+Date:   Tue, 28 Feb 2023 17:34:52 +0000
+From:   Al Viro <viro@zeniv.linux.org.uk>
+To:     Helge Deller <deller@gmx.de>
+Cc:     linux-arch@vger.kernel.org, linux-alpha@vger.kernel.org,
+        linux-ia64@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        linux-riscv@lists.infradead.org, sparclinux@vger.kernel.org,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH 08/10] parisc: fix livelock in uaccess
+Message-ID: <Y/47PMmpLDX5lPWx@ZenIV>
+References: <Y9lz6yk113LmC9SI@ZenIV>
+ <Y9l0w4M91DwYLO3N@ZenIV>
+ <84b1c2e4-c096-ed19-9701-472b54a4890c@gmx.de>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.8.0
-Subject: Re: [PATCH mm-unstable v1 19/26] riscv/mm: support
- __HAVE_ARCH_PTE_SWP_EXCLUSIVE
-Content-Language: en-US
-To:     Palmer Dabbelt <palmer@dabbelt.com>
-Cc:     linux-kernel@vger.kernel.org, akpm@linux-foundation.org,
-        hughd@google.com, jhubbard@nvidia.com, jgg@nvidia.com,
-        rppt@linux.ibm.com, shy828301@gmail.com, vbabka@suse.cz,
-        namit@vmware.com, aarcange@redhat.com, peterx@redhat.com,
-        linux-mm@kvack.org, x86@kernel.org, linux-alpha@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, openrisc@lists.librecores.org,
-        linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
-        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
-        linux-um@lists.infradead.org, linux-xtensa@linux-xtensa.org,
-        Paul Walmsley <paul.walmsley@sifive.com>, aou@eecs.berkeley.edu
-References: <mhng-b8dc8a57-dde0-4995-bbb7-3948a95ba0b1@palmer-ri-x1c9a>
-From:   David Hildenbrand <david@redhat.com>
-Organization: Red Hat
-In-Reply-To: <mhng-b8dc8a57-dde0-4995-bbb7-3948a95ba0b1@palmer-ri-x1c9a>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <84b1c2e4-c096-ed19-9701-472b54a4890c@gmx.de>
+Sender: Al Viro <viro@ftp.linux.org.uk>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On 28.02.23 16:50, Palmer Dabbelt wrote:
-> On Fri, 13 Jan 2023 09:10:19 PST (-0800), david@redhat.com wrote:
->> Let's support __HAVE_ARCH_PTE_SWP_EXCLUSIVE by stealing one bit
->> from the offset. This reduces the maximum swap space per file: on 32bit
->> to 16 GiB (was 32 GiB).
+On Mon, Feb 06, 2023 at 05:58:02PM +0100, Helge Deller wrote:
+> Hi Al,
 > 
-> Seems fine to me, I doubt anyone wants a huge pile of swap on rv32.
+> On 1/31/23 21:06, Al Viro wrote:
+> > parisc equivalent of 26178ec11ef3 "x86: mm: consolidate VM_FAULT_RETRY handling"
+> > If e.g. get_user() triggers a page fault and a fatal signal is caught, we might
+> > end up with handle_mm_fault() returning VM_FAULT_RETRY and not doing anything
+> > to page tables.  In such case we must *not* return to the faulting insn -
+> > that would repeat the entire thing without making any progress; what we need
+> > instead is to treat that as failed (user) memory access.
+> > 
+> > Signed-off-by: Al Viro <viro@zeniv.linux.org.uk>
+> > ---
+> >   arch/parisc/mm/fault.c | 5 ++++-
+> >   1 file changed, 4 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/parisc/mm/fault.c b/arch/parisc/mm/fault.c
+> > index 869204e97ec9..bb30ff6a3e19 100644
+> > --- a/arch/parisc/mm/fault.c
+> > +++ b/arch/parisc/mm/fault.c
+> > @@ -308,8 +308,11 @@ void do_page_fault(struct pt_regs *regs, unsigned long code,
+> > 
+> >   	fault = handle_mm_fault(vma, address, flags, regs);
+> > 
+> > -	if (fault_signal_pending(fault, regs))
+> > +	if (fault_signal_pending(fault, regs)) {
+> > +		if (!user_mode(regs))
+> > +			goto no_context;
+> >   		return;
+> > +	}
+> 
+> The testcase in
+>   https://lore.kernel.org/lkml/20170822102527.GA14671@leverpostej/
+>   https://lore.kernel.org/linux-arch/20210121123140.GD48431@C02TD0UTHF1T.local/
+> does hang with and without above patch on parisc.
+> It does not consume CPU in that state and can be killed with ^C.
+> 
+> Any idea?
 
-Patch is already upstream, so we can't add tags unfortunately. Thanks 
-for the review!
+	Still trying to resurrect the parisc box to test on it...
+FWIW, right now I've locally confirmed that mainline has the bug
+in question and that patch fixes it for alpha, sparc32 and sparc64;
+hexagon, m68k and riscv got acks from other folks; microblaze,
+nios2 and openrisc I can't test at all (no hardware, no qemu setup);
+same for parisc64.  Itanic and parisc32 I might be able to test,
+if I manage to resurrect the hardware.
 
--- 
-Thanks,
-
-David / dhildenb
-
+	Just to confirm: your "can be killed with ^C" had been on the
+mainline parisc kernel (with userfaultfd enable, of course, or it wouldn't
+hang up at all), right?  Was it 32bit or 64bit kernel?
