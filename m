@@ -2,76 +2,104 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 23FA36ABC61
-	for <lists+linux-hexagon@lfdr.de>; Mon,  6 Mar 2023 11:26:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F5626AD36E
+	for <lists+linux-hexagon@lfdr.de>; Tue,  7 Mar 2023 01:49:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231179AbjCFK05 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 6 Mar 2023 05:26:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57724 "EHLO
+        id S229729AbjCGAtB (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 6 Mar 2023 19:49:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48698 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229951AbjCFK0d (ORCPT
+        with ESMTP id S229650AbjCGAtA (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 6 Mar 2023 05:26:33 -0500
-Received: from mail-oa1-x36.google.com (mail-oa1-x36.google.com [IPv6:2001:4860:4864:20::36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8AF26859
-        for <linux-hexagon@vger.kernel.org>; Mon,  6 Mar 2023 02:26:02 -0800 (PST)
-Received: by mail-oa1-x36.google.com with SMTP id 586e51a60fabf-1767a208b30so8876606fac.2
-        for <linux-hexagon@vger.kernel.org>; Mon, 06 Mar 2023 02:26:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20210112; t=1678098351;
-        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
-        b=EDbhPO1WKzSJy97Cp1KR4Ue1wIcLFSscoH9L1E67CyPoJvstONJwP7RxKCqsDiuar/
-         4XZc6UhnyOFrEHlIQ3KmGU6oX8xWOyZpiVA4bD6F27cjopM5KQeiwoXnQq1r2hu/0hkW
-         LgiQ9FGonNq8AsMsEKBqZEvtwgOfW2lv3iUKapY2ocqE+LRWfsVifUNA3eNbIcULbvPT
-         nBBU0ns0xWwmvS7ETCAh5Z5lhdCiLVSRis+m63aq8CObwyUrMLAjGQpDeSf4OVAOQav5
-         5TuEH4NOUnTGCqcHGRIE0/tBavRRplzW4HaWY1DRs+pas+nyfL/37adPjYmqfexbl/Di
-         PS3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1678098351;
-        h=to:subject:message-id:date:from:reply-to:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vh7FN/ulAdnmY8O0LKz7bqpIFk4oOSQ9iCZ8VQ/AkNo=;
-        b=6WgM5FhbGOOIOPJmlHybNgwvMvmFrbYhY+M9hfk5f/sl24ou5lD1+pF+BGnno6PvzD
-         n3f3s0Ny0jcZMExby2g6UXEGHvTED0k5Oerx93k761pGjFntfNDUDLFxqBlraZxyS8Fv
-         OKQCoCYiL9jrCyKR2RTTWECAgqlSa7a6X4xx+TaYlddspKAm4bPPjw1H4HnpqRBZnAxx
-         Xs0QO4CHsN5ACZspc0I8EYL/OwaWY2Ax7Nd/tvlwuFExgiTgzJ9qzuRBXbgT1WkybstM
-         UsH0A+sBq4M4mZB2nC390pNwwGgz6EcZLeAQZYUwL/XRKUcvgj4nDCiX3OCSwS0Txwj5
-         Ruyg==
-X-Gm-Message-State: AO0yUKW5BZ7KDH6H0TE9GLzbLuoNvTJSbEhRHScD9g5oMH4H5zRgMXNe
-        M5ixOadK9/RanDNP5jS4GcDFgqH3lU7UbyXr5CdFT1Dh1Kc=
-X-Google-Smtp-Source: AK7set9YqazPiOkBuGm+YrFZOLe51O90+qKBrIr6WBjXtnVrmZ9RIOYyWRLBWcHI+/rsVoNhMQhwnCpcR6G8n2Z6mzE=
-X-Received: by 2002:a05:6102:e44:b0:402:999f:44d3 with SMTP id
- p4-20020a0561020e4400b00402999f44d3mr6975472vst.1.1678098330725; Mon, 06 Mar
- 2023 02:25:30 -0800 (PST)
+        Mon, 6 Mar 2023 19:49:00 -0500
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3D5532E4D;
+        Mon,  6 Mar 2023 16:48:59 -0800 (PST)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 33EBE6119F;
+        Tue,  7 Mar 2023 00:48:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 8B8C7C4339C;
+        Tue,  7 Mar 2023 00:48:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1678150138;
+        bh=DTBF08PUaWnq+/WZrF7wRg3Gw3DZpD56+OYHF2OwmDU=;
+        h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+        b=Y07kUCp2hLM8zvBJFe4OvNqBFVagn6t9EukGAZvud6hbysxiSK4EOkMznK70nfH6L
+         0imkuDlS3T+d34hzLqbRZHIqG48prR0uSiuR8sk95nSw5j14kWp30nd+iKo/L7m4Y3
+         TD2QvOLBkbWcdPrhdOGToM9C+mGKvKDdobAgTQX4PisWjy0VPKMhuTlOVOV2WWTVtz
+         9KDQWWlTfudUG2qUssDCMv0Zbx1KgMv3OtQ3G9yUfKBFNpmeraaIPsM6eVmIogglql
+         044cOWU0nhh4ZWyQZWXbdSxkyRS2QK0x5TwK3hVBxo0dx93tMoKEtPYNonTSWx9Znv
+         xLzrI36/6Bj3g==
+Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
+        by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 63BDEE68C3A;
+        Tue,  7 Mar 2023 00:48:58 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Received: by 2002:a59:ce6f:0:b0:3ae:930b:3e70 with HTTP; Mon, 6 Mar 2023
- 02:25:30 -0800 (PST)
-Reply-To: madis.scarl@terlera.it
-From:   "Ms Eve from U.N" <denisagotou@gmail.com>
-Date:   Mon, 6 Mar 2023 11:25:30 +0100
-Message-ID: <CAD6bNBi6bPCYboaF4-xBgmeUTFn6JMXqU6TNepQig=NRMqhdUg@mail.gmail.com>
-Subject: Re: Claim of Fund:
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=4.6 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,HK_SCAM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UNDISC_MONEY autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH 01/10] alpha: fix livelock in uaccess
+From:   patchwork-bot+linux-riscv@kernel.org
+Message-Id: <167815013840.19612.4686188583677266510.git-patchwork-notify@kernel.org>
+Date:   Tue, 07 Mar 2023 00:48:58 +0000
+References: <Y9l0EDRr9DpNb5Pb@ZenIV>
+In-Reply-To: <Y9l0EDRr9DpNb5Pb@ZenIV>
+To:     Al Viro <viro@ZenIV.linux.org.uk>
+Cc:     linux-riscv@lists.infradead.org, linux-arch@vger.kernel.org,
+        linux-alpha@vger.kernel.org, linux-ia64@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
+        monstr@monstr.eu, dinguyen@kernel.org,
+        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
+        sparclinux@vger.kernel.org, torvalds@linux-foundation.org
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hello Good Morning,
-This is to bring to your notice that all our efforts to contact you
-through this your email ID failed Please Kindly contact Barrister.
-Steven Mike { mbarrsteven@gmail.com } on his private email for the
-claim of your compensation entitlement
+Hello:
 
-Note: You have to pay for the delivery fee.
-Yours Sincerely
-Mrs EVE LEWIS
+This series was applied to riscv/linux.git (fixes)
+by Al Viro <viro@zeniv.linux.org.uk>:
+
+On Tue, 31 Jan 2023 20:03:28 +0000 you wrote:
+> alpha equivalent of 26178ec11ef3 "x86: mm: consolidate VM_FAULT_RETRY handling"
+> If e.g. get_user() triggers a page fault and a fatal signal is caught, we might
+> end up with handle_mm_fault() returning VM_FAULT_RETRY and not doing anything
+> to page tables.  In such case we must *not* return to the faulting insn -
+> that would repeat the entire thing without making any progress; what we need
+> instead is to treat that as failed (user) memory access.
+> 
+> [...]
+
+Here is the summary with links:
+  - [01/10] alpha: fix livelock in uaccess
+    (no matching commit)
+  - [02/10] hexagon: fix livelock in uaccess
+    (no matching commit)
+  - [03/10] ia64: fix livelock in uaccess
+    (no matching commit)
+  - [04/10] m68k: fix livelock in uaccess
+    (no matching commit)
+  - [05/10] microblaze: fix livelock in uaccess
+    (no matching commit)
+  - [06/10] nios2: fix livelock in uaccess
+    (no matching commit)
+  - [07/10] openrisc: fix livelock in uaccess
+    (no matching commit)
+  - [08/10] parisc: fix livelock in uaccess
+    (no matching commit)
+  - [09/10] riscv: fix livelock in uaccess
+    https://git.kernel.org/riscv/c/d835eb3a57de
+  - [10/10] sparc: fix livelock in uaccess
+    (no matching commit)
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
