@@ -2,44 +2,60 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C8C36C5A1E
-	for <lists+linux-hexagon@lfdr.de>; Thu, 23 Mar 2023 00:15:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C33E6C6D68
+	for <lists+linux-hexagon@lfdr.de>; Thu, 23 Mar 2023 17:26:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229656AbjCVXPv (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 22 Mar 2023 19:15:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48500 "EHLO
+        id S231520AbjCWQ0U (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 23 Mar 2023 12:26:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34028 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229436AbjCVXPu (ORCPT
+        with ESMTP id S231637AbjCWQ0S (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 22 Mar 2023 19:15:50 -0400
-Received: from desiato.infradead.org (desiato.infradead.org [IPv6:2001:8b0:10b:1:d65d:64ff:fe57:4e05])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BB061910F;
-        Wed, 22 Mar 2023 16:15:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=desiato.20200630; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=hKMA4pE4ZC1WEjwlMS0oahB5WbuLzi761bi+OVXv/X8=; b=k4/hIANBdxC2Z8c++HmkBPk16F
-        hq1n4vi1aFY7d/izKMGpm0/zkTd++0c77IZs+Q5bV257Gjkiy34yMSDd8L7TKq46+CV0zDSHb27H+
-        4KSIRSylcgYZ2OMei78Bb1gC7STjWled8MJkcwhhG29tpOAa6HtPIFWPyA9seeGrRiJr3vWUYPsTp
-        3Vu3FPyPpiLcCMVxhaxuIGSboSf1mmZy7nxDek09nDmg/P6bBJA5M4EMw//9ErW/pvBC1TxeGCDAY
-        4DGmD2DpR96GbtKoxaTV3TYyxFMIuFbNKoIU/LaGvb2xuytoT+Rk3V4s2DX53haN44indyDWk1fXo
-        N1G/mBcw==;
-Received: from j130084.upc-j.chello.nl ([24.132.130.84] helo=noisy.programming.kicks-ass.net)
-        by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
-        id 1pf7f5-004hB6-38;
-        Wed, 22 Mar 2023 23:14:32 +0000
-Received: from hirez.programming.kicks-ass.net (hirez.programming.kicks-ass.net [192.168.1.225])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (Client did not present a certificate)
-        by noisy.programming.kicks-ass.net (Postfix) with ESMTPS id 9046D30035F;
-        Thu, 23 Mar 2023 00:14:28 +0100 (CET)
-Received: by hirez.programming.kicks-ass.net (Postfix, from userid 1000)
-        id 73D47202F7F60; Thu, 23 Mar 2023 00:14:28 +0100 (CET)
-Date:   Thu, 23 Mar 2023 00:14:28 +0100
-From:   Peter Zijlstra <peterz@infradead.org>
-To:     Valentin Schneider <vschneid@redhat.com>
+        Thu, 23 Mar 2023 12:26:18 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 295D510CE
+        for <linux-hexagon@vger.kernel.org>; Thu, 23 Mar 2023 09:25:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1679588730;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Rf1EargHhjBzXfO07IgMLtInuWGSM9rCL6OoPVE8vbA=;
+        b=CLCmM0WSxtyElg+rV2NaoX9cNsA1z5rA7ILWJxtQfnoauVI4sVS+i/1dx6dmEGhD7QGjwW
+        ieVUHLQI89+/WnFSqHdOMyN7cvuSa5i7jQ4ENY1zX4hy7aRG8nE4HRcgbVapDzLLSyxMYb
+        WXQ45gfTZgsQx4Xjb6Am1fF1x4+m1OM=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-282-8NTwIK8WO9G_2o0KIKY-1Q-1; Thu, 23 Mar 2023 12:25:29 -0400
+X-MC-Unique: 8NTwIK8WO9G_2o0KIKY-1Q-1
+Received: by mail-wr1-f71.google.com with SMTP id u27-20020adfa19b000000b002d3b9266941so2087782wru.2
+        for <linux-hexagon@vger.kernel.org>; Thu, 23 Mar 2023 09:25:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20210112; t=1679588728;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rf1EargHhjBzXfO07IgMLtInuWGSM9rCL6OoPVE8vbA=;
+        b=ZtMA4wXwgnFztpHFjiYM8AZvTQWZg5yc/b39KL5hSa4Oeiv1Fu6QX0btBMQfYoBRje
+         difweZZdiLP8Brt9cT5ECs7OByHzCrbU9WZbg61ciDblGTDWtURcol5xpJnclrQsP01t
+         zkxA4RAlfk4rvlK7CFiy08nN4wx5kLXbfNr8IA7hi8Nc8VDU9llFe9P2vZuHaogfgJFs
+         02x7ke+N1p506x1gUr8uU+Idp+AM3kvhbIvS8z95gHpf3T49TWmk1m5ELRTLJAUwK3Z1
+         T5+wQppG9EJxpjR28tG8tNxqotULMll6uTwygHaimuw5/7SoUTwb0PJzFjKRCoIBnpcU
+         owzg==
+X-Gm-Message-State: AAQBX9dHaKWJqNpt2id8wkJVw2Vz9RsAtCEYj124DZ2ca6AC3NJm94yO
+        1YKJ3+mX9TXux15ljE4PQrR6Rz0rlvyUg43ar2ZW6ebCIVY6Oe3a9O4mKrNKnIzvDQmnkfD8Pbp
+        Hq9u0rwWUz+ZwLYZgZhxpzC4Tdg==
+X-Received: by 2002:a5d:4568:0:b0:2c7:e5f:e0e0 with SMTP id a8-20020a5d4568000000b002c70e5fe0e0mr2967352wrc.65.1679588728476;
+        Thu, 23 Mar 2023 09:25:28 -0700 (PDT)
+X-Google-Smtp-Source: AKy350Z2pOP19Ooh7wiG9F4iyBZnUcLGOtnlVl1iiXTySJV6QCXnwRVxEdgZiRrRO9IHVKHT4hkvPQ==
+X-Received: by 2002:a5d:4568:0:b0:2c7:e5f:e0e0 with SMTP id a8-20020a5d4568000000b002c70e5fe0e0mr2967333wrc.65.1679588728212;
+        Thu, 23 Mar 2023 09:25:28 -0700 (PDT)
+Received: from vschneid.remote.csb ([154.57.232.159])
+        by smtp.gmail.com with ESMTPSA id d10-20020adfe88a000000b002c70e60abd4sm16586783wrm.2.2023.03.23.09.25.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Mar 2023 09:25:27 -0700 (PDT)
+From:   Valentin Schneider <vschneid@redhat.com>
+To:     Peter Zijlstra <peterz@infradead.org>
 Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-snps-arc@lists.infradead.org,
         linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
@@ -66,89 +82,69 @@ Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
         Guo Ren <guoren@kernel.org>,
         "David S. Miller" <davem@davemloft.net>
 Subject: Re: [PATCH v5 7/7] sched, smp: Trace smp callback causing an IPI
-Message-ID: <20230322231428.GV2017917@hirez.programming.kicks-ass.net>
+In-Reply-To: <20230322140434.GC2357380@hirez.programming.kicks-ass.net>
 References: <20230307143558.294354-1-vschneid@redhat.com>
  <20230307143558.294354-8-vschneid@redhat.com>
  <20230322095329.GS2017917@hirez.programming.kicks-ass.net>
  <xhsmhmt45c703.mognet@vschneid.remote.csb>
  <20230322140434.GC2357380@hirez.programming.kicks-ass.net>
- <xhsmhjzz8d8km.mognet@vschneid.remote.csb>
- <20230322172242.GH2357380@hirez.programming.kicks-ass.net>
- <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
+Date:   Thu, 23 Mar 2023 16:25:25 +0000
+Message-ID: <xhsmhbkkjcu4q.mognet@vschneid.remote.csb>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <xhsmhh6ucd4t7.mognet@vschneid.remote.csb>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=DKIM_SIGNED,DKIM_VALID,
-        DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Type: text/plain
+X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Wed, Mar 22, 2023 at 06:22:28PM +0000, Valentin Schneider wrote:
-> On 22/03/23 18:22, Peter Zijlstra wrote:
+On 22/03/23 15:04, Peter Zijlstra wrote:
+> @@ -798,14 +794,20 @@ static void smp_call_function_many_cond(
+>  		}
+>  
+>  		/*
+> +		 * Trace each smp_function_call_*() as an IPI, actual IPIs
+> +		 * will be traced with func==generic_smp_call_function_single_ipi().
+> +		 */
+> +		trace_ipi_send_cpumask(cfd->cpumask_ipi, _RET_IP_, func);
 
-> >>        hackbench-157   [001]    10.894320: ipi_send_cpu:         cpu=3 callsite=check_preempt_curr+0x37 callback=0x0
-> >
-> > Arguably we should be setting callback to scheduler_ipi(), except
-> > ofcourse, that's not an actual function...
-> >
-> > Maybe we can do "extern inline" for the actual users and provide a dummy
-> > function for the symbol when tracing.
-> >
-> 
-> Huh, I wasn't aware that was an option, I'll look into that. I did scribble
-> down a comment next to smp_send_reschedule(), but having a decodable
-> function name would be better!
+I just got a trace pointing out this can emit an event even though no IPI
+is sent if e.g. the cond_func predicate filters all CPUs in the argument
+mask:
 
-So clang-15 builds the below (and generates the expected code), but
-gcc-12 vomits nonsense about a non-static inline calling a static inline
-or somesuch bollocks :-/
+  ipi_send_cpumask:     cpumask= callsite=on_each_cpu_cond_mask+0x3c callback=flush_tlb_func+0x0
 
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -1991,7 +1991,7 @@ extern char *__get_task_comm(char *to, s
- })
+Maybe something like so on top?
+
+---
+diff --git a/kernel/smp.c b/kernel/smp.c
+index ba5478814e677..1dc452017d000 100644
+--- a/kernel/smp.c
++++ b/kernel/smp.c
+@@ -791,6 +791,8 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
+ 			}
+ 		}
  
- #ifdef CONFIG_SMP
--static __always_inline void scheduler_ipi(void)
-+extern __always_inline void scheduler_ipi(void)
- {
- 	/*
- 	 * Fold TIF_NEED_RESCHED into the preempt_count; anybody setting
---- a/include/linux/smp.h
-+++ b/include/linux/smp.h
-@@ -130,9 +130,9 @@ extern void arch_smp_send_reschedule(int
-  * scheduler_ipi() is inline so can't be passed as callback reason, but the
-  * callsite IP should be sufficient for root-causing IPIs sent from here.
-  */
--#define smp_send_reschedule(cpu) ({		  \
--	trace_ipi_send_cpu(cpu, _RET_IP_, NULL);  \
--	arch_smp_send_reschedule(cpu);		  \
-+#define smp_send_reschedule(cpu) ({				\
-+	trace_ipi_send_cpu(cpu, _RET_IP_, &scheduler_ipi);	\
-+	arch_smp_send_reschedule(cpu);				\
- })
++		if (!nr_cpus)
++			goto local;
+ 		/*
+ 		 * Trace each smp_function_call_*() as an IPI, actual IPIs
+ 		 * will be traced with func==generic_smp_call_function_single_ipi().
+@@ -804,10 +806,10 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
+ 		 */
+ 		if (nr_cpus == 1)
+ 			send_call_function_single_ipi(last_cpu);
+-		else if (likely(nr_cpus > 1))
++		else
+ 			send_call_function_ipi_mask(cfd->cpumask_ipi);
+ 	}
+-
++local:
+ 	if (run_local && (!cond_func || cond_func(this_cpu, info))) {
+ 		unsigned long flags;
  
- /*
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3790,6 +3790,15 @@ static int ttwu_runnable(struct task_str
- }
- 
- #ifdef CONFIG_SMP
-+void scheduler_ipi(void)
-+{
-+	/*
-+	 * Actual users should end up using the extern inline, this is only
-+	 * here for the symbol.
-+	 */
-+	BUG();
-+}
-+
- void sched_ttwu_pending(void *arg)
- {
- 	struct llist_node *llist = arg;
+
