@@ -2,207 +2,272 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 120616C7043
-	for <lists+linux-hexagon@lfdr.de>; Thu, 23 Mar 2023 19:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A7C426CA322
+	for <lists+linux-hexagon@lfdr.de>; Mon, 27 Mar 2023 14:14:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231327AbjCWSdE (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Thu, 23 Mar 2023 14:33:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54736 "EHLO
+        id S232667AbjC0MOH (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 27 Mar 2023 08:14:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33022 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231320AbjCWSdD (ORCPT
+        with ESMTP id S232607AbjC0MOG (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Thu, 23 Mar 2023 14:33:03 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39C392596E
-        for <linux-hexagon@vger.kernel.org>; Thu, 23 Mar 2023 11:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1679596306;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=OQhuytQNa//R38jUclcb8GrjXYgITp5dQj88746r1Bo=;
-        b=Qo2LJcSiXI0jBmEIyIvOTFLS5259ZeG8/EX/sOpsky4WBquMyD1ZX7I75OzECkmI1bwA/J
-        9TdwNfxwKHXFmExtqGsmETvFEmZM40VyvXR7CCxZY1Vohp9WB7anwS2vB5lj1dLR+Xh08b
-        VG2QWUPiU0U36whcLcjFlsoewMydz0w=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-30-U5rdog1oOIaMUj76uvh5Zw-1; Thu, 23 Mar 2023 14:31:42 -0400
-X-MC-Unique: U5rdog1oOIaMUj76uvh5Zw-1
-Received: by mail-wm1-f70.google.com with SMTP id r35-20020a05600c322300b003edce6ff3b4so1345265wmp.4
-        for <linux-hexagon@vger.kernel.org>; Thu, 23 Mar 2023 11:31:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20210112; t=1679596301;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OQhuytQNa//R38jUclcb8GrjXYgITp5dQj88746r1Bo=;
-        b=BE9128VHOHgU6TiKiTZ4rXcj+kXNI8EaV4QBwhU0RrNRqC5KKcLSb95aEb+BjNG+31
-         QEXM6txArwqVftAInnKp9CGQHTA2BHNwH3G1nP5qLy16dqL4hqhhwOmjp6D81Sca059v
-         Q2eGFAV7d4rCA72y/nMtzSuJt+Y891HBTSXFmI1Jwv1edGODXMWaWafKeSzhovLqAuC9
-         58uez6HpLQwzquwzgFlc5EvYOCfM9WrQRCpz7Vnrb/bw9fa0OCOfDDkoOoCBtowpnXMX
-         LF997LsTbqgQxP3hlvZGjHBV2cebOkslYLNlAWimaPufesNNV2VixGhZb8HGI7NaUTrd
-         inyg==
-X-Gm-Message-State: AAQBX9ciY+Q+weTDr3EOyThdDXncnRuV4bQ6xOFgz4kEEqZrKrKGdBuj
-        mYl91HBU3t0fkw8B/utmh5mc5c9nz3wjsAaigrpViq9qGdF2KSsiCPcsk0yvtzt5HFRZ2C/bCpN
-        +lTj/UlWIHVP792hk7xTEu2E8jw==
-X-Received: by 2002:adf:ee4e:0:b0:2d2:f3e3:115d with SMTP id w14-20020adfee4e000000b002d2f3e3115dmr104094wro.59.1679596301161;
-        Thu, 23 Mar 2023 11:31:41 -0700 (PDT)
-X-Google-Smtp-Source: AKy350akLKxXWb1wSOfhINrcngkAYQLWnw4Bp2RUkomUFDjjiyXwtTV3jYctLuET3Ky7jfggPrYKfQ==
-X-Received: by 2002:adf:ee4e:0:b0:2d2:f3e3:115d with SMTP id w14-20020adfee4e000000b002d2f3e3115dmr104063wro.59.1679596300886;
-        Thu, 23 Mar 2023 11:31:40 -0700 (PDT)
-Received: from vschneid.remote.csb ([154.57.232.159])
-        by smtp.gmail.com with ESMTPSA id s17-20020a5d4251000000b002d1801018e2sm16702552wrr.63.2023.03.23.11.31.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Mar 2023 11:31:39 -0700 (PDT)
-From:   Valentin Schneider <vschneid@redhat.com>
-To:     Peter Zijlstra <peterz@infradead.org>
-Cc:     linux-alpha@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-snps-arc@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
-        linux-hexagon@vger.kernel.org, linux-ia64@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-mips@vger.kernel.org,
-        openrisc@lists.librecores.org, linux-parisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-xtensa@linux-xtensa.org,
-        x86@kernel.org, "Paul E. McKenney" <paulmck@kernel.org>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-        Juri Lelli <juri.lelli@redhat.com>,
-        Daniel Bristot de Oliveira <bristot@redhat.com>,
-        Marcelo Tosatti <mtosatti@redhat.com>,
-        Frederic Weisbecker <frederic@kernel.org>,
-        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        "H. Peter Anvin" <hpa@zytor.com>, Marc Zyngier <maz@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
+        Mon, 27 Mar 2023 08:14:06 -0400
+Received: from ams.source.kernel.org (ams.source.kernel.org [145.40.68.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9D1A3C0A;
+        Mon, 27 Mar 2023 05:14:00 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ams.source.kernel.org (Postfix) with ESMTPS id 632BAB81151;
+        Mon, 27 Mar 2023 12:13:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F8CC433D2;
+        Mon, 27 Mar 2023 12:13:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1679919237;
+        bh=GiqSNoh/gnOD0kxoCZ+KxN9c2SO+z1nJBns1fyyi+vo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=pq3BAphM3wHtatYjV+DfN2I8sJHS4IYBYyDE+v6/Qc8ZwCT8gpvS4DAGv7VxPzFGA
+         QTONxH3L5u7xfGpaWF72Vn6IOud15UVhnlOu7Pkpc4MFJc3T+eyi/9YHM2uw4o3Q19
+         hlFRkjcr9R2SPBbGCiCcG9K2ncI1oTIHchYegylFXUpPuOkFuj5EhA9x60aFehDKxy
+         Qltw/cCcMI8A23tAm4waeZqorYzy7ERYFcrUh9Z5Dt10vOC7n/8mHT1x94BLc8QwMZ
+         RjkfvTiQw9Na09hCmY2JMMUGUbEev+PR6WHG/lHK6hz99r9Xiisa4orl4KnTMuyptQ
+         /3AEVTN69OUkQ==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     linux-kernel@vger.kernel.org
+Cc:     Arnd Bergmann <arnd@arndb.de>, Vineet Gupta <vgupta@kernel.org>,
         Russell King <linux@armlinux.org.uk>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Guo Ren <guoren@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>
-Subject: Re: [PATCH v5 7/7] sched, smp: Trace smp callback causing an IPI
-In-Reply-To: <20230323174129.GA2753619@hirez.programming.kicks-ass.net>
-References: <20230307143558.294354-1-vschneid@redhat.com>
- <20230307143558.294354-8-vschneid@redhat.com>
- <20230322095329.GS2017917@hirez.programming.kicks-ass.net>
- <xhsmhmt45c703.mognet@vschneid.remote.csb>
- <20230322140434.GC2357380@hirez.programming.kicks-ass.net>
- <xhsmhbkkjcu4q.mognet@vschneid.remote.csb>
- <20230323174129.GA2753619@hirez.programming.kicks-ass.net>
-Date:   Thu, 23 Mar 2023 18:31:37 +0000
-Message-ID: <xhsmh8rfncoae.mognet@vschneid.remote.csb>
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Guo Ren <guoren@kernel.org>,
+        Brian Cain <bcain@quicinc.com>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Stafford Horne <shorne@gmail.com>,
+        Helge Deller <deller@gmx.de>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        "David S. Miller" <davem@davemloft.net>,
+        Max Filippov <jcmvbkbc@gmail.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Conor Dooley <conor.dooley@microchip.com>,
+        linux-snps-arc@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-oxnas@groups.io,
+        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, linux-parisc@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-xtensa@linux-xtensa.org
+Subject: [PATCH 00/21] dma-mapping: unify support for cache flushes
+Date:   Mon, 27 Mar 2023 14:12:56 +0200
+Message-Id: <20230327121317.4081816-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-0.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_NONE autolearn=unavailable
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=DKIMWL_WL_HIGH,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,SPF_HELO_NONE,
+        SPF_PASS autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On 23/03/23 18:41, Peter Zijlstra wrote:
-> On Thu, Mar 23, 2023 at 04:25:25PM +0000, Valentin Schneider wrote:
->> On 22/03/23 15:04, Peter Zijlstra wrote:
->> > @@ -798,14 +794,20 @@ static void smp_call_function_many_cond(
->> >  		}
->> >  
->> >  		/*
->> > +		 * Trace each smp_function_call_*() as an IPI, actual IPIs
->> > +		 * will be traced with func==generic_smp_call_function_single_ipi().
->> > +		 */
->> > +		trace_ipi_send_cpumask(cfd->cpumask_ipi, _RET_IP_, func);
->> 
->> I just got a trace pointing out this can emit an event even though no IPI
->> is sent if e.g. the cond_func predicate filters all CPUs in the argument
->> mask:
->> 
->>   ipi_send_cpumask:     cpumask= callsite=on_each_cpu_cond_mask+0x3c callback=flush_tlb_func+0x0
->> 
->> Maybe something like so on top?
->> 
->> ---
->> diff --git a/kernel/smp.c b/kernel/smp.c
->> index ba5478814e677..1dc452017d000 100644
->> --- a/kernel/smp.c
->> +++ b/kernel/smp.c
->> @@ -791,6 +791,8 @@ static void smp_call_function_many_cond(const struct cpumask *mask,
->>  			}
->>  		}
->>  
->> +		if (!nr_cpus)
->> +			goto local;
->
-> Hmm, this isn't right. You can get nr_cpus==0 even though it did add
-> some to various lists but never was first.
->
+From: Arnd Bergmann <arnd@arndb.de>
 
-Duh, glanced over that.
+After a long discussion about adding SoC specific semantics for when
+to flush caches in drivers/soc/ drivers that we determined to be
+fundamentally flawed[1], I volunteered to try to move that logic into
+architecture-independent code and make all existing architectures do
+the same thing.
 
-> But urgh, even if we were to say count nr_queued we'd never get the mask
-> right, because we don't track which CPUs have the predicate matched,
-> only those we need to actually send an IPI to :/
->
-> Ooh, I think we can clear those bits from cfd->cpumask, arguably that's
-> a correctness fix too, because the 'run_remote && wait' case shouldn't
-> wait on things we didn't queue.
->
+As we had determined earlier, the behavior is wildly different across
+architectures, but most of the differences come down to either bugs
+(when required flushes are missing) or extra flushes that are harmless
+but might hurt performance.
 
-Yeah, that makes sense to me. Just one tiny suggestion below.
+I finally found the time to come up with an implementation of this, which
+starts by replacing every outlier with one of the three common options:
 
-> Hmm?
->
->
-> --- a/kernel/smp.c
-> +++ b/kernel/smp.c
-> @@ -728,9 +728,9 @@ static void smp_call_function_many_cond(
->  	int cpu, last_cpu, this_cpu = smp_processor_id();
->  	struct call_function_data *cfd;
->  	bool wait = scf_flags & SCF_WAIT;
-> +	int nr_cpus = 0, nr_queued = 0;
->  	bool run_remote = false;
->  	bool run_local = false;
-> -	int nr_cpus = 0;
->  
->  	lockdep_assert_preemption_disabled();
->  
-> @@ -772,8 +772,10 @@ static void smp_call_function_many_cond(
->  		for_each_cpu(cpu, cfd->cpumask) {
->  			call_single_data_t *csd = per_cpu_ptr(cfd->csd, cpu);
->  
-> -			if (cond_func && !cond_func(cpu, info))
-> +			if (cond_func && !cond_func(cpu, info)) {
-> +				__cpumask_clear_cpu(cpu, cfd->cpumask);
->  				continue;
-> +			}
->  
->  			csd_lock(csd);
->  			if (wait)
-> @@ -789,13 +791,15 @@ static void smp_call_function_many_cond(
->  				nr_cpus++;
->  				last_cpu = cpu;
->  			}
-> +			nr_queued++;
->  		}
->  
->  		/*
->  		 * Trace each smp_function_call_*() as an IPI, actual IPIs
->  		 * will be traced with func==generic_smp_call_function_single_ipi().
->  		 */
-> -		trace_ipi_send_cpumask(cfd->cpumask_ipi, _RET_IP_, func);
-> +		if (nr_queued)
+ 1. architectures without speculative prefetching (hegagon, m68k,
+    openrisc, sh, sparc, and certain armv4 and xtensa implementations)
+    only flush their caches before a DMA, by cleaning write-back caches
+    (if any) before a DMA to the device, and by invalidating the caches
+    before a DMA from a device
 
-With your change to cfd->cpumask, we could ditch nr_queued and make this
+ 2. arc, microblaze, mips, nios2, sh and later xtensa now follow the
+    normal 32-bit arm model and invalidate their writeback caches
+    again after a DMA from the device, to remove stale cache lines
+    that got prefetched during the DMA. arc, csky and mips used to
+    invalidate buffers also before the bidirectional DMA, but this
+    is now skipped whenever we know it gets invalidated again
+    after the DMA.
 
-                if (!cpumask_empty(cfd->cpumask))
+ 3. parisc, powerpc and riscv already flushed buffers before
+    a DMA_FROM_DEVICE, and these get moved to the arm64 behavior
+    that does the writeback before and invalidate after both
+    DMA_FROM_DEVICE and DMA_BIDIRECTIONAL in order to avoid the
+    problem of accidentally leaking stale data if the DMA does
+    not actually happen[2].
 
-since cfd->cpumask now only contains CPUs that have had a CSD queued.
+The last patch in the series replaces the architecture specific code
+with a shared version that implements all three based on architecture
+specific parameters that are almost always determined at compile time.
 
-> +			trace_ipi_send_cpumask(cfd->cpumask, _RET_IP_, func);
->  
->  		/*
->  		 * Choose the most efficient way to send an IPI. Note that the
+The difference between cases 1. and 2. is hardware specific, while between
+2. and 3. we need to decide which semantics we want, but I explicitly
+avoid this question in my series and leave it to be decided later.
 
+Another difference that I do not address here is what cache invalidation
+does for partical cache lines. On arm32, arm64 and powerpc, a partial
+cache line always gets written back before invalidation in order to
+ensure that data before or after the buffer is not discarded. On all
+other architectures, the assumption is cache lines are never shared
+between DMA buffer and data that is accessed by the CPU. If we end up
+always writing back dirty cache lines before a DMA (option 3 above),
+then this point becomes moot, otherwise we should probably address this
+in a follow-up series to document one behavior or the other and implement
+it consistently.
+
+Please review!
+
+      Arnd
+
+[1] https://lore.kernel.org/all/20221212115505.36770-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+[2] https://lore.kernel.org/all/20220606152150.GA31568@willie-the-truck/
+
+Arnd Bergmann (21):
+  openrisc: dma-mapping: flush bidirectional mappings
+  xtensa: dma-mapping: use normal cache invalidation rules
+  sparc32: flush caches in dma_sync_*for_device
+  microblaze: dma-mapping: skip extra DMA flushes
+  powerpc: dma-mapping: split out cache operation logic
+  powerpc: dma-mapping: minimize for_cpu flushing
+  powerpc: dma-mapping: always clean cache in _for_device() op
+  riscv: dma-mapping: only invalidate after DMA, not flush
+  riscv: dma-mapping: skip invalidation before bidirectional DMA
+  csky: dma-mapping: skip invalidating before DMA from device
+  mips: dma-mapping: skip invalidating before bidirectional DMA
+  mips: dma-mapping: split out cache operation logic
+  arc: dma-mapping: skip invalidating before bidirectional DMA
+  parisc: dma-mapping: use regular flush/invalidate ops
+  ARM: dma-mapping: always invalidate WT caches before DMA
+  ARM: dma-mapping: bring back dmac_{clean,inv}_range
+  ARM: dma-mapping: use arch_sync_dma_for_{device,cpu}() internally
+  ARM: drop SMP support for ARM11MPCore
+  ARM: dma-mapping: use generic form of arch_sync_dma_* helpers
+  ARM: dma-mapping: split out arch_dma_mark_clean() helper
+  dma-mapping: replace custom code with generic implementation
+
+ arch/arc/mm/dma.c                          |  66 ++------
+ arch/arm/Kconfig                           |   4 +
+ arch/arm/include/asm/cacheflush.h          |  21 +++
+ arch/arm/include/asm/glue-cache.h          |   4 +
+ arch/arm/mach-oxnas/Kconfig                |   4 -
+ arch/arm/mach-oxnas/Makefile               |   1 -
+ arch/arm/mach-oxnas/headsmp.S              |  23 ---
+ arch/arm/mach-oxnas/platsmp.c              |  96 -----------
+ arch/arm/mach-versatile/platsmp-realview.c |   4 -
+ arch/arm/mm/Kconfig                        |  19 ---
+ arch/arm/mm/cache-fa.S                     |   4 +-
+ arch/arm/mm/cache-nop.S                    |   6 +
+ arch/arm/mm/cache-v4.S                     |  13 +-
+ arch/arm/mm/cache-v4wb.S                   |   4 +-
+ arch/arm/mm/cache-v4wt.S                   |  22 ++-
+ arch/arm/mm/cache-v6.S                     |  35 +---
+ arch/arm/mm/cache-v7.S                     |   6 +-
+ arch/arm/mm/cache-v7m.S                    |   4 +-
+ arch/arm/mm/dma-mapping-nommu.c            |  36 ++--
+ arch/arm/mm/dma-mapping.c                  | 181 ++++++++++-----------
+ arch/arm/mm/proc-arm1020.S                 |   4 +-
+ arch/arm/mm/proc-arm1020e.S                |   4 +-
+ arch/arm/mm/proc-arm1022.S                 |   4 +-
+ arch/arm/mm/proc-arm1026.S                 |   4 +-
+ arch/arm/mm/proc-arm920.S                  |   4 +-
+ arch/arm/mm/proc-arm922.S                  |   4 +-
+ arch/arm/mm/proc-arm925.S                  |   4 +-
+ arch/arm/mm/proc-arm926.S                  |   4 +-
+ arch/arm/mm/proc-arm940.S                  |   4 +-
+ arch/arm/mm/proc-arm946.S                  |   4 +-
+ arch/arm/mm/proc-feroceon.S                |   8 +-
+ arch/arm/mm/proc-macros.S                  |   2 +
+ arch/arm/mm/proc-mohawk.S                  |   4 +-
+ arch/arm/mm/proc-xsc3.S                    |   4 +-
+ arch/arm/mm/proc-xscale.S                  |   6 +-
+ arch/arm64/mm/dma-mapping.c                |  28 ++--
+ arch/csky/mm/dma-mapping.c                 |  46 +++---
+ arch/hexagon/kernel/dma.c                  |  44 ++---
+ arch/m68k/kernel/dma.c                     |  43 +++--
+ arch/microblaze/kernel/dma.c               |  38 ++---
+ arch/mips/mm/dma-noncoherent.c             |  75 +++------
+ arch/nios2/mm/dma-mapping.c                |  57 +++----
+ arch/openrisc/kernel/dma.c                 |  62 ++++---
+ arch/parisc/include/asm/cacheflush.h       |   6 +-
+ arch/parisc/kernel/pci-dma.c               |  33 +++-
+ arch/powerpc/mm/dma-noncoherent.c          |  76 +++++----
+ arch/riscv/mm/dma-noncoherent.c            |  51 +++---
+ arch/sh/kernel/dma-coherent.c              |  43 +++--
+ arch/sparc/Kconfig                         |   2 +-
+ arch/sparc/kernel/ioport.c                 |  38 +++--
+ arch/xtensa/Kconfig                        |   1 -
+ arch/xtensa/include/asm/cacheflush.h       |   6 +-
+ arch/xtensa/kernel/pci-dma.c               |  47 +++---
+ include/linux/dma-sync.h                   | 107 ++++++++++++
+ 54 files changed, 721 insertions(+), 699 deletions(-)
+ delete mode 100644 arch/arm/mach-oxnas/headsmp.S
+ delete mode 100644 arch/arm/mach-oxnas/platsmp.c
+ create mode 100644 include/linux/dma-sync.h
+
+-- 
+2.39.2
+
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: Russell King <linux@armlinux.org.uk>
+Cc: Neil Armstrong <neil.armstrong@linaro.org>
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Will Deacon <will@kernel.org>
+Cc: Guo Ren <guoren@kernel.org>
+Cc: Brian Cain <bcain@quicinc.com>
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Michal Simek <monstr@monstr.eu>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Stafford Horne <shorne@gmail.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: Christoph Hellwig <hch@lst.de>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: Conor Dooley <conor.dooley@microchip.com>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-oxnas@groups.io
+Cc: linux-csky@vger.kernel.org
+Cc: linux-hexagon@vger.kernel.org
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: linux-mips@vger.kernel.org
+Cc: linux-openrisc@vger.kernel.org
+Cc: linux-parisc@vger.kernel.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-riscv@lists.infradead.org
+Cc: linux-sh@vger.kernel.org
+Cc: sparclinux@vger.kernel.org
+Cc: linux-xtensa@linux-xtensa.org
