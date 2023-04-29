@@ -2,135 +2,314 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2975F6F12A5
-	for <lists+linux-hexagon@lfdr.de>; Fri, 28 Apr 2023 09:43:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 389006F235C
+	for <lists+linux-hexagon@lfdr.de>; Sat, 29 Apr 2023 08:34:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345778AbjD1Hnw (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 28 Apr 2023 03:43:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48904 "EHLO
+        id S229839AbjD2GeM (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sat, 29 Apr 2023 02:34:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345641AbjD1Hng (ORCPT
+        with ESMTP id S229574AbjD2GeL (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 28 Apr 2023 03:43:36 -0400
-Received: from wout3-smtp.messagingengine.com (wout3-smtp.messagingengine.com [64.147.123.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39D015FC0;
-        Fri, 28 Apr 2023 00:42:35 -0700 (PDT)
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
-        by mailout.west.internal (Postfix) with ESMTP id 615423200319;
-        Fri, 28 Apr 2023 03:41:39 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute6.internal (MEProxy); Fri, 28 Apr 2023 03:41:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-transfer-encoding:content-type:content-type:date
-        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
-        1682667698; x=1682754098; bh=IpndvKPF8+ZBYjcJVQBy1hma252/YYop7a9
-        JdT/8deI=; b=DclSOfxipXonjr10Zfze2g04tEcMacCmPEMQj9KSUXPgBjVvL3b
-        MQo6fuWFJzT27nHJRs74jQBGwTtn2n2KHu5aTUjHmlrE0229hVE5oHF9yZDkS3ew
-        p1PmAZmZsXTagjeqlDcNnPsWoMKrE3WDRUgwOnllR2Mxd40mEjio8JDSoZrBhcLY
-        EpF/qnQ//QXfqOClL6sTo+6QcKph0TMZrseOTG+p/07lIk+CJDRuw9l1QbbyGXjO
-        Eb35nUJHmU87iS3+aXTcjIEw3yWT1ZcEtVJ4ScA81na/2JXShjG0jXm+bNsByN9H
-        0auAMaDbwZPPaqpkQeZO7SI/+wjiURWUsIw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-transfer-encoding
-        :content-type:content-type:date:date:feedback-id:feedback-id
-        :from:from:in-reply-to:in-reply-to:message-id:mime-version
-        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
-        1682667698; x=1682754098; bh=IpndvKPF8+ZBYjcJVQBy1hma252/YYop7a9
-        JdT/8deI=; b=ZK/ac6fyNoZWTXPXbTwDD4R131otN5WDVVkeFrFt0hh+B+HJxI8
-        X1G/CekMUpexmmrmmtZG9J6nlcBpYM2so1ttFbssFuvmAd/ypJumITr52uxj1kqy
-        Zy5c2xC/bhpYC6ggOg+MvqevGn68/zmzyOJ/3I3FVAlKSomAD5e4Rd6yFIqBKGoS
-        hfpNiJGqsm98wDNSPOSseTUhCzwwWb6vjvWT3xqdwN747++XNPbtRAEMqvBh4uIw
-        8a5wbLZI4Yp1uAxenqy8Yq0fZoWyfdJOOTsgpDQXZZOenD4BGJ/pbNjPRx5NNA7H
-        eRdIwS64tODrt1vngpa6XkfH9l9gVEeJE5g==
-X-ME-Sender: <xms:sXhLZC_w2Ek7ASHPBn9INJdoLclKFnb0_xbl3lC3xmLCPyKQXxk-BA>
-    <xme:sXhLZCuacs7cUiWYO0nEuiBYqB32l5BX1MLYeiBEMcK-fUP18Owr4Xr3Py6CFXhZd
-    _Jcbs_IxCTeOMDCEhI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrfedujedguddvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedf
-    tehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrf
-    grthhtvghrnhepgeefjeehvdelvdffieejieejiedvvdfhleeivdelveehjeelteegudek
-    tdfgjeevnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    eprghrnhgusegrrhhnuggsrdguvg
-X-ME-Proxy: <xmx:sXhLZICeUj5YmbBGBf_2m0H6PdWJkxUh3cvjU_9w54cXtxEeD9Uaeg>
-    <xmx:sXhLZKfodyYkaB9AElovPFxDfwUHR8mUJf5ooIYAhxFkIsxA5POH_w>
-    <xmx:sXhLZHPdS6QKadaKE8YtYrFaIvC03TvHzezzcglBLhUn06N1drpMBQ>
-    <xmx:snhLZPb3qpLzi_KGSCW3CvjqMT17lW441eMUaxBX-rqa1NYZ3zdyZQ>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 1B945B60086; Fri, 28 Apr 2023 03:41:37 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-374-g72c94f7a42-fm-20230417.001-g72c94f7a
-Mime-Version: 1.0
-Message-Id: <52dd950a-e714-4ebe-a663-4e0ec6463d03@app.fastmail.com>
-In-Reply-To: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
-References: <168155718437.13678.714141668943813263.stgit@skinsburskii.localdomain>
-Date:   Fri, 28 Apr 2023 08:40:51 +0100
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Stanislav Kinsburskii" <skinsburskii@linux.microsoft.com>
-Cc:     "Matt Turner" <mattst88@gmail.com>, x86@kernel.org,
-        "Stanislav Kinsburskii" <stanislav.kinsburskii@gmail.com>,
-        "Borislav Petkov" <bp@alien8.de>, linux-ia64@vger.kernel.org,
-        "Mark Brown" <broonie@kernel.org>,
-        "Richard Henderson" <richard.henderson@linaro.org>,
-        linux-kernel@vger.kernel.org, "Brian Cain" <bcain@quicinc.com>,
-        linux-mips@vger.kernel.org,
-        "Geert Uytterhoeven" <geert@linux-m68k.org>,
-        linux-alpha@vger.kernel.org,
-        Linux-Arch <linux-arch@vger.kernel.org>,
-        "Michael Ellerman" <mpe@ellerman.id.au>,
-        "Linus Walleij" <linus.walleij@linaro.org>,
-        "Jiaxun Yang" <jiaxun.yang@flygoat.com>,
-        "Bjorn Helgaas" <bhelgaas@google.com>,
-        "Andrew Morton" <akpm@linux-foundation.org>,
-        "Dave Hansen" <dave.hansen@linux.intel.com>,
-        "Omar Sandoval" <osandov@fb.com>, "Helge Deller" <deller@gmx.de>,
-        linuxppc-dev@lists.ozlabs.org, linux-hexagon@vger.kernel.org,
-        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
-        "Ivan Kokshaysky" <ink@jurassic.park.msu.ru>,
-        "Ingo Molnar" <mingo@redhat.com>,
-        "Florian Fainelli" <f.fainelli@gmail.com>,
-        "Chris Down" <chris@chrisdown.name>,
-        "Nicholas Piggin" <npiggin@gmail.com>,
-        "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+        Sat, 29 Apr 2023 02:34:11 -0400
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 070872125;
+        Fri, 28 Apr 2023 23:34:10 -0700 (PDT)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1a69f686345so5691505ad.2;
+        Fri, 28 Apr 2023 23:34:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1682750049; x=1685342049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cSfv5t4C9cwppYox3U6KqaeYRJrwwcdMCKh0TKYZTfY=;
+        b=jgX+OXrrHnH45akqNjdlWaQFYstsdbpondQ+fh3Msi1/HhjpsmZdFC+yLXih7hP/pU
+         wgdNac4fjcTdjuh5YzDwrfXcFY7nTNG7NTG9OKleR4+VqZlwQQ+dJnUPCKUlMotuGhtK
+         liEvH+GopRM8uHPlGBNbhx8erNYSKJLuBi7f6XaVH16Z1cWL+j0LVG8QPiLpBIa6TEeI
+         zTS1Ra3qCsaeMXU1RmMnIP9HaQN5+5m2TcVeWF6195N9W4Nk/IP8if39MUVzKA4I+Dwp
+         Z2dkFPBFVLF+hUJPQOTD2SFsOLbcA622JvdIeH4gIN3JC30Fskg+YIN5y8gJoIVRkgR5
+         I3Cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1682750049; x=1685342049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cSfv5t4C9cwppYox3U6KqaeYRJrwwcdMCKh0TKYZTfY=;
+        b=a/UMIrkjFZvPLW8ia71Q/p9Im8ovIt7o5Q56hij2CjixjcaB0oT2j2ygxOj+y6YhRY
+         ukqh4irMGGlTexaqwZmO4LltSBY3+2ijurQMwrnXzRw+8JBE/bEtOy2K6cf17oX/seKX
+         b5OtnOGUAHrSXLKVkjRMr+5zdAnQdogqZr0O2Az51giIgHhLIAfjGWgHo6zvFigsEQ0K
+         7DGCFiJRcSJ2yf39ZkJ5PYGJjDvkvvbXED2UeyETKhGgglUopYzqzjLG5Qm1znZ+lx25
+         d3gG3ZtAamHOGRlJGBxqaZ46KEog9/HWi2sHz1ZTAJW9i13dleSkw3ZU5Xujo90WH21p
+         L7eA==
+X-Gm-Message-State: AC+VfDwWVs7Pf4YHljI8Ywf34zgETse1A76C3NnIVlAEql0k0UN4dxY6
+        CsNnc2VbGQCVdug0srHaDyE=
+X-Google-Smtp-Source: ACHHUZ7be5oOxy4XCSWaxNypq0CFCL78WwmFg5MLeuSZBRyfSzU6QkTnWKQW9hhiXBkCoxg5Uid8wg==
+X-Received: by 2002:a17:903:2798:b0:1a9:7262:fe55 with SMTP id jw24-20020a170903279800b001a97262fe55mr7208130plb.13.1682750049387;
+        Fri, 28 Apr 2023 23:34:09 -0700 (PDT)
+Received: from wheely.local0.net (14-202-4-83.tpgi.com.au. [14.202.4.83])
+        by smtp.gmail.com with ESMTPSA id h10-20020a170902748a00b001a258041049sm14142470pll.32.2023.04.28.23.33.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Apr 2023 23:34:08 -0700 (PDT)
+From:   Nicholas Piggin <npiggin@gmail.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     Nicholas Piggin <npiggin@gmail.com>, linux-arch@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vineet Gupta <vgupta@kernel.org>,
+        linux-snps-arc@lists.infradead.org, Brian Cain <bcain@quicinc.com>,
+        linux-hexagon@vger.kernel.org, Huacai Chen <chenhuacai@kernel.org>,
+        loongarch@lists.linux.dev,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org, Michal Simek <monstr@monstr.eu>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        linux-mips@vger.kernel.org, Dinh Nguyen <dinguyen@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>,
+        Stafford Horne <shorne@gmail.com>,
+        linux-openrisc@vger.kernel.org,
+        "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>,
+        Helge Deller <deller@gmx.de>, linux-parisc@vger.kernel.org,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        linux-riscv@lists.infradead.org,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Rich Felker <dalias@libc.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        linux-sh@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+        sparclinux@vger.kernel.org, Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
+        Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
         "H. Peter Anvin" <hpa@zytor.com>,
-        "Thomas Gleixner" <tglx@linutronix.de>
-Subject: Re: [PATCH 0/7] Expect immutable pointer in virt_to_phys/isa_virt_to_bus
- prototypes
-Content-Type: text/plain;charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        Kevin Hilman <khilman@baylibre.com>,
+        Frederic Weisbecker <frederic@kernel.org>
+Subject: [PATCH] Remove HAVE_VIRT_CPU_ACCOUNTING_GEN option
+Date:   Sat, 29 Apr 2023 16:33:48 +1000
+Message-Id: <20230429063348.125544-1-npiggin@gmail.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Sat, Apr 15, 2023, at 12:17, Stanislav Kinsburskii wrote:
-> This series is aimed to address compilation warnings when a constant p=
-ointer
-> is passed to virt_to_phys and isa_virt_to_bus functions:
->
->   warning: passing argument 1 of =E2=80=98virt_to_phys=E2=80=99 discar=
-ds =E2=80=98const=E2=80=99=20
-> qualifier from pointer target type
->   warning: passing argument 1 of =E2=80=98isa_virt_to_bus=E2=80=99 dis=
-cards =E2=80=98const=E2=80=99=20
-> qualifier from pointer target type
->
-> The change(s) is the same for all architectures, but it's split into a=
- series on
-> per-arch basis to simplify applying and testing on the maintainers sid=
-e.
->
+This option was created in commit 554b0004d0ec4 ("vtime: Add
+HAVE_VIRT_CPU_ACCOUNTING_GEN Kconfig") for architectures to indicate
+they support the 64-bit cputime_t required for VIRT_CPU_ACCOUNTING_GEN.
 
-Looks all good to me. If everyone is happy with it, I'll queue it up
-after in the asm-generic tree for 6.5, once rc1 is out.
+The cputime_t type has since been removed, so this doesn't have any
+meaning. Remove it.
 
- Arnd
+Cc: linux-arch@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: Vineet Gupta <vgupta@kernel.org>
+Cc: linux-snps-arc@lists.infradead.org
+Cc: Brian Cain <bcain@quicinc.com>
+Cc: linux-hexagon@vger.kernel.org
+Cc: Huacai Chen <chenhuacai@kernel.org>
+Cc: loongarch@lists.linux.dev
+Cc: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: linux-m68k@lists.linux-m68k.org
+Cc: Michal Simek <monstr@monstr.eu>
+Cc: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+Cc: linux-mips@vger.kernel.org
+Cc: Dinh Nguyen <dinguyen@kernel.org>
+Cc: Jonas Bonn <jonas@southpole.se>
+Cc: Stefan Kristiansson <stefan.kristiansson@saunalahti.fi>
+Cc: Stafford Horne <shorne@gmail.com>
+Cc: linux-openrisc@vger.kernel.org
+Cc: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+Cc: Helge Deller <deller@gmx.de>
+Cc: linux-parisc@vger.kernel.org
+Cc: Paul Walmsley <paul.walmsley@sifive.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Albert Ou <aou@eecs.berkeley.edu>
+Cc: linux-riscv@lists.infradead.org
+Cc: Yoshinori Sato <ysato@users.sourceforge.jp>
+Cc: Rich Felker <dalias@libc.org>
+Cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: linux-sh@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>
+Cc: sparclinux@vger.kernel.org
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Cc: Johannes Berg <johannes@sipsolutions.net>
+Cc: linux-um@lists.infradead.org
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Borislav Petkov <bp@alien8.de>
+Cc: Dave Hansen <dave.hansen@linux.intel.com>
+Cc: x86@kernel.org
+Cc: "H. Peter Anvin" <hpa@zytor.com>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Frederic Weisbecker <frederic@kernel.org>
+Signed-off-by: Nicholas Piggin <npiggin@gmail.com>
+---
+Hi,
+
+Could we tidy this? I don't know what tree it can go in, timers,
+sched, asm-generic, probably doesn't matter.
+
+The only thing this actually does is gate VIRT_CPU_ACCOUNTING_GEN and
+NO_HZ_FULL so if your arch has some other issue that requires this
+then the documentation needs to change. Any concerns from the archs?
+I.e., 32-bit that does *not* define HAVE_VIRT_CPU_ACCOUNTING_GEN
+which looks to be:
+
+arc
+hexagon
+loongarch 32-bit with SMP
+m68k
+microblaze
+mips 32-bit with SMP
+nios2
+openrisc
+parisc 32-bit
+riscv 32-bit
+sh
+sparc 32-bit
+um 32-bit
+x86 32-bit
+
+Thanks,
+Nick
+--
+ arch/Kconfig           | 11 -----------
+ arch/arm/Kconfig       |  1 -
+ arch/csky/Kconfig      |  1 -
+ arch/loongarch/Kconfig |  1 -
+ arch/mips/Kconfig      |  1 -
+ arch/powerpc/Kconfig   |  1 -
+ arch/xtensa/Kconfig    |  1 -
+ init/Kconfig           |  1 -
+ kernel/time/Kconfig    |  2 --
+ 9 files changed, 20 deletions(-)
+
+diff --git a/arch/Kconfig b/arch/Kconfig
+index 205fd23e0cad..b77b41d25e40 100644
+--- a/arch/Kconfig
++++ b/arch/Kconfig
+@@ -869,17 +869,6 @@ config HAVE_VIRT_CPU_ACCOUNTING_IDLE
+ config ARCH_HAS_SCALED_CPUTIME
+ 	bool
+ 
+-config HAVE_VIRT_CPU_ACCOUNTING_GEN
+-	bool
+-	default y if 64BIT
+-	help
+-	  With VIRT_CPU_ACCOUNTING_GEN, cputime_t becomes 64-bit.
+-	  Before enabling this option, arch code must be audited
+-	  to ensure there are no races in concurrent read/write of
+-	  cputime_t. For example, reading/writing 64-bit cputime_t on
+-	  some 32-bit arches may require multiple accesses, so proper
+-	  locking is needed to protect against concurrent accesses.
+-
+ config HAVE_IRQ_TIME_ACCOUNTING
+ 	bool
+ 	help
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index 0fb4b218f665..9c05f25db4e4 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -123,7 +123,6 @@ config ARM
+ 	select HAVE_STACKPROTECTOR
+ 	select HAVE_SYSCALL_TRACEPOINTS
+ 	select HAVE_UID16
+-	select HAVE_VIRT_CPU_ACCOUNTING_GEN
+ 	select IRQ_FORCED_THREADING
+ 	select MODULES_USE_ELF_REL
+ 	select NEED_DMA_MAP_STATE
+diff --git a/arch/csky/Kconfig b/arch/csky/Kconfig
+index 00379a843c37..dd1decc2a22d 100644
+--- a/arch/csky/Kconfig
++++ b/arch/csky/Kconfig
+@@ -73,7 +73,6 @@ config CSKY
+ 	select HAVE_ARCH_MMAP_RND_BITS
+ 	select HAVE_ARCH_SECCOMP_FILTER
+ 	select HAVE_CONTEXT_TRACKING_USER
+-	select HAVE_VIRT_CPU_ACCOUNTING_GEN
+ 	select HAVE_DEBUG_BUGVERBOSE
+ 	select HAVE_DEBUG_KMEMLEAK
+ 	select HAVE_DYNAMIC_FTRACE
+diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
+index f44f6ea54e46..7dc71c89bfae 100644
+--- a/arch/loongarch/Kconfig
++++ b/arch/loongarch/Kconfig
+@@ -122,7 +122,6 @@ config LOONGARCH
+ 	select HAVE_STACKPROTECTOR
+ 	select HAVE_SYSCALL_TRACEPOINTS
+ 	select HAVE_TIF_NOHZ
+-	select HAVE_VIRT_CPU_ACCOUNTING_GEN if !SMP
+ 	select IRQ_FORCED_THREADING
+ 	select IRQ_LOONGARCH_CPU
+ 	select MMU_GATHER_MERGE_VMAS if MMU
+diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
+index c2f5498d207f..d84cb8bbee53 100644
+--- a/arch/mips/Kconfig
++++ b/arch/mips/Kconfig
+@@ -87,7 +87,6 @@ config MIPS
+ 	select HAVE_SPARSE_SYSCALL_NR
+ 	select HAVE_STACKPROTECTOR
+ 	select HAVE_SYSCALL_TRACEPOINTS
+-	select HAVE_VIRT_CPU_ACCOUNTING_GEN if 64BIT || !SMP
+ 	select IRQ_FORCED_THREADING
+ 	select ISA if EISA
+ 	select MODULES_USE_ELF_REL if MODULES
+diff --git a/arch/powerpc/Kconfig b/arch/powerpc/Kconfig
+index acffffbd5d77..185195f349d9 100644
+--- a/arch/powerpc/Kconfig
++++ b/arch/powerpc/Kconfig
+@@ -271,7 +271,6 @@ config PPC
+ 	select HAVE_STATIC_CALL			if PPC32
+ 	select HAVE_SYSCALL_TRACEPOINTS
+ 	select HAVE_VIRT_CPU_ACCOUNTING
+-	select HAVE_VIRT_CPU_ACCOUNTING_GEN
+ 	select HUGETLB_PAGE_SIZE_VARIABLE	if PPC_BOOK3S_64 && HUGETLB_PAGE
+ 	select IOMMU_HELPER			if PPC64
+ 	select IRQ_DOMAIN
+diff --git a/arch/xtensa/Kconfig b/arch/xtensa/Kconfig
+index 3c6e5471f025..04f1399d9ce8 100644
+--- a/arch/xtensa/Kconfig
++++ b/arch/xtensa/Kconfig
+@@ -47,7 +47,6 @@ config XTENSA
+ 	select HAVE_PERF_EVENTS
+ 	select HAVE_STACKPROTECTOR
+ 	select HAVE_SYSCALL_TRACEPOINTS
+-	select HAVE_VIRT_CPU_ACCOUNTING_GEN
+ 	select IRQ_DOMAIN
+ 	select MODULES_USE_ELF_RELA
+ 	select PERF_USE_VMALLOC
+diff --git a/init/Kconfig b/init/Kconfig
+index 32c24950c4ce..835fb5e78a8f 100644
+--- a/init/Kconfig
++++ b/init/Kconfig
+@@ -504,7 +504,6 @@ config VIRT_CPU_ACCOUNTING_NATIVE
+ config VIRT_CPU_ACCOUNTING_GEN
+ 	bool "Full dynticks CPU time accounting"
+ 	depends on HAVE_CONTEXT_TRACKING_USER
+-	depends on HAVE_VIRT_CPU_ACCOUNTING_GEN
+ 	depends on GENERIC_CLOCKEVENTS
+ 	select VIRT_CPU_ACCOUNTING
+ 	select CONTEXT_TRACKING_USER
+diff --git a/kernel/time/Kconfig b/kernel/time/Kconfig
+index bae8f11070be..d4325dae1f03 100644
+--- a/kernel/time/Kconfig
++++ b/kernel/time/Kconfig
+@@ -121,8 +121,6 @@ config NO_HZ_FULL
+ 	# We need at least one periodic CPU for timekeeping
+ 	depends on SMP
+ 	depends on HAVE_CONTEXT_TRACKING_USER
+-	# VIRT_CPU_ACCOUNTING_GEN dependency
+-	depends on HAVE_VIRT_CPU_ACCOUNTING_GEN
+ 	select NO_HZ_COMMON
+ 	select RCU_NOCB_CPU
+ 	select VIRT_CPU_ACCOUNTING_GEN
+-- 
+2.40.1
+
