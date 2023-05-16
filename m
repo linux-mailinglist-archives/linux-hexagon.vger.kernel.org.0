@@ -2,138 +2,174 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 70B9F703D5B
-	for <lists+linux-hexagon@lfdr.de>; Mon, 15 May 2023 21:12:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B89B270450C
+	for <lists+linux-hexagon@lfdr.de>; Tue, 16 May 2023 08:17:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S243501AbjEOTMA (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 15 May 2023 15:12:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56434 "EHLO
+        id S230005AbjEPGRW (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 16 May 2023 02:17:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S243021AbjEOTL7 (ORCPT
+        with ESMTP id S230009AbjEPGRV (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 15 May 2023 15:11:59 -0400
-Received: from mail-yb1-xb2c.google.com (mail-yb1-xb2c.google.com [IPv6:2607:f8b0:4864:20::b2c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09B7711DAA;
-        Mon, 15 May 2023 12:11:58 -0700 (PDT)
-Received: by mail-yb1-xb2c.google.com with SMTP id 3f1490d57ef6-ba7ed900ac4so910945276.0;
-        Mon, 15 May 2023 12:11:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1684177917; x=1686769917;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lEdsDznoeQ0wGPMJWBs10mMvCj7VphDqPqR+uizklHY=;
-        b=W/Z9qzmBUq3bCVhP8uewmPEIaZEVYfzpzeh9YTeAKrK3sWIwtOfql71JlvN0P+P5pK
-         YKy9cml02fk4SnFQ2DdWQ6w4JijHunpNA4zsiud1GYDMnfuy8RTxF/bEehOFA+aPeByE
-         DTSRG2bdMMqymbgvM1f+cbSlSYq+sQANl8uMoYLlmajJ3SyWJdGVyTNcYD0Ioakieviy
-         BESs3L0iPHTKfiNNq75aO8FTJdn/BYay+E8sIKUXSqB49RgAR5VB2xxzW+nwEEKofO5F
-         26ssX78nNr5JZdvfN8wyMBJyb6MRO06YlrKHWh/GpY8CaWKtewkcbGK5ZJkz6FL2Wiq9
-         dAhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1684177917; x=1686769917;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lEdsDznoeQ0wGPMJWBs10mMvCj7VphDqPqR+uizklHY=;
-        b=GdVmGDBqf1Okap0EgXTiq5zpUXGJFx60SXvf+EgZ9tnWHJNy5Dfr9OnympFg/VBLw3
-         tpYgnBjpVnXfqvMY0ct7w9/tu1srp5GeJ7wGOqslE1zoSMXR36kHtdmc8L1kpXSScTp2
-         X+9w8BXeuwB4zXNfcihpSNxFwtU53zmGpEFoKipr8iyqJrugWdZlwO+uGp4dgGjA4J6y
-         FadULZs+fkOJpF9zkdKNruSHsOrBwAV/e0fJoaHz1utDTRP3T2zCUMiaj1YaMICt9mpH
-         QTDPLhxHCNPne124nCyEm/Wsg7RBLC03rRuIH+mGHl4lqy49H/lBiKF7zXck8BtbpgwZ
-         rPdw==
-X-Gm-Message-State: AC+VfDxFpUgJpr/zFAsZiBPVkjJxVF/Dm/cl5vYUFuSK+vV3yIFOqme6
-        mYYZJ055EkswRM9Yqj7CTQhUK7hinAPHjugKsrQ=
-X-Google-Smtp-Source: ACHHUZ5oDsw20tcH12/01C4i2nT6w5iAb2H6/okJg55EYYpqTgJ8h9iiRdXz2tD9egoOuSwMxk4Rmyquuvv7u/aep3U=
-X-Received: by 2002:a25:2586:0:b0:ba7:809c:50de with SMTP id
- l128-20020a252586000000b00ba7809c50demr6158133ybl.38.1684177917068; Mon, 15
- May 2023 12:11:57 -0700 (PDT)
+        Tue, 16 May 2023 02:17:21 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [IPv6:2604:1380:4641:c500::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADF5B40EC;
+        Mon, 15 May 2023 23:17:16 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 425A36347D;
+        Tue, 16 May 2023 06:17:16 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8FC75C433EF;
+        Tue, 16 May 2023 06:17:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1684217835;
+        bh=SISxQIMZ3aoEYbelSxp6Io1CmQNeweA4g5bNKPjqm+k=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SPOLd+7JnyEKaOU2K5LUQsQK9/j1vK2WGpOTiprmvaHqBigWT6CkiFXXCFGLytJW4
+         JSk0BOEsog8klByEqKSH5UJp/Y5o3CMA17F1bAvUhBuqqcPH5gYlH99VMeD/1brMZ3
+         A9U0/uABWxZ7OsssRO/+xmmH4dvOPhgNadCSIMNNseqdtU2ICEk6SRQIkwXnYaFAdd
+         IjPenDLCQ+G7fkuke89adIQGnzZxAADssTWFXuNMnxmjJq6rqGZ0a8VAQL15wIvT2o
+         VCp/Se9uwez0vlJSC80RaxdmMXtl1Y4Y9XaNRFmKwXNnleaFCqOOrI5K535fWf/Hao
+         +T9X1f6prM2sg==
+Date:   Tue, 16 May 2023 09:17:07 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Baoquan He <bhe@redhat.com>
+Cc:     linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, arnd@arndb.de, christophe.leroy@csgroup.eu,
+        hch@infradead.org, agordeev@linux.ibm.com,
+        wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
+        David.Laight@aculab.com, shorne@gmail.com, willy@infradead.org,
+        deller@gmx.de, Brian Cain <bcain@quicinc.com>,
+        linux-hexagon@vger.kernel.org
+Subject: Re: [PATCH v5 RESEND 02/17] hexagon: mm: Convert to GENERIC_IOREMAP
+Message-ID: <ZGMf40ID9LOSS+8g@kernel.org>
+References: <20230515090848.833045-1-bhe@redhat.com>
+ <20230515090848.833045-3-bhe@redhat.com>
 MIME-Version: 1.0
-References: <20230501192829.17086-1-vishal.moola@gmail.com>
- <20230501192829.17086-31-vishal.moola@gmail.com> <c0677d21a4b6caa2e5018af000294a974121d9e8.camel@physik.fu-berlin.de>
-In-Reply-To: <c0677d21a4b6caa2e5018af000294a974121d9e8.camel@physik.fu-berlin.de>
-From:   Vishal Moola <vishal.moola@gmail.com>
-Date:   Mon, 15 May 2023 12:11:46 -0700
-Message-ID: <CAOzc2pz6y=gRcdfkQVgwRuzWeWf2Nx-UBtKnZBTs2qKJ+r7R0Q@mail.gmail.com>
-Subject: Re: [PATCH v2 30/34] sh: Convert pte_free_tlb() to use ptdescs
-To:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        Matthew Wilcox <willy@infradead.org>, linux-mm@kvack.org,
-        linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
-        loongarch@lists.linux.dev, linux-m68k@lists.linux-m68k.org,
-        linux-mips@vger.kernel.org, linux-openrisc@vger.kernel.org,
-        linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
-        linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
-        sparclinux@vger.kernel.org, linux-um@lists.infradead.org,
-        xen-devel@lists.xenproject.org, kvm@vger.kernel.org,
-        Yoshinori Sato <ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230515090848.833045-3-bhe@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Sat, May 6, 2023 at 4:35=E2=80=AFAM John Paul Adrian Glaubitz
-<glaubitz@physik.fu-berlin.de> wrote:
->
-> Hi Vishal!
->
-> On Mon, 2023-05-01 at 12:28 -0700, Vishal Moola (Oracle) wrote:
-> > Part of the conversions to replace pgtable constructor/destructors with
-> > ptdesc equivalents. Also cleans up some spacing issues.
-> >
-> > Signed-off-by: Vishal Moola (Oracle) <vishal.moola@gmail.com>
-> > ---
-> >  arch/sh/include/asm/pgalloc.h | 9 +++++----
-> >  1 file changed, 5 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/arch/sh/include/asm/pgalloc.h b/arch/sh/include/asm/pgallo=
-c.h
-> > index a9e98233c4d4..ce2ba99dbd84 100644
-> > --- a/arch/sh/include/asm/pgalloc.h
-> > +++ b/arch/sh/include/asm/pgalloc.h
-> > @@ -2,6 +2,7 @@
-> >  #ifndef __ASM_SH_PGALLOC_H
-> >  #define __ASM_SH_PGALLOC_H
-> >
-> > +#include <linux/mm.h>
-> >  #include <asm/page.h>
-> >
-> >  #define __HAVE_ARCH_PMD_ALLOC_ONE
-> > @@ -31,10 +32,10 @@ static inline void pmd_populate(struct mm_struct *m=
-m, pmd_t *pmd,
-> >       set_pmd(pmd, __pmd((unsigned long)page_address(pte)));
-> >  }
-> >
-> > -#define __pte_free_tlb(tlb,pte,addr)                 \
-> > -do {                                                 \
-> > -     pgtable_pte_page_dtor(pte);                     \
-> > -     tlb_remove_page((tlb), (pte));                  \
-> > +#define __pte_free_tlb(tlb, pte, addr)                               \
-> > +do {                                                         \
-> > +     ptdesc_pte_dtor(page_ptdesc(pte));                      \
-> > +     tlb_remove_page_ptdesc((tlb), (page_ptdesc(pte)));      \
-> >  } while (0)
-> >
-> >  #endif /* __ASM_SH_PGALLOC_H */
->
-> Looking at the patch which introduces tlb_remove_page_ptdesc() [1], it se=
-ems that
-> tlb_remove_page_ptdesc() already calls tlb_remove_page() with ptdesc_page=
-(pt), so
-> I'm not sure whether the above tlb_remove_page_ptdesc((tlb), (page_ptdesc=
-(pte)))
-> is correct.
->
-> Shouldn't it just be tlb_remove_page_ptdesc((tlb), (pte))?
+On Mon, May 15, 2023 at 05:08:33PM +0800, Baoquan He wrote:
+> By taking GENERIC_IOREMAP method, the generic ioremap_prot() and
+> iounmap() are visible and available to arch. This change will
+> simplify implementation by removing duplicated codes with generic
+> ioremap_prot() and iounmap(), and has the equivalent functioality.
+> 
+> For hexagon, the current ioremap() and iounmap() are the same as
+> generic version. After taking GENERIC_IOREMAP way, the old ioremap()
+> and iounmap() can be completely removed.
+> 
+> Signed-off-by: Baoquan He <bhe@redhat.com>
+> Cc: Brian Cain <bcain@quicinc.com>
+> Cc: linux-hexagon@vger.kernel.org
 
-As of this patchset all implementations of __pte_free_tlb() take in a
-struct page. Eventually we'll want it to be tlb_remove_page_ptdesc(tlb, pte=
-),
-but for now the cast is necessary here.
+Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
+
+> ---
+>  arch/hexagon/Kconfig          |  1 +
+>  arch/hexagon/include/asm/io.h |  9 +++++--
+>  arch/hexagon/mm/ioremap.c     | 44 -----------------------------------
+>  3 files changed, 8 insertions(+), 46 deletions(-)
+>  delete mode 100644 arch/hexagon/mm/ioremap.c
+> 
+> diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
+> index 54eadf265178..17afffde1a7f 100644
+> --- a/arch/hexagon/Kconfig
+> +++ b/arch/hexagon/Kconfig
+> @@ -25,6 +25,7 @@ config HEXAGON
+>  	select NEED_SG_DMA_LENGTH
+>  	select NO_IOPORT_MAP
+>  	select GENERIC_IOMAP
+> +	select GENERIC_IOREMAP
+>  	select GENERIC_SMP_IDLE_THREAD
+>  	select STACKTRACE_SUPPORT
+>  	select GENERIC_CLOCKEVENTS_BROADCAST
+> diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
+> index 46a099de85b7..dcd9cbbf5934 100644
+> --- a/arch/hexagon/include/asm/io.h
+> +++ b/arch/hexagon/include/asm/io.h
+> @@ -170,8 +170,13 @@ static inline void writel(u32 data, volatile void __iomem *addr)
+>  #define writew_relaxed __raw_writew
+>  #define writel_relaxed __raw_writel
+>  
+> -void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
+> -#define ioremap_uc(X, Y) ioremap((X), (Y))
+> +/*
+> + * I/O memory mapping functions.
+> + */
+> +#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_READ | _PAGE_WRITE | \
+> +		       (__HEXAGON_C_DEV << 6))
+> +
+> +#define ioremap_uc(addr, size) ioremap((addr), (size))
+>  
+>  
+>  #define __raw_writel writel
+> diff --git a/arch/hexagon/mm/ioremap.c b/arch/hexagon/mm/ioremap.c
+> deleted file mode 100644
+> index 255c5b1ee1a7..000000000000
+> --- a/arch/hexagon/mm/ioremap.c
+> +++ /dev/null
+> @@ -1,44 +0,0 @@
+> -// SPDX-License-Identifier: GPL-2.0-only
+> -/*
+> - * I/O remap functions for Hexagon
+> - *
+> - * Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
+> - */
+> -
+> -#include <linux/io.h>
+> -#include <linux/vmalloc.h>
+> -#include <linux/mm.h>
+> -
+> -void __iomem *ioremap(unsigned long phys_addr, unsigned long size)
+> -{
+> -	unsigned long last_addr, addr;
+> -	unsigned long offset = phys_addr & ~PAGE_MASK;
+> -	struct vm_struct *area;
+> -
+> -	pgprot_t prot = __pgprot(_PAGE_PRESENT|_PAGE_READ|_PAGE_WRITE
+> -					|(__HEXAGON_C_DEV << 6));
+> -
+> -	last_addr = phys_addr + size - 1;
+> -
+> -	/*  Wrapping not allowed  */
+> -	if (!size || (last_addr < phys_addr))
+> -		return NULL;
+> -
+> -	/*  Rounds up to next page size, including whole-page offset */
+> -	size = PAGE_ALIGN(offset + size);
+> -
+> -	area = get_vm_area(size, VM_IOREMAP);
+> -	addr = (unsigned long)area->addr;
+> -
+> -	if (ioremap_page_range(addr, addr+size, phys_addr, prot)) {
+> -		vunmap((void *)addr);
+> -		return NULL;
+> -	}
+> -
+> -	return (void __iomem *) (offset + addr);
+> -}
+> -
+> -void iounmap(const volatile void __iomem *addr)
+> -{
+> -	vunmap((void *) ((unsigned long) addr & PAGE_MASK));
+> -}
+> -- 
+> 2.34.1
+> 
+> 
+
+-- 
+Sincerely yours,
+Mike.
