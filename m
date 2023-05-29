@@ -2,97 +2,109 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BD95714852
-	for <lists+linux-hexagon@lfdr.de>; Mon, 29 May 2023 13:08:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53E0571485F
+	for <lists+linux-hexagon@lfdr.de>; Mon, 29 May 2023 13:14:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229920AbjE2LI4 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Mon, 29 May 2023 07:08:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48824 "EHLO
+        id S230153AbjE2LOS (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Mon, 29 May 2023 07:14:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229584AbjE2LIz (ORCPT
+        with ESMTP id S229676AbjE2LOR (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Mon, 29 May 2023 07:08:55 -0400
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 059D4D8
-        for <linux-hexagon@vger.kernel.org>; Mon, 29 May 2023 04:08:50 -0700 (PDT)
-Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
-        by mailout4.samsung.com (KnoxPortal) with ESMTP id 20230529110838epoutp040abcec22e9e03e0a6e9ab9131ffc9dd1~jmKS17_450246702467epoutp04k
-        for <linux-hexagon@vger.kernel.org>; Mon, 29 May 2023 11:08:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20230529110838epoutp040abcec22e9e03e0a6e9ab9131ffc9dd1~jmKS17_450246702467epoutp04k
+        Mon, 29 May 2023 07:14:17 -0400
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90C22D8
+        for <linux-hexagon@vger.kernel.org>; Mon, 29 May 2023 04:14:14 -0700 (PDT)
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+        by mailout3.samsung.com (KnoxPortal) with ESMTP id 20230529111410epoutp031e35df3800b3177a8d679cf6448c266d~jmPIQB34v0906609066epoutp03E
+        for <linux-hexagon@vger.kernel.org>; Mon, 29 May 2023 11:14:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20230529111410epoutp031e35df3800b3177a8d679cf6448c266d~jmPIQB34v0906609066epoutp03E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-        s=mail20170921; t=1685358518;
-        bh=dZVfotqZFrsokbs+wqGDWxA2HIP1xtUvpW9KT5S6V/g=;
-        h=Subject:Reply-To:From:To:CC:In-Reply-To:Date:References:From;
-        b=mSik56PfWyps25P0F27uNOkKOxyJzsXVnUURn9lmV4y5b8ai/sDKbVAoVFHQsb3WE
-         lotiS4me6f9y3aDafyDvpHVV1abOM/qOM6tC+SZ4G3hAOE2CXOTkFA5kcxXoyjaYWV
-         idqSz0qyNhYihTZJazdfDEInFl+6L/tvKQFvV7HY=
+        s=mail20170921; t=1685358851;
+        bh=qk7FA9xN87p6FJZ2Z10A3WhlL1LEP+O+6ySBHhTKuX4=;
+        h=From:To:Cc:Subject:Date:References:From;
+        b=DND7sJm2sq7q4rMerIdycPSPVQhLOtjeo4UpHceABdHDMumw7lLeFu5rZr0TW5miU
+         YTCB9E5fqUw4QfL5OABuXth+WI95Ebm2rPVRT/dQ1vspzsbsiK/ojJBFnJNRXnR7W0
+         ZveRLlLXNxxf23fYD2JKbIU80UCV55GzvQMgdezI=
 Received: from epsmges5p1new.samsung.com (unknown [182.195.42.73]) by
-        epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-        20230529110838epcas5p2aeb7ad05e010a427b9dccb1f0866323c~jmKSLeDPK3208332083epcas5p2a;
-        Mon, 29 May 2023 11:08:38 +0000 (GMT)
-X-AuditID: b6c32a49-db3fe700000011d7-a7-647487b56532
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTP id
+        20230529111410epcas5p43817881489b4702ad5978f694515c8ed~jmPHgcqSr1145411454epcas5p42;
+        Mon, 29 May 2023 11:14:10 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
         epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-        C6.82.04567.5B784746; Mon, 29 May 2023 20:08:37 +0900 (KST)
-Mime-Version: 1.0
-Subject: RE: [PATCH 1/1] arch:hexagon/powerpc: use KSYM_NAME_LEN in array
- size
-Reply-To: maninder1.s@samsung.com
-Sender: Maninder Singh <maninder1.s@samsung.com>
+        B1.A3.04567.20984746; Mon, 29 May 2023 20:14:10 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+        epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+        20230529111350epcas5p46a1fa16ffb2a39008c26d03c5c63f109~jmO1KgnDu1149511495epcas5p4g;
+        Mon, 29 May 2023 11:13:50 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+        epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20230529111350epsmtrp20f175ccc83f2ede52688eb27242b05dc~jmO1Jez3z2617326173epsmtrp2F;
+        Mon, 29 May 2023 11:13:50 +0000 (GMT)
+X-AuditID: b6c32a49-943ff700000011d7-18-64748902095d
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+        95.32.27706.EE884746; Mon, 29 May 2023 20:13:50 +0900 (KST)
+Received: from localhost.localdomain (unknown [107.109.224.44]) by
+        epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20230529111347epsmtip155f874de39e74a0189464dce0e25c3d3~jmOyMM5d32333123331epsmtip1S;
+        Mon, 29 May 2023 11:13:47 +0000 (GMT)
 From:   Maninder Singh <maninder1.s@samsung.com>
-To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-CC:     "bcain@quicinc.com" <bcain@quicinc.com>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "npiggin@gmail.com" <npiggin@gmail.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "nathanl@linux.ibm.com" <nathanl@linux.ibm.com>,
-        "ustavoars@kernel.org" <ustavoars@kernel.org>,
-        "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
-        "gary@garyguo.net" <gary@garyguo.net>,
-        "ojeda@kernel.org" <ojeda@kernel.org>,
-        "pmladek@suse.com" <pmladek@suse.com>,
-        "wedsonaf@google.com" <wedsonaf@google.com>,
-        "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
+To:     bcain@quicinc.com, mpe@ellerman.id.au, npiggin@gmail.com,
+        christophe.leroy@csgroup.eu, keescook@chromium.org,
+        nathanl@linux.ibm.com, ustavoars@kernel.org, alex.gaynor@gmail.com,
+        gary@garyguo.net, ojeda@kernel.org, pmladek@suse.com,
+        wedsonaf@google.com
+Cc:     linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linuxppc-dev@lists.ozlabs.org,
+        Maninder Singh <maninder1.s@samsung.com>,
         Onkarnath <onkarnath.1@samsung.com>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-In-Reply-To: <CANiq72ncDr68qeahrHuQ63dj1Va3=Us6ZSjGRkr6Zp8j+=yH_Q@mail.gmail.com>
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20230529105707epcms5p1418eac680ebe1736196706b0db80dd39@epcms5p1>
-Date:   Mon, 29 May 2023 16:27:07 +0530
-X-CMS-MailID: 20230529105707epcms5p1418eac680ebe1736196706b0db80dd39
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH 1/2] hexagon/traps.c: use KSYM_NAME_LEN in array size
+Date:   Mon, 29 May 2023 16:43:36 +0530
+Message-Id: <20230529111337.352990-1-maninder1.s@samsung.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrPKsWRmVeSWpSXmKPExsWy7bCmhi5TZ0mKwbTjrBZ/Z29nt3i4u4XF
+        4s6k5+wWF8+8ZrQ4051r8b5lB5vF5V1z2Cx+f//HanF4fhuLxZaGQ2wWG44GW/x8cYPFYuX8
+        5YwWK3o+sFr8f/wVSLw7wmTRsXglo4Ogx+yGiyweX2+eY/JY9LKBxWNJ5y8mj52z7rJ7LNhU
+        6rFpVSebx4RFBxg9zs9YyOgxcU+dR9+WVYwe67dcZfH4vEkugDeKyyYlNSezLLVI3y6BK+PQ
+        vPcsBYc5Kp4uMW1gnMjexcjJISFgIvF19QKWLkYuDiGB3YwS87+cYYNwPjFKvD78iw2kSkjg
+        G6PEm+ecMB0PvvQzQRTtZZR4/uIVlPOFUaL3+gUmkCo2AT2JVbv2gM0VEWhlkrhx+DTYXGaB
+        jYwSf/esYgSpEhZwlbjwcQvYJSwCqhL3rhxlBrF5BWwlevo2sEDsk5eYeek7O0RcUOLkzCdg
+        cWagePPW2cwgQyUEznBIfH3bwwrR4CJx+c8jKFtY4tXxLVCvSkl8frcX6AoOILtcYuuEeoje
+        FkaJ/XOmsEHU2Es8ubiQFaSGWUBTYv0ufYiwrMTUU+uYIPbySfT+fsIEEeeV2DEPxlaVaLm5
+        AWqttMTnjx+h7veQ2H9gJQskHGMlbr1cxDaBUX4WkndmIXlnFsLmBYzMqxglUwuKc9NTi00L
+        DPNSy/WKE3OLS/PS9ZLzczcxgtOglucOxrsPPugdYmTiYDzEKMHBrCTCa5tYnCLEm5JYWZVa
+        lB9fVJqTWnyIUZqDRUmcV932ZLKQQHpiSWp2ampBahFMlomDU6qBqafF8MmGfuZ1SXEHzp8+
+        4vC2boX/xBiJvK6D7KEK1z9seFq3/1u1yOtEbUYLN/5/U/YmMjTUeOiyXDnk8Xg3Z5Sz/YJz
+        77c8VWxrcNLKOxtbG5q9S2Xp3qW6+5bGptr6RVQseR587oUlX9vxTon8onDd/o1NC6xyHZYH
+        sc7Keure5iv1MSeAm/f16Sbue3Ga4RcyD/Kvjv+x0KutSHje+brtqpdLy8OWPl7lOCH+yhSF
+        FqsJ284v+5qa7nb8z4s+0zN/d26InmC0aLaN08/M26vf5W2Zx/zdMuf8u6N/3B0OX+v1mDDn
+        Quy2A8Eu3e6/GZ4flki/t79ovfPVKKFUUbOAjP0zVn9oPJHtzSE9RYmlOCPRUIu5qDgRAOpP
+        M2zyAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmphkeLIzCtJLcpLzFFi42LZdlhJTvddR0mKwfI1IhZ/Z29nt3i4u4XF
+        4s6k5+wWF8+8ZrQ4051r8b5lB5vF5V1z2Cx+f//HanF4fhuLxZaGQ2wWG44GW/x8cYPFYuX8
+        5YwWK3o+sFr8f/wVSLw7wmTRsXglo4Ogx+yGiyweX2+eY/JY9LKBxWNJ5y8mj52z7rJ7LNhU
+        6rFpVSebx4RFBxg9zs9YyOgxcU+dR9+WVYwe67dcZfH4vEkugDeKyyYlNSezLLVI3y6BK+PQ
+        vPcsBYc5Kp4uMW1gnMjexcjJISFgIvHgSz8TiC0ksJtR4u71PIi4tMTPf+9ZIGxhiZX/ngPV
+        cwHVfGKUOLP4LSNIgk1AT2LVrj0sIAkRgalMElNe32cDSTALbGWUWHKlHsQWFnCVuPBxC9g2
+        FgFViXtXjjKD2LwCthI9fRugNshLzLz0nR0iLihxcuYTFog58hLNW2czT2Dkm4UkNQtJagEj
+        0ypGydSC4tz03GLDAsO81HK94sTc4tK8dL3k/NxNjOCI0tLcwbh91Qe9Q4xMHIyHGCU4mJVE
+        eG0Ti1OEeFMSK6tSi/Lji0pzUosPMUpzsCiJ817oOhkvJJCeWJKanZpakFoEk2Xi4JRqYFKb
+        mHYhymXtboXbrkXrf/aK/q7KVb288p7LlDsHDsx9XtT8elbClqKFqvX1E7udH8p8WOd+94bk
+        a0k13Wdf3BjkVq8Te9qdsiWYoWJdl3DTAoFXPzqWbze89uTNLbMdtnMX9/Vacn/9cX67YbTs
+        vILgyvx362ddi+OafnnP2+qTvR1K/vHbOHd6LGuab7fp1mb5K9cY3Kpj4jjc2jsncG0xXX5M
+        e3vYySWG3zaEHb8tEKOj7ir81XjqB7vLTU1LtTOr15rtvFE9W15h+Tzl3JMhkrO0w9akPKyu
+        7tHVtY0JkL66v3KS3vUpChXmq3MuuGfUBah/yjX2yE3g/aQ4vb06uDeX51pkx9TU1S+sJyqx
+        FGckGmoxFxUnAgBKuCP+FwMAAA==
+X-CMS-MailID: 20230529111350epcas5p46a1fa16ffb2a39008c26d03c5c63f109
+X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrMKsWRmVeSWpSXmKPExsWy7bCmlu7W9pIUg81/rSz+zt7ObvFwdwuL
-        xZ1Jz9ktLp55zWhxpjvX4n3LDjaLy7vmsFn8/v6P1eLm9DfsFlsaDrFZbDgabPHzxQ0Wi5Xz
-        lzNarOj5wGrx//FXIPHuCJNFx+KVjA6CHrMbLrJ4fL15jslj0csGFo8lnb+YPHbOusvusWBT
-        qcemVZ1sHhMWHWD0OD9jIaPHxD11Hn1bVjF6rN9ylcXj8ya5AN4oLpuU1JzMstQifbsErozF
-        h9ILfnBXHNv0ibmB8RxnFyMnh4SAicTii+9Yuxi5OIQEdjNKnFowj62LkYODV0BQ4u8OYZAa
-        YYEAiQV7lzKC2EICihIXZqxhBCkRFjCQ+LVVAyTMJqAnsWrXHhYQW0TASOLa6d0sICOZBeaw
-        Sdzb2s0EsYtXYkb7UxYIW1pi+/KtYHM4BQIlnn5xgQiLStxc/ZYdxn5/bD4jhC0i0XrvLDOE
-        LSjx4OduqLiMxOrNvVAjqyWevj7HBrJXQqCFUWLfbpgic4n1S1aBDeUV8JV4PbkR7B4WAVWJ
-        /r1NUDUuEk+uTmUFsZkF5CW2v53DDHIbs4CmxPpd+hAlshJTT61jgijhk+j9/QTurR3zYGxV
-        iZabG1hhXvz88SPUbR4Sp76vYoUE4WlGiRNPRCcwKsxCBPQsJItnISxewMi8ilEytaA4Nz21
-        2LTAMC+1XK84Mbe4NC9dLzk/dxMjOB1qee5gvPvgg94hRiYOxkOMEhzMSiK8tonFKUK8KYmV
-        ValF+fFFpTmpxYcYpTlYlMR51W1PJgsJpCeWpGanphakFsFkmTg4pRqY8irfuT68Nf9+6Rvv
-        UL03P9NfZbkcvjV33ifuro0GLMdCp6zcO8urs8FYLSLT1+2M0Idp+rXavZ8mzJbi92aUEzTx
-        9Yt41etamlM6T/L45HsT7zLGfEyveFuZ9mP+tFlhs6+7vLywZd3yP81Z775+q++9cyek9Gf0
-        3MRtzJMFCp9qMn5/OCPFdu67sJfFD20TXO6Wab3n2P7L1/0zd0aoZr1wnFPb3J9Wm+R++TF0
-        1vdO6F5u92KW0H6fZfOmGXKI10+0LNtQc/rTVTZBtkPXohzOf3H8FPPUMcs7Mn7m41Naf15y
-        mx06cbhX9FzSffcfZTmR/70e3D11vumN1U/2jm+Woaz3V388uud1/zLTw0osxRmJhlrMRcWJ
-        AJjKocv2AwAA
-X-CMS-RootMailID: 20230529052832epcas5p4fa1b8cf25d9810d32bd2ccf012086fb3
-References: <CANiq72ncDr68qeahrHuQ63dj1Va3=Us6ZSjGRkr6Zp8j+=yH_Q@mail.gmail.com>
-        <20230529052821.58175-1-maninder1.s@samsung.com>
-        <CGME20230529052832epcas5p4fa1b8cf25d9810d32bd2ccf012086fb3@epcms5p1>
+X-CMS-RootMailID: 20230529111350epcas5p46a1fa16ffb2a39008c26d03c5c63f109
+References: <CGME20230529111350epcas5p46a1fa16ffb2a39008c26d03c5c63f109@epcas5p4.samsung.com>
 X-Spam-Status: No, score=-4.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
@@ -104,47 +116,37 @@ Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi,
+kallsyms_lookup which in turn calls for kallsyms_lookup_buildid()
+writes on index "KSYM_NAME_LEN - 1".
 
->>
->> kallsyms_lookup which in turn calls for kallsyms_lookup_buildid()
->> writes on index "KSYM_NAME_LEN - 1".
->>
->> Thus array size should be KSYM_NAME_LEN.
->>
->> for powerpc and hexagon it was defined as "128" directly.
->> and commit '61968dbc2d5d' changed define value to 512,
->> So both were missed to update with new size.
->>
->> Fixes: 61968dbc2d5d ("kallsyms: increase maximum kernel symbol length to 512")
->> Signed-off-by: Onkarnath <onkarnath.1@samsung.com>
->> Signed-off-by: Maninder Singh <maninder1.s@samsung.com>
+Thus array size should be KSYM_NAME_LEN.
 
-> Thanks for this!
-> 
-> There is no `From:` at the top. Since I cannot locate the patch in
-> Lore, did you mean to put both of you as authors perhaps? In that
-> case, please use a `Co-developed-by` as needed.
-> 
+for hexagon it was defined as "128" directly.
+and commit '61968dbc2d5d' changed define value to 512,
+So both were missed to update with new size.
 
-I Will add co-developed-by` tag.
-because this change was identified while we were working on kallsyms some time back.
-https://lore.kernel.org/lkml/YonTOL4zC4CytVrn@infradead.org/t/
+Fixes: 61968dbc2d5d ("kallsyms: increase maximum kernel symbol length to 512")
 
-this patch set is pending and we will start working on that again, so i thought better
-to send bugfix first.
+Co-developed-by: Onkarnath <onkarnath.1@samsung.com>
+Signed-off-by: Onkarnath <onkarnath.1@samsung.com>
+Signed-off-by: Maninder Singh <maninder1.s@samsung.com>
+---
+ arch/hexagon/kernel/traps.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Perhaps it is a good idea to submit each arch independently, too.
-> 
+diff --git a/arch/hexagon/kernel/traps.c b/arch/hexagon/kernel/traps.c
+index 6447763ce5a9..65b30b6ea226 100644
+--- a/arch/hexagon/kernel/traps.c
++++ b/arch/hexagon/kernel/traps.c
+@@ -82,7 +82,7 @@ static void do_show_stack(struct task_struct *task, unsigned long *fp,
+ 	const char *name = NULL;
+ 	unsigned long *newfp;
+ 	unsigned long low, high;
+-	char tmpstr[128];
++	char tmpstr[KSYM_NAME_LEN];
+ 	char *modname;
+ 	int i;
+ 
+-- 
+2.17.1
 
-ok, I will share 2 separate patches.
-
-> The changes themselves look fine on a quick inspection, though the
-> `xmon.c` one is a global buffer (and there is another equally-sized
-> buffer in `xmon.c` with a hard-coded `128` constant that would be nice
-> to clarify).
-
-Yes, I think second buffer was not related to kallsyms, so I have not touched that.
-
-Thanks,
-Maninder Singh
