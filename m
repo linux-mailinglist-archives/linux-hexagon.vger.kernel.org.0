@@ -2,68 +2,67 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D5CBB716250
-	for <lists+linux-hexagon@lfdr.de>; Tue, 30 May 2023 15:42:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7CFD716978
+	for <lists+linux-hexagon@lfdr.de>; Tue, 30 May 2023 18:27:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232519AbjE3NmW (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 30 May 2023 09:42:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60410 "EHLO
+        id S232340AbjE3Q15 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 30 May 2023 12:27:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42430 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232255AbjE3NmV (ORCPT
+        with ESMTP id S232662AbjE3Q11 (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 30 May 2023 09:42:21 -0400
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.86.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C63BC5
-        for <linux-hexagon@vger.kernel.org>; Tue, 30 May 2023 06:42:19 -0700 (PDT)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mta-7-u_DW5skzNCeUFDwDRVqfKA-1; Tue, 30 May 2023 14:42:16 +0100
-X-MC-Unique: u_DW5skzNCeUFDwDRVqfKA-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Tue, 30 May
- 2023 14:42:13 +0100
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Tue, 30 May 2023 14:42:13 +0100
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Maninder Singh' <maninder1.s@samsung.com>,
-        "bcain@quicinc.com" <bcain@quicinc.com>,
-        "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
-        "npiggin@gmail.com" <npiggin@gmail.com>,
-        "christophe.leroy@csgroup.eu" <christophe.leroy@csgroup.eu>,
-        "keescook@chromium.org" <keescook@chromium.org>,
-        "nathanl@linux.ibm.com" <nathanl@linux.ibm.com>,
-        "ustavoars@kernel.org" <ustavoars@kernel.org>,
-        "alex.gaynor@gmail.com" <alex.gaynor@gmail.com>,
-        "gary@garyguo.net" <gary@garyguo.net>,
-        "ojeda@kernel.org" <ojeda@kernel.org>,
-        "pmladek@suse.com" <pmladek@suse.com>,
-        "wedsonaf@google.com" <wedsonaf@google.com>
-CC:     "linux-hexagon@vger.kernel.org" <linux-hexagon@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linuxppc-dev@lists.ozlabs.org" <linuxppc-dev@lists.ozlabs.org>,
-        Onkarnath <onkarnath.1@samsung.com>
-Subject: RE: [PATCH 1/2] hexagon/traps.c: use KSYM_NAME_LEN in array size
-Thread-Topic: [PATCH 1/2] hexagon/traps.c: use KSYM_NAME_LEN in array size
-Thread-Index: AQHZkh62rZDdlRz850KjaNGq41iJD69y027g
-Date:   Tue, 30 May 2023 13:42:13 +0000
-Message-ID: <439575eda6b24261aef4c8c7e4c078cb@AcuMS.aculab.com>
-References: <CGME20230529111350epcas5p46a1fa16ffb2a39008c26d03c5c63f109@epcas5p4.samsung.com>
- <20230529111337.352990-1-maninder1.s@samsung.com>
-In-Reply-To: <20230529111337.352990-1-maninder1.s@samsung.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        Tue, 30 May 2023 12:27:27 -0400
+Received: from mail-il1-x12f.google.com (mail-il1-x12f.google.com [IPv6:2607:f8b0:4864:20::12f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5013E11C;
+        Tue, 30 May 2023 09:26:20 -0700 (PDT)
+Received: by mail-il1-x12f.google.com with SMTP id e9e14a558f8ab-33b89956cccso8842635ab.2;
+        Tue, 30 May 2023 09:26:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1685463973; x=1688055973;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=bINww4BS9Q6hxqerWqXoOb0apgrSo5QFqqzYaEsD6HE=;
+        b=MjX3/0w6ekjWWGcLGn9tr1TaBi4CybNxXDzzXBFtWRYXgboucEwWrJZJorQSHNBFZR
+         8xY+IPe69+dq1vkIKsmw8QoLy+bR0IDcFCLQRp1qdCXmjrHZO+T4iiW1yTXac52YZPZD
+         i8YPRtU9SP3ngHxSCMDT8HOe+TOw2bkcLqC4EL2HQpmYonYqZljzroaO6RH/Q4Y6BdFN
+         dPI1wWouIeFmezuItohGf1wF0UYddRct9iRw0s/q1PO5rRNW9yCv2lfeVCb/jNRrEpDn
+         ABjbjE2EGvyE2dhtxrV6ca3hWrivplnL2db1hoczt+wvlZPUnJcBo7N85dSt9iC007tt
+         FdKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1685463973; x=1688055973;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bINww4BS9Q6hxqerWqXoOb0apgrSo5QFqqzYaEsD6HE=;
+        b=Qx5iHOkU8NRGujd9kZUOEFFYJ95TH/busR9c7k3jQ+94c1gNa5QU/87/zAeNsWCHEq
+         1QQ0Cr1bZFo6l2iCJSMglr1trhjqhpucroseChh5B1hNSlLDQ0BuK2ZJ95GFzXg0lnTe
+         Aqd04MIyRjba8AkExXnHD+MSNyGExeMtHXmSdOE9uJbwKrDq0A3gWhmw1vQ8KRdpongM
+         LT0XYaDMi6WYNppMk11dD7sI53dzYc50yL2cv6VQ3M8OWZPafs8bq+2yxu7w9O8G+id5
+         rnjcS4/EA9udR5M7mbJADt/vE3v4INKiLaVGCFEDA27UnxalOtAF8syb9atDPOTD0I+N
+         mibQ==
+X-Gm-Message-State: AC+VfDz39VsPq4ZIN36k2s7CrhgXid6NU61fVtUAJh68bh7r2R/FPTbO
+        bnkpGIAfaMfXaTak4OuMCCE=
+X-Google-Smtp-Source: ACHHUZ6Sa2LY0fq1KzWhqJx0FPoMbV4zIs2N8ChrvMxcXLtbcJBVPnr5k/m0XvNGrD47uTLmvPneuA==
+X-Received: by 2002:a92:cf43:0:b0:33b:7e4:167a with SMTP id c3-20020a92cf43000000b0033b07e4167amr77783ilr.15.1685463972964;
+        Tue, 30 May 2023 09:26:12 -0700 (PDT)
+Received: from azeems-kspp.c.googlers.com.com (54.70.188.35.bc.googleusercontent.com. [35.188.70.54])
+        by smtp.gmail.com with ESMTPSA id x13-20020a026f0d000000b0041407c67451sm821769jab.165.2023.05.30.09.26.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 May 2023 09:26:12 -0700 (PDT)
+From:   Azeem Shaikh <azeemshaikh38@gmail.com>
+To:     Brian Cain <bcain@quicinc.com>
+Cc:     linux-hardening@vger.kernel.org,
+        Azeem Shaikh <azeemshaikh38@gmail.com>,
+        linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] Hexagon: Replace all non-returning strlcpy with strscpy
+Date:   Tue, 30 May 2023 16:26:08 +0000
+Message-ID: <20230530162608.984333-1-azeemshaikh38@gmail.com>
+X-Mailer: git-send-email 2.41.0.rc0.172.g3f132b7071-goog
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,33 +70,45 @@ Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-RnJvbTogTWFuaW5kZXIgU2luZ2gNCj4gU2VudDogMjkgTWF5IDIwMjMgMTI6MTQNCj4gDQo+IGth
-bGxzeW1zX2xvb2t1cCB3aGljaCBpbiB0dXJuIGNhbGxzIGZvciBrYWxsc3ltc19sb29rdXBfYnVp
-bGRpZCgpDQo+IHdyaXRlcyBvbiBpbmRleCAiS1NZTV9OQU1FX0xFTiAtIDEiLg0KPiANCj4gVGh1
-cyBhcnJheSBzaXplIHNob3VsZCBiZSBLU1lNX05BTUVfTEVOLg0KPiANCj4gZm9yIGhleGFnb24g
-aXQgd2FzIGRlZmluZWQgYXMgIjEyOCIgZGlyZWN0bHkuDQo+IGFuZCBjb21taXQgJzYxOTY4ZGJj
-MmQ1ZCcgY2hhbmdlZCBkZWZpbmUgdmFsdWUgdG8gNTEyLA0KPiBTbyBib3RoIHdlcmUgbWlzc2Vk
-IHRvIHVwZGF0ZSB3aXRoIG5ldyBzaXplLg0KDQpUaGUgb25seSBzYWZlIHdheSB0byBwYXNzIGEg
-Zml4ZWQgc2l6ZSBzdHJpbmcgaXMgdG8gZW1iZWQgdGhlIGNoYXJbXSBpbg0KYSBzdHJ1Y3R1cmUg
-YW5kIHBhc3MgdGhlIHN0cnVjdHVyZSBhZGRyZXNzLg0KDQpQcmV0dHkgbXVjaCBhbnl0aGluZyBl
-bHNlIGlzIGRvb21lZCB0byBiZSBidWdneS4NCg0KV2hldGhlciBpcyBpdCBhY3R1YWxseSBzYW5l
-IHRvIHJlcXVpcmUgdGhlIGNhbGxlciBhbGxvY2F0ZQ0Kc3VjaCBhIGxhcmdlIGJ1ZmZlciAoaGkg
-cnVzdCkgaXMgYW5vdGhlciBtYXR0ZXIgZW50aXJlbHkuDQoNCglEYXZpZA0KDQo+IA0KPiBGaXhl
-czogNjE5NjhkYmMyZDVkICgia2FsbHN5bXM6IGluY3JlYXNlIG1heGltdW0ga2VybmVsIHN5bWJv
-bCBsZW5ndGggdG8gNTEyIikNCj4gDQo+IENvLWRldmVsb3BlZC1ieTogT25rYXJuYXRoIDxvbmth
-cm5hdGguMUBzYW1zdW5nLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogT25rYXJuYXRoIDxvbmthcm5h
-dGguMUBzYW1zdW5nLmNvbT4NCj4gU2lnbmVkLW9mZi1ieTogTWFuaW5kZXIgU2luZ2ggPG1hbmlu
-ZGVyMS5zQHNhbXN1bmcuY29tPg0KPiAtLS0NCj4gIGFyY2gvaGV4YWdvbi9rZXJuZWwvdHJhcHMu
-YyB8IDIgKy0NCj4gIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQ0KPiANCj4gZGlmZiAtLWdpdCBhL2FyY2gvaGV4YWdvbi9rZXJuZWwvdHJhcHMuYyBiL2FyY2gv
-aGV4YWdvbi9rZXJuZWwvdHJhcHMuYw0KPiBpbmRleCA2NDQ3NzYzY2U1YTkuLjY1YjMwYjZlYTIy
-NiAxMDA2NDQNCj4gLS0tIGEvYXJjaC9oZXhhZ29uL2tlcm5lbC90cmFwcy5jDQo+ICsrKyBiL2Fy
-Y2gvaGV4YWdvbi9rZXJuZWwvdHJhcHMuYw0KPiBAQCAtODIsNyArODIsNyBAQCBzdGF0aWMgdm9p
-ZCBkb19zaG93X3N0YWNrKHN0cnVjdCB0YXNrX3N0cnVjdCAqdGFzaywgdW5zaWduZWQgbG9uZyAq
-ZnAsDQo+ICAJY29uc3QgY2hhciAqbmFtZSA9IE5VTEw7DQo+ICAJdW5zaWduZWQgbG9uZyAqbmV3
-ZnA7DQo+ICAJdW5zaWduZWQgbG9uZyBsb3csIGhpZ2g7DQo+IC0JY2hhciB0bXBzdHJbMTI4XTsN
-Cj4gKwljaGFyIHRtcHN0cltLU1lNX05BTUVfTEVOXTsNCj4gIAljaGFyICptb2RuYW1lOw0KPiAg
-CWludCBpOw0KPiANCj4gLS0NCj4gMi4xNy4xDQoNCi0NClJlZ2lzdGVyZWQgQWRkcmVzcyBMYWtl
-c2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVzLCBNSzEgMVBULCBV
-Sw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+strlcpy() reads the entire source buffer first.
+This read may exceed the destination size limit.
+This is both inefficient and can lead to linear read
+overflows if a source string is not NUL-terminated [1].
+In an effort to remove strlcpy() completely [2], replace
+strlcpy() here with strscpy().
+No return values were used, so direct replacement is safe.
+
+[1] https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy
+[2] https://github.com/KSPP/linux/issues/89
+
+Signed-off-by: Azeem Shaikh <azeemshaikh38@gmail.com>
+---
+ arch/hexagon/kernel/setup.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/arch/hexagon/kernel/setup.c b/arch/hexagon/kernel/setup.c
+index 1880d9beaf2b..621674e86232 100644
+--- a/arch/hexagon/kernel/setup.c
++++ b/arch/hexagon/kernel/setup.c
+@@ -66,9 +66,9 @@ void __init setup_arch(char **cmdline_p)
+ 		on_simulator = 0;
+ 
+ 	if (p[0] != '\0')
+-		strlcpy(boot_command_line, p, COMMAND_LINE_SIZE);
++		strscpy(boot_command_line, p, COMMAND_LINE_SIZE);
+ 	else
+-		strlcpy(boot_command_line, default_command_line,
++		strscpy(boot_command_line, default_command_line,
+ 			COMMAND_LINE_SIZE);
+ 
+ 	/*
+@@ -76,7 +76,7 @@ void __init setup_arch(char **cmdline_p)
+ 	 * are both picked up by the init code. If no reason to
+ 	 * make them different, pass the same pointer back.
+ 	 */
+-	strlcpy(cmd_line, boot_command_line, COMMAND_LINE_SIZE);
++	strscpy(cmd_line, boot_command_line, COMMAND_LINE_SIZE);
+ 	*cmdline_p = cmd_line;
+ 
+ 	parse_early_param();
 
