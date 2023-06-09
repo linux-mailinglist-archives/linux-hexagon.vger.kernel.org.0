@@ -2,173 +2,178 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 54D2C7291DE
-	for <lists+linux-hexagon@lfdr.de>; Fri,  9 Jun 2023 09:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D1FB7297DE
+	for <lists+linux-hexagon@lfdr.de>; Fri,  9 Jun 2023 13:10:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S239345AbjFIH5o (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 9 Jun 2023 03:57:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33920 "EHLO
+        id S239266AbjFILKl (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Fri, 9 Jun 2023 07:10:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S238568AbjFIH5W (ORCPT
+        with ESMTP id S240196AbjFILKO (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 9 Jun 2023 03:57:22 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88B23A8D
-        for <linux-hexagon@vger.kernel.org>; Fri,  9 Jun 2023 00:56:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1686297360;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=3DenNY7MBGvhJyodc+H0T1cCxvBg9zEtJ+UDYfYUhPQ=;
-        b=MUygy+Aphtyq84KuQDwDW/YEzGgCZmm/h236D6w9d23iTO59oB1DX/U9AvmBoN2B/VzRdW
-        xONSS3aEQgPTJKBqd8tGgjtT8CdBECaHlMXJgfDf3ezpj12b6IRgKHn6cxtjDAuAFe25tb
-        bvrM22kAGEi3CUj89fAVC0aIeWHt02o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-627-iJkQnqI-MI24KPf3bK0ngg-1; Fri, 09 Jun 2023 03:55:54 -0400
-X-MC-Unique: iJkQnqI-MI24KPf3bK0ngg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59EC0384952A;
-        Fri,  9 Jun 2023 07:55:53 +0000 (UTC)
-Received: from MiWiFi-R3L-srv.redhat.com (ovpn-12-92.pek2.redhat.com [10.72.12.92])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id 34AD920268C6;
-        Fri,  9 Jun 2023 07:55:45 +0000 (UTC)
-From:   Baoquan He <bhe@redhat.com>
-To:     linux-kernel@vger.kernel.org
-Cc:     linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
+        Fri, 9 Jun 2023 07:10:14 -0400
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 026AB2115;
+        Fri,  9 Jun 2023 04:10:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1686309013; x=1717845013;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1Bm+HKznjWvTnKT7ys8/7kIdAyqCt3IzGxh9BOlmOlo=;
+  b=EWfYZCYNfaV/VQBGJS/OIouQIQAslIiYMun26zqV/nySUHtSrK6NGM1r
+   C+YEfSUk03fS731UW2dYinzhWBTQaXh0qXGxBujD1N+lVymyJyTNxNPf3
+   t1hJ7tUaNmHh4o9PTwXoaMr7qN423FH7zjiDo0cfj8WuY38bbpLdUPpoT
+   a+DDfO0BeogfMW0Rv1LcNT8woUeWEdmNUDJN0oeyVr6PzLQHkTkSo8kcE
+   lsG7cxCNv2ANQW3/T0KJHp15cAtgMwqRQfxI/kRu8PDjkgwYpgVjlG8f5
+   cvjZTaMB6KB4Uz5eo5GhHl20W16cLFMnh/dx5Eir5LY6aUp9s1BHq9upE
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="355065921"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+   d="scan'208";a="355065921"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Jun 2023 04:10:12 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10735"; a="834618560"
+X-IronPort-AV: E=Sophos;i="6.00,229,1681196400"; 
+   d="scan'208";a="834618560"
+Received: from lkp-server01.sh.intel.com (HELO 15ab08e44a81) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 09 Jun 2023 04:10:08 -0700
+Received: from kbuild by 15ab08e44a81 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1q7a0N-0008xA-1A;
+        Fri, 09 Jun 2023 11:10:07 +0000
+Date:   Fri, 9 Jun 2023 19:09:46 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
         christophe.leroy@csgroup.eu, hch@lst.de, rppt@kernel.org,
         willy@infradead.org, agordeev@linux.ibm.com,
         wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-        David.Laight@ACULAB.COM, shorne@gmail.com, deller@gmx.de,
+        David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
         Baoquan He <bhe@redhat.com>, Brian Cain <bcain@quicinc.com>,
         linux-hexagon@vger.kernel.org
-Subject: [PATCH v6 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-Date:   Fri,  9 Jun 2023 15:55:11 +0800
-Message-Id: <20230609075528.9390-3-bhe@redhat.com>
-In-Reply-To: <20230609075528.9390-1-bhe@redhat.com>
-References: <20230609075528.9390-1-bhe@redhat.com>
+Subject: Re: [PATCH v6 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+Message-ID: <202306091859.NhlW2nny-lkp@intel.com>
+References: <20230609075528.9390-3-bhe@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230609075528.9390-3-bhe@redhat.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-By taking GENERIC_IOREMAP method, the generic ioremap_prot() and
-iounmap() are visible and available to arch. This change will
-simplify implementation by removing duplicated codes with generic
-ioremap_prot() and iounmap(), and has the equivalent functioality.
+Hi Baoquan,
 
-For hexagon, the current ioremap() and iounmap() are the same as
-generic version. After taking GENERIC_IOREMAP way, the old ioremap()
-and iounmap() can be completely removed.
+kernel test robot noticed the following build errors:
 
-Signed-off-by: Baoquan He <bhe@redhat.com>
-Reviewed-by: Mike Rapoport (IBM) <rppt@kernel.org>
-Reviewed-by: Christoph Hellwig <hch@lst.de>
-Cc: Brian Cain <bcain@quicinc.com>
-Cc: linux-hexagon@vger.kernel.org
----
- arch/hexagon/Kconfig          |  1 +
- arch/hexagon/include/asm/io.h |  9 +++++--
- arch/hexagon/mm/ioremap.c     | 44 -----------------------------------
- 3 files changed, 8 insertions(+), 46 deletions(-)
- delete mode 100644 arch/hexagon/mm/ioremap.c
+[auto build test ERROR on akpm-mm/mm-everything]
 
-diff --git a/arch/hexagon/Kconfig b/arch/hexagon/Kconfig
-index 54eadf265178..17afffde1a7f 100644
---- a/arch/hexagon/Kconfig
-+++ b/arch/hexagon/Kconfig
-@@ -25,6 +25,7 @@ config HEXAGON
- 	select NEED_SG_DMA_LENGTH
- 	select NO_IOPORT_MAP
- 	select GENERIC_IOMAP
-+	select GENERIC_IOREMAP
- 	select GENERIC_SMP_IDLE_THREAD
- 	select STACKTRACE_SUPPORT
- 	select GENERIC_CLOCKEVENTS_BROADCAST
-diff --git a/arch/hexagon/include/asm/io.h b/arch/hexagon/include/asm/io.h
-index 46a099de85b7..dcd9cbbf5934 100644
---- a/arch/hexagon/include/asm/io.h
-+++ b/arch/hexagon/include/asm/io.h
-@@ -170,8 +170,13 @@ static inline void writel(u32 data, volatile void __iomem *addr)
- #define writew_relaxed __raw_writew
- #define writel_relaxed __raw_writel
- 
--void __iomem *ioremap(unsigned long phys_addr, unsigned long size);
--#define ioremap_uc(X, Y) ioremap((X), (Y))
-+/*
-+ * I/O memory mapping functions.
-+ */
-+#define _PAGE_IOREMAP (_PAGE_PRESENT | _PAGE_READ | _PAGE_WRITE | \
-+		       (__HEXAGON_C_DEV << 6))
-+
-+#define ioremap_uc(addr, size) ioremap((addr), (size))
- 
- 
- #define __raw_writel writel
-diff --git a/arch/hexagon/mm/ioremap.c b/arch/hexagon/mm/ioremap.c
-deleted file mode 100644
-index 255c5b1ee1a7..000000000000
---- a/arch/hexagon/mm/ioremap.c
-+++ /dev/null
-@@ -1,44 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-only
--/*
-- * I/O remap functions for Hexagon
-- *
-- * Copyright (c) 2010-2011, The Linux Foundation. All rights reserved.
-- */
--
--#include <linux/io.h>
--#include <linux/vmalloc.h>
--#include <linux/mm.h>
--
--void __iomem *ioremap(unsigned long phys_addr, unsigned long size)
--{
--	unsigned long last_addr, addr;
--	unsigned long offset = phys_addr & ~PAGE_MASK;
--	struct vm_struct *area;
--
--	pgprot_t prot = __pgprot(_PAGE_PRESENT|_PAGE_READ|_PAGE_WRITE
--					|(__HEXAGON_C_DEV << 6));
--
--	last_addr = phys_addr + size - 1;
--
--	/*  Wrapping not allowed  */
--	if (!size || (last_addr < phys_addr))
--		return NULL;
--
--	/*  Rounds up to next page size, including whole-page offset */
--	size = PAGE_ALIGN(offset + size);
--
--	area = get_vm_area(size, VM_IOREMAP);
--	addr = (unsigned long)area->addr;
--
--	if (ioremap_page_range(addr, addr+size, phys_addr, prot)) {
--		vunmap((void *)addr);
--		return NULL;
--	}
--
--	return (void __iomem *) (offset + addr);
--}
--
--void iounmap(const volatile void __iomem *addr)
--{
--	vunmap((void *) ((unsigned long) addr & PAGE_MASK));
--}
+url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230609-160014
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20230609075528.9390-3-bhe%40redhat.com
+patch subject: [PATCH v6 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+config: hexagon-randconfig-r041-20230608 (https://download.01.org/0day-ci/archive/20230609/202306091859.NhlW2nny-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build):
+        mkdir -p ~/bin
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add akpm-mm https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git
+        git fetch akpm-mm mm-everything
+        git checkout akpm-mm/mm-everything
+        b4 shazam https://lore.kernel.org/r/20230609075528.9390-3-bhe@redhat.com
+        # save the config file
+        mkdir build_dir && cp config build_dir/.config
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon olddefconfig
+        COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon prepare
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202306091859.NhlW2nny-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   In file included from arch/hexagon/kernel/asm-offsets.c:15:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:339:
+   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     547 |         val = __raw_readb(PCI_IOBASE + addr);
+         |                           ~~~~~~~~~~ ^
+   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
+      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
+         |                                                   ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:15:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:339:
+   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
+         |                                                         ~~~~~~~~~~ ^
+   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
+      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
+         |                                                   ^
+   In file included from arch/hexagon/kernel/asm-offsets.c:15:
+   In file included from include/linux/interrupt.h:11:
+   In file included from include/linux/hardirq.h:11:
+   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
+   In file included from include/asm-generic/hardirq.h:17:
+   In file included from include/linux/irq.h:20:
+   In file included from include/linux/io.h:13:
+   In file included from arch/hexagon/include/asm/io.h:339:
+   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     584 |         __raw_writeb(value, PCI_IOBASE + addr);
+         |                             ~~~~~~~~~~ ^
+   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
+     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
+         |                                                       ~~~~~~~~~~ ^
+>> include/asm-generic/io.h:1078:6: error: conflicting types for 'iounmap'
+    1078 | void iounmap(volatile void __iomem *addr);
+         |      ^
+   arch/hexagon/include/asm/io.h:30:13: note: previous declaration is here
+      30 | extern void iounmap(const volatile void __iomem *addr);
+         |             ^
+   6 warnings and 1 error generated.
+   make[2]: *** [scripts/Makefile.build:114: arch/hexagon/kernel/asm-offsets.s] Error 1 shuffle=2830738586
+   make[2]: Target 'prepare' not remade because of errors.
+   make[1]: *** [Makefile:1287: prepare0] Error 2 shuffle=2830738586
+   make[1]: Target 'prepare' not remade because of errors.
+   make: *** [Makefile:226: __sub-make] Error 2 shuffle=2830738586
+   make: Target 'prepare' not remade because of errors.
+
+
+vim +/iounmap +1078 include/asm-generic/io.h
+
+18e780b4e6ab89 Kefeng Wang       2022-06-07  1075  
+abc5992b9dd0ba Kefeng Wang       2022-06-07  1076  void __iomem *ioremap_prot(phys_addr_t phys_addr, size_t size,
+abc5992b9dd0ba Kefeng Wang       2022-06-07  1077  			   unsigned long prot);
+80b0ca98f91ddb Christoph Hellwig 2019-08-13 @1078  void iounmap(volatile void __iomem *addr);
+80b0ca98f91ddb Christoph Hellwig 2019-08-13  1079  
+
 -- 
-2.34.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
