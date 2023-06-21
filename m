@@ -2,100 +2,124 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 980367378F3
-	for <lists+linux-hexagon@lfdr.de>; Wed, 21 Jun 2023 04:15:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 28DE5737E85
+	for <lists+linux-hexagon@lfdr.de>; Wed, 21 Jun 2023 11:17:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229527AbjFUCP4 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 20 Jun 2023 22:15:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40758 "EHLO
+        id S231710AbjFUIv5 (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 21 Jun 2023 04:51:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229522AbjFUCPz (ORCPT
+        with ESMTP id S231716AbjFUIvz (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 20 Jun 2023 22:15:55 -0400
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A4B51989;
-        Tue, 20 Jun 2023 19:15:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1687313755; x=1718849755;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6m8oZcodhtix0QwhxR/xmxGRXoNB5c0KxxyIl1Y1I6M=;
-  b=HIZVnunCgibxfr0aDSLwDwILMB3r7PBEJnTZlNUSSZYzAU8qdOj/aFiU
-   lrCplSfC07N/LAiYZ4LgYeeyZez7tZWpmvfeR6egCowGqgRbe4sIENNh6
-   U/lVx7QaurWWGuW/+EqMZmGrWqrKu6Q30N11tdcSvCdPumWu1vrA5v6Bu
-   JN75E2JGxejYEespY5e/pnlsuWsOPZv+fqGIEx+7M5yiJ7P6mHQ53zp4D
-   14VNa1c6gyIQZOy/SVgvLN/7k3iCMqQmsB1Mf6S5wHFvJJsxhV+1HmyTS
-   fmW3v17TIsJewrOWHh71BjQjiq2fJZTZpG3QXfDsG2N2pEdLvPd74aohk
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="362581732"
-X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="362581732"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Jun 2023 19:15:54 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10747"; a="858802795"
-X-IronPort-AV: E=Sophos;i="6.00,259,1681196400"; 
-   d="scan'208";a="858802795"
-Received: from lkp-server01.sh.intel.com (HELO 783282924a45) ([10.239.97.150])
-  by fmsmga001.fm.intel.com with ESMTP; 20 Jun 2023 19:15:50 -0700
-Received: from kbuild by 783282924a45 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qBnNt-0006Ro-2C;
-        Wed, 21 Jun 2023 02:15:49 +0000
-Date:   Wed, 21 Jun 2023 10:15:39 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Baoquan He <bhe@redhat.com>, linux-kernel@vger.kernel.org
-Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
-        hch@lst.de, christophe.leroy@csgroup.eu, rppt@kernel.org,
-        willy@infradead.org, agordeev@linux.ibm.com,
-        wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-        David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
-        nathan@kernel.org, glaubitz@physik.fu-berlin.de,
-        Baoquan He <bhe@redhat.com>, Brian Cain <bcain@quicinc.com>,
-        linux-hexagon@vger.kernel.org
+        Wed, 21 Jun 2023 04:51:55 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25AC11981
+        for <linux-hexagon@vger.kernel.org>; Wed, 21 Jun 2023 01:51:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1687337470;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=uwyBlKAjWWqC2ADnT8omvFeBUBts/JlKuShTUrNb9VA=;
+        b=h20iv9wYPYvSFGu7F7OdU3enTI5FpTcuVfAcSySACC8rgW9IZ4Yd+t3MgKfj7JuvyQWOIN
+        246q6J8W/oQ9tAw3icw0Jy48N9tVc8lIhzwEVDQ/UllE5gW83OAJCKMDu+amsLJn4hY8jt
+        R4dM9hXizz+MAzhcfw8nk1qP4tWB5xs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-115-ZaFiW99aNIaeRMC_Bh02Dw-1; Wed, 21 Jun 2023 04:51:04 -0400
+X-MC-Unique: ZaFiW99aNIaeRMC_Bh02Dw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com [10.11.54.9])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8AC25805C3F;
+        Wed, 21 Jun 2023 08:50:59 +0000 (UTC)
+Received: from localhost (ovpn-12-166.pek2.redhat.com [10.72.12.166])
+        by smtp.corp.redhat.com (Postfix) with ESMTPS id 4175F492B02;
+        Wed, 21 Jun 2023 08:50:57 +0000 (UTC)
+Date:   Wed, 21 Jun 2023 16:50:53 +0800
+From:   Baoquan He <bhe@redhat.com>
+To:     kernel test robot <lkp@intel.com>
+Cc:     linux-kernel@vger.kernel.org, llvm@lists.linux.dev,
+        oe-kbuild-all@lists.linux.dev, linux-arch@vger.kernel.org,
+        linux-mm@kvack.org, arnd@arndb.de, hch@lst.de,
+        christophe.leroy@csgroup.eu, rppt@kernel.org, willy@infradead.org,
+        agordeev@linux.ibm.com, wangkefeng.wang@huawei.com,
+        schnelle@linux.ibm.com, David.Laight@aculab.com, shorne@gmail.com,
+        deller@gmx.de, nathan@kernel.org, glaubitz@physik.fu-berlin.de,
+        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org
 Subject: Re: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-Message-ID: <202306211030.DioMEPhl-lkp@intel.com>
+Message-ID: <ZJK57Uw5ZYQZY3d+@MiWiFi-R3L-srv>
 References: <20230620131356.25440-3-bhe@redhat.com>
+ <202306211030.DioMEPhl-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230620131356.25440-3-bhe@redhat.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <202306211030.DioMEPhl-lkp@intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Hi Baoquan,
+Hi,
 
-kernel test robot noticed the following build errors:
+On 06/21/23 at 10:15am, kernel test robot wrote:
+> Hi Baoquan,
+> 
+> kernel test robot noticed the following build errors:
+> 
+> [auto build test ERROR on akpm-mm/mm-everything]
+> 
+> url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+> patch link:    https://lore.kernel.org/r/20230620131356.25440-3-bhe%40redhat.com
+> patch subject: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
+> config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config)
+> compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+> reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/reproduce)
+> 
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202306211030.DioMEPhl-lkp@intel.com/
+> 
+> All errors (new ones prefixed by >>):
+> 
+> >> arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
 
-[auto build test ERROR on akpm-mm/mm-everything]
+I followed steps in your reproduce link, didn't reproduce the error as
+above line reported. I can still see those PCI_IOMAP warning, however
+they will disappear when rebuilding. The clone3 warning can always ben
+seen. I didn't see the symbol ioremap error. Could you double check if
+anything missed in steps?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20230620131356.25440-3-bhe%40redhat.com
-patch subject: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/reproduce)
+[root@dell-pem620-01 linux]# COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+Compiler will be installed in /root/0day
+make --keep-going LLVM=1 CROSS_COMPILE=hexagon-linux- LLVM_IAS=1 --jobs=48 W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
+make[1]: Entering directory '/root/linux/build_dir'
+  GEN     Makefile
+ld.lld: /lib64/libtinfo.so.6: no version information available (required by ld.lld)
+tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
+tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
+tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
+tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
+tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
+tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
+tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
+tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
+  CALL    ../scripts/checksyscalls.sh
+clang: /lib64/libtinfo.so.6: no version information available (required by clang)
+<stdin>:1519:2: warning: syscall clone3 not implemented [-W#warnings]
+ 1519 | #warning syscall clone3 not implemented
+      |  ^
+1 warning generated.
+make[1]: Leaving directory '/root/linux/build_dir'
+[root@dell-pem620-01 linux]# 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202306211030.DioMEPhl-lkp@intel.com/
 
-All errors (new ones prefixed by >>):
-
->> arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
