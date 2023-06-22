@@ -2,61 +2,90 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DD67738FA6
-	for <lists+linux-hexagon@lfdr.de>; Wed, 21 Jun 2023 21:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E2E473A9C7
+	for <lists+linux-hexagon@lfdr.de>; Thu, 22 Jun 2023 22:58:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231311AbjFUTIl (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 21 Jun 2023 15:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49506 "EHLO
+        id S231231AbjFVU6o (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Thu, 22 Jun 2023 16:58:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229680AbjFUTIk (ORCPT
+        with ESMTP id S229832AbjFVU6k (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 21 Jun 2023 15:08:40 -0400
-Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FCE199E;
-        Wed, 21 Jun 2023 12:08:38 -0700 (PDT)
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits))
-        (No client certificate requested)
-        by dfw.source.kernel.org (Postfix) with ESMTPS id 1D2A7616A6;
-        Wed, 21 Jun 2023 19:08:38 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57E49C433C8;
-        Wed, 21 Jun 2023 19:08:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1687374517;
-        bh=zdNbjZQDxHEv0urZ4/sBxzDu1D2R6w0MnTDSSEDgokU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=AuwYWVtkQWT/4N9IbulYyZJj1z8dRiE8vsd9f5nH8bqW8aDlumt+7nDYbdhNVZ6XG
-         Wia3nOiLE/TORccj3S8yb+LtvZURvwPVL7dbEPqWGKip47WeCfMEavvHKeuEfmRhPD
-         vKguyAKJ3M9Jmmxs0IgZSbx26egIcE3l0AGl5bcgxad/+PR4/cSnbp8f8p+4BSRbmY
-         SPOmAIDTOSclOrFhFvx/n9PjjTUc6wmjyMtxETMdHef0fSdbPMD6kohZNyPp0iIvGu
-         xY608xVu5ykM5vel/iFfYGYhoC2dWfb7atZfNBczI2KMiL7759gWtnlXUIcsBBwkr1
-         3GdEVAnwcnGIQ==
-Date:   Wed, 21 Jun 2023 19:08:34 +0000
-From:   Nathan Chancellor <nathan@kernel.org>
-To:     Baoquan He <bhe@redhat.com>
-Cc:     kernel test robot <lkp@intel.com>, linux-kernel@vger.kernel.org,
-        llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-        linux-arch@vger.kernel.org, linux-mm@kvack.org, arnd@arndb.de,
-        hch@lst.de, christophe.leroy@csgroup.eu, rppt@kernel.org,
-        willy@infradead.org, agordeev@linux.ibm.com,
-        wangkefeng.wang@huawei.com, schnelle@linux.ibm.com,
-        David.Laight@aculab.com, shorne@gmail.com, deller@gmx.de,
-        glaubitz@physik.fu-berlin.de, Brian Cain <bcain@quicinc.com>,
-        linux-hexagon@vger.kernel.org
-Subject: Re: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-Message-ID: <20230621190834.GA842758@dev-arch.thelio-3990X>
-References: <20230620131356.25440-3-bhe@redhat.com>
- <202306211030.DioMEPhl-lkp@intel.com>
- <ZJK57Uw5ZYQZY3d+@MiWiFi-R3L-srv>
+        Thu, 22 Jun 2023 16:58:40 -0400
+Received: from mail-yb1-xb2a.google.com (mail-yb1-xb2a.google.com [IPv6:2607:f8b0:4864:20::b2a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D93D52685;
+        Thu, 22 Jun 2023 13:58:01 -0700 (PDT)
+Received: by mail-yb1-xb2a.google.com with SMTP id 3f1490d57ef6-bff0beb2d82so2082570276.2;
+        Thu, 22 Jun 2023 13:58:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20221208; t=1687467476; x=1690059476;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q4Ig2n4cGI8BP25CqcNRq43JhOmkIIdJVFlb5elIpOA=;
+        b=mqvv9g7FTX6YZrTAez67m8G0SADgQWX+ct2Q2ktq+TbKMG/cOnFNL1HUEejNSN9nds
+         9vEK9L2HpCPHz3mnLHm7QE7bazoap9KPjRBuUT4kw6MBU7tHylSDou09veevPp+Qm5tI
+         J6+0hmA98DudaYxzAoNczqxDp5g6z2tqapGcR3NSEAPAgqMiM1eNh+iIzBq7ayejKjj9
+         5MP9SwhVaQTCo1G312fdQXe7vTjboPcFBobNzdFt65RtUbRTWvFRUfh7ZZb+Tak5rboQ
+         uGsNAcBwqdQTtsTo7UoikA/hvdu33PxWnma34tmu5wLmqc0vL2bNnLhMWuiaLjOulKtx
+         4JUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20221208; t=1687467476; x=1690059476;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Q4Ig2n4cGI8BP25CqcNRq43JhOmkIIdJVFlb5elIpOA=;
+        b=T8nREzyu0AIfFz+bk+HY0hPF5qMPGhi9FDohPgTWUfDGef1LEKtVyqXgZZPWTjno/S
+         pS/jUOva9BpdIJnYSrniU5E0wWJK+t3tsNS/qJWTHPprMxLmV0nGLLX95DhINFln19GP
+         gBjDSr5vF5YEuq4pAebIZoudxZepfqB59eb+08+S8ykjdvHIMuNuc2PcJ46tqPIWUir0
+         qf/5/qmTrPvc8ssR8O9x2U25h9sFm5Oxbjo0SrV+Mqis16Iccct90PoG8U00n1uLKsvP
+         dTnFnVKfGV5lpcoNKcQa/s2GSEZRZKkYydbRlfTxAiPrA1pFw2m240TDKGrByWIkBLDR
+         DkCg==
+X-Gm-Message-State: AC+VfDyxX+BxUqykjOGGFvggnQsQ3N6NrZUQvVMBv+6hqRqS9iE6gDnR
+        UcQ/Cc05ZRrrowQD/L/hTfk=
+X-Google-Smtp-Source: ACHHUZ5QdSwF+iokSIDxxYwBaWLG1oGIRpritBhsZ3H79UKVTTkrzsNTtfFGV/ude8v+TVUUcB2uCQ==
+X-Received: by 2002:a05:6902:92:b0:bba:558e:df05 with SMTP id h18-20020a056902009200b00bba558edf05mr14486764ybs.10.1687467476004;
+        Thu, 22 Jun 2023 13:57:56 -0700 (PDT)
+Received: from unknowna0e70b2ca394.attlocal.net ([2600:1700:2f7d:1800::36])
+        by smtp.googlemail.com with ESMTPSA id d18-20020a5b0c52000000b00bc501a1b062sm1684937ybr.42.2023.06.22.13.57.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Jun 2023 13:57:55 -0700 (PDT)
+From:   "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To:     Andrew Morton <akpm@linux-foundation.org>,
+        Matthew Wilcox <willy@infradead.org>
+Cc:     linux-mm@kvack.org, linux-arch@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
+        linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
+        linux-m68k@lists.linux-m68k.org, linux-mips@vger.kernel.org,
+        linux-openrisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+        linux-sh@vger.kernel.org, sparclinux@vger.kernel.org,
+        linux-um@lists.infradead.org, xen-devel@lists.xenproject.org,
+        kvm@vger.kernel.org, Hugh Dickins <hughd@google.com>,
+        "Vishal Moola (Oracle)" <vishal.moola@gmail.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Huacai Chen <chenhuacai@kernel.org>,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Dinh Nguyen <dinguyen@kernel.org>,
+        Jonas Bonn <jonas@southpole.se>,
+        David Hildenbrand <david@redhat.com>,
+        Claudio Imbrenda <imbrenda@linux.ibm.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        "David S. Miller" <davem@davemloft.net>,
+        Richard Weinberger <richard@nod.at>,
+        Yoshinori Sato <ysato@users.sourceforge.jp>,
+        Dave Hansen <dave.hansen@linux.intel.com>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Christophe Leroy <christophe.leroy@csgroup.eu>
+Subject: [PATCH v5 00/33] Split ptdesc from struct page
+Date:   Thu, 22 Jun 2023 13:57:12 -0700
+Message-Id: <20230622205745.79707-1-vishal.moola@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZJK57Uw5ZYQZY3d+@MiWiFi-R3L-srv>
-X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -64,128 +93,112 @@ Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Wed, Jun 21, 2023 at 04:50:53PM +0800, Baoquan He wrote:
-> Hi,
-> 
-> On 06/21/23 at 10:15am, kernel test robot wrote:
-> > Hi Baoquan,
-> > 
-> > kernel test robot noticed the following build errors:
-> > 
-> > [auto build test ERROR on akpm-mm/mm-everything]
-> > 
-> > url:    https://github.com/intel-lab-lkp/linux/commits/Baoquan-He/asm-generic-iomap-h-remove-ARCH_HAS_IOREMAP_xx-macros/20230620-212135
-> > base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-> > patch link:    https://lore.kernel.org/r/20230620131356.25440-3-bhe%40redhat.com
-> > patch subject: [PATCH v7 02/19] hexagon: mm: Convert to GENERIC_IOREMAP
-> > config: hexagon-randconfig-r041-20230620 (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config)
-> > compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-> > reproduce: (https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/reproduce)
-> > 
-> > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > the same patch/commit), kindly add following tags
-> > | Reported-by: kernel test robot <lkp@intel.com>
-> > | Closes: https://lore.kernel.org/oe-kbuild-all/202306211030.DioMEPhl-lkp@intel.com/
-> > 
-> > All errors (new ones prefixed by >>):
-> > 
-> > >> arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
-> 
-> I followed steps in your reproduce link, didn't reproduce the error as
-> above line reported. I can still see those PCI_IOMAP warning, however
-> they will disappear when rebuilding. The clone3 warning can always ben
-> seen. I didn't see the symbol ioremap error. Could you double check if
-> anything missed in steps?
-> 
-> [root@dell-pem620-01 linux]# COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang ~/bin/make.cross W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
-> Compiler will be installed in /root/0day
-> make --keep-going LLVM=1 CROSS_COMPILE=hexagon-linux- LLVM_IAS=1 --jobs=48 W=1 O=build_dir ARCH=hexagon SHELL=/bin/bash
-> make[1]: Entering directory '/root/linux/build_dir'
->   GEN     Makefile
-> ld.lld: /lib64/libtinfo.so.6: no version information available (required by ld.lld)
+The MM subsystem is trying to shrink struct page. This patchset
+introduces a memory descriptor for page table tracking - struct ptdesc.
 
-Hmmm, seems like a dynamic linking issue, likely because either libtinfo
-is not available or the version on your system is older or newer than
-the one that the compiler was built with.
+This patchset introduces ptdesc, splits ptdesc from struct page, and
+converts many callers of page table constructor/destructors to use ptdescs.
 
-Intel folks, you can opt out of this particular library dependency with
-'-DLLVM_ENABLE_TERMINFO=OFF' to cmake, which will make it easier for
-others to use it; the compiler can still output color on most terminals
-even without libtinfo.
+Ptdesc is a foundation to further standardize page tables, and eventually
+allow for dynamic allocation of page tables independent of struct page.
+However, the use of pages for page table tracking is quite deeply
+ingrained and varied across archictectures, so there is still a lot of
+work to be done before that can happen.
 
-> tools/testing/selftests/arm64/tags/.gitignore: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/arm64/tags/Makefile: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/arm64/tags/run_tags_test.sh: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/arm64/tags/tags_test.c: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/kvm/.gitignore: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/kvm/Makefile: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/kvm/config: warning: ignored by one of the .gitignore files
-> tools/testing/selftests/kvm/settings: warning: ignored by one of the .gitignore files
->   CALL    ../scripts/checksyscalls.sh
-> clang: /lib64/libtinfo.so.6: no version information available (required by clang)
-> <stdin>:1519:2: warning: syscall clone3 not implemented [-W#warnings]
->  1519 | #warning syscall clone3 not implemented
->       |  ^
-> 1 warning generated.
-> make[1]: Leaving directory '/root/linux/build_dir'
-> [root@dell-pem620-01 linux]# 
-> 
-> 
+This is rebased on next-20230621.
 
-I am able to reproduce this with the kernel.org LLVM builds that I do,
-which should not have that library dependency:
+There is a minor conflict with patch 24 and the mm-unstable tree in
+arch/m68k/mm/motorola.c - The end result of applying the patch should
+be the same.
 
-https://mirrors.edge.kernel.org/pub/tools/llvm/
 
-$ curl -LSso .config https://download.01.org/0day-ci/archive/20230621/202306211030.DioMEPhl-lkp@intel.com/config
+v5:
+  More Acked-bys :)
+  Cleanup some documentation wording and formatting
+  Add pt_rcu_head to ptdesc
+  Add memcg to ptdesc (and align it with struct page)
+  Ensure all get_free_page() callers prohibit HIGHMEM for 32 bit support.
+  Renamed folio_{set, clear}_table() to folio_{set, clear}_pgtable()
+  Removed pagetable_clear() as it is not necessary right now
+  pagetable_free() now sets page->mapping = NULL
+  Dropped s390 _refcount to _pt_frag_refcount conversion patch
 
-$ make -skj"$(nproc)" ARCH=hexagon LLVM=$(realpath llvm-16.0.6-x86_64/bin)/ olddefconfig all
-...
-make[5]: *** No rule to make target 'arch/hexagon/mm/ioremap.o', needed by 'arch/hexagon/mm/built-in.a'.
-...
-arch/hexagon/kernel/hexagon_ksyms.o: error: local symbol ioremap was exported
-...
+Vishal Moola (Oracle) (33):
+  mm: Add PAGE_TYPE_OP folio functions
+  s390: Use _pt_s390_gaddr for gmap address tracking
+  pgtable: Create struct ptdesc
+  mm: add utility functions for ptdesc
+  mm: Convert pmd_pgtable_page() to pmd_ptdesc()
+  mm: Convert ptlock_alloc() to use ptdescs
+  mm: Convert ptlock_ptr() to use ptdescs
+  mm: Convert pmd_ptlock_init() to use ptdescs
+  mm: Convert ptlock_init() to use ptdescs
+  mm: Convert pmd_ptlock_free() to use ptdescs
+  mm: Convert ptlock_free() to use ptdescs
+  mm: Create ptdesc equivalents for pgtable_{pte,pmd}_page_{ctor,dtor}
+  powerpc: Convert various functions to use ptdescs
+  x86: Convert various functions to use ptdescs
+  s390: Convert various gmap functions to use ptdescs
+  s390: Convert various pgalloc functions to use ptdescs
+  mm: Remove page table members from struct page
+  pgalloc: Convert various functions to use ptdescs
+  arm: Convert various functions to use ptdescs
+  arm64: Convert various functions to use ptdescs
+  csky: Convert __pte_free_tlb() to use ptdescs
+  hexagon: Convert __pte_free_tlb() to use ptdescs
+  loongarch: Convert various functions to use ptdescs
+  m68k: Convert various functions to use ptdescs
+  mips: Convert various functions to use ptdescs
+  nios2: Convert __pte_free_tlb() to use ptdescs
+  openrisc: Convert __pte_free_tlb() to use ptdescs
+  riscv: Convert alloc_{pmd, pte}_late() to use ptdescs
+  sh: Convert pte_free_tlb() to use ptdescs
+  sparc64: Convert various functions to use ptdescs
+  sparc: Convert pgtable_pte_page_{ctor, dtor}() to ptdesc equivalents
+  um: Convert {pmd, pte}_free_tlb() to use ptdescs
+  mm: Remove pgtable_{pmd, pte}_page_{ctor, dtor}() wrappers
 
-The first issue is resolved with:
+ Documentation/mm/split_page_table_lock.rst    |  12 +-
+ .../zh_CN/mm/split_page_table_lock.rst        |  14 +-
+ arch/arm/include/asm/tlb.h                    |  12 +-
+ arch/arm/mm/mmu.c                             |   7 +-
+ arch/arm64/include/asm/tlb.h                  |  14 +-
+ arch/arm64/mm/mmu.c                           |   7 +-
+ arch/csky/include/asm/pgalloc.h               |   4 +-
+ arch/hexagon/include/asm/pgalloc.h            |   8 +-
+ arch/loongarch/include/asm/pgalloc.h          |  27 ++-
+ arch/loongarch/mm/pgtable.c                   |   7 +-
+ arch/m68k/include/asm/mcf_pgalloc.h           |  43 ++--
+ arch/m68k/include/asm/sun3_pgalloc.h          |   8 +-
+ arch/m68k/mm/motorola.c                       |   4 +-
+ arch/mips/include/asm/pgalloc.h               |  32 +--
+ arch/mips/mm/pgtable.c                        |   8 +-
+ arch/nios2/include/asm/pgalloc.h              |   8 +-
+ arch/openrisc/include/asm/pgalloc.h           |   8 +-
+ arch/powerpc/mm/book3s64/mmu_context.c        |  10 +-
+ arch/powerpc/mm/book3s64/pgtable.c            |  32 +--
+ arch/powerpc/mm/pgtable-frag.c                |  46 ++--
+ arch/riscv/include/asm/pgalloc.h              |   8 +-
+ arch/riscv/mm/init.c                          |  16 +-
+ arch/s390/include/asm/pgalloc.h               |   4 +-
+ arch/s390/include/asm/tlb.h                   |   4 +-
+ arch/s390/mm/gmap.c                           | 207 ++++++++++--------
+ arch/s390/mm/pgalloc.c                        | 108 ++++-----
+ arch/sh/include/asm/pgalloc.h                 |   9 +-
+ arch/sparc/mm/init_64.c                       |  17 +-
+ arch/sparc/mm/srmmu.c                         |   5 +-
+ arch/um/include/asm/pgalloc.h                 |  18 +-
+ arch/x86/mm/pgtable.c                         |  47 ++--
+ arch/x86/xen/mmu_pv.c                         |   2 +-
+ include/asm-generic/pgalloc.h                 |  88 +++++---
+ include/asm-generic/tlb.h                     |  11 +
+ include/linux/mm.h                            | 153 +++++++++----
+ include/linux/mm_types.h                      |  14 --
+ include/linux/page-flags.h                    |  30 ++-
+ include/linux/pgtable.h                       |  77 +++++++
+ mm/memory.c                                   |   8 +-
+ 39 files changed, 684 insertions(+), 453 deletions(-)
 
-diff --git a/arch/hexagon/mm/Makefile b/arch/hexagon/mm/Makefile
-index 49911a906fd0..ba4b04d962d6 100644
---- a/arch/hexagon/mm/Makefile
-+++ b/arch/hexagon/mm/Makefile
-@@ -3,5 +3,5 @@
- # Makefile for Hexagon memory management subsystem
- #
- 
--obj-y := init.o ioremap.o uaccess.o vm_fault.o cache.o
-+obj-y := init.o uaccess.o vm_fault.o cache.o
- obj-y += copy_to_user.o copy_from_user.o vm_tlb.o
+-- 
+2.40.1
 
-For the second issue, it seems that ioremap is exported in
-arch/hexagon/kernel/hexagon_ksyms.c but ioremap() is a static inline
-function with CONFIG_GENERIC_IOREMAP. I think we can just remove the
-ioremap and iounmap exports now, as ioremap() calls ioremap_prot(),
-which is exported, and iounmap() is exported in mm/ioremap.c.
-
-diff --git a/arch/hexagon/kernel/hexagon_ksyms.c b/arch/hexagon/kernel/hexagon_ksyms.c
-index ec56ce2d92a2..36a80e31d187 100644
---- a/arch/hexagon/kernel/hexagon_ksyms.c
-+++ b/arch/hexagon/kernel/hexagon_ksyms.c
-@@ -14,12 +14,10 @@
- EXPORT_SYMBOL(__clear_user_hexagon);
- EXPORT_SYMBOL(raw_copy_from_user);
- EXPORT_SYMBOL(raw_copy_to_user);
--EXPORT_SYMBOL(iounmap);
- EXPORT_SYMBOL(__vmgetie);
- EXPORT_SYMBOL(__vmsetie);
- EXPORT_SYMBOL(__vmyield);
- EXPORT_SYMBOL(empty_zero_page);
--EXPORT_SYMBOL(ioremap);
- EXPORT_SYMBOL(memcpy);
- EXPORT_SYMBOL(memset);
- 
-
-With those two diffs, the randconfig the robot provides builds and links
-without any errors.
-
-Cheers,
-Nathan
