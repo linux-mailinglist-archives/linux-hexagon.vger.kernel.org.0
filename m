@@ -2,70 +2,53 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B61FD74B209
-	for <lists+linux-hexagon@lfdr.de>; Fri,  7 Jul 2023 15:43:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7031474CAA1
+	for <lists+linux-hexagon@lfdr.de>; Mon, 10 Jul 2023 05:38:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232566AbjGGNnm (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Fri, 7 Jul 2023 09:43:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55840 "EHLO
+        id S229868AbjGJDiK (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Sun, 9 Jul 2023 23:38:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232584AbjGGNnf (ORCPT
+        with ESMTP id S229554AbjGJDiJ (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Fri, 7 Jul 2023 09:43:35 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0056C1FE6
-        for <linux-hexagon@vger.kernel.org>; Fri,  7 Jul 2023 06:42:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1688737373;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=I+owWNOWvEK7SZ1O/p9+BsoqrhRbp6l42ZVJTUZNbK4=;
-        b=hFsylKSxiQMJdoXtIazy4s9hWuqnlHLhVIMmLFnys7+MZ9Uuz54IihO1kQYG+sFZMvYPAV
-        04g1eFWd7oSzkGbbORfz+ecROIUo8DeNwPWvzwzv3AnBqzurn347m30DYM20YdeSDFORCq
-        6rTsAb6VHOXadwbxykmEMW/9yOwh/KQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-587-EXj8aYwJM-K-OwK2Ith7UQ-1; Fri, 07 Jul 2023 09:42:49 -0400
-X-MC-Unique: EXj8aYwJM-K-OwK2Ith7UQ-1
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-3fa8db49267so11343005e9.3
-        for <linux-hexagon@vger.kernel.org>; Fri, 07 Jul 2023 06:42:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1688737368; x=1691329368;
-        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=I+owWNOWvEK7SZ1O/p9+BsoqrhRbp6l42ZVJTUZNbK4=;
-        b=WUvO+ygoaFVKl8MBex1SeQapAnMjmK4yngI0AR2zU8KRHZwMZOYEGvooi6WBBaRFU8
-         E/5UE56nkrevYEH/6iCzklebkRFlafw362JVGoekVeKHjnEhsrlkxD1BrK6BytBtT8p/
-         5iMcuGThdEbzJOUJPrEDiAnMmS3oOgo2+397eCSp2x8vt2CCMp0Y+DfnEzKmc8NBck89
-         YJTfIECsMdppDdF8OQl0oa0Q9lQV80OtvtZd9Ckf0me60iITeUWun9TkQhlyFERIpMz4
-         8znvvbwHbSStkJe4iP1YcqXCW5/G/RjKMU2At55YCWvoFitAzp9wwpZ6iZXJ/gQ1b3op
-         a+2g==
-X-Gm-Message-State: ABy/qLZlJg5KNn83eB0cDHsy5qWethKDt0LedW04J9CQupmpLn/thO7B
-        xa8V9LmOKxXXQsQZHlEzsVlU60NJDB+4QJQ4egBIvI8dT8x1C1Sbn7OZRR4w1Wed6hnR1APsL9T
-        4ryNsqTUhMRmsQG4Uzpr8YhwgZQ==
-X-Received: by 2002:a7b:cd85:0:b0:3fb:5dad:1392 with SMTP id y5-20020a7bcd85000000b003fb5dad1392mr3824004wmj.17.1688737367975;
-        Fri, 07 Jul 2023 06:42:47 -0700 (PDT)
-X-Google-Smtp-Source: APBJJlEZxhfEH8UwFPHB4pXOYFja3GHddFsOU/EgTb58z7K38wBQ2x+vg0IaPSVH4aXqur2PYGn+xA==
-X-Received: by 2002:a7b:cd85:0:b0:3fb:5dad:1392 with SMTP id y5-20020a7bcd85000000b003fb5dad1392mr3823993wmj.17.1688737367817;
-        Fri, 07 Jul 2023 06:42:47 -0700 (PDT)
-Received: from localhost (205.pool92-176-231.dynamic.orange.es. [92.176.231.205])
-        by smtp.gmail.com with ESMTPSA id k12-20020a7bc30c000000b003fba92fad35sm2498874wmj.26.2023.07.07.06.42.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Jul 2023 06:42:47 -0700 (PDT)
-From:   Javier Martinez Canillas <javierm@redhat.com>
+        Sun, 9 Jul 2023 23:38:09 -0400
+Received: from dfw.source.kernel.org (dfw.source.kernel.org [139.178.84.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACF32AF;
+        Sun,  9 Jul 2023 20:38:08 -0700 (PDT)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits))
+        (No client certificate requested)
+        by dfw.source.kernel.org (Postfix) with ESMTPS id 3BA3E60DC5;
+        Mon, 10 Jul 2023 03:38:08 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 122C6C433C7;
+        Mon, 10 Jul 2023 03:38:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1688960287;
+        bh=v0OsTtvNKU6Dld3+w3JG1lJowk+7fQMnwswrEl/ZXho=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=I3vszjayKwTZgx7pu48sWg1k5KBKxkXctrW6bu353IwqtA9FDkUA7UB58Thl0EhHA
+         B70Ik7KJ+gLjEd/EJMekP58Fj22ciYqtrwFfDgaE8piXiARykGJpw4fmJMr0abMiYv
+         kznZLRTeIpAciA+le/inMAv0/2rIwFn7wPgoi0g6V+OEpDki3zv82reX0K4OX0Vk6U
+         Pk3PpnvQIPIwP0lZqaH5XhB2u9jeRgPYAmJw6E9/kj6Hic8bm2+vgsnEqqkEqgA9Ri
+         Z5P+PafgNNhL27TXboyzGxGeY4OuUhIK5umaEMLtbzeoYff/FKxbLMUD0g8AMLhDai
+         VEhKaDKNhWjAg==
+Message-ID: <fd95e3cb-d7b7-ec8b-c48b-d86634f07dfd@kernel.org>
+Date:   Sun, 9 Jul 2023 22:38:03 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH 4/4] vgacon, arch/*: remove unused screen_info definitions
+Content-Language: en-US
 To:     Arnd Bergmann <arnd@kernel.org>,
         Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Russell King <linux@armlinux.org.uk>,
+Cc:     javierm@redhat.com, linux-fbdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Russell King <linux@armlinux.org.uk>,
         dri-devel@lists.freedesktop.org, Ard Biesheuvel <ardb@kernel.org>,
         Helge Deller <deller@gmx.de>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Arnd Bergmann <arnd@arndb.de>, Guo Ren <guoren@kernel.org>,
-        Brian Cain <bcain@quicinc.com>,
-        Dinh Nguyen <dinguyen@kernel.org>,
-        Rich Felker <dalias@libc.org>,
+        Brian Cain <bcain@quicinc.com>, Rich Felker <dalias@libc.org>,
         John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
         "David S. Miller" <davem@davemloft.net>,
         Chris Zankel <chris@zankel.net>,
@@ -73,48 +56,41 @@ Cc:     linux-fbdev@vger.kernel.org, linux-kernel@vger.kernel.org,
         Masahiro Yamada <masahiroy@kernel.org>,
         linux-csky@vger.kernel.org, linux-hexagon@vger.kernel.org,
         linux-sh@vger.kernel.org, sparclinux@vger.kernel.org
-Subject: Re: [PATCH 4/4] vgacon, arch/*: remove unused screen_info definitions
-In-Reply-To: <20230707095415.1449376-4-arnd@kernel.org>
 References: <20230707095415.1449376-1-arnd@kernel.org>
  <20230707095415.1449376-4-arnd@kernel.org>
-Date:   Fri, 07 Jul 2023 15:42:46 +0200
-Message-ID: <87edljyh0p.fsf@minerva.mail-host-address-is-not-set>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
-        version=3.4.6
+From:   Dinh Nguyen <dinguyen@kernel.org>
+In-Reply-To: <20230707095415.1449376-4-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-7.2 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_HI,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Arnd Bergmann <arnd@kernel.org> writes:
 
+
+On 7/7/23 04:52, Arnd Bergmann wrote:
 > From: Arnd Bergmann <arnd@arndb.de>
->
+> 
 > A number of architectures either kept the screen_info definition for
 > historical purposes as it used to be required by the generic VT code, or
 > they copied it from another architecture in order to build the VGA
 > console driver in an allmodconfig build.
->
+> 
 > Now that vgacon no longer builds on these architectures, remove the
 > stale definitions.
->
+> 
 > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
+>   arch/csky/kernel/setup.c          | 12 ------------
+>   arch/hexagon/kernel/Makefile      |  2 --
+>   arch/hexagon/kernel/screen_info.c |  3 ---
+>   arch/nios2/kernel/setup.c         |  5 -----
 
-Nice cleanup!
-
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-
--- 
-Best regards,
-
-Javier Martinez Canillas
-Core Platforms
-Red Hat
+Acked-by: Dinh Nguyen <dinguyen@kernel.org>
 
