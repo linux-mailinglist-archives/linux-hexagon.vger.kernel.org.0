@@ -2,115 +2,141 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E84D792A16
-	for <lists+linux-hexagon@lfdr.de>; Tue,  5 Sep 2023 18:58:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9CF379E6B7
+	for <lists+linux-hexagon@lfdr.de>; Wed, 13 Sep 2023 13:28:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1353843AbjIEQdr (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 5 Sep 2023 12:33:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55910 "EHLO
+        id S240191AbjIML2u (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 13 Sep 2023 07:28:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1353842AbjIEIU5 (ORCPT
+        with ESMTP id S240188AbjIML2r (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 5 Sep 2023 04:20:57 -0400
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 340B5CD2
-        for <linux-hexagon@vger.kernel.org>; Tue,  5 Sep 2023 01:20:53 -0700 (PDT)
-Received: by mail-lf1-x144.google.com with SMTP id 2adb3069b0e04-501bef6e0d3so520282e87.1
-        for <linux-hexagon@vger.kernel.org>; Tue, 05 Sep 2023 01:20:53 -0700 (PDT)
+        Wed, 13 Sep 2023 07:28:47 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97C61BC9
+        for <linux-hexagon@vger.kernel.org>; Wed, 13 Sep 2023 04:28:42 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-501bd164fbfso10995859e87.0
+        for <linux-hexagon@vger.kernel.org>; Wed, 13 Sep 2023 04:28:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20221208; t=1693902051; x=1694506851; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
-        b=WyyvPMEfe4FOVqHOIWdr/B2P0p03RPzGq0eAy6olIuEmDr190DF60UMTUjSzD3ICzN
-         0WsAegs64/BiRqCpXkN1qURw3kJmTI2wMa8rTaukjr0/l9jhm+3ubCn9+y0oKw0Vf/Ks
-         YIRtHy/tktgd0JCbt9j66zUkqNxhaH1k0FzKmAu+yKNICqHvkjDH6q7yKGNLfZeY066C
-         rjUXbiHJ42XZriL2gTX15/F6y+Se4qD3ChTlmHmU/A+Bl1kzMG1cMn1BnC25iR+qjjlJ
-         Ikwy1nXebC5hCeU4AgcZQ4VZpVOWulwi6FywqPblj59NiPYUSn0tuU6Bbo6p4XZRvT/F
-         gtfQ==
+        d=linaro.org; s=google; t=1694604521; x=1695209321; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=wbyHNNsN+Rn8ywOWxCv7Wlqb7uh+vWNRuvfamsm2vmc=;
+        b=somuFy2nBKLNXqD6nDqNDRMxknIZMZnCRmH97Z6Y+b94Vi3ZOS9VJJYc8sX0WUt7Fo
+         P0fNdCCWH9SnZCosdaiIBGrtDzzWtJZ1cVqxVhS1TxjtX/+dvtjp/8fc9swnFFYgn+AM
+         Ke2x8gTJyDuAQMWpgUR9Kcvx4qrkdIkOHw9ZhJZDt1ruZnH+CPl7ALwSYOwOqizKDX1U
+         UDZC4zM6Zg8cD5Sg5/AvPT0JhGhrAEthHDEircOvGfarAR8njzhg1OqE11j2oJcJjQoz
+         7lLxCEt6TpRbDwz53/yytdE7qDSWw7VW6AOdiQItce4o5hsc5zBJLIaXnTZxH30tRqMw
+         wlEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20221208; t=1693902051; x=1694506851;
-        h=content-transfer-encoding:to:subject:message-id:date:from:reply-to
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1694604521; x=1695209321;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CvUmRYKO5rN5JiKdYLn9/Xxm/soJiVGtQm650JnL3Yc=;
-        b=ABG16UqbYh3sQTGwqgFGLIhgvC39agJBJ18UXCAdA9aGRsV1kTCo7XuQ0BMJHjIjxi
-         iz8OuBDPszQt+unHH1Dc9wTgUUFosDg5ax3wWnsBE5+42sspn0IBjwKZ5wQ4EZHXfJU5
-         sADwGECKDQMMnT8T00Q4Ag9o0wl+1jtsE8uay1a82O6CPv7d66tn/MgudWLKrGYgJ9Ew
-         01PhpAbv+PYrZO6KTkBx2Eewe7aVRuQ34R7d0k5b7olXx3SIfHMg74HeBQrKHsgDWa+w
-         dSjdhOHqC9XxVzhLoQqIQcCjTj3rrsb9jJT4s8qnN++ld2NFByackEjxYefgRYOC9g3c
-         mMzQ==
-X-Gm-Message-State: AOJu0YyKuxakz/m2V9V208W3218j4SKd35I1NZO5LyoD+Zz2lEjrNMGO
-        Jo8XoKQ2e1mH5Ze7ozEWkp3XHAE/ssyKEjhv7gw=
-X-Google-Smtp-Source: AGHT+IHc9ajH3Rii9UZwOOqLrsXanmcTWvKjiURPKmJK5D52sTkbD7l1BRzq/bCfrfUZjlWt/04s1jIBCk3z7CpHIFE=
-X-Received: by 2002:a19:6755:0:b0:501:bf37:1fc0 with SMTP id
- e21-20020a196755000000b00501bf371fc0mr624754lfj.33.1693902050884; Tue, 05 Sep
- 2023 01:20:50 -0700 (PDT)
+        bh=wbyHNNsN+Rn8ywOWxCv7Wlqb7uh+vWNRuvfamsm2vmc=;
+        b=eK28POT6rviuZr6r9awanD1KFLG+d4o5RHdi55ThBzydVWlMO8xCGHPwgJj5hp43mG
+         69WD1e0NG/fCffLpw/YCSpvaBx+ehn5h6gEqhWvwhh5GiurMPVhkwqNvNZiNxrdeRn2A
+         MUFUw/jHSM6LUtprQi4mnqxURSlkUNBmqu2C8sQR/6FVAssdxSdVicJ9OjCcSzzU2wsc
+         rhdIc5W/Hx+hUAI/AhhW4NWDbMa9eLSHTFl7gNo+NlXLY36rTT1KYNeD3hcj4QCctkhk
+         TNs4NxK5Ds3zyBBpKucSsyIVtKoFjjNCtY+bZ1gVSA26nQVBEUG6FahQ/nwxe+yEAmcW
+         oC8A==
+X-Gm-Message-State: AOJu0YwNFd0OpHcQogq2y7F4agRWicl4Y5gqw/wcjVAClKfWSCCGvYuB
+        DALlI+0jM1Abg/ClOdNLLn/RJQ==
+X-Google-Smtp-Source: AGHT+IEWzSbscHddEez7dfee8IC7DxsyXluEAi0zBYnoJvAzxGs+uOEgBAt0asfF+mPbJrJBTdqqOw==
+X-Received: by 2002:ac2:510f:0:b0:500:c765:bbe with SMTP id q15-20020ac2510f000000b00500c7650bbemr1778015lfb.0.1694604520898;
+        Wed, 13 Sep 2023 04:28:40 -0700 (PDT)
+Received: from [127.0.1.1] ([85.235.12.238])
+        by smtp.gmail.com with ESMTPSA id v17-20020ac25931000000b004ff8f448343sm2082639lfi.33.2023.09.13.04.28.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Sep 2023 04:28:40 -0700 (PDT)
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Wed, 13 Sep 2023 13:28:35 +0200
+Subject: [PATCH v3] Hexagon: Make pfn accessors statics inlines
 MIME-Version: 1.0
-Received: by 2002:a54:3ac4:0:b0:22f:40f:e031 with HTTP; Tue, 5 Sep 2023
- 01:20:50 -0700 (PDT)
-Reply-To: wuwumoneytransfer5000@hotmail.com
-From:   "(IMF) SCAM VICTIMS" <mimichi4500@gmail.com>
-Date:   Tue, 5 Sep 2023 01:20:50 -0700
-Message-ID: <CAGhkD8USA9d9+1HDw3AKO0o45v_Z8cjdpcgnjTbVjdDUbiyg2w@mail.gmail.com>
-Subject: Betrugsopfer
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=4.7 required=5.0 tests=BAYES_50,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,FREEMAIL_REPLYTO,FREEMAIL_REPLYTO_END_DIGIT,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,UNDISC_FREEM autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: ****
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20230913-hexagon-virt-to-pfn-v3-1-8bed34005011@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAOKcAWUC/33NTQrCMBCG4atI1o4kaWKiK+8hLvozaQckKUkJl
+ dK7m3alIC7fD+aZhSWMhIldDwuLmClR8CWq44G1Q+17BOpKM8llxS23MOBc98FDpjjBFGB0HpQ
+ 2TadFrY1SrFyOER3Nu3p/lB4oTSG+9idZbOt/LwsQcLYdN62Uwglze5KvYziF2LMNzPIDEfw3I
+ guCrW2U0NJdHH4h67q+AZrjTkn8AAAA
+To:     Brian Cain <bcain@quicinc.com>
+Cc:     linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>
+X-Mailer: b4 0.12.3
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Sehr geehrter E-Mail-Besitzer,
+Making virt_to_pfn() a static inline taking a strongly typed
+(const void *) makes the contract of a passing a pointer of that
+type to the function explicit and exposes any misuse of the
+macro virt_to_pfn() acting polymorphic and accepting many types
+such as (void *), (unitptr_t) or (unsigned long) as arguments
+without warnings.
 
+For symmetry do the same with pfn_to_virt().
 
+For compiletime resolution of __pa() we need PAGE_OFFSET which
+was not available to __pa() and resolved by the preprocessor
+wherever __pa() was used. Fix this by explicitly including
+<asm/mem-layout.h> where required, following the pattern of the
+architectures page.h file.
 
-Der Internationale W=C3=A4hrungsfonds (IWF) entsch=C3=A4digt alle Betrugsop=
-fer
-und Ihre E-Mail-Adresse wurde auf der Liste der Betrugsopfer gefunden.
+Acked-by: Brian Cain <bcain@quicinc.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+Changes in v3:
+- Rebase on kernel v6.6-rc1
+- Link to v2: https://lore.kernel.org/r/20230810-hexagon-virt-to-pfn-v2-1-ec8b4152f9fe@linaro.org
 
-Dieses Western Union-B=C3=BCro wurde vom IWF beauftragt Ihnen Ihre
-Verg=C3=BCtung per Western Union Money Transfer zu =C3=BCberweisen.
+Changes in v2:
+- Use more elaborate casting back to unsigned long before shifting
+  in pfn_to_virt and back to void * after that.
+- Link to v1: https://lore.kernel.org/r/20230808-hexagon-virt-to-pfn-v1-1-68d07c221f17@linaro.org
+---
+ arch/hexagon/include/asm/page.h | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-Wir haben uns jedoch entschieden Ihre eigene Zahlung =C3=BCber Geldtransfer
-der Westunion in H=C3=B6he von =E2=82=AC5,000, pro Tag vorzunehmen bis die
-Gesamtsumme von =E2=82=AC1,500.000.00, vollst=C3=A4ndig an Sie =C3=BCberwie=
-sen wurde.
+diff --git a/arch/hexagon/include/asm/page.h b/arch/hexagon/include/asm/page.h
+index 9c03b9965f07..10f1bc07423c 100644
+--- a/arch/hexagon/include/asm/page.h
++++ b/arch/hexagon/include/asm/page.h
+@@ -78,6 +78,9 @@ typedef struct page *pgtable_t;
+ #define __pgd(x)       ((pgd_t) { (x) })
+ #define __pgprot(x)    ((pgprot_t) { (x) })
+ 
++/* Needed for PAGE_OFFSET used in the macro right below */
++#include <asm/mem-layout.h>
++
+ /*
+  * We need a __pa and a __va routine for kernel space.
+  * MIPS says they're only used during mem_init.
+@@ -125,8 +128,16 @@ static inline void clear_page(void *page)
+  */
+ #define page_to_phys(page)      (page_to_pfn(page) << PAGE_SHIFT)
+ 
+-#define virt_to_pfn(kaddr)      (__pa(kaddr) >> PAGE_SHIFT)
+-#define pfn_to_virt(pfn)        __va((pfn) << PAGE_SHIFT)
++static inline unsigned long virt_to_pfn(const void *kaddr)
++{
++	return __pa(kaddr) >> PAGE_SHIFT;
++}
++
++static inline void *pfn_to_virt(unsigned long pfn)
++{
++	return (void *)((unsigned long)__va(pfn) << PAGE_SHIFT);
++}
++
+ 
+ #define page_to_virt(page)	__va(page_to_phys(page))
+ 
 
-Wir k=C3=B6nnen die Zahlung m=C3=B6glicherweise nicht nur mit Ihrer
-E-Mail-Adresse senden daher ben=C3=B6tigen wir Ihre Informationen dar=C3=BC=
-ber
-wohin wir das Geld an Sie senden wie z. B.:
+---
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
+change-id: 20230808-hexagon-virt-to-pfn-457bd51a5744
 
+Best regards,
+-- 
+Linus Walleij <linus.walleij@linaro.org>
 
-Name des Adressaten ________________
-
-Adresse________________
-
-Land__________________
-
-Telefonnummer________________
-
-Angeh=C3=A4ngte Kopie Ihres Ausweises______________
-
-Das Alter ________________________
-
-
-Wir beginnen mit der =C3=9Cbertragung sobald wir Ihre Informationen
-erhalten haben: Kontakt E-Mail: ( wuwumoneytransfer5000@hotmail.com)
-
-
-Getreu,
-
-
-Herr Anthony Duru,
-
-Direktor von Geldtransfer der Westunion
