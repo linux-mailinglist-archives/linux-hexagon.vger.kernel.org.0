@@ -2,40 +2,36 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E4B417A67D2
-	for <lists+linux-hexagon@lfdr.de>; Tue, 19 Sep 2023 17:17:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DD877A67ED
+	for <lists+linux-hexagon@lfdr.de>; Tue, 19 Sep 2023 17:22:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233079AbjISPRc (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 19 Sep 2023 11:17:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56520 "EHLO
+        id S233054AbjISPWR (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 19 Sep 2023 11:22:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233076AbjISPRb (ORCPT
+        with ESMTP id S232679AbjISPWP (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 19 Sep 2023 11:17:31 -0400
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A022E5;
-        Tue, 19 Sep 2023 08:17:25 -0700 (PDT)
-From:   Thomas Gleixner <tglx@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1695136644;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ziuwOLCbw6a4ZLSyQtFECkdi5DpyFdO1Yq7Iy0MyDm0=;
-        b=xfTYwe+EZSOhJ5ZWyANndueq2hUu/L4a8CM1/oAoRZtzh4dXrcGLYGZmFDRlRbbmYt7Vk5
-        q2a8s67GoVgkH/vtyTkmPv/zMoH9BYGxAEHj2NTitWpnBbFutuNDI6H1JPYV43N7FKxaoQ
-        4hC/61NGBBGSMcuN2eSwwtsASqR3q3H06Cy7Z7rF614qv6pL1DZ+t3J4cwWM4+dA2YExPS
-        Yj2UGnTJ24Wa6zHkGlCKoO+Zi6tBfDavDhwHUDdHZm3LfgYdhB7jLgydTPgxJk5eQXI5DE
-        90AM6SeB7t4A+rORL9BVHHLD86RdMOvst214XGduAHjS54S1ZtgQLqiA15ULdw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1695136644;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ziuwOLCbw6a4ZLSyQtFECkdi5DpyFdO1Yq7Iy0MyDm0=;
-        b=1eCCtDGKEUrDxtL8LY3g3sZgbE2u2Gi+z3OLPbxme25w5xD5smNfNB+DrDuC//vli78Ete
-        kk+DBO2N6UphuqAw==
-To:     Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Tue, 19 Sep 2023 11:22:15 -0400
+Received: from www.kot-begemot.co.uk (ns1.kot-begemot.co.uk [217.160.28.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E005BE5;
+        Tue, 19 Sep 2023 08:22:09 -0700 (PDT)
+Received: from [192.168.17.6] (helo=jain.kot-begemot.co.uk)
+        by www.kot-begemot.co.uk with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <anton.ivanov@cambridgegreys.com>)
+        id 1qicXc-002SL8-Lu; Tue, 19 Sep 2023 15:21:32 +0000
+Received: from jain.kot-begemot.co.uk ([192.168.3.3])
+        by jain.kot-begemot.co.uk with esmtp (Exim 4.94.2)
+        (envelope-from <anton.ivanov@cambridgegreys.com>)
+        id 1qicXZ-00Ft9g-WC; Tue, 19 Sep 2023 16:21:32 +0100
+Message-ID: <9a5c0856-d542-9912-7494-53d7fe4538a3@cambridgegreys.com>
+Date:   Tue, 19 Sep 2023 16:21:29 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.10.0
+Subject: Re: Arches that don't support PREEMPT
+Content-Language: en-US
+To:     Thomas Gleixner <tglx@linutronix.de>,
         Peter Zijlstra <peterz@infradead.org>,
         John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
 Cc:     Matthew Wilcox <willy@infradead.org>,
@@ -57,8 +53,6 @@ Cc:     Matthew Wilcox <willy@infradead.org>,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
         Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
-Subject: Re: Arches that don't support PREEMPT
-In-Reply-To: <bd664a61-4506-bab0-19c3-0011f57005b5@cambridgegreys.com>
 References: <87zg1u1h5t.fsf@oracle.com>
  <CAHk-=whMkp68vNxVn1H3qe_P7n=X2sWPL9kvW22dsvMFH8FcQQ@mail.gmail.com>
  <20230911150410.GC9098@noisy.programming.kicks-ass.net>
@@ -70,29 +64,46 @@ References: <87zg1u1h5t.fsf@oracle.com>
  <0e69f7df80dc5878071deb0d80938138d19de1d1.camel@physik.fu-berlin.de>
  <20230919134218.GA39281@noisy.programming.kicks-ass.net>
  <bd664a61-4506-bab0-19c3-0011f57005b5@cambridgegreys.com>
-Date:   Tue, 19 Sep 2023 17:17:23 +0200
-Message-ID: <87y1h2ur98.ffs@tglx>
-MIME-Version: 1.0
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+ <87y1h2ur98.ffs@tglx>
+From:   Anton Ivanov <anton.ivanov@cambridgegreys.com>
+In-Reply-To: <87y1h2ur98.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: -2.0
+X-Spam-Score: -2.0
+X-Clacks-Overhead: GNU Terry Pratchett
+X-Spam-Status: No, score=-3.4 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, Sep 19 2023 at 15:21, Anton Ivanov wrote:
-> On 19/09/2023 14:42, Peter Zijlstra wrote:
->> If you're working on one of them, then surely it's a simple matter of
->> working on adding CONFIG_PREEMPT support :-)
+
+On 19/09/2023 16:17, Thomas Gleixner wrote:
+> On Tue, Sep 19 2023 at 15:21, Anton Ivanov wrote:
+>> On 19/09/2023 14:42, Peter Zijlstra wrote:
+>>> If you're working on one of them, then surely it's a simple matter of
+>>> working on adding CONFIG_PREEMPT support :-)
+>> In the case of UML adding preempt will be quite difficult. I looked at
+>> this a few years back.
+> What's so difficult about it?
+
+It's been a while. I remember that I dropped it at the time, but do not remember the full details.
+
+There was some stuff related to FP state and a few other issues I ran into while rewriting the interrupt controller. Some of it may be resolved by now as we are using host cpu flags, etc.
+
+I can give it another go :)
+
 >
-> In the case of UML adding preempt will be quite difficult. I looked at
-> this a few years back.
+> Thanks,
+>
+>          tglx
+>
+-- 
+Anton R. Ivanov
+Cambridgegreys Limited. Registered in England. Company Number 10273661
+https://www.cambridgegreys.com/
 
-What's so difficult about it?
-
-Thanks,
-
-        tglx
