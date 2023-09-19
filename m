@@ -2,141 +2,93 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D9CF379E6B7
-	for <lists+linux-hexagon@lfdr.de>; Wed, 13 Sep 2023 13:28:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AA7E7A642F
+	for <lists+linux-hexagon@lfdr.de>; Tue, 19 Sep 2023 15:01:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S240191AbjIML2u (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 13 Sep 2023 07:28:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48362 "EHLO
+        id S232276AbjISNBU (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 19 Sep 2023 09:01:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44694 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S240188AbjIML2r (ORCPT
+        with ESMTP id S232099AbjISNBT (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 13 Sep 2023 07:28:47 -0400
-Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B97C61BC9
-        for <linux-hexagon@vger.kernel.org>; Wed, 13 Sep 2023 04:28:42 -0700 (PDT)
-Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-501bd164fbfso10995859e87.0
-        for <linux-hexagon@vger.kernel.org>; Wed, 13 Sep 2023 04:28:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1694604521; x=1695209321; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=wbyHNNsN+Rn8ywOWxCv7Wlqb7uh+vWNRuvfamsm2vmc=;
-        b=somuFy2nBKLNXqD6nDqNDRMxknIZMZnCRmH97Z6Y+b94Vi3ZOS9VJJYc8sX0WUt7Fo
-         P0fNdCCWH9SnZCosdaiIBGrtDzzWtJZ1cVqxVhS1TxjtX/+dvtjp/8fc9swnFFYgn+AM
-         Ke2x8gTJyDuAQMWpgUR9Kcvx4qrkdIkOHw9ZhJZDt1ruZnH+CPl7ALwSYOwOqizKDX1U
-         UDZC4zM6Zg8cD5Sg5/AvPT0JhGhrAEthHDEircOvGfarAR8njzhg1OqE11j2oJcJjQoz
-         7lLxCEt6TpRbDwz53/yytdE7qDSWw7VW6AOdiQItce4o5hsc5zBJLIaXnTZxH30tRqMw
-         wlEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1694604521; x=1695209321;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=wbyHNNsN+Rn8ywOWxCv7Wlqb7uh+vWNRuvfamsm2vmc=;
-        b=eK28POT6rviuZr6r9awanD1KFLG+d4o5RHdi55ThBzydVWlMO8xCGHPwgJj5hp43mG
-         69WD1e0NG/fCffLpw/YCSpvaBx+ehn5h6gEqhWvwhh5GiurMPVhkwqNvNZiNxrdeRn2A
-         MUFUw/jHSM6LUtprQi4mnqxURSlkUNBmqu2C8sQR/6FVAssdxSdVicJ9OjCcSzzU2wsc
-         rhdIc5W/Hx+hUAI/AhhW4NWDbMa9eLSHTFl7gNo+NlXLY36rTT1KYNeD3hcj4QCctkhk
-         TNs4NxK5Ds3zyBBpKucSsyIVtKoFjjNCtY+bZ1gVSA26nQVBEUG6FahQ/nwxe+yEAmcW
-         oC8A==
-X-Gm-Message-State: AOJu0YwNFd0OpHcQogq2y7F4agRWicl4Y5gqw/wcjVAClKfWSCCGvYuB
-        DALlI+0jM1Abg/ClOdNLLn/RJQ==
-X-Google-Smtp-Source: AGHT+IEWzSbscHddEez7dfee8IC7DxsyXluEAi0zBYnoJvAzxGs+uOEgBAt0asfF+mPbJrJBTdqqOw==
-X-Received: by 2002:ac2:510f:0:b0:500:c765:bbe with SMTP id q15-20020ac2510f000000b00500c7650bbemr1778015lfb.0.1694604520898;
-        Wed, 13 Sep 2023 04:28:40 -0700 (PDT)
-Received: from [127.0.1.1] ([85.235.12.238])
-        by smtp.gmail.com with ESMTPSA id v17-20020ac25931000000b004ff8f448343sm2082639lfi.33.2023.09.13.04.28.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Sep 2023 04:28:40 -0700 (PDT)
-From:   Linus Walleij <linus.walleij@linaro.org>
-Date:   Wed, 13 Sep 2023 13:28:35 +0200
-Subject: [PATCH v3] Hexagon: Make pfn accessors statics inlines
+        Tue, 19 Sep 2023 09:01:19 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F5DF3;
+        Tue, 19 Sep 2023 06:01:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=UQqbtC4LU7CWz7n0Qti5YLvSVy7RAt2aZ0CW6vnfgZE=; b=Re/9h8bA2l5R9rS+t5jWP44yYf
+        BD+D17QDievItTZT8XCUjAygltixoCakyWJVYollwPJN+8J4YpztmZA/sMcUv90RlabAnSY9WQ4Q5
+        kljuiW6Cp/gHdVwZuPoajR8jGbsUenSGzi9mEG6tIRVZj0rpmnWEoTdwR4IlnbCmrhYh71f/ffZwD
+        zA71QJEsU16dBg8UTSfZAHBIFPXxlH+0HL85WXEeFNsoDqUzKX5tjdXYgp/4e6wfzSGAKQCk05a4i
+        Klv/roly2FY9BRa21dQGgYeEcWYYb7A4C+ID92Ny/pq8ytpWrLKuBOGrdB94Fc5u0I/Yvk/fJrDb0
+        xGCYQG0g==;
+Received: from willy by casper.infradead.org with local (Exim 4.94.2 #2 (Red Hat Linux))
+        id 1qiaLW-00HLve-Gs; Tue, 19 Sep 2023 13:00:54 +0000
+Date:   Tue, 19 Sep 2023 14:00:54 +0100
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Thomas Gleixner <tglx@linutronix.de>
+Cc:     Linus Torvalds <torvalds@linux-foundation.org>,
+        Peter Zijlstra <peterz@infradead.org>,
+        Ankur Arora <ankur.a.arora@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        akpm@linux-foundation.org, luto@kernel.org, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org, mgorman@suse.de,
+        rostedt@goodmis.org, jon.grimm@amd.com, bharata@amd.com,
+        raghavendra.kt@amd.com, boris.ostrovsky@oracle.com,
+        konrad.wilk@oracle.com, jgross@suse.com, andrew.cooper3@citrix.com,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Brian Cain <bcain@quicinc.com>,
+        linux-hexagon@vger.kernel.org,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: Arches that don't support PREEMPT
+Message-ID: <ZQmbhoQIINs8rLHp@casper.infradead.org>
+References: <87edj64rj1.fsf@oracle.com>
+ <CAHk-=wi0bXpgULVVLc2AdJcta-fvQP7yyFQ_JtaoHUiPrqf--A@mail.gmail.com>
+ <87zg1u1h5t.fsf@oracle.com>
+ <CAHk-=whMkp68vNxVn1H3qe_P7n=X2sWPL9kvW22dsvMFH8FcQQ@mail.gmail.com>
+ <20230911150410.GC9098@noisy.programming.kicks-ass.net>
+ <87h6o01w1a.fsf@oracle.com>
+ <20230912082606.GB35261@noisy.programming.kicks-ass.net>
+ <87cyyfxd4k.ffs@tglx>
+ <CAHk-=whnwC01m_1f-gaM1xbvvwzwTiKitrWniA-ChZv+bM03dg@mail.gmail.com>
+ <87led2wdj0.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20230913-hexagon-virt-to-pfn-v3-1-8bed34005011@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAOKcAWUC/33NTQrCMBCG4atI1o4kaWKiK+8hLvozaQckKUkJl
- dK7m3alIC7fD+aZhSWMhIldDwuLmClR8CWq44G1Q+17BOpKM8llxS23MOBc98FDpjjBFGB0HpQ
- 2TadFrY1SrFyOER3Nu3p/lB4oTSG+9idZbOt/LwsQcLYdN62Uwglze5KvYziF2LMNzPIDEfw3I
- guCrW2U0NJdHH4h67q+AZrjTkn8AAAA
-To:     Brian Cain <bcain@quicinc.com>
-Cc:     linux-hexagon@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87led2wdj0.ffs@tglx>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
+        lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Making virt_to_pfn() a static inline taking a strongly typed
-(const void *) makes the contract of a passing a pointer of that
-type to the function explicit and exposes any misuse of the
-macro virt_to_pfn() acting polymorphic and accepting many types
-such as (void *), (unitptr_t) or (unsigned long) as arguments
-without warnings.
+On Tue, Sep 19, 2023 at 02:30:59PM +0200, Thomas Gleixner wrote:
+> Though it just occured to me that there are dragons lurking:
+> 
+> arch/alpha/Kconfig:     select ARCH_NO_PREEMPT
+> arch/hexagon/Kconfig:   select ARCH_NO_PREEMPT
+> arch/m68k/Kconfig:      select ARCH_NO_PREEMPT if !COLDFIRE
+> arch/um/Kconfig:        select ARCH_NO_PREEMPT
 
-For symmetry do the same with pfn_to_virt().
+Sounds like three-and-a-half architectures which could be queued up for
+removal right behind ia64 ...
 
-For compiletime resolution of __pa() we need PAGE_OFFSET which
-was not available to __pa() and resolved by the preprocessor
-wherever __pa() was used. Fix this by explicitly including
-<asm/mem-layout.h> where required, following the pattern of the
-architectures page.h file.
+I suspect none of these architecture maintainers have any idea there's a
+problem.  Look at commit 87a4c375995e and the discussion in
+https://lore.kernel.org/lkml/20180724175646.3621-1-hch@lst.de/
 
-Acked-by: Brian Cain <bcain@quicinc.com>
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-Changes in v3:
-- Rebase on kernel v6.6-rc1
-- Link to v2: https://lore.kernel.org/r/20230810-hexagon-virt-to-pfn-v2-1-ec8b4152f9fe@linaro.org
-
-Changes in v2:
-- Use more elaborate casting back to unsigned long before shifting
-  in pfn_to_virt and back to void * after that.
-- Link to v1: https://lore.kernel.org/r/20230808-hexagon-virt-to-pfn-v1-1-68d07c221f17@linaro.org
----
- arch/hexagon/include/asm/page.h | 15 +++++++++++++--
- 1 file changed, 13 insertions(+), 2 deletions(-)
-
-diff --git a/arch/hexagon/include/asm/page.h b/arch/hexagon/include/asm/page.h
-index 9c03b9965f07..10f1bc07423c 100644
---- a/arch/hexagon/include/asm/page.h
-+++ b/arch/hexagon/include/asm/page.h
-@@ -78,6 +78,9 @@ typedef struct page *pgtable_t;
- #define __pgd(x)       ((pgd_t) { (x) })
- #define __pgprot(x)    ((pgprot_t) { (x) })
- 
-+/* Needed for PAGE_OFFSET used in the macro right below */
-+#include <asm/mem-layout.h>
-+
- /*
-  * We need a __pa and a __va routine for kernel space.
-  * MIPS says they're only used during mem_init.
-@@ -125,8 +128,16 @@ static inline void clear_page(void *page)
-  */
- #define page_to_phys(page)      (page_to_pfn(page) << PAGE_SHIFT)
- 
--#define virt_to_pfn(kaddr)      (__pa(kaddr) >> PAGE_SHIFT)
--#define pfn_to_virt(pfn)        __va((pfn) << PAGE_SHIFT)
-+static inline unsigned long virt_to_pfn(const void *kaddr)
-+{
-+	return __pa(kaddr) >> PAGE_SHIFT;
-+}
-+
-+static inline void *pfn_to_virt(unsigned long pfn)
-+{
-+	return (void *)((unsigned long)__va(pfn) << PAGE_SHIFT);
-+}
-+
- 
- #define page_to_virt(page)	__va(page_to_phys(page))
- 
-
----
-base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
-change-id: 20230808-hexagon-virt-to-pfn-457bd51a5744
-
-Best regards,
--- 
-Linus Walleij <linus.walleij@linaro.org>
-
+Let's cc those maintainers so they can remove this and fix whatever
+breaks.
