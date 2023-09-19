@@ -2,93 +2,97 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1400A7A681E
-	for <lists+linux-hexagon@lfdr.de>; Tue, 19 Sep 2023 17:30:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0449C7A68C4
+	for <lists+linux-hexagon@lfdr.de>; Tue, 19 Sep 2023 18:23:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232823AbjISPaq (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Tue, 19 Sep 2023 11:30:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58146 "EHLO
+        id S231130AbjISQXF convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-hexagon@lfdr.de>);
+        Tue, 19 Sep 2023 12:23:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232459AbjISPaq (ORCPT
+        with ESMTP id S230162AbjISQXE (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Tue, 19 Sep 2023 11:30:46 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 324AAB0;
-        Tue, 19 Sep 2023 08:30:40 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A377C433CA;
-        Tue, 19 Sep 2023 15:30:35 +0000 (UTC)
-Date:   Tue, 19 Sep 2023 11:31:08 -0400
-From:   Steven Rostedt <rostedt@goodmis.org>
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
+        Tue, 19 Sep 2023 12:23:04 -0400
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 445FEB3;
+        Tue, 19 Sep 2023 09:22:56 -0700 (PDT)
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 5074A635DB51;
+        Tue, 19 Sep 2023 18:22:48 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id m6Ardn4BMmQu; Tue, 19 Sep 2023 18:22:47 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 6D072622F591;
+        Tue, 19 Sep 2023 18:22:47 +0200 (CEST)
+Received: from lithops.sigma-star.at ([127.0.0.1])
+        by localhost (lithops.sigma-star.at [127.0.0.1]) (amavisd-new, port 10026)
+        with ESMTP id rJmHKg4qnWLe; Tue, 19 Sep 2023 18:22:47 +0200 (CEST)
+Received: from lithops.sigma-star.at (lithops.sigma-star.at [195.201.40.130])
+        by lithops.sigma-star.at (Postfix) with ESMTP id 16951635DB51;
+        Tue, 19 Sep 2023 18:22:47 +0200 (CEST)
+Date:   Tue, 19 Sep 2023 18:22:46 +0200 (CEST)
+From:   Richard Weinberger <richard@nod.at>
+To:     anton ivanov <anton.ivanov@cambridgegreys.com>
+Cc:     tglx <tglx@linutronix.de>, Peter Zijlstra <peterz@infradead.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>,
+        Matthew Wilcox <willy@infradead.org>,
+        torvalds <torvalds@linux-foundation.org>,
         Ankur Arora <ankur.a.arora@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
-        akpm@linux-foundation.org, luto@kernel.org, bp@alien8.de,
-        dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
-        juri.lelli@redhat.com, vincent.guittot@linaro.org, mgorman@suse.de,
-        jon.grimm@amd.com, bharata@amd.com, raghavendra.kt@amd.com,
-        boris.ostrovsky@oracle.com, konrad.wilk@oracle.com,
-        jgross@suse.com, andrew.cooper3@citrix.com,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, x86 <x86@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Andy Lutomirski <luto@kernel.org>, bp <bp@alien8.de>,
+        dave hansen <dave.hansen@linux.intel.com>, hpa <hpa@zytor.com>,
+        mingo <mingo@redhat.com>, juri lelli <juri.lelli@redhat.com>,
+        vincent guittot <vincent.guittot@linaro.org>, mgorman@suse.de,
+        Steven Rostedt <rostedt@goodmis.org>,
+        jon grimm <jon.grimm@amd.com>, bharata@amd.com,
+        raghavendra kt <raghavendra.kt@amd.com>,
+        boris ostrovsky <boris.ostrovsky@oracle.com>,
+        konrad wilk <konrad.wilk@oracle.com>, jgross <jgross@suse.com>,
+        andrew cooper3 <andrew.cooper3@citrix.com>,
         Geert Uytterhoeven <geert@linux-m68k.org>,
-        linux-m68k@lists.linux-m68k.org,
-        Richard Weinberger <richard@nod.at>,
-        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        linux-m68k <linux-m68k@lists.linux-m68k.org>,
         Johannes Berg <johannes@sipsolutions.net>,
-        linux-um@lists.infradead.org, Brian Cain <bcain@quicinc.com>,
-        linux-hexagon@vger.kernel.org,
+        linux-um <linux-um@lists.infradead.org>,
+        Brian Cain <bcain@quicinc.com>, linux-hexagon@vger.kernel.org,
         Richard Henderson <richard.henderson@linaro.org>,
         Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
-        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+        Matt Turner <mattst88@gmail.com>,
+        linux-alpha <linux-alpha@vger.kernel.org>
+Message-ID: <551475267.58816.1695140566849.JavaMail.zimbra@nod.at>
+In-Reply-To: <9a5c0856-d542-9912-7494-53d7fe4538a3@cambridgegreys.com>
+References: <87zg1u1h5t.fsf@oracle.com> <87led2wdj0.ffs@tglx> <ZQmbhoQIINs8rLHp@casper.infradead.org> <0e69f7df80dc5878071deb0d80938138d19de1d1.camel@physik.fu-berlin.de> <20230919134218.GA39281@noisy.programming.kicks-ass.net> <bd664a61-4506-bab0-19c3-0011f57005b5@cambridgegreys.com> <87y1h2ur98.ffs@tglx> <9a5c0856-d542-9912-7494-53d7fe4538a3@cambridgegreys.com>
 Subject: Re: Arches that don't support PREEMPT
-Message-ID: <20230919113108.1c988906@gandalf.local.home>
-In-Reply-To: <ZQmw5dUzcFOWjHdB@casper.infradead.org>
-References: <20230912082606.GB35261@noisy.programming.kicks-ass.net>
-        <87cyyfxd4k.ffs@tglx>
-        <CAHk-=whnwC01m_1f-gaM1xbvvwzwTiKitrWniA-ChZv+bM03dg@mail.gmail.com>
-        <87led2wdj0.ffs@tglx>
-        <ZQmbhoQIINs8rLHp@casper.infradead.org>
-        <0e69f7df80dc5878071deb0d80938138d19de1d1.camel@physik.fu-berlin.de>
-        <20230919134218.GA39281@noisy.programming.kicks-ass.net>
-        <a6c84803274116ec827cd4bdd4e72a8d0c304c27.camel@physik.fu-berlin.de>
-        <20230919141627.GB39281@noisy.programming.kicks-ass.net>
-        <a428516ebeae71e33635edc83052c972ce40c85d.camel@physik.fu-berlin.de>
-        <ZQmw5dUzcFOWjHdB@casper.infradead.org>
-X-Mailer: Claws Mail 3.19.1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8BIT
+X-Originating-IP: [195.201.40.130]
+X-Mailer: Zimbra 8.8.12_GA_3807 (ZimbraWebClient - FF97 (Linux)/8.8.12_GA_3809)
+Thread-Topic: Arches that don't support PREEMPT
+Thread-Index: bIFTlUwZ+xXV2WWntYYwoPsb2f3c+g==
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,T_SPF_PERMERROR autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-On Tue, 19 Sep 2023 15:32:05 +0100
-Matthew Wilcox <willy@infradead.org> wrote:
-
-> On Tue, Sep 19, 2023 at 04:24:48PM +0200, John Paul Adrian Glaubitz wrote:
-> > If the conversion isn't hard, why is the first reflex the urge to remove an architecture
-> > instead of offering advise how to get the conversion done?  
+----- Ursprüngliche Mail -----
+> Von: "anton ivanov" <anton.ivanov@cambridgegreys.com>
+> It's been a while. I remember that I dropped it at the time, but do not remember
+> the full details.
 > 
-> Because PREEMPT has been around since before 2005 (cc19ca86a023 created
-> Kconfig.preempt and I don't need to go back further than that to make my
-> point), and you haven't done the work yet.  Clearly it takes the threat
-> of removal to get some kind of motion.
+> There was some stuff related to FP state and a few other issues I ran into while
+> rewriting the interrupt controller. Some of it may be resolved by now as we are
+> using host cpu flags, etc.
 
-Or the use case of a preempt kernel on said arch has never been a request.
-Just because it was available doesn't necessarily mean it's required.
+I remember also having a hacky but working version almost 10 years ago.
+It was horrible slow because of the extra scheduler rounds.
+But yes, if PREEMPT will be a must-have feature we'll have to try again.
 
-Please, let's not jump to threats of removal just to get a feature in.
-Simply ask first. I didn't see anyone reaching out to the maintainers
-asking for this as it will be needed for a new feature that will likely
-make maintaining said arch easier.
-
-Everything is still in brainstorming mode.
-
--- Steve
+Thanks,
+//richard
