@@ -2,93 +2,100 @@ Return-Path: <linux-hexagon-owner@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A54EF7A7536
-	for <lists+linux-hexagon@lfdr.de>; Wed, 20 Sep 2023 10:02:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FAC47A75D3
+	for <lists+linux-hexagon@lfdr.de>; Wed, 20 Sep 2023 10:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233376AbjITICx (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
-        Wed, 20 Sep 2023 04:02:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45858 "EHLO
+        id S232509AbjITI0f (ORCPT <rfc822;lists+linux-hexagon@lfdr.de>);
+        Wed, 20 Sep 2023 04:26:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233516AbjITICu (ORCPT
+        with ESMTP id S231269AbjITI0d (ORCPT
         <rfc822;linux-hexagon@vger.kernel.org>);
-        Wed, 20 Sep 2023 04:02:50 -0400
-X-Greylist: delayed 380 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 20 Sep 2023 01:02:44 PDT
-Received: from mail.venturelinkage.com (mail.venturelinkage.com [80.211.143.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E65C79E
-        for <linux-hexagon@vger.kernel.org>; Wed, 20 Sep 2023 01:02:44 -0700 (PDT)
-Received: by mail.venturelinkage.com (Postfix, from userid 1002)
-        id 3960882798; Wed, 20 Sep 2023 09:56:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=venturelinkage.com;
-        s=mail; t=1695196583;
-        bh=7iowqdzve/IIiUUjcEwx8j3uMrVqqiE7R9zbOCKRV9Q=;
-        h=Date:From:To:Subject:From;
-        b=FEDgDm/SI6PxnDLzrrNp8zwhVAdKNLKwlCfCazlRoMuGUJmHXrJvKvo6tZN+PpTqt
-         QAbCS5bU3ae7EK56OVGpJ0wimR1WxKIX9cv9RpiKfbYr9pVwp0TAIOexesKRtnUcOo
-         T9zejBOce1gHI6cLKLhBkcoofNyawdNjvawbyveH6O+2MRn61K+QtQhsX1LjUAJx9F
-         X4bu6ht6g7eJuS/52qm6Mbi2gBc7G6U4QXxldv8bwU6d5O4tGeinyIdKyIiS2tRED8
-         O/SInnU+IiVQS+4tgg+RuH5DlbBHWK7MPtkAJXgZwfe+vJQH2W4F+ySiRUbmDcWAAe
-         oJl/x0h4bR1yQ==
-Received: by mail.venturelinkage.com for <linux-hexagon@vger.kernel.org>; Wed, 20 Sep 2023 07:56:21 GMT
-Message-ID: <20230920084500-0.1.l.12ct.0.dl8r990a6m@venturelinkage.com>
-Date:   Wed, 20 Sep 2023 07:56:21 GMT
-From:   "Lukas Varga" <lukas.varga@venturelinkage.com>
-To:     <linux-hexagon@vger.kernel.org>
-Subject: =?UTF-8?Q?Popt=C3=A1vka?=
-X-Mailer: mail.venturelinkage.com
+        Wed, 20 Sep 2023 04:26:33 -0400
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E119E;
+        Wed, 20 Sep 2023 01:26:28 -0700 (PDT)
+From:   Thomas Gleixner <tglx@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1695198386;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Cz3ybOd/ypkcGDuMCJQdl0UFouGTxpARZATHk1efhH0=;
+        b=EGx2EBigs6+KVxSISL/lO4SeWI2/p5U3N6zV5areodcDyVNQT2YbEaxonhjEzXP7/szlID
+        TMqjKMwwRJVKmQfn51MUW9KIbWl9E19kzugQpYPh1RqXMdMqyHRHId8GsHbiYMY1gupCr9
+        inWCgekLEVw9LLIxUEhX+SjOdAKmXLyfbATOE5SKrIhGQ6opMrTgQNDBWj6h+pupcy9mQY
+        IAtJFpC+IZrsZhADhx21jPYjN4cUEmbdknYpq1yaFpD3q1JUKeyYvZEasHaRFyuKPfCocG
+        sb/JjJcoHFqbdHPNLrqct85JyOKGX/90xcldUD95gAEiF72EcQ3euVx2thUmyg==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1695198386;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Cz3ybOd/ypkcGDuMCJQdl0UFouGTxpARZATHk1efhH0=;
+        b=Zhs312twDc9TbsbkF5GT2tuvKzW8ClBRyZtMimieaTdcJbOGBK7CVUU6mFwCowxAhHysBo
+        5AdimDwJAjJms3Ag==
+To:     Linus Torvalds <torvalds@linux-foundation.org>,
+        John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Matthew Wilcox <willy@infradead.org>,
+        Ankur Arora <ankur.a.arora@oracle.com>,
+        linux-kernel@vger.kernel.org, linux-mm@kvack.org, x86@kernel.org,
+        akpm@linux-foundation.org, luto@kernel.org, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, mingo@redhat.com,
+        juri.lelli@redhat.com, vincent.guittot@linaro.org, mgorman@suse.de,
+        rostedt@goodmis.org, jon.grimm@amd.com, bharata@amd.com,
+        raghavendra.kt@amd.com, boris.ostrovsky@oracle.com,
+        konrad.wilk@oracle.com, jgross@suse.com, andrew.cooper3@citrix.com,
+        Geert Uytterhoeven <geert@linux-m68k.org>,
+        linux-m68k@lists.linux-m68k.org,
+        Richard Weinberger <richard@nod.at>,
+        Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+        Johannes Berg <johannes@sipsolutions.net>,
+        linux-um@lists.infradead.org, Brian Cain <bcain@quicinc.com>,
+        linux-hexagon@vger.kernel.org,
+        Richard Henderson <richard.henderson@linaro.org>,
+        Ivan Kokshaysky <ink@jurassic.park.msu.ru>,
+        Matt Turner <mattst88@gmail.com>, linux-alpha@vger.kernel.org
+Subject: Re: Arches that don't support PREEMPT
+In-Reply-To: <CAHk-=wgUimqtF7PqFfRw4Ju5H1KYkp6+8F=hBz7amGQ8GaGKkA@mail.gmail.com>
+References: <87zg1u1h5t.fsf@oracle.com>
+ <CAHk-=whMkp68vNxVn1H3qe_P7n=X2sWPL9kvW22dsvMFH8FcQQ@mail.gmail.com>
+ <20230911150410.GC9098@noisy.programming.kicks-ass.net>
+ <87h6o01w1a.fsf@oracle.com>
+ <20230912082606.GB35261@noisy.programming.kicks-ass.net>
+ <87cyyfxd4k.ffs@tglx>
+ <CAHk-=whnwC01m_1f-gaM1xbvvwzwTiKitrWniA-ChZv+bM03dg@mail.gmail.com>
+ <87led2wdj0.ffs@tglx> <ZQmbhoQIINs8rLHp@casper.infradead.org>
+ <0e69f7df80dc5878071deb0d80938138d19de1d1.camel@physik.fu-berlin.de>
+ <20230919134218.GA39281@noisy.programming.kicks-ass.net>
+ <a6c84803274116ec827cd4bdd4e72a8d0c304c27.camel@physik.fu-berlin.de>
+ <CAHk-=wgUimqtF7PqFfRw4Ju5H1KYkp6+8F=hBz7amGQ8GaGKkA@mail.gmail.com>
+Date:   Wed, 20 Sep 2023 10:26:25 +0200
+Message-ID: <87edituu6m.ffs@tglx>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: Yes, score=6.5 required=5.0 tests=BAYES_20,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FROM_FMBLA_NEWDOM28,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS,
-        URIBL_CSS_A,URIBL_DBL_SPAM autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Report: *  2.5 URIBL_DBL_SPAM Contains a spam URL listed in the Spamhaus DBL
-        *      blocklist
-        *      [URIs: venturelinkage.com]
-        *  3.3 RCVD_IN_SBL_CSS RBL: Received via a relay in Spamhaus SBL-CSS
-        *      [80.211.143.151 listed in zen.spamhaus.org]
-        *  0.1 URIBL_CSS_A Contains URL's A record listed in the Spamhaus CSS
-        *      blocklist
-        *      [URIs: venturelinkage.com]
-        *  0.0 RCVD_IN_DNSWL_BLOCKED RBL: ADMINISTRATOR NOTICE: The query to
-        *      DNSWL was blocked.  See
-        *      http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-        *      for more information.
-        *      [80.211.143.151 listed in list.dnswl.org]
-        * -0.0 BAYES_20 BODY: Bayes spam probability is 5 to 20%
-        *      [score: 0.1240]
-        *  0.0 SPF_HELO_NONE SPF: HELO does not publish an SPF Record
-        * -0.0 SPF_PASS SPF: sender matches SPF record
-        * -0.1 DKIM_VALID Message has at least one valid DKIM or DK signature
-        * -0.1 DKIM_VALID_EF Message has a valid DKIM or DK signature from
-        *      envelope-from domain
-        * -0.1 DKIM_VALID_AU Message has a valid DKIM or DK signature from
-        *      author's domain
-        *  0.1 DKIM_SIGNED Message has a DKIM or DK signature, not necessarily
-        *       valid
-        *  0.8 FROM_FMBLA_NEWDOM28 From domain was registered in last 14-28
-        *      days
-X-Spam-Level: ******
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-hexagon.vger.kernel.org>
 X-Mailing-List: linux-hexagon@vger.kernel.org
 
-Dobr=C3=A9 r=C3=A1no,
+On Tue, Sep 19 2023 at 10:25, Linus Torvalds wrote:
+> PeterZ mentioned the generic entry code, which does this for the entry
+> path. But it actually goes much deeper: just do a
+>
+>     git grep preempt_disable arch/x86/kernel
+>
+> and then do the same for some other architectures.
+>
+> Looking at alpha, for example, there *are* hits for it, so at least
+> some of the code there clearly *tries* to do it. But does it cover all
+> the required parts? If it's never been tested, I'd be surprised if
+> it's all just ready to go.
 
-Dovolil jsem si V=C3=A1s kontaktovat, proto=C5=BEe m=C3=A1m z=C3=A1jem ov=
-=C4=9B=C5=99it mo=C5=BEnost nav=C3=A1z=C3=A1n=C3=AD spolupr=C3=A1ce.
-
-Podporujeme firmy p=C5=99i z=C3=ADsk=C3=A1v=C3=A1n=C3=AD nov=C3=BDch obch=
-odn=C3=ADch z=C3=A1kazn=C3=ADk=C5=AF.
-
-M=C5=AF=C5=BEeme si promluvit a poskytnout podrobnosti?
-
-V p=C5=99=C3=ADpad=C4=9B z=C3=A1jmu V=C3=A1s bude kontaktovat n=C3=A1=C5=A1=
- anglicky mluv=C3=ADc=C3=AD z=C3=A1stupce.
-
-
-Pozdravy
-Lukas Varga
+Interestingly enough m68k has zero instances, but it supports PREEMPT on
+the COLDFIRE subarchitecture...
