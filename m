@@ -1,37 +1,37 @@
-Return-Path: <linux-hexagon+bounces-80-lists+linux-hexagon=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hexagon+bounces-81-lists+linux-hexagon=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C048582E71C
-	for <lists+linux-hexagon@lfdr.de>; Tue, 16 Jan 2024 02:37:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46F782E73E
+	for <lists+linux-hexagon@lfdr.de>; Tue, 16 Jan 2024 02:41:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB948283067
-	for <lists+linux-hexagon@lfdr.de>; Tue, 16 Jan 2024 01:37:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40C501F23789
+	for <lists+linux-hexagon@lfdr.de>; Tue, 16 Jan 2024 01:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 529AB20B26;
-	Tue, 16 Jan 2024 01:07:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71AB02D781;
+	Tue, 16 Jan 2024 01:08:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPRr+9my"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aCqzszs1"
 X-Original-To: linux-hexagon@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DE7286BC;
-	Tue, 16 Jan 2024 01:07:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA412C433F1;
-	Tue, 16 Jan 2024 01:07:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523282D03D;
+	Tue, 16 Jan 2024 01:08:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFD17C43390;
+	Tue, 16 Jan 2024 01:07:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1705367256;
+	s=k20201202; t=1705367280;
 	bh=Xoyym8SbFaFTJhnzUgEkGRcabuTho3/U89WhI3ZWbn8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rPRr+9myOnyJwAV+rO9TY4gRQ+TEONiltNqNyHgHAoAXIIfiMMx8LyTWk0nTTCiI+
-	 0GOitjaJNgJcY4f2utaFVDsBUs0OgGxPn4IUg0f32o4XbdpBM/QqjjX483dty+I82R
-	 RHnT1ztcWSWaOZ36+gpqDk1jFjBLdqJLusD07tBHvwv27DAREhmB5K44m/vaudNbnA
-	 ZQ9OcXqII+qo5Fq7CDnFfLT0s6hKcOWac87HJskj6Mw+LRttEiKLp5ZlpcbGr36pAY
-	 WBzqb9ZLqCLSvV9gVDLzAOVVXAV9biIB3S/3FseHvfUn7qPJTWlWH1il8lb9km7gnQ
-	 6PG08nDvLvaKQ==
+	h=From:To:Cc:Subject:Date:From;
+	b=aCqzszs19EHPTxNg5ALuU4R1ylvcM39mD0kJdX78ETEsWh/+SzsgtngVG5YcalL6p
+	 TIVgyNlcMGXSkjac3c1EzZPisblOvQtftucgDfgi0ydKqjtB2Q/AvVbulq8BtnXEPr
+	 QcaacK+CEeqE+/9asDCx7wfoAdHoSy9jgtmhD4qmCawo0dFrYtuccz5MvCR8L6sweg
+	 4aT1VqPyyUnEu8FU9ySAMhl9+zQVy83/XQ2MHfPIqklVmIByN6TxVGlJNBC+VeD7vr
+	 VaTtFyp3stnqHTg2FT/fQSI7ffpMIorYrB+pgHp9c0Jgi9P/5NlxaZLzE4OmL1vc8X
+	 OirP4/nxMQo0g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,15 +39,14 @@ Cc: Linus Walleij <linus.walleij@linaro.org>,
 	Brian Cain <bcain@quicinc.com>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Sasha Levin <sashal@kernel.org>,
-	shorne@gmail.com,
+	guoren@kernel.org,
 	rppt@kernel.org,
+	shorne@gmail.com,
 	linux-hexagon@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.15 02/11] Hexagon: Make pfn accessors statics inlines
-Date: Mon, 15 Jan 2024 20:07:02 -0500
-Message-ID: <20240116010729.219219-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.10 1/9] Hexagon: Make pfn accessors statics inlines
+Date: Mon, 15 Jan 2024 20:07:45 -0500
+Message-ID: <20240116010757.219495-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240116010729.219219-1-sashal@kernel.org>
-References: <20240116010729.219219-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-hexagon@vger.kernel.org
 List-Id: <linux-hexagon.vger.kernel.org>
@@ -56,7 +55,7 @@ List-Unsubscribe: <mailto:linux-hexagon+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.15.147
+X-stable-base: Linux 5.10.208
 Content-Transfer-Encoding: 8bit
 
 From: Linus Walleij <linus.walleij@linaro.org>
