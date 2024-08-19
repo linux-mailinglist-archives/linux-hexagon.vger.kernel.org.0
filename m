@@ -1,122 +1,126 @@
-Return-Path: <linux-hexagon+bounces-305-lists+linux-hexagon=lfdr.de@vger.kernel.org>
+Return-Path: <linux-hexagon+bounces-307-lists+linux-hexagon=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-hexagon@lfdr.de
 Delivered-To: lists+linux-hexagon@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DFBB9572C3
-	for <lists+linux-hexagon@lfdr.de>; Mon, 19 Aug 2024 20:16:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B4595759A
+	for <lists+linux-hexagon@lfdr.de>; Mon, 19 Aug 2024 22:24:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 12D571F239CC
-	for <lists+linux-hexagon@lfdr.de>; Mon, 19 Aug 2024 18:16:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFC501F23655
+	for <lists+linux-hexagon@lfdr.de>; Mon, 19 Aug 2024 20:24:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FD1718800A;
-	Mon, 19 Aug 2024 18:16:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2371158A12;
+	Mon, 19 Aug 2024 20:24:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a2bKTOay"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fadlWcdq"
 X-Original-To: linux-hexagon@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6EFD531;
-	Mon, 19 Aug 2024 18:16:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC0C449627
+	for <linux-hexagon@vger.kernel.org>; Mon, 19 Aug 2024 20:24:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1724091380; cv=none; b=ssf5umVNXw3tyMbWRVO+HG67GWAmyThQQc0sx/xzSnjFwlPgVo4XXvYXU42xGXp63XfnOqsl0l2X1saLhHV3txDnrTXY+Ja6+eEIOJm/0k5Ws4dwCXi/D/n47wX1l7UHKzxzQ1UODBjEr9CP0+YmmMOz/7GvBJ3HTm2KxRpBy80=
+	t=1724099059; cv=none; b=ov9aJicPSD3xKBhCSJCWg69NJWk+L399pMqGMAgetMU+xbOsyhafaAf2pEnVAdBsUEyNkM1iNQA3KwdSb9ctl/rsVhCVX9g6f9AJLzCGy4bF2VAStsI1+Tc+ZKGUEktDs/5Yh0ljELDepoLqSkQ/DAaNNhhF8TBOUxGhjt/KarU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1724091380; c=relaxed/simple;
-	bh=fb00pKGHuPVAd6R+bBKI9YbKJHWC6vDu6M1kpq90BNI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=LdajDQ9DJ9VgdWEIgYiVHIMba8qiX86ADNhoCYGAOG42JunhUo7jvTDqlVyfh+RYAcXKHUChbN6iuNlZTxot3EeBSK+EFrAHuNoajhiAT56xlyCIvcV9G7GJwMn0n2HG7epvuGTKHMMmJmVuQi75aafXQcVaTCgm0nDjDIzMqo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a2bKTOay; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48938C32782;
-	Mon, 19 Aug 2024 18:16:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1724091378;
-	bh=fb00pKGHuPVAd6R+bBKI9YbKJHWC6vDu6M1kpq90BNI=;
-	h=From:Date:Subject:To:Cc:From;
-	b=a2bKTOayeGxT9txXl0p2QfIs+0+ooPeZ3R1BUzJurol/l/bWbm3SeCFs0BDdpavCI
-	 L0G5tJZNBWkB3Go/tqdyqIsA+1qPQwgeFWWUl8/zDu+8JSgqYW06uOIcbw6UH6tisq
-	 6ZL7DIQ7TF3rlLHVxdJOQ4+XtEPRBt3OPuD6LEEBheGpQQPeMG8fATHqmiXe0ZF6aT
-	 p82IZGaRamGwk8D9k3z5pABbmbkMRGmYgAHkZCIsjGLCdf6BrC2oo2ucAq0gef341r
-	 kySNb+yfU8AW/GfwDeZWqxseqJJfa6h3uOyThcm7eLctXNp6wTobKVXTZGZTF7mg/9
-	 cxVsuisV9TadA==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Mon, 19 Aug 2024 11:16:10 -0700
-Subject: [PATCH] hexagon: Disable constant extender optimization for LLVM
- prior to 19.1.0
+	s=arc-20240116; t=1724099059; c=relaxed/simple;
+	bh=MP2kPJdQKYK5hGOu9VTob2QU2S+5BQfmeHYP4bjRtok=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bri1l+ZpVuH3owe+fmhVRr1Goi5JmrPY3c9esgmQ1V+KescQkp0ZpXkcM9WRlZdqCqJw8dq1njyOCQAm/4aYjx/l0UX26SI7zHAnOE3v+FtxM99B4Sq1b1WwLdNjYWD4u1fVzfohLqzNfhqvq41euM2xtTtjsLsNQ9mGpP1vLTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=fadlWcdq; arc=none smtp.client-ip=209.85.218.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a728f74c23dso630339166b.1
+        for <linux-hexagon@vger.kernel.org>; Mon, 19 Aug 2024 13:24:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1724099056; x=1724703856; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=6kUf3JuaMLYYiOtuZKtyG5uHrd9gw9QQ5nZ3PFBxZMk=;
+        b=fadlWcdqKyU17qnYi+AKBPP59x+o9g0XnALzr54PSgadvroTqcpNNR7VGj12M0jUlC
+         bsw60Vvd/QW00cfT9vSSN5A5MIPlNGyRXcehZcfao5d3L8UF0sFTfZd1LOYKPIN9n9pN
+         z/GRjGFvDPJ+mO0MEUif6/SqtxQQdqw917cms=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1724099056; x=1724703856;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6kUf3JuaMLYYiOtuZKtyG5uHrd9gw9QQ5nZ3PFBxZMk=;
+        b=r9mKwSI8GhCi5xcifw2lH6NheKjYUKSLDpwtOR9nf6Xpm47dLrcznwgy8nN3o217YL
+         TQESo+lUDGaEdlaPSAXX5Ot4e/nTPzoXDv0+eWdwWq23XJB0xd5LSiLSUcGK1UG9GRwE
+         T9wo0b2Lt3+Q2t06zJZJAHHnUVbgA2pswT4UXBzLQsc/Z5zUQRf8l6RZ3I2EylAGkzXr
+         jqpWQRPAw5lm+WT50ArkUgajZf5U69p022vvwJOypz12YZad6HMYFwUJRFni9W+yY5qI
+         +026L5hPXTsnFue6E7POfuFuRmp0pr5OiKccvKJoHpK6cAS7kCQuIQjkQqss0+LlKN0E
+         Wp5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWRPD0oeMgTzkurZ1uKsdi+VqAYrI1phjXWOnKDXqSrrfkr6wiWowLKph+DUpOyXB2fS9OY+ixn+ueU2WVm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxmq26EYs/SiYvBzGPy4VaxOl5Q7b7CvVM/a7ExvkKmw2Ox6cnu
+	qPz+gE28fQUcTHyCMtkpdhDd2skZr9dvuWM4mm9Fa3KiwJxpIW7GwZnTya4hgjjIyaFJwTpXshp
+	Q9ThBIw==
+X-Google-Smtp-Source: AGHT+IG79nvgLXvVhmLRv9OJm9+3ZPdmQAwFuz7XZpIMMoe7ZqIRReMJUS/MXKSumrF4ePpDpe869Q==
+X-Received: by 2002:a17:907:efea:b0:a7a:9144:e242 with SMTP id a640c23a62f3a-a8392930d51mr924473666b.27.1724099055350;
+        Mon, 19 Aug 2024 13:24:15 -0700 (PDT)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com. [209.85.218.46])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a83839472f4sm669282166b.184.2024.08.19.13.24.15
+        for <linux-hexagon@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 19 Aug 2024 13:24:15 -0700 (PDT)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a7a9e25008aso596536666b.0
+        for <linux-hexagon@vger.kernel.org>; Mon, 19 Aug 2024 13:24:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU08BVtOUM6mrwYMYyHOoAns4zU7jYMF17IRvaTfIRYdYM2zSKH2tceC/K33WlV9SakU99L9TZDxYu3caS+@vger.kernel.org
+X-Received: by 2002:a50:c8cb:0:b0:5a3:a9f8:cf20 with SMTP id
+ 4fb4d7f45d1cf-5beca8c7c0dmr6123102a12.34.1724098565883; Mon, 19 Aug 2024
+ 13:16:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-hexagon@vger.kernel.org
 List-Id: <linux-hexagon.vger.kernel.org>
 List-Subscribe: <mailto:linux-hexagon+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-hexagon+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240819-hexagon-disable-constant-expander-pass-v1-1-36a734e9527d@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAOmLw2YC/x3NwQrDIAyA4VcpOS9gZUjZq4wdoqZtYEQxZQil7
- 17Z8bv8/wnGTdjgNZ3Q+CcmRQfmxwRpJ90YJQ+Dd/7pFudx505bUcxiFL+MqagdpAdyr6SZG1Y
- ywyWGGOYcA60JRqw2XqX/R+/Pdd0ysIyIeAAAAA==
-To: Brian Cain <bcain@quicinc.com>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-hexagon@vger.kernel.org, patches@lists.linux.dev, 
- llvm@lists.linux.dev, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2213; i=nathan@kernel.org;
- h=from:subject:message-id; bh=fb00pKGHuPVAd6R+bBKI9YbKJHWC6vDu6M1kpq90BNI=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDGmHuz/G/v0qeqNNUfTjg4NWXpL9NRUbBAXiX8yMD37x9
- 4jew49XO0pZGMS4GGTFFFmqH6seNzScc5bxxqlJMHNYmUCGMHBxCsBE1q9m+J+8+OlTJv6F164H
- fJh55Pv2rYFbNYoVkvZ1JdseeGB65P52hv9Zm+prlguIJp8SDy3ne2d14Yo216lOYYn5KqKcs9M
- C7/MCAA==
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+References: <20240812082605.743814-1-mpe@ellerman.id.au> <20240819185253.GA2333884@thelio-3990X>
+ <CAHk-=wj9QPhG4CjiX8YLRC1wHj_Qs-T8wJi0WEhkfp0cszvB9w@mail.gmail.com> <20240819195120.GA1113263@thelio-3990X>
+In-Reply-To: <20240819195120.GA1113263@thelio-3990X>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Mon, 19 Aug 2024 13:15:49 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgsDJ+sA1T01YT-z5TXs3zxJ54f0VDApkZ1pgcr8T=myQ@mail.gmail.com>
+Message-ID: <CAHk-=wgsDJ+sA1T01YT-z5TXs3zxJ54f0VDApkZ1pgcr8T=myQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] mm: Add optional close() to struct vm_special_mapping
+To: Nathan Chancellor <nathan@kernel.org>, Guo Ren <guoren@kernel.org>, Brian Cain <bcain@quicinc.com>, 
+	Dinh Nguyen <dinguyen@kernel.org>, Yoshinori Sato <ysato@users.sourceforge.jp>, 
+	Rich Felker <dalias@libc.org>, John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
+	Richard Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
+	Johannes Berg <johannes@sipsolutions.net>
+Cc: Michael Ellerman <mpe@ellerman.id.au>, linux-mm@kvack.org, linuxppc-dev@lists.ozlabs.org, 
+	akpm@linux-foundation.org, christophe.leroy@csgroup.eu, jeffxu@google.com, 
+	Liam.Howlett@oracle.com, linux-kernel@vger.kernel.org, npiggin@gmail.com, 
+	oliver.sang@intel.com, pedro.falcato@gmail.com, linux-um@lists.infradead.org, 
+	linux-csky@vger.kernel.org, linux-hexagon <linux-hexagon@vger.kernel.org>, 
+	Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-The Hexagon-specific constant extender optimization in LLVM may crash on
-Linux kernel code [1] (such as with a bcachefs change in -next):
+On Mon, 19 Aug 2024 at 12:51, Nathan Chancellor <nathan@kernel.org> wrote:
+>
+> Yes, that appears to fix it for me. I don't have much to say about the
+> rest but others might :)
 
-  clang: llvm/lib/Target/Hexagon/HexagonConstExtenders.cpp:745: bool (anonymous namespace)::HexagonConstExtenders::ExtRoot::operator<(const HCE::ExtRoot &) const: Assertion `ThisB->getParent() == OtherB->getParent()' failed.
-  Stack dump:
-  0.      Program arguments: clang --target=hexagon-linux-musl ... fs/bcachefs/btree_io.c
-  1.      <eof> parser at end of file
-  2.      Code generation
-  3.      Running pass 'Function Pass Manager' on module 'fs/bcachefs/btree_io.c'.
-  4.      Running pass 'Hexagon constant-extender optimization' on function '@__btree_node_lock_nopath'
+Ok, I did a quick hack-job to remove that disgusting
+install_special_mapping() legacy case.
 
-Without assertions enabled, there is just a hang during compilation.
+With this, the old "install_special_mapping()" mess no longer exists,
+but I haven't even attempted to compile the result, because I don't
+have cross-compile environments for any of the affected architectures.
 
-This has been resolved in LLVM main (20.0.0) [2] and backported to LLVM
-19.1.0 but the kernel supports LLVM 13.0.1 and newer, so disable the
-constant expander optimization using the '-mllvm' option when using a
-toolchain that is not fixed.
+Except UML. I did at least build it there, but it's not like I tested it.
 
-Link: https://github.com/llvm/llvm-project/issues/99714 [1]
-Link: https://github.com/llvm/llvm-project/commit/68df06a0b2998765cb0a41353fcf0919bbf57ddb [2]
-Link: https://github.com/llvm/llvm-project/commit/2ab8d93061581edad3501561722ebd5632d73892 [3]
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- arch/hexagon/Makefile | 6 ++++++
- 1 file changed, 6 insertions(+)
+Adding architecture maintainers and more architecture lists to the
+participants. It would be good to actually get this patch tested.
+Context for newly added people:
 
-diff --git a/arch/hexagon/Makefile b/arch/hexagon/Makefile
-index 92d005958dfb..ff172cbe5881 100644
---- a/arch/hexagon/Makefile
-+++ b/arch/hexagon/Makefile
-@@ -32,3 +32,9 @@ KBUILD_LDFLAGS += $(ldflags-y)
- TIR_NAME := r19
- KBUILD_CFLAGS += -ffixed-$(TIR_NAME) -DTHREADINFO_REG=$(TIR_NAME) -D__linux__
- KBUILD_AFLAGS += -DTHREADINFO_REG=$(TIR_NAME)
-+
-+# Disable HexagonConstExtenders pass for LLVM versions prior to 19.1.0
-+# https://github.com/llvm/llvm-project/issues/99714
-+ifneq ($(call clang-min-version, 190100),y)
-+KBUILD_CFLAGS += -mllvm -hexagon-cext=false
-+endif
+   https://lore.kernel.org/all/CAHk-=wj9QPhG4CjiX8YLRC1wHj_Qs-T8wJi0WEhkfp0cszvB9w@mail.gmail.com/
 
----
-base-commit: 47ac09b91befbb6a235ab620c32af719f8208399
-change-id: 20240802-hexagon-disable-constant-expander-pass-8b6b61db6afc
+NOTE! This patch is against my current tree, not the linux-next
+changes. But it should entirely remove the case that caused problems
+in linux-next.
 
-Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
-
+                      Linus
 
